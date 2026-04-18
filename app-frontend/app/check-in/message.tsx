@@ -1,4 +1,4 @@
-import { View, Text, Pressable } from 'react-native'
+import { View, Text, Pressable, Share } from 'react-native'
 import { router, useLocalSearchParams } from 'expo-router'
 import { useEffect, useState } from 'react'
 import Animated, {
@@ -46,6 +46,17 @@ export default function MessageScreen() {
     Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success)
   }
 
+  async function handleShare() {
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)
+    try {
+      await Share.share({
+        message: `"${messageBody}"\n\n— via Soft Landing`,
+      })
+    } catch {
+      // user dismissed share sheet or share not supported
+    }
+  }
+
   return (
     <View
       className="flex-1 bg-background items-center justify-center px-8"
@@ -74,8 +85,14 @@ export default function MessageScreen() {
       </Animated.View>
 
       <Animated.View
-        style={[{ flexDirection: 'row', alignItems: 'center', gap: 32, marginTop: 32 }, actionsStyle]}
+        style={[{
+          flexDirection: 'row',
+          alignItems: 'center',
+          gap: 28,
+          marginTop: 32,
+        }, actionsStyle]}
       >
+        {/* Save */}
         <Pressable
           onPress={handleSave}
           accessibilityRole="button"
@@ -83,11 +100,28 @@ export default function MessageScreen() {
           hitSlop={{ top: 12, bottom: 12, left: 12, right: 12 }}
           style={({ pressed }) => ({ opacity: pressed ? 0.5 : 1, padding: 12 })}
         >
-          <Text style={{ fontSize: 28, opacity: saved ? 1 : 0.45 }}>
+          <Text style={{ fontSize: 26, opacity: saved ? 1 : 0.45 }}>
             {saved ? '★' : '☆'}
           </Text>
         </Pressable>
 
+        {/* Share */}
+        <Pressable
+          onPress={handleShare}
+          accessibilityRole="button"
+          accessibilityLabel="Share message"
+          hitSlop={{ top: 12, bottom: 12, left: 12, right: 12 }}
+          style={({ pressed }) => ({ opacity: pressed ? 0.5 : 1, padding: 12 })}
+        >
+          <Text
+            className="text-text-secondary"
+            style={{ fontSize: 22 }}
+          >
+            ↑
+          </Text>
+        </Pressable>
+
+        {/* Dismiss */}
         <Pressable
           onPress={() => router.replace('/(tabs)')}
           accessibilityRole="button"
