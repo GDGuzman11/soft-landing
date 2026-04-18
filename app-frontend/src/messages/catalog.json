@@ -1,0 +1,252 @@
+[
+  {
+    "id": "sad-001",
+    "emotionId": "sad",
+    "body": "It's okay to feel this way. You don't have to fix anything right now — just let yourself be where you are.",
+    "tags": ["stillness", "permission"],
+    "tier": "free",
+    "weight": 8,
+    "usageCount": 0,
+    "lastUsed": null
+  },
+  {
+    "id": "sad-002",
+    "emotionId": "sad",
+    "body": "Sadness means something mattered. Give yourself the space to feel it without rushing to the other side.",
+    "tags": ["grief", "patience"],
+    "tier": "free",
+    "weight": 9,
+    "usageCount": 0,
+    "lastUsed": null
+  },
+  {
+    "id": "sad-003",
+    "emotionId": "sad",
+    "body": "You're not broken for feeling sad. This is part of being human, and you're handling it.",
+    "tags": ["self-compassion", "validation"],
+    "tier": "free",
+    "weight": 8,
+    "usageCount": 0,
+    "lastUsed": null
+  },
+  {
+    "id": "sad-004",
+    "emotionId": "sad",
+    "body": "Some days are harder than others. Today might be one of them, and that's allowed.",
+    "tags": ["permission", "honesty"],
+    "tier": "free",
+    "weight": 7,
+    "usageCount": 0,
+    "lastUsed": null
+  },
+  {
+    "id": "sad-005",
+    "emotionId": "sad",
+    "body": "You showed up today. That's enough.",
+    "tags": ["presence", "enough"],
+    "tier": "free",
+    "weight": 10,
+    "usageCount": 0,
+    "lastUsed": null
+  },
+  {
+    "id": "neutral-001",
+    "emotionId": "neutral",
+    "body": "Not every day has to be remarkable. Steady and present is its own kind of good.",
+    "tags": ["steadiness", "presence"],
+    "tier": "free",
+    "weight": 8,
+    "usageCount": 0,
+    "lastUsed": null
+  },
+  {
+    "id": "neutral-002",
+    "emotionId": "neutral",
+    "body": "Neutral isn't emptiness — it's rest. You're in a quiet place, and that's perfectly fine.",
+    "tags": ["rest", "quiet"],
+    "tier": "free",
+    "weight": 9,
+    "usageCount": 0,
+    "lastUsed": null
+  },
+  {
+    "id": "neutral-003",
+    "emotionId": "neutral",
+    "body": "Sometimes feeling okay is exactly what okay feels like. No need to turn it into something more.",
+    "tags": ["acceptance", "simplicity"],
+    "tier": "free",
+    "weight": 8,
+    "usageCount": 0,
+    "lastUsed": null
+  },
+  {
+    "id": "neutral-004",
+    "emotionId": "neutral",
+    "body": "There's a calm in the middle that doesn't get enough credit. You're in it.",
+    "tags": ["calm", "middle"],
+    "tier": "free",
+    "weight": 7,
+    "usageCount": 0,
+    "lastUsed": null
+  },
+  {
+    "id": "neutral-005",
+    "emotionId": "neutral",
+    "body": "Being here, being steady — that counts for more than it seems.",
+    "tags": ["presence", "steadiness"],
+    "tier": "free",
+    "weight": 9,
+    "usageCount": 0,
+    "lastUsed": null
+  },
+  {
+    "id": "stressed-001",
+    "emotionId": "stressed",
+    "body": "You're carrying a lot right now. It's okay to put some of it down, even just for a moment.",
+    "tags": ["relief", "permission"],
+    "tier": "free",
+    "weight": 9,
+    "usageCount": 0,
+    "lastUsed": null
+  },
+  {
+    "id": "stressed-002",
+    "emotionId": "stressed",
+    "body": "Stress is a signal, not a verdict. It means you care — and caring is worth something.",
+    "tags": ["reframe", "care"],
+    "tier": "free",
+    "weight": 8,
+    "usageCount": 0,
+    "lastUsed": null
+  },
+  {
+    "id": "stressed-003",
+    "emotionId": "stressed",
+    "body": "You don't have to solve everything today. One small thing at a time is still moving forward.",
+    "tags": ["progress", "small-steps"],
+    "tier": "free",
+    "weight": 8,
+    "usageCount": 0,
+    "lastUsed": null
+  },
+  {
+    "id": "stressed-004",
+    "emotionId": "stressed",
+    "body": "Your nervous system is trying to protect you. Be gentle with it — and with yourself.",
+    "tags": ["body", "gentleness"],
+    "tier": "free",
+    "weight": 7,
+    "usageCount": 0,
+    "lastUsed": null
+  },
+  {
+    "id": "stressed-005",
+    "emotionId": "stressed",
+    "body": "This feeling is temporary, even when it doesn't feel that way. You've gotten through hard moments before.",
+    "tags": ["resilience", "temporary"],
+    "tier": "free",
+    "weight": 9,
+    "usageCount": 0,
+    "lastUsed": null
+  },
+  {
+    "id": "tired-001",
+    "emotionId": "tired",
+    "body": "Tiredness is your body asking for something. If you can, try to listen.",
+    "tags": ["body", "rest"],
+    "tier": "free",
+    "weight": 8,
+    "usageCount": 0,
+    "lastUsed": null
+  },
+  {
+    "id": "tired-002",
+    "emotionId": "tired",
+    "body": "You've been doing a lot. Rest isn't a reward you have to earn — it's something you need.",
+    "tags": ["rest", "permission"],
+    "tier": "free",
+    "weight": 9,
+    "usageCount": 0,
+    "lastUsed": null
+  },
+  {
+    "id": "tired-003",
+    "emotionId": "tired",
+    "body": "Low energy doesn't mean low worth. You're allowed to be tired.",
+    "tags": ["worth", "validation"],
+    "tier": "free",
+    "weight": 8,
+    "usageCount": 0,
+    "lastUsed": null
+  },
+  {
+    "id": "tired-004",
+    "emotionId": "tired",
+    "body": "The world can wait a little. You matter more than your to-do list.",
+    "tags": ["priority", "self"],
+    "tier": "free",
+    "weight": 9,
+    "usageCount": 0,
+    "lastUsed": null
+  },
+  {
+    "id": "tired-005",
+    "emotionId": "tired",
+    "body": "Even slowing down is something. You don't have to run all the time.",
+    "tags": ["pace", "permission"],
+    "tier": "free",
+    "weight": 8,
+    "usageCount": 0,
+    "lastUsed": null
+  },
+  {
+    "id": "good-001",
+    "emotionId": "good",
+    "body": "This is what good feels like. Notice it. Let it land.",
+    "tags": ["presence", "gratitude"],
+    "tier": "free",
+    "weight": 9,
+    "usageCount": 0,
+    "lastUsed": null
+  },
+  {
+    "id": "good-002",
+    "emotionId": "good",
+    "body": "Something is working. Maybe it's the weather, maybe it's you — but it counts.",
+    "tags": ["acknowledgment", "joy"],
+    "tier": "free",
+    "weight": 8,
+    "usageCount": 0,
+    "lastUsed": null
+  },
+  {
+    "id": "good-003",
+    "emotionId": "good",
+    "body": "Feeling good doesn't need a reason to be real. It just is, and that's wonderful.",
+    "tags": ["permission", "joy"],
+    "tier": "free",
+    "weight": 8,
+    "usageCount": 0,
+    "lastUsed": null
+  },
+  {
+    "id": "good-004",
+    "emotionId": "good",
+    "body": "Hold onto this — not tightly, but gently. It's yours.",
+    "tags": ["savoring", "presence"],
+    "tier": "free",
+    "weight": 9,
+    "usageCount": 0,
+    "lastUsed": null
+  },
+  {
+    "id": "good-005",
+    "emotionId": "good",
+    "body": "You're doing something right, even if you're not sure what. Keep going.",
+    "tags": ["encouragement", "momentum"],
+    "tier": "free",
+    "weight": 8,
+    "usageCount": 0,
+    "lastUsed": null
+  }
+]

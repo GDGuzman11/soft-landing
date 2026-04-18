@@ -1,6 +1,6 @@
-import { View, Text, Pressable } from 'react-native'
+import { View, Text, Pressable, ActivityIndicator } from 'react-native'
 import { router, useLocalSearchParams } from 'expo-router'
-import { useEffect } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
@@ -10,15 +10,27 @@ import Animated, {
   withTiming,
   withDelay,
 } from 'react-native-reanimated'
+import { performCheckIn } from '@/services/checkIn'
+import type { CheckInResult } from '@/services/checkIn'
+import type { EmotionId } from '@/types'
 
 export default function EnvelopeScreen() {
   const { emotionId } = useLocalSearchParams<{ emotionId: string }>()
+  const [result, setResult] = useState<CheckInResult | null>(null)
+  const [loading, setLoading] = useState(true)
 
   const translateY = useSharedValue(400)
   const bobY = useSharedValue(0)
   const hintOpacity = useSharedValue(0)
 
   useEffect(() => {
+    performCheckIn(emotionId as EmotionId)
+      .then((r) => {
+        setResult(r)
+        setLoading(false)
+      })
+      .catch(() => setLoading(false))
+
     translateY.value = withSpring(0, { damping: 18, stiffness: 120 })
 
     bobY.value = withDelay(
@@ -45,12 +57,20 @@ export default function EnvelopeScreen() {
   }))
 
   function handleOpen() {
-    router.push({ pathname: '/check-in/message', params: { emotionId } })
+    if (!result) return
+    router.push({
+      pathname: '/check-in/message',
+      params: {
+        messageBody: result.message.body,
+        checkInId: result.event.id,
+        messageId: result.message.id,
+      },
+    })
   }
 
   return (
     <View className="flex-1 bg-background items-center justify-center">
-      <Pressable onPress={handleOpen} className="items-center">
+      <Pressable onPress={handleOpen} disabled={loading} className="items-center">
         <Animated.View style={envelopeStyle}>
           <View
             className="items-center justify-center rounded-2xl"
@@ -65,15 +85,11 @@ export default function EnvelopeScreen() {
               elevation: 8,
             }}
           >
-            <View
-              className="absolute top-0 left-0 right-0"
-              style={{
-                height: 80,
-                borderBottomWidth: 1,
-                borderBottomColor: '#E8E0D0',
-              }}
-            />
-            <Text style={{ fontSize: 48 }}>✉</Text>
+            {loading ? (
+              <ActivityIndicator color="#C4956A" />
+            ) : (
+              <Text style={{ fontSize: 48 }}>✉</Text>
+            )}
           </View>
         </Animated.View>
 
@@ -82,7 +98,7 @@ export default function EnvelopeScreen() {
             className="text-text-secondary text-sm"
             style={{ fontFamily: 'DMSans_400Regular' }}
           >
-            Tap to open
+            {loading ? 'Preparing your note…' : 'Tap to open'}
           </Text>
         </Animated.View>
       </Pressable>

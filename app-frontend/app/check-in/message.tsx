@@ -1,8 +1,22 @@
 import { View, Text, Pressable } from 'react-native'
 import { router, useLocalSearchParams } from 'expo-router'
+import { useState } from 'react'
+import { bookmarkMessage } from '@/services/checkIn'
 
 export default function MessageScreen() {
-  const { emotionId } = useLocalSearchParams<{ emotionId: string }>()
+  const { messageBody, checkInId, messageId } = useLocalSearchParams<{
+    messageBody: string
+    checkInId: string
+    messageId: string
+  }>()
+
+  const [saved, setSaved] = useState(false)
+
+  async function handleSave() {
+    if (saved) return
+    await bookmarkMessage(checkInId, messageId)
+    setSaved(true)
+  }
 
   return (
     <View className="flex-1 bg-background items-center justify-center px-8">
@@ -18,30 +32,32 @@ export default function MessageScreen() {
         }}
       >
         <Text
-          className="text-text-primary text-lg text-center leading-8"
+          className="text-text-primary text-center leading-8"
           style={{ fontFamily: 'Lora_400Regular', fontSize: 18 }}
         >
-          Your message will appear here.
+          {messageBody}
         </Text>
       </View>
 
-      <View className="flex-row items-center gap-6 mt-8">
+      <View className="flex-row items-center gap-8 mt-8">
         <Pressable
+          onPress={handleSave}
           className="p-3 active:opacity-60"
-          onPress={() => {}}
           accessibilityLabel="Save message"
         >
-          <Text style={{ fontSize: 24 }}>☆</Text>
+          <Text style={{ fontSize: 26, opacity: saved ? 1 : 0.5 }}>
+            {saved ? '★' : '☆'}
+          </Text>
         </Pressable>
 
         <Pressable
-          className="p-3 active:opacity-60"
           onPress={() => router.replace('/(tabs)')}
+          className="p-3 active:opacity-60"
           accessibilityLabel="Dismiss"
         >
           <Text
             className="text-text-secondary"
-            style={{ fontFamily: 'DMSans_400Regular', fontSize: 20 }}
+            style={{ fontFamily: 'DMSans_400Regular', fontSize: 24 }}
           >
             ×
           </Text>

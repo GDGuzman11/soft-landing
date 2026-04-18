@@ -1,9 +1,15 @@
-import { View, Text, Pressable, ScrollView } from 'react-native'
+import { View, Text, Pressable, ScrollView, Alert } from 'react-native'
 import { router } from 'expo-router'
 import { EMOTIONS } from '@/constants/emotions'
+import { canCheckIn } from '@/services/checkIn'
 
 export default function EmotionsScreen() {
-  function handleSelect(emotionId: string) {
+  async function handleSelect(emotionId: string) {
+    const allowed = await canCheckIn()
+    if (!allowed) {
+      router.replace('/paywall')
+      return
+    }
     router.push({ pathname: '/check-in/envelope', params: { emotionId } })
   }
 
@@ -32,7 +38,7 @@ export default function EmotionsScreen() {
           >
             <View
               className="w-3 h-3 rounded-full mr-4"
-              style={{ backgroundColor: `${emotion.color}CC` }}
+              style={{ backgroundColor: `${emotion.color}99` }}
             />
             <Text
               className="text-text-primary text-lg"
