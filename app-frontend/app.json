@@ -20,8 +20,10 @@
       "infoPlist": {
         "NSUserNotificationUsageDescription": "Soft Landing uses notifications to send you gentle daily check-in reminders.",
         "UIBackgroundModes": [
+          "fetch",
           "fetch"
-        ]
+        ],
+        "ITSAppUsesNonExemptEncryption": false
       }
     },
     "android": {
