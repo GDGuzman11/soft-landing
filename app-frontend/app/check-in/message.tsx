@@ -1,6 +1,7 @@
 import { View, Text, Pressable } from 'react-native'
 import { router, useLocalSearchParams } from 'expo-router'
 import { useState } from 'react'
+import * as Haptics from 'expo-haptics'
 import { bookmarkMessage } from '@/services/checkIn'
 
 export default function MessageScreen() {
@@ -16,6 +17,7 @@ export default function MessageScreen() {
     if (saved) return
     await bookmarkMessage(checkInId, messageId)
     setSaved(true)
+    Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success)
   }
 
   return (

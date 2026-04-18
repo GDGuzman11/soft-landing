@@ -1,10 +1,12 @@
-import { View, Text, Pressable, ScrollView, Alert } from 'react-native'
+import { View, Text, Pressable, ScrollView } from 'react-native'
 import { router } from 'expo-router'
+import * as Haptics from 'expo-haptics'
 import { EMOTIONS } from '@/constants/emotions'
 import { canCheckIn } from '@/services/checkIn'
 
 export default function EmotionsScreen() {
   async function handleSelect(emotionId: string) {
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)
     const allowed = await canCheckIn()
     if (!allowed) {
       router.replace('/paywall')
@@ -33,8 +35,12 @@ export default function EmotionsScreen() {
           <Pressable
             key={emotion.id}
             onPress={() => handleSelect(emotion.id)}
-            className="w-full rounded-2xl px-5 py-5 flex-row items-center active:scale-95"
-            style={{ backgroundColor: emotion.color }}
+            className="w-full rounded-2xl px-5 py-5 flex-row items-center"
+            style={({ pressed }) => ({
+              backgroundColor: emotion.color,
+              opacity: pressed ? 0.85 : 1,
+              transform: [{ scale: pressed ? 0.97 : 1 }],
+            })}
           >
             <View
               className="w-3 h-3 rounded-full mr-4"
