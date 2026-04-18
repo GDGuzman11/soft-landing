@@ -2,6 +2,15 @@
 
 A premium emotional check-in mobile app. The user opens the app, picks an emotion (stressed / tired / sad / neutral / good), a cream envelope flies in, they tap to open it, and they receive a short human-sounding validating message.
 
+## Working style — read this before doing anything
+
+- **Always enter Plan Mode before implementing.** When given any new feature,
+  refactor, or multi-step task — present a written plan and wait for explicit
+  approval before writing any code or making changes. No exceptions.
+- Ask clarifying questions if the request is ambiguous. Do not assume scope.
+- One concern per commit. Conventional commit format required.
+- Add bugs to `docs/bugs.json` immediately on discovery.
+
 ## Current phase
 **Phase 0** — foundation. Repo skeleton, agent ownership map, base documentation, bug tracker, design tokens.
 

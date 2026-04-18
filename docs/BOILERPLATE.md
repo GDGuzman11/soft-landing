@@ -6,6 +6,52 @@ already wired up.
 
 ---
 
+## CLAUDE.md template (copy to every new project)
+
+The `CLAUDE.md` file at the repo root is how you instruct Claude Code on
+how to behave in your project. Always include this file — it enforces
+Plan Mode before any code is written and sets the working rules.
+
+```markdown
+# [App Name]
+
+[One sentence describing what the app does.]
+
+## Working style — read this before doing anything
+
+- **Always enter Plan Mode before implementing.** When given a new task,
+  present a written plan and wait for explicit approval before writing
+  any code or making any changes. No exceptions.
+- Ask clarifying questions if the request is ambiguous — do not assume.
+- One concern per commit. Conventional commit format required
+  (feat: / fix: / docs: / chore: / security:).
+- Never edit files outside your assigned ownership area without flagging it.
+- Add bugs to docs/bugs.json immediately on discovery — do not defer.
+
+## Stack
+- Expo (managed) + Expo Router
+- NativeWind v4 (Tailwind for React Native)
+- React Native Reanimated
+- AsyncStorage v2.x
+- RevenueCat (subscriptions)
+- TypeScript strict mode
+
+## Current phase
+[Update this at the start of every session]
+
+## Active context
+[What's being worked on right now, cross-agent coordination items]
+```
+
+**Why this works:** Claude Code reads `CLAUDE.md` on every session start.
+The "always enter Plan Mode" instruction means Claude will lay out what it
+intends to do and wait for your go-ahead before touching any files. This
+prevents surprises and keeps you in control of scope.
+
+---
+
+---
+
 ## Stack
 
 | Layer | Choice | Why |
