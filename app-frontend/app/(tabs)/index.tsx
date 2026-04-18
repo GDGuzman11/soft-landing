@@ -11,10 +11,9 @@ import Animated, {
 } from 'react-native-reanimated'
 import * as Haptics from 'expo-haptics'
 
-// Module-level flag: only redirect to onboarding once per app session.
-// Prevents a loop when AsyncStorage is unavailable and always returns
-// the default onboardingComplete: false.
-let onboardingChecked = false
+// Module-level flag: only redirect once per app session.
+// Prevents loops when AsyncStorage is unavailable.
+let navigationChecked = false
 
 function getGreeting(): string {
   const hour = new Date().getHours()
@@ -30,10 +29,13 @@ export default function HomeScreen() {
   const buttonY = useSharedValue(16)
 
   useEffect(() => {
-    if (!onboardingChecked) {
-      onboardingChecked = true
+    if (!navigationChecked) {
+      navigationChecked = true
       getSettings()
-        .then((s) => { if (!s.onboardingComplete) router.replace('/onboarding') })
+        .then((s) => {
+          if (!s.onboardingComplete) router.replace('/onboarding')
+          else if (!s.faithIntroComplete) router.replace('/faith-intro')
+        })
         .catch(() => {})
     }
 

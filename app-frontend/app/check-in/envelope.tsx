@@ -80,6 +80,7 @@ export default function EnvelopeScreen() {
       pathname: '/check-in/message',
       params: {
         messageBody: result.message.body,
+        messageReference: result.message.reference ?? '',
         checkInId: result.event.id,
         messageId: result.message.id,
       },
@@ -92,7 +93,6 @@ export default function EnvelopeScreen() {
 
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium)
 
-    // Stop bob, open flap, slide letter out, fade to next screen
     bobY.value = withTiming(0, { duration: 200 })
     hintOpacity.value = withTiming(0, { duration: 200 })
 
@@ -107,72 +107,136 @@ export default function EnvelopeScreen() {
     <View className="flex-1 bg-background items-center justify-center">
       <Pressable onPress={handleOpen} disabled={loading || opening} className="items-center">
         <Animated.View style={envelopeStyle}>
-          <View style={{ width: 240, height: 175, position: 'relative' }}>
-            {/* Envelope body */}
+          {/* Outer container: 260w × 190h */}
+          <View style={{ width: 260, height: 190, position: 'relative' }}>
+
+            {/* ── Envelope body ────────────────────────────── */}
             <View
               style={{
                 position: 'absolute',
                 bottom: 0,
                 left: 0,
                 right: 0,
-                height: 140,
+                height: 150,
                 backgroundColor: '#F5F0E8',
-                borderRadius: 16,
-                shadowColor: '#000',
-                shadowOffset: { width: 0, height: 8 },
-                shadowOpacity: 0.12,
-                shadowRadius: 20,
-                elevation: 8,
-                overflow: 'hidden',
-                alignItems: 'center',
-                justifyContent: 'center',
+                borderRadius: 12,
+                borderWidth: 1,
+                borderColor: '#E2D9CC',
+                shadowColor: '#8B7355',
+                shadowOffset: { width: 0, height: 10 },
+                shadowOpacity: 0.18,
+                shadowRadius: 24,
+                elevation: 10,
               }}
             >
-              {/* V fold lines */}
+              {/* Left diagonal fold */}
               <View style={{
                 position: 'absolute',
-                bottom: 0, left: 0, right: 0,
-                height: 70,
-                borderTopWidth: 1,
-                borderTopColor: '#E8E0D0',
+                width: 1,
+                height: 152,
+                backgroundColor: '#DDD4C4',
+                top: 0,
+                left: 0,
+                transformOrigin: 'top left',
+                transform: [{ rotate: '30deg' }],
               }} />
+
+              {/* Right diagonal fold */}
+              <View style={{
+                position: 'absolute',
+                width: 1,
+                height: 152,
+                backgroundColor: '#DDD4C4',
+                top: 0,
+                right: 0,
+                transformOrigin: 'top right',
+                transform: [{ rotate: '-30deg' }],
+              }} />
+
+              {/* Bottom horizontal fold line */}
+              <View style={{
+                position: 'absolute',
+                bottom: 0,
+                left: 0,
+                right: 0,
+                height: 75,
+                borderTopWidth: 1,
+                borderTopColor: '#E2D9CC',
+              }} />
+
+              {/* Wax seal */}
+              <View style={{
+                position: 'absolute',
+                bottom: 18,
+                alignSelf: 'center',
+                width: 34,
+                height: 34,
+                borderRadius: 17,
+                backgroundColor: '#C4956A',
+                alignItems: 'center',
+                justifyContent: 'center',
+                shadowColor: '#8B6240',
+                shadowOffset: { width: 0, height: 2 },
+                shadowOpacity: 0.3,
+                shadowRadius: 4,
+                elevation: 3,
+              }}>
+                {/* Small cross inside seal */}
+                <View style={{ position: 'absolute', width: 2, height: 14, backgroundColor: '#FAF8F5', borderRadius: 1 }} />
+                <View style={{ position: 'absolute', width: 10, height: 2, backgroundColor: '#FAF8F5', borderRadius: 1, top: 8 }} />
+              </View>
 
               {/* Letter peeking out */}
               {!loading && (
                 <Animated.View style={[{
                   position: 'absolute',
-                  top: -20,
-                  left: 16,
-                  right: 16,
-                  height: 60,
+                  top: -22,
+                  left: 18,
+                  right: 18,
+                  height: 64,
                   backgroundColor: '#FFFDF9',
-                  borderRadius: 6,
+                  borderRadius: 4,
                   borderWidth: 1,
                   borderColor: '#EDE8DF',
-                }, letterStyle]} />
+                }, letterStyle]}>
+                  {/* Faint ruled lines on the letter */}
+                  <View style={{ position: 'absolute', top: 14, left: 10, right: 10, height: 1, backgroundColor: '#F0EBE2' }} />
+                  <View style={{ position: 'absolute', top: 26, left: 10, right: 10, height: 1, backgroundColor: '#F0EBE2' }} />
+                  <View style={{ position: 'absolute', top: 38, left: 10, right: 10, height: 1, backgroundColor: '#F0EBE2' }} />
+                </Animated.View>
               )}
             </View>
 
-            {/* Flap */}
+            {/* ── Flap ─────────────────────────────────────── */}
             <Animated.View
               style={[{
                 position: 'absolute',
                 top: 0,
                 left: 0,
                 right: 0,
-                height: 80,
+                height: 90,
                 transformOrigin: 'top',
               }, flapStyle]}
             >
+              {/* Flap triangle */}
               <View style={{
                 width: 0,
                 height: 0,
-                borderLeftWidth: 120,
-                borderRightWidth: 120,
-                borderTopWidth: 70,
+                borderLeftWidth: 130,
+                borderRightWidth: 130,
+                borderTopWidth: 80,
                 borderLeftColor: 'transparent',
                 borderRightColor: 'transparent',
                 borderTopColor: '#EDE6D9',
+              }} />
+              {/* Flap fold crease */}
+              <View style={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                right: 0,
+                height: 1,
+                backgroundColor: '#E2D9CC',
               }} />
             </Animated.View>
 
@@ -180,7 +244,7 @@ export default function EnvelopeScreen() {
             {loading && (
               <View style={{
                 position: 'absolute',
-                bottom: 0, left: 0, right: 0, top: 35,
+                bottom: 0, left: 0, right: 0, top: 40,
                 alignItems: 'center',
                 justifyContent: 'center',
               }}>
@@ -190,12 +254,12 @@ export default function EnvelopeScreen() {
           </View>
         </Animated.View>
 
-        <Animated.View style={[{ marginTop: 32 }, hintStyle]}>
+        <Animated.View style={[{ marginTop: 36 }, hintStyle]}>
           <Text
             className="text-text-secondary text-sm"
             style={{ fontFamily: 'DMSans_400Regular' }}
           >
-            {loading ? 'Preparing your note…' : 'Tap to open'}
+            {loading ? 'Preparing your verse…' : 'Tap to open'}
           </Text>
         </Animated.View>
       </Pressable>

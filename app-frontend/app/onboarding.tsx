@@ -53,7 +53,7 @@ export default function OnboardingScreen() {
     } catch {
       // storage failure is non-fatal — navigate regardless
     }
-    router.replace('/(tabs)')
+    router.replace('/faith-intro')
   }
 
   function handleCta() {

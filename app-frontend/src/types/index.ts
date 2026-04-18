@@ -77,6 +77,8 @@ export interface Message {
   subEmotionId?: string;
   /** The validating copy shown to the user. */
   body: string;
+  /** Scripture reference for the verse (e.g. "Psalm 34:18"). */
+  reference?: string;
   /** Free-form tags used for filtering and analytics (e.g. `grief`, `work`). */
   tags: string[];
   /** Tier required to receive this message. */
@@ -170,6 +172,8 @@ export interface AppSettings {
   subscription: SubscriptionState;
   /** Whether the user has finished the onboarding flow. */
   onboardingComplete: boolean;
+  /** Whether the user has seen the Christian faith intro screen. */
+  faithIntroComplete: boolean;
   /** Number of check-ins the user has completed today (free-tier quota). */
   checkInsToday: number;
   /** ISO calendar date the `checkInsToday` counter applies to. */

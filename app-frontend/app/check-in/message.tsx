@@ -12,8 +12,9 @@ import * as Haptics from 'expo-haptics'
 import { bookmarkMessage } from '@/services/checkIn'
 
 export default function MessageScreen() {
-  const { messageBody, checkInId, messageId } = useLocalSearchParams<{
+  const { messageBody, messageReference, checkInId, messageId } = useLocalSearchParams<{
     messageBody: string
+    messageReference: string
     checkInId: string
     messageId: string
   }>()
@@ -48,25 +49,28 @@ export default function MessageScreen() {
 
   async function handleShare() {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)
+    const ref = messageReference ? ` — ${messageReference}` : ''
     try {
       await Share.share({
-        message: `"${messageBody}"\n\n— via Soft Landing`,
+        message: `"${messageBody}"${ref}\n\n— via Soft Landing`,
       })
     } catch {
-      // user dismissed share sheet or share not supported
+      // user dismissed share sheet
     }
   }
 
   return (
     <View
       className="flex-1 bg-background items-center justify-center px-8"
-      accessibilityLabel="Your message"
+      accessibilityLabel="Your verse"
     >
       <Animated.View
         style={[{
           width: '100%',
           borderRadius: 24,
-          padding: 32,
+          paddingHorizontal: 32,
+          paddingTop: 36,
+          paddingBottom: 28,
           backgroundColor: '#FFFFFF',
           shadowColor: '#000',
           shadowOffset: { width: 0, height: 4 },
@@ -82,6 +86,22 @@ export default function MessageScreen() {
         >
           {messageBody}
         </Text>
+
+        {messageReference ? (
+          <Text
+            className="text-center mt-5"
+            style={{
+              fontFamily: 'DMSans_400Regular',
+              fontSize: 13,
+              color: '#C4956A',
+              letterSpacing: 0.4,
+            }}
+            accessibilityRole="text"
+            accessibilityLabel={`Scripture reference: ${messageReference}`}
+          >
+            {messageReference}
+          </Text>
+        ) : null}
       </Animated.View>
 
       <Animated.View
@@ -96,7 +116,7 @@ export default function MessageScreen() {
         <Pressable
           onPress={handleSave}
           accessibilityRole="button"
-          accessibilityLabel={saved ? 'Message saved' : 'Save message'}
+          accessibilityLabel={saved ? 'Verse saved' : 'Save verse'}
           hitSlop={{ top: 12, bottom: 12, left: 12, right: 12 }}
           style={({ pressed }) => ({ opacity: pressed ? 0.5 : 1, padding: 12 })}
         >
@@ -109,7 +129,7 @@ export default function MessageScreen() {
         <Pressable
           onPress={handleShare}
           accessibilityRole="button"
-          accessibilityLabel="Share message"
+          accessibilityLabel="Share verse"
           hitSlop={{ top: 12, bottom: 12, left: 12, right: 12 }}
           style={({ pressed }) => ({ opacity: pressed ? 0.5 : 1, padding: 12 })}
         >

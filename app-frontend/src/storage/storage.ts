@@ -23,6 +23,7 @@ const DEFAULT_SETTINGS: AppSettings = {
     isTrialing: false,
   },
   onboardingComplete: false,
+  faithIntroComplete: false,
   checkInsToday: 0,
   lastCheckInDate: null,
 }
