@@ -1,7 +1,7 @@
 import '../global.css'
-import { Stack } from 'expo-router'
+import { Stack, router } from 'expo-router'
 import * as SplashScreen from 'expo-splash-screen'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import 'react-native-reanimated'
 import {
   useFonts,
@@ -13,6 +13,7 @@ import {
   Lora_400Regular,
   Lora_400Regular_Italic,
 } from '@expo-google-fonts/lora'
+import { getSettings } from '@/storage/storage'
 
 export { ErrorBoundary } from 'expo-router'
 
@@ -30,23 +31,32 @@ export default function RootLayout() {
     Lora_400Regular,
     Lora_400Regular_Italic,
   })
+  const [settingsChecked, setSettingsChecked] = useState(false)
 
   useEffect(() => {
     if (fontError) throw fontError
   }, [fontError])
 
   useEffect(() => {
-    if (fontsLoaded) SplashScreen.hideAsync()
+    if (!fontsLoaded) return
+
+    getSettings().then((settings) => {
+      setSettingsChecked(true)
+      SplashScreen.hideAsync()
+      if (!settings.onboardingComplete) {
+        router.replace('/onboarding')
+      }
+    })
   }, [fontsLoaded])
 
-  if (!fontsLoaded) return null
+  if (!fontsLoaded || !settingsChecked) return null
 
   return (
     <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: '#FAF8F5' } }}>
       <Stack.Screen name="(tabs)" />
       <Stack.Screen name="check-in/emotions" options={{ animation: 'fade' }} />
       <Stack.Screen name="check-in/envelope" options={{ animation: 'fade' }} />
-      <Stack.Screen name="check-in/message" options={{ animation: 'fade' }} />
+      <Stack.Screen name="check-in/message" options={{ animation: 'none' }} />
       <Stack.Screen name="paywall" options={{ presentation: 'modal' }} />
       <Stack.Screen name="onboarding" options={{ animation: 'fade' }} />
     </Stack>

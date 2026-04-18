@@ -6,15 +6,31 @@ module.exports = {
     './components/**/*.{js,jsx,ts,tsx}',
   ],
   presets: [require('nativewind/preset')],
+  darkMode: 'class',
   theme: {
     extend: {
       colors: {
-        background: '#FAF8F5',
-        surface: '#FFFFFF',
-        'text-primary': '#1A1A1A',
-        'text-secondary': '#6B6B6B',
+        background: {
+          DEFAULT: '#FAF8F5',
+          dark: '#1A1714',
+        },
+        surface: {
+          DEFAULT: '#FFFFFF',
+          dark: '#252118',
+        },
+        'text-primary': {
+          DEFAULT: '#1A1A1A',
+          dark: '#F0EDE8',
+        },
+        'text-secondary': {
+          DEFAULT: '#6B6B6B',
+          dark: '#9E9890',
+        },
         accent: '#C4956A',
-        border: '#E8E3DC',
+        border: {
+          DEFAULT: '#E8E3DC',
+          dark: '#333027',
+        },
         error: '#E57373',
         'emotion-stressed': '#E8A598',
         'emotion-tired': '#C5B8D4',
