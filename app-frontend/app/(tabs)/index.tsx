@@ -1,6 +1,7 @@
 import { View, Text, Pressable } from 'react-native'
 import { router } from 'expo-router'
 import { useEffect } from 'react'
+import { getSettings } from '@/storage/storage'
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
@@ -24,6 +25,10 @@ export default function HomeScreen() {
   const buttonY = useSharedValue(16)
 
   useEffect(() => {
+    getSettings().then((s) => {
+      if (!s.onboardingComplete) router.replace('/onboarding')
+    }).catch(() => {})
+
     greetingOpacity.value = withTiming(1, { duration: 600 })
     greetingY.value = withTiming(0, { duration: 600 })
     buttonOpacity.value = withDelay(300, withTiming(1, { duration: 500 }))

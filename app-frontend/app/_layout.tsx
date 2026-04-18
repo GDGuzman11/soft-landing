@@ -1,7 +1,7 @@
 import '../global.css'
-import { Stack, router } from 'expo-router'
+import { Stack } from 'expo-router'
 import * as SplashScreen from 'expo-splash-screen'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import 'react-native-reanimated'
 import {
   useFonts,
@@ -13,7 +13,6 @@ import {
   Lora_400Regular,
   Lora_400Regular_Italic,
 } from '@expo-google-fonts/lora'
-import { getSettings } from '@/storage/storage'
 
 export { ErrorBoundary } from 'expo-router'
 
@@ -31,25 +30,16 @@ export default function RootLayout() {
     Lora_400Regular,
     Lora_400Regular_Italic,
   })
-  const [settingsChecked, setSettingsChecked] = useState(false)
 
   useEffect(() => {
     if (fontError) throw fontError
   }, [fontError])
 
   useEffect(() => {
-    if (!fontsLoaded) return
-
-    getSettings().then((settings) => {
-      setSettingsChecked(true)
-      SplashScreen.hideAsync()
-      if (!settings.onboardingComplete) {
-        router.replace('/onboarding')
-      }
-    })
+    if (fontsLoaded) SplashScreen.hideAsync()
   }, [fontsLoaded])
 
-  if (!fontsLoaded || !settingsChecked) return null
+  if (!fontsLoaded) return null
 
   return (
     <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: '#FAF8F5' } }}>
