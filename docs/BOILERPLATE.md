@@ -6,6 +6,66 @@ already wired up.
 
 ---
 
+## How to start a new app (always follow this order)
+
+### Step 1 — Capture the idea (you)
+Before opening Claude Code, write down three things:
+- **The problem** — what frustrates someone enough to open an app?
+- **The core action** — the one thing the user does in the app
+- **The business model** — subscription, one-time purchase, or free?
+
+### Step 2 — Bring it to Claude Code (plan first)
+Paste your idea into Claude Code. Claude will enter Plan Mode and define:
+- App name and visual identity
+- Screen-by-screen flow
+- Stack decisions (what to add or remove from this boilerplate)
+- Free vs. premium feature split
+- Pricing and subscription tiers
+
+**Nothing gets built until you approve the plan.**
+
+### Step 3 — Accounts to have ready
+| Account | Cost | Purpose |
+|---|---|---|
+| GitHub | Free | Code hosting, CI/CD |
+| Expo (expo.dev) | Free | EAS builds, OTA updates |
+| Apple Developer | $99/year | TestFlight + App Store |
+| RevenueCat | Free to start | Subscriptions |
+| Canva or Figma | Free | App icon + splash screen |
+
+### Step 4 — Repo setup (Claude does this)
+Using this boilerplate:
+- Folder structure scaffolded
+- NativeWind + Expo Router configured
+- `CLAUDE.md` with plan-first rules in place
+- `CREDENTIALS.md` and `.env.example` ready
+- GitHub repo created and first commit pushed
+- EAS linked via `eas init`
+
+### Step 5 — Build in phases (always this order)
+| Phase | What gets built | Gate to next phase |
+|---|---|---|
+| 0 — Foundation | Types, design tokens, docs, skeleton screens, bug tracker | All agents commit |
+| 1 — Data layer | Storage service, content catalog, business logic | Types finalized |
+| 2 — Core flow | The main thing the app does, end-to-end | Flow works on device |
+| 3 — Polish | Animations, haptics, accessibility, empty states | Security review done |
+| 4 — Production | EAS build, GitHub Actions CI, TestFlight, final docs | Ship |
+
+### What changes between apps
+Only these things change — everything else is reused as-is:
+
+| Item | What to update |
+|---|---|
+| App name, icon, splash | New brand assets |
+| Color tokens | Your palette in `tailwind.config.js` and `theme.ts` |
+| Content catalog | Replace `catalog.json` with your content |
+| Core domain types | Replace emotion/message types with your domain |
+| Free tier limits | Update `FREE_CHECKINS_PER_DAY` constant |
+| Subscription products | New product IDs in RevenueCat + App Store Connect |
+| `CLAUDE.md` | Update app description and active context |
+
+---
+
 ## CLAUDE.md template (copy to every new project)
 
 The `CLAUDE.md` file at the repo root is how you instruct Claude Code on
