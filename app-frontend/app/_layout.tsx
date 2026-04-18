@@ -3,6 +3,7 @@ import { Stack } from 'expo-router'
 import * as SplashScreen from 'expo-splash-screen'
 import { useEffect } from 'react'
 import 'react-native-reanimated'
+import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import {
   useFonts,
   DMSans_400Regular,
@@ -42,6 +43,7 @@ export default function RootLayout() {
   if (!fontsLoaded) return null
 
   return (
+    <GestureHandlerRootView style={{ flex: 1 }}>
     <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: '#FAF8F5' } }}>
       <Stack.Screen name="(tabs)" />
       <Stack.Screen name="check-in/emotions" options={{ animation: 'fade' }} />
@@ -51,5 +53,6 @@ export default function RootLayout() {
       <Stack.Screen name="onboarding" options={{ animation: 'fade' }} />
       <Stack.Screen name="faith-intro" options={{ animation: 'fade' }} />
     </Stack>
+    </GestureHandlerRootView>
   )
 }
