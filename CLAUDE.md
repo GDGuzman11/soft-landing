@@ -58,4 +58,15 @@ One agent's work per commit. Reference a bug ID in the body when relevant (e.g. 
 - **Interaction model:** vertical card stack for the emotion picker (deliberate, not a rushed grid), Reanimated envelope flight, single tap to open
 
 ## Active context
-*Session 2026-04-17 — Phase 0 kickoff. Docs agent is establishing foundation files. No app code exists yet; other agents are scaffolding their own areas in parallel. Update this section at the start of each session with current focus and any cross-agent coordination items.*
+*Session 2026-04-18 — V1 complete. All four phases shipped: foundation, data layer, core check-in flow, polish, and production readiness. App runs in Expo Go. Next steps: (1) create an EAS account and run `eas init` to populate the projectId in app.json, (2) set up RevenueCat with App Store Connect products, (3) submit to TestFlight via `eas build --profile preview --platform ios`.*
+
+## Current build state
+- All screens functional: onboarding → home → emotions → envelope → message → save/share/dismiss → history
+- AsyncStorage v2.1.2 (Expo Go compatible)
+- NativeWind v4 with babel.config.js preset config
+- 25 seed messages across 5 emotions, weighted selection with anti-repetition
+- Native share sheet on message reveal (Instagram, X, Threads, Facebook, etc.)
+- Free tier: 3 check-ins/day (quota logic written, AsyncStorage required for persistence)
+- RevenueCat integration: wired in types and constants, SDK init pending (needs API keys in .env)
+- EAS Build profiles: development / preview / production in `eas.json`
+- GitHub Actions CI on every push: tsc + vitest + expo web export

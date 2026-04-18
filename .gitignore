@@ -42,6 +42,12 @@ Desktop.ini
 coverage/
 .nyc_output/
 
+# EAS / store credentials (never commit these)
+google-service-account.json
+*.p8
+*.p12
+*.mobileprovision
+
 # Misc
 *.orig
 *.bak
