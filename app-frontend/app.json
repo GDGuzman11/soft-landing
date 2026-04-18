@@ -41,7 +41,6 @@
     },
     "plugins": [
       "expo-router",
-      "expo-haptics",
       [
         "expo-notifications",
         {
