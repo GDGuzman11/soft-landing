@@ -16,16 +16,19 @@ export interface CheckInResult {
 }
 
 export async function canCheckIn(): Promise<boolean> {
-  const settings = await getSettings()
-  if (settings.subscription.tier === 'premium') return true
-
-  const count = await getTodayCheckInCount()
-  return count < FREE_CHECKINS_PER_DAY
+  try {
+    const settings = await getSettings()
+    if (settings.subscription.tier === 'premium') return true
+    const count = await getTodayCheckInCount()
+    return count < FREE_CHECKINS_PER_DAY
+  } catch {
+    return true // fail open — don't block the user if storage is unavailable
+  }
 }
 
 export async function performCheckIn(emotionId: EmotionId): Promise<CheckInResult> {
-  const settings = await getSettings()
-  const message = selectMessage(emotionId, settings.subscription.tier)
+  const tier = await getSettings().then((s) => s.subscription.tier).catch(() => 'free' as const)
+  const message = selectMessage(emotionId, tier)
 
   const event: CheckInEvent = {
     id: generateId(),
@@ -35,8 +38,12 @@ export async function performCheckIn(emotionId: EmotionId): Promise<CheckInResul
     saved: false,
   }
 
-  await addCheckIn(event)
-  await incrementCheckInCount()
+  try {
+    await addCheckIn(event)
+    await incrementCheckInCount()
+  } catch {
+    // non-fatal — message still shows even if we can't persist
+  }
 
   return { event, message }
 }
@@ -51,6 +58,10 @@ export async function bookmarkMessage(
     messageId,
     savedAt: new Date().toISOString(),
   }
-  await saveMessage(entry)
+  try {
+    await saveMessage(entry)
+  } catch {
+    // non-fatal
+  }
   return entry
 }

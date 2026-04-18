@@ -47,8 +47,12 @@ export default function OnboardingScreen() {
 
   async function finish() {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)
-    const settings = await getSettings()
-    await saveSettings({ ...settings, onboardingComplete: true })
+    try {
+      const settings = await getSettings()
+      await saveSettings({ ...settings, onboardingComplete: true })
+    } catch {
+      // storage failure is non-fatal — navigate regardless
+    }
     router.replace('/(tabs)')
   }
 
