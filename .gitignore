@@ -1,0 +1,49 @@
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# Expo
+.expo/
+dist/
+web-build/
+expo-env.d.ts
+
+# Build outputs
+build/
+ios/Pods/
+android/.gradle/
+android/app/build/
+
+# Environment
+.env
+.env.local
+.env.development
+.env.staging
+.env.production
+!.env.example
+
+# Claude Code
+.claude/settings.local.json
+
+# Logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Test / coverage
+coverage/
+.nyc_output/
+
+# Misc
+*.orig
+*.bak
+.idea/
+.vscode/settings.json
