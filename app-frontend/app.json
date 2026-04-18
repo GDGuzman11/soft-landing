@@ -19,7 +19,9 @@
       "buildNumber": "1",
       "infoPlist": {
         "NSUserNotificationUsageDescription": "Soft Landing uses notifications to send you gentle daily check-in reminders.",
-        "UIBackgroundModes": ["fetch"]
+        "UIBackgroundModes": [
+          "fetch"
+        ]
       }
     },
     "android": {
@@ -55,8 +57,10 @@
     },
     "extra": {
       "eas": {
-        "projectId": ""
-      }
-    }
+        "projectId": "2d79e638-f797-42ff-86b3-94f5c20fa6ff"
+      },
+      "router": {}
+    },
+    "owner": "gdguzman57"
   }
 }
