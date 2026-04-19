@@ -5,6 +5,29 @@ All notable changes to Soft Landing will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.0] — 2026-04-18
+
+### Added
+- **Bible verse pivot**: Replaced 25 generic validating messages with NIV Bible verses (5 per emotion). Each verse includes a scripture reference (e.g., "Psalm 34:18") displayed in amber below the verse body.
+- **Faith intro screen**: One-time screen shown after onboarding — amber cross, "Find rest in His Word." tagline in Lora italic, amber Begin button. Saved to `faithIntroComplete` in AppSettings.
+- **In-app splash screen** (`splash.tsx`): Branded launch screen with animated amber cross spring-in and "Soft Landing" / "Find rest in His Word." fade-in. Runs on every cold launch before home screen.
+- **Continuous verse flow**: After swiping on the message screen, a new verse slides in from the opposite side without returning to Home. Users stay in a verse flow until they tap Done or ×.
+- **Swipe gestures on message screen**: Swipe right = Save + next verse, Swipe left = Skip + next verse. Tinder-style indicator badges animate in during swipe. SWIPE_THRESHOLD = 110px.
+- **Candle wax seal envelope**: Redesigned envelope as a sealed card (CARD_WIDTH=85%, CARD_HEIGHT=370). Wax seal component with 8 drip blobs, candle-light highlight, embossed cross. Seal pulses on tap before navigation.
+- **Scripture reference in history**: Saved verses in the history screen now show the scripture reference in amber. Each saved verse has a Share button (native share sheet).
+- **Free tier raised to 10 check-ins/day** (up from 3).
+
+### Fixed
+- Double-splash flicker: reduced `_layout.tsx` minDelayDone timer from 1800ms to 200ms — splash.tsx now fully owns branded splash timing (BUG-007)
+- `transitioning` stuck true when paywall pushed from `loadNextVerse` — reset before routing (BUG-001)
+- Save/discard indicator badges on wrong sides — swapped to match swipe direction (BUG-002)
+- `transformOrigin` removed from envelope fold creases (not supported in React Native) (BUG-003)
+- Envelope error state: added Go Home escape when `performCheckIn` throws (BUG-004)
+- Duplicate `FREE_CHECKINS_PER_DAY` constant in `theme.ts` — synced to 10 (BUG-005)
+- Duplicate `"fetch"` in `UIBackgroundModes` in `app.json` (BUG-006)
+- Unused `Dimensions` import removed from `onboarding.tsx` (BUG-008)
+- `emotions.tsx` paywall navigation changed from `replace` to `push` so back returns to emotion picker (BUG-009)
+
 ## [1.0.0] — 2026-04-18
 
 ### Added

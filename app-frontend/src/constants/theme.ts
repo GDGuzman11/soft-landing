@@ -124,6 +124,6 @@ export const ANIMATION = {
 
 /** Hard limits enforced by the free tier. */
 export const LIMITS = {
-  FREE_CHECKINS_PER_DAY: 3,
+  FREE_CHECKINS_PER_DAY: 10,
   HISTORY_DAYS_FREE: 7,
 } as const;

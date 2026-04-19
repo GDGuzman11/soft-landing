@@ -254,6 +254,19 @@ export default function EnvelopeScreen() {
     }))
   }
 
+  if (!loading && !result) {
+    return (
+      <View className="flex-1 bg-background items-center justify-center px-8">
+        <Text style={{ fontFamily: 'DMSans_400Regular', fontSize: 15, color: '#A09080', textAlign: 'center', marginBottom: 24 }}>
+          Something went wrong. Please try again.
+        </Text>
+        <Pressable onPress={() => router.replace('/(tabs)')} className="active:opacity-60">
+          <Text style={{ fontFamily: 'DMSans_500Medium', fontSize: 15, color: '#C4956A' }}>Go home</Text>
+        </Pressable>
+      </View>
+    )
+  }
+
   return (
     <View className="flex-1 bg-background items-center justify-center">
       <Pressable onPress={handleOpen} disabled={loading || opening}>
@@ -306,7 +319,6 @@ export default function EnvelopeScreen() {
               top: 0,
               left: 0,
               transform: [{ rotate: '33deg' }],
-              transformOrigin: 'top left',
             }} />
 
             {/* ── Right diagonal fold crease on flap ── */}
@@ -319,7 +331,6 @@ export default function EnvelopeScreen() {
               top: 0,
               right: 0,
               transform: [{ rotate: '-33deg' }],
-              transformOrigin: 'top right',
             }} />
 
             {/* ── Wax seal — centered over fold line ── */}

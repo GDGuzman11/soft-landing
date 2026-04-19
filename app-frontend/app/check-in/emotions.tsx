@@ -9,7 +9,7 @@ export default function EmotionsScreen() {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)
     const allowed = await canCheckIn()
     if (!allowed) {
-      router.replace('/paywall')
+      router.push('/paywall')
       return
     }
     router.push({ pathname: '/check-in/envelope', params: { emotionId } })

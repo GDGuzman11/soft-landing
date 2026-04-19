@@ -67,15 +67,21 @@ One agent's work per commit. Reference a bug ID in the body when relevant (e.g. 
 - **Interaction model:** vertical card stack for the emotion picker (deliberate, not a rushed grid), Reanimated envelope flight, single tap to open
 
 ## Active context
-*Session 2026-04-18 — V1 complete. All four phases shipped: foundation, data layer, core check-in flow, polish, and production readiness. App runs in Expo Go. Next steps: (1) create an EAS account and run `eas init` to populate the projectId in app.json, (2) set up RevenueCat with App Store Connect products, (3) submit to TestFlight via `eas build --profile preview --platform ios`.*
+*Session 2026-04-18 — V1.1 complete. Bible verse pivot, faith intro, in-app splash, swipe flow, and all QA fixes applied. App runs in Expo Go. Next steps: (1) set up RevenueCat with App Store Connect products (API keys in .env), (2) submit to TestFlight via `eas build --profile preview --platform ios`.*
 
 ## Current build state
-- All screens functional: onboarding → home → emotions → envelope → message → save/share/dismiss → history
+- All screens functional: splash → onboarding → faith-intro → home → emotions → envelope → message (swipe flow) → save/share/dismiss → history
+- 25 NIV Bible verses across 5 emotions, each with scripture reference (e.g., "Psalm 34:18")
+- Faith intro screen: amber cross + "Find rest in His Word." — shown once after onboarding
+- In-app splash screen: animated cross + brand text, runs on every cold launch
+- Candle wax seal envelope: sealed card with wax seal component, pulse on tap
+- Swipe gesture flow: right = save + next verse, left = skip + next verse (continuous)
 - AsyncStorage v2.1.2 (Expo Go compatible)
 - NativeWind v4 with babel.config.js preset config
-- 25 seed messages across 5 emotions, weighted selection with anti-repetition
-- Native share sheet on message reveal (Instagram, X, Threads, Facebook, etc.)
-- Free tier: 3 check-ins/day (quota logic written, AsyncStorage required for persistence)
+- Weighted selection with anti-repetition
+- Native share sheet on message reveal + history (Instagram, X, Threads, Facebook, etc.)
+- Free tier: 10 check-ins/day
 - RevenueCat integration: wired in types and constants, SDK init pending (needs API keys in .env)
 - EAS Build profiles: development / preview / production in `eas.json`
+- EAS projectId populated: 2d79e638-f797-42ff-86b3-94f5c20fa6ff
 - GitHub Actions CI on every push: tsc + vitest + expo web export

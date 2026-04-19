@@ -35,7 +35,7 @@ export default function RootLayout() {
   const [minDelayDone, setMinDelayDone] = useState(false)
 
   useEffect(() => {
-    const timer = setTimeout(() => setMinDelayDone(true), 1800)
+    const timer = setTimeout(() => setMinDelayDone(true), 200)
     return () => clearTimeout(timer)
   }, [])
 

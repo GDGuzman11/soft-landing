@@ -1,4 +1,4 @@
-import { View, Text, Pressable, Dimensions } from 'react-native'
+import { View, Text, Pressable } from 'react-native'
 import { router } from 'expo-router'
 import { useState } from 'react'
 import Animated, {
@@ -10,8 +10,6 @@ import Animated, {
 } from 'react-native-reanimated'
 import * as Haptics from 'expo-haptics'
 import { getSettings, saveSettings } from '@/storage/storage'
-
-const { width } = Dimensions.get('window')
 
 const SLIDES = [
   {

@@ -67,6 +67,7 @@ export default function MessageScreen() {
   async function loadNextVerse(swipeDirection: 'right' | 'left') {
     const ok = await canCheckIn()
     if (!ok) {
+      setTransitioning(false)
       router.push('/paywall')
       return
     }
@@ -236,12 +237,12 @@ export default function MessageScreen() {
         </Text>
       </Pressable>
 
-      {/* Save indicator — appears on left when swiping right */}
+      {/* Save indicator — appears on right when swiping right */}
       <Animated.View
         style={[
           {
             position: 'absolute',
-            left: 24,
+            right: 24,
             top: '45%',
             backgroundColor: '#9CB59A',
             paddingHorizontal: 16,
@@ -257,12 +258,12 @@ export default function MessageScreen() {
         </Text>
       </Animated.View>
 
-      {/* Discard indicator — appears on right when swiping left */}
+      {/* Discard indicator — appears on left when swiping left */}
       <Animated.View
         style={[
           {
             position: 'absolute',
-            right: 24,
+            left: 24,
             top: '45%',
             backgroundColor: '#B0BEC5',
             paddingHorizontal: 16,

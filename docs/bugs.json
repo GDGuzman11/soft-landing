@@ -1,3 +1,151 @@
 {
-  "bugs": []
+  "bugs": [
+    {
+      "id": "BUG-001",
+      "discovered": "2026-04-18",
+      "discoveredBy": "tester-qa",
+      "severity": "medium",
+      "status": "resolved",
+      "area": "frontend",
+      "description": "transitioning state stuck true when paywall is pushed from loadNextVerse — all swipes and save button permanently disabled on return",
+      "file": "app-frontend/app/check-in/message.tsx",
+      "reproductionSteps": [
+        "Hit free tier limit (10/day)",
+        "Swipe on message screen — triggers loadNextVerse",
+        "Paywall appears, user taps Not Now",
+        "Return to message screen — card is frozen, nothing responds to swipe"
+      ],
+      "resolution": "Reset transitioning to false before router.push('/paywall') in loadNextVerse",
+      "resolvedAt": "2026-04-18"
+    },
+    {
+      "id": "BUG-002",
+      "discovered": "2026-04-18",
+      "discoveredBy": "frontend-qa",
+      "severity": "low",
+      "status": "resolved",
+      "area": "ux",
+      "description": "Save/discard swipe indicator badges on wrong sides — Save badge was left-anchored, Discard badge was right-anchored (opposite of Tinder-style convention)",
+      "file": "app-frontend/app/check-in/message.tsx",
+      "reproductionSteps": [
+        "Open any message",
+        "Drag card to the right (save direction)",
+        "Save indicator appears on left side instead of right"
+      ],
+      "resolution": "Swapped: Save badge to right:24, Discard badge to left:24",
+      "resolvedAt": "2026-04-18"
+    },
+    {
+      "id": "BUG-003",
+      "discovered": "2026-04-18",
+      "discoveredBy": "frontend-qa",
+      "severity": "low",
+      "status": "resolved",
+      "area": "frontend",
+      "description": "transformOrigin CSS property used in envelope fold creases — not supported in React Native, silently ignored on iOS/Android",
+      "file": "app-frontend/app/check-in/envelope.tsx",
+      "reproductionSteps": [
+        "Open envelope screen on a real device",
+        "Fold crease lines don't rotate from their corners as intended"
+      ],
+      "resolution": "Removed transformOrigin properties from both fold crease Views",
+      "resolvedAt": "2026-04-18"
+    },
+    {
+      "id": "BUG-004",
+      "discovered": "2026-04-18",
+      "discoveredBy": "frontend-qa",
+      "severity": "medium",
+      "status": "resolved",
+      "area": "frontend",
+      "description": "No escape UI on envelope screen when performCheckIn throws and result stays null — screen shows loading state indefinitely",
+      "file": "app-frontend/app/check-in/envelope.tsx",
+      "reproductionSteps": [
+        "Simulate a network or storage error in performCheckIn",
+        "Envelope screen shows indefinitely with no way to exit"
+      ],
+      "resolution": "Added error state render: when !loading && !result, show error message with Go home button",
+      "resolvedAt": "2026-04-18"
+    },
+    {
+      "id": "BUG-005",
+      "discovered": "2026-04-18",
+      "discoveredBy": "data-qa",
+      "severity": "low",
+      "status": "resolved",
+      "area": "data",
+      "description": "Duplicate FREE_CHECKINS_PER_DAY constant: src/constants/index.ts was updated to 10 but src/constants/theme.ts LIMITS still had value 3",
+      "file": "app-frontend/src/constants/theme.ts",
+      "reproductionSteps": [
+        "Import LIMITS from theme.ts",
+        "LIMITS.FREE_CHECKINS_PER_DAY returns 3 instead of 10"
+      ],
+      "resolution": "Updated LIMITS.FREE_CHECKINS_PER_DAY to 10 in theme.ts",
+      "resolvedAt": "2026-04-18"
+    },
+    {
+      "id": "BUG-006",
+      "discovered": "2026-04-18",
+      "discoveredBy": "security-qa",
+      "severity": "low",
+      "status": "resolved",
+      "area": "frontend",
+      "description": "Duplicate 'fetch' entry in UIBackgroundModes in app.json — results in redundant plist entry",
+      "file": "app-frontend/app.json",
+      "reproductionSteps": [
+        "Open app.json, inspect ios.infoPlist.UIBackgroundModes",
+        "Array contains ['fetch', 'fetch']"
+      ],
+      "resolution": "Removed duplicate entry, array is now ['fetch']",
+      "resolvedAt": "2026-04-18"
+    },
+    {
+      "id": "BUG-007",
+      "discovered": "2026-04-18",
+      "discoveredBy": "frontend-qa",
+      "severity": "low",
+      "status": "resolved",
+      "area": "frontend",
+      "description": "Double-splash race: _layout.tsx held React tree as null for 1800ms while splash.tsx also ran its own 1800ms animation — independent timers on different clocks caused a blank-then-splash flicker",
+      "file": "app-frontend/app/_layout.tsx",
+      "reproductionSteps": [
+        "Cold-launch the app",
+        "Native splash holds, then briefly black before in-app splash appears"
+      ],
+      "resolution": "Reduced minDelayDone timer in _layout.tsx from 1800ms to 200ms so splash.tsx owns all branded splash timing",
+      "resolvedAt": "2026-04-18"
+    },
+    {
+      "id": "BUG-008",
+      "discovered": "2026-04-18",
+      "discoveredBy": "frontend-qa",
+      "severity": "low",
+      "status": "resolved",
+      "area": "frontend",
+      "description": "Unused Dimensions import in onboarding.tsx — const { width } declared but never referenced",
+      "file": "app-frontend/app/onboarding.tsx",
+      "reproductionSteps": [
+        "TypeScript strict mode — unused variable warning"
+      ],
+      "resolution": "Removed Dimensions from import and removed the const { width } declaration",
+      "resolvedAt": "2026-04-18"
+    },
+    {
+      "id": "BUG-009",
+      "discovered": "2026-04-18",
+      "discoveredBy": "frontend-qa",
+      "severity": "low",
+      "status": "resolved",
+      "area": "frontend",
+      "description": "emotions.tsx used router.replace('/paywall') — pressing back from paywall would exit the app instead of returning to the emotion picker",
+      "file": "app-frontend/app/check-in/emotions.tsx",
+      "reproductionSteps": [
+        "Hit the free tier limit",
+        "Tap any emotion — paywall appears",
+        "Tap back/Not Now — app exits or goes to home instead of emotions screen"
+      ],
+      "resolution": "Changed to router.push('/paywall') so back navigation returns to emotion picker",
+      "resolvedAt": "2026-04-18"
+    }
+  ]
 }
