@@ -15,15 +15,17 @@ export interface CheckInResult {
   message: Message
 }
 
+// TEMP: paywall disabled for testing — re-enable before shipping
 export async function canCheckIn(): Promise<boolean> {
-  try {
-    const settings = await getSettings()
-    if (settings.subscription.tier === 'premium') return true
-    const count = await getTodayCheckInCount()
-    return count < FREE_CHECKINS_PER_DAY
-  } catch {
-    return true // fail open — don't block the user if storage is unavailable
-  }
+  return true
+  // try {
+  //   const settings = await getSettings()
+  //   if (settings.subscription.tier === 'premium') return true
+  //   const count = await getTodayCheckInCount()
+  //   return count < FREE_CHECKINS_PER_DAY
+  // } catch {
+  //   return true // fail open — don't block the user if storage is unavailable
+  // }
 }
 
 export async function performCheckIn(emotionId: EmotionId): Promise<CheckInResult> {

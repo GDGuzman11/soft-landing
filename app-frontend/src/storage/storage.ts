@@ -9,6 +9,7 @@ const KEYS = {
 
 const DEFAULT_SETTINGS: AppSettings = {
   theme: 'system',
+  name: '',
   haptics: true,
   notifications: {
     enabled: false,
@@ -95,4 +96,8 @@ export async function incrementCheckInCount(): Promise<number> {
   })
 
   return newCount
+}
+
+export async function clearAllData(): Promise<void> {
+  await AsyncStorage.multiRemove([KEYS.SETTINGS, KEYS.CHECK_INS, KEYS.SAVED_MESSAGES])
 }

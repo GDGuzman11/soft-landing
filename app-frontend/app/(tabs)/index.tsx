@@ -1,7 +1,8 @@
 import { View, Text, Pressable } from 'react-native'
 import { router } from 'expo-router'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { getSettings } from '@/storage/storage'
+import type { AppSettings } from '@/types'
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
@@ -15,14 +16,21 @@ import * as Haptics from 'expo-haptics'
 // Prevents loops when AsyncStorage is unavailable.
 let navigationChecked = false
 
-function getGreeting(): string {
+function getGreetingBase(): string {
   const hour = new Date().getHours()
-  if (hour < 12) return 'Good morning.'
-  if (hour < 17) return 'Good afternoon.'
-  return 'Good evening.'
+  if (hour < 12) return 'Good morning'
+  if (hour < 17) return 'Good afternoon'
+  return 'Good evening'
+}
+
+function getGreeting(name?: string): string {
+  const base = getGreetingBase()
+  if (name) return `${base}, ${name}.`
+  return `${base}.`
 }
 
 export default function HomeScreen() {
+  const [settings, setSettings] = useState<AppSettings | null>(null)
   const greetingOpacity = useSharedValue(0)
   const greetingY = useSharedValue(12)
   const buttonOpacity = useSharedValue(0)
@@ -33,7 +41,9 @@ export default function HomeScreen() {
       navigationChecked = true
       getSettings()
         .then((s) => {
+          setSettings(s)
           if (!s.onboardingComplete) router.replace('/onboarding')
+          else if (!s.name) router.replace('/register')
           else if (!s.faithIntroComplete) router.replace('/faith-intro')
         })
         .catch(() => {})
@@ -70,7 +80,7 @@ export default function HomeScreen() {
         style={[{ fontFamily: 'DMSans_400Regular', letterSpacing: -0.5 }, greetingStyle]}
         accessibilityRole="header"
       >
-        {getGreeting()}
+        {getGreeting(settings?.name || undefined)}
       </Animated.Text>
 
       <Animated.View style={buttonStyle}>

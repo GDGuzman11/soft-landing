@@ -164,6 +164,8 @@ export interface SubscriptionState {
 export interface AppSettings {
   /** Theme preference. */
   theme: ThemePreference;
+  /** Display name the user entered during onboarding. */
+  name: string;
   /** Whether haptic feedback is enabled on supported devices. */
   haptics: boolean;
   /** Notification preferences. */

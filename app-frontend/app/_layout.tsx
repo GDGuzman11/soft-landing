@@ -59,6 +59,7 @@ export default function RootLayout() {
       <Stack.Screen name="check-in/message" options={{ animation: 'none' }} />
       <Stack.Screen name="paywall" options={{ presentation: 'modal' }} />
       <Stack.Screen name="onboarding" options={{ animation: 'fade' }} />
+      <Stack.Screen name="register" options={{ animation: 'fade' }} />
       <Stack.Screen name="faith-intro" options={{ animation: 'fade' }} />
     </Stack>
     </GestureHandlerRootView>

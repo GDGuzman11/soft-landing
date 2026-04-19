@@ -1,7 +1,7 @@
 import { View, Text, Switch, Pressable, ScrollView, Alert } from 'react-native'
 import { router } from 'expo-router'
 import { useEffect, useState } from 'react'
-import { getSettings, saveSettings } from '@/storage/storage'
+import { getSettings, saveSettings, clearAllData } from '@/storage/storage'
 import { requestPermission, scheduleDaily, cancelAll } from '@/services/notifications'
 import type { AppSettings } from '@/types'
 
@@ -190,8 +190,42 @@ export default function SettingsScreen() {
         </View>
       </View>
 
+      <Pressable
+        onPress={() => {
+          Alert.alert(
+            'Start over?',
+            'This will clear all your saved data and return to the beginning.',
+            [
+              { text: 'Cancel', style: 'cancel' },
+              {
+                text: 'Clear & restart',
+                style: 'destructive',
+                onPress: async () => {
+                  await clearAllData()
+                  router.replace('/onboarding')
+                },
+              },
+            ]
+          )
+        }}
+        className="mt-8 mb-2"
+        accessibilityRole="button"
+        accessibilityLabel="Start over"
+      >
+        <Text
+          style={{
+            fontFamily: 'DMSans_400Regular',
+            fontSize: 14,
+            color: '#C0A898',
+            textAlign: 'center',
+          }}
+        >
+          Start over
+        </Text>
+      </Pressable>
+
       <Text
-        className="text-text-secondary text-xs text-center mt-8"
+        className="text-text-secondary text-xs text-center mt-2"
         style={{ fontFamily: 'DMSans_400Regular' }}
       >
         Soft Landing v1.1.0
