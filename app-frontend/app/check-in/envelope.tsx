@@ -222,6 +222,7 @@ export default function EnvelopeScreen() {
     router.push({
       pathname: '/check-in/message',
       params: {
+        emotionId: emotionId,
         messageBody: result.message.body,
         messageReference: result.message.reference ?? '',
         checkInId: result.event.id,

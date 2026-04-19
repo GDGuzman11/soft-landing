@@ -14,20 +14,36 @@ import Animated, {
   Extrapolation,
 } from 'react-native-reanimated'
 import * as Haptics from 'expo-haptics'
-import { bookmarkMessage } from '@/services/checkIn'
+import { bookmarkMessage, canCheckIn, performCheckIn } from '@/services/checkIn'
+import type { EmotionId } from '@/types'
 
 const SWIPE_THRESHOLD = 110
 
-export default function MessageScreen() {
-  const { messageBody, messageReference, checkInId, messageId } = useLocalSearchParams<{
-    messageBody: string
-    messageReference: string
-    checkInId: string
-    messageId: string
-  }>()
+interface VerseData {
+  body: string
+  reference: string
+  checkInId: string
+  messageId: string
+}
 
-  const [saved, setSaved] = useState(false)
-  const [swiping, setSwiping] = useState(false)
+export default function MessageScreen() {
+  const { emotionId, messageBody, messageReference, checkInId, messageId } =
+    useLocalSearchParams<{
+      emotionId: string
+      messageBody: string
+      messageReference: string
+      checkInId: string
+      messageId: string
+    }>()
+
+  const [verse, setVerse] = useState<VerseData>({
+    body: messageBody,
+    reference: messageReference,
+    checkInId,
+    messageId,
+  })
+  const [verseIsSaved, setVerseIsSaved] = useState(false)
+  const [transitioning, setTransitioning] = useState(false)
 
   // Entrance animation
   const cardOpacity = useSharedValue(0)
@@ -48,23 +64,56 @@ export default function MessageScreen() {
     actionsOpacity.value = withDelay(400, withTiming(1, { duration: 400 }))
   }, [])
 
-  async function saveAndDismiss() {
-    if (!saved) {
-      await bookmarkMessage(checkInId, messageId)
-      setSaved(true)
+  async function loadNextVerse(swipeDirection: 'right' | 'left') {
+    const ok = await canCheckIn()
+    if (!ok) {
+      router.push('/paywall')
+      return
     }
-    Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success)
-    router.replace('/(tabs)')
+
+    const result = await performCheckIn(emotionId as EmotionId)
+
+    // Position card off-screen on opposite side BEFORE React re-renders new text
+    const fromX = swipeDirection === 'right' ? -350 : 350
+    cardX.value = fromX
+    cardRotate.value = swipeDirection === 'right' ? -5 : 5
+    cardOpacity.value = 0
+    saveOpacity.value = 0
+    discardOpacity.value = 0
+
+    setVerse({
+      body: result.message.body,
+      reference: result.message.reference ?? '',
+      checkInId: result.event.id,
+      messageId: result.message.id,
+    })
+    setVerseIsSaved(false)
+    setTransitioning(false)
+
+    // Small delay so React re-renders new text before card becomes visible
+    cardX.value = withDelay(40, withSpring(0, { damping: 22, stiffness: 130 }))
+    cardOpacity.value = withDelay(40, withTiming(1, { duration: 280 }))
+    cardRotate.value = withDelay(40, withSpring(0, { damping: 20, stiffness: 150 }))
+    actionsOpacity.value = withDelay(200, withTiming(1, { duration: 300 }))
   }
 
-  function dismiss() {
+  async function handleSaveAndNext() {
+    if (!verseIsSaved) {
+      await bookmarkMessage(verse.checkInId, verse.messageId)
+      setVerseIsSaved(true)
+    }
+    Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success)
+    await loadNextVerse('right')
+  }
+
+  function handleDiscardAndNext() {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)
-    router.replace('/(tabs)')
+    loadNextVerse('left')
   }
 
   const panGesture = Gesture.Pan()
     .onUpdate((e) => {
-      if (swiping) return
+      if (transitioning) return
       cardX.value = e.translationX
       cardRotate.value = e.translationX * 0.055
 
@@ -78,27 +127,27 @@ export default function MessageScreen() {
       }
     })
     .onEnd((e) => {
-      if (swiping) return
+      if (transitioning) return
 
       if (e.translationX > SWIPE_THRESHOLD) {
-        // Swipe right → save
-        runOnJS(setSwiping)(true)
+        // Swipe right → save + next
+        runOnJS(setTransitioning)(true)
         cardX.value = withTiming(700, { duration: 280 })
         cardRotate.value = withTiming(22, { duration: 280 })
         cardOpacity.value = withTiming(0, { duration: 260 })
         saveOpacity.value = withTiming(0, { duration: 200 })
         cardY.value = withTiming(cardY.value - 10, { duration: 280 }, () => {
-          runOnJS(saveAndDismiss)()
+          runOnJS(handleSaveAndNext)()
         })
       } else if (e.translationX < -SWIPE_THRESHOLD) {
-        // Swipe left → discard
-        runOnJS(setSwiping)(true)
+        // Swipe left → discard + next
+        runOnJS(setTransitioning)(true)
         cardX.value = withTiming(-700, { duration: 280 })
         cardRotate.value = withTiming(-22, { duration: 280 })
         cardOpacity.value = withTiming(0, { duration: 260 })
         discardOpacity.value = withTiming(0, { duration: 200 })
         cardY.value = withTiming(cardY.value - 10, { duration: 280 }, () => {
-          runOnJS(dismiss)()
+          runOnJS(handleDiscardAndNext)()
         })
       } else {
         // Snap back
@@ -124,28 +173,34 @@ export default function MessageScreen() {
 
   const saveIndicatorStyle = useAnimatedStyle(() => ({
     opacity: saveOpacity.value,
-    transform: [{ rotate: '-12deg' }, { scale: interpolate(saveOpacity.value, [0, 1], [0.85, 1], Extrapolation.CLAMP) }],
+    transform: [
+      { rotate: '-12deg' },
+      { scale: interpolate(saveOpacity.value, [0, 1], [0.85, 1], Extrapolation.CLAMP) },
+    ],
   }))
 
   const discardIndicatorStyle = useAnimatedStyle(() => ({
     opacity: discardOpacity.value,
-    transform: [{ rotate: '12deg' }, { scale: interpolate(discardOpacity.value, [0, 1], [0.85, 1], Extrapolation.CLAMP) }],
+    transform: [
+      { rotate: '12deg' },
+      { scale: interpolate(discardOpacity.value, [0, 1], [0.85, 1], Extrapolation.CLAMP) },
+    ],
   }))
 
-  async function handleSave() {
-    if (saved || swiping) return
-    setSwiping(true)
+  async function handleSaveButton() {
+    if (verseIsSaved || transitioning) return
+    setTransitioning(true)
     cardX.value = withTiming(700, { duration: 300 })
     cardRotate.value = withTiming(20, { duration: 300 })
-    cardOpacity.value = withTiming(0, { duration: 280 }, () => runOnJS(saveAndDismiss)())
+    cardOpacity.value = withTiming(0, { duration: 280 }, () => runOnJS(handleSaveAndNext)())
   }
 
   async function handleShare() {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)
-    const ref = messageReference ? ` — ${messageReference}` : ''
+    const ref = verse.reference ? ` — ${verse.reference}` : ''
     try {
       await Share.share({
-        message: `"${messageBody}"${ref}\n\nvia Soft Landing`,
+        message: `"${verse.body}"${ref}\n\nvia Soft Landing`,
       })
     } catch {
       // user dismissed
@@ -157,64 +212,101 @@ export default function MessageScreen() {
       className="flex-1 bg-background items-center justify-center px-8"
       accessibilityLabel="Your verse"
     >
+      {/* Done button — top-right, exits to home */}
+      <Pressable
+        onPress={() => router.replace('/(tabs)')}
+        accessibilityRole="button"
+        accessibilityLabel="Done"
+        hitSlop={{ top: 12, bottom: 12, left: 12, right: 12 }}
+        style={({ pressed }) => ({
+          position: 'absolute',
+          top: 52,
+          right: 24,
+          opacity: pressed ? 0.5 : 1,
+        })}
+      >
+        <Text
+          style={{
+            fontFamily: 'DMSans_400Regular',
+            fontSize: 14,
+            color: '#A09080',
+          }}
+        >
+          Done
+        </Text>
+      </Pressable>
+
       {/* Save indicator — appears on left when swiping right */}
-      <Animated.View style={[{
-        position: 'absolute',
-        left: 24,
-        top: '45%',
-        backgroundColor: '#9CB59A',
-        paddingHorizontal: 16,
-        paddingVertical: 10,
-        borderRadius: 20,
-        zIndex: 5,
-      }, saveIndicatorStyle]}>
+      <Animated.View
+        style={[
+          {
+            position: 'absolute',
+            left: 24,
+            top: '45%',
+            backgroundColor: '#9CB59A',
+            paddingHorizontal: 16,
+            paddingVertical: 10,
+            borderRadius: 20,
+            zIndex: 5,
+          },
+          saveIndicatorStyle,
+        ]}
+      >
         <Text style={{ fontFamily: 'DMSans_700Bold', fontSize: 14, color: '#FFFFFF' }}>
           ★  Save
         </Text>
       </Animated.View>
 
       {/* Discard indicator — appears on right when swiping left */}
-      <Animated.View style={[{
-        position: 'absolute',
-        right: 24,
-        top: '45%',
-        backgroundColor: '#B0BEC5',
-        paddingHorizontal: 16,
-        paddingVertical: 10,
-        borderRadius: 20,
-        zIndex: 5,
-      }, discardIndicatorStyle]}>
+      <Animated.View
+        style={[
+          {
+            position: 'absolute',
+            right: 24,
+            top: '45%',
+            backgroundColor: '#B0BEC5',
+            paddingHorizontal: 16,
+            paddingVertical: 10,
+            borderRadius: 20,
+            zIndex: 5,
+          },
+          discardIndicatorStyle,
+        ]}
+      >
         <Text style={{ fontFamily: 'DMSans_700Bold', fontSize: 14, color: '#FFFFFF' }}>
-          ✕  Dismiss
+          ✕  Skip
         </Text>
       </Animated.View>
 
       {/* Swipeable verse card */}
       <GestureDetector gesture={panGesture}>
         <Animated.View
-          style={[{
-            width: '100%',
-            borderRadius: 24,
-            paddingHorizontal: 32,
-            paddingTop: 36,
-            paddingBottom: 28,
-            backgroundColor: '#FFFFFF',
-            shadowColor: '#000',
-            shadowOffset: { width: 0, height: 4 },
-            shadowOpacity: 0.07,
-            shadowRadius: 18,
-            elevation: 5,
-          }, cardStyle]}
+          style={[
+            {
+              width: '100%',
+              borderRadius: 24,
+              paddingHorizontal: 32,
+              paddingTop: 36,
+              paddingBottom: 28,
+              backgroundColor: '#FFFFFF',
+              shadowColor: '#000',
+              shadowOffset: { width: 0, height: 4 },
+              shadowOpacity: 0.07,
+              shadowRadius: 18,
+              elevation: 5,
+            },
+            cardStyle,
+          ]}
         >
           <Text
             className="text-text-primary text-center leading-8"
             style={{ fontFamily: 'Lora_400Regular', fontSize: 18 }}
             accessibilityRole="text"
           >
-            {messageBody}
+            {verse.body}
           </Text>
 
-          {messageReference ? (
+          {verse.reference ? (
             <Text
               className="text-center mt-5"
               style={{
@@ -224,7 +316,7 @@ export default function MessageScreen() {
                 letterSpacing: 0.4,
               }}
             >
-              {messageReference}
+              {verse.reference}
             </Text>
           ) : null}
 
@@ -238,30 +330,33 @@ export default function MessageScreen() {
               letterSpacing: 0.3,
             }}
           >
-            ← swipe to dismiss · swipe to save →
+            ← skip · save →
           </Text>
         </Animated.View>
       </GestureDetector>
 
       {/* Action buttons */}
       <Animated.View
-        style={[{
-          flexDirection: 'row',
-          alignItems: 'center',
-          gap: 28,
-          marginTop: 32,
-        }, actionsStyle]}
+        style={[
+          {
+            flexDirection: 'row',
+            alignItems: 'center',
+            gap: 28,
+            marginTop: 32,
+          },
+          actionsStyle,
+        ]}
       >
-        {/* Save */}
+        {/* Save + next verse */}
         <Pressable
-          onPress={handleSave}
+          onPress={handleSaveButton}
           accessibilityRole="button"
-          accessibilityLabel={saved ? 'Verse saved' : 'Save verse'}
+          accessibilityLabel={verseIsSaved ? 'Verse saved' : 'Save verse'}
           hitSlop={{ top: 12, bottom: 12, left: 12, right: 12 }}
           style={({ pressed }) => ({ opacity: pressed ? 0.5 : 1, padding: 12 })}
         >
-          <Text style={{ fontSize: 26, opacity: saved ? 1 : 0.4 }}>
-            {saved ? '★' : '☆'}
+          <Text style={{ fontSize: 26, opacity: verseIsSaved ? 1 : 0.4 }}>
+            {verseIsSaved ? '★' : '☆'}
           </Text>
         </Pressable>
 
@@ -276,11 +371,13 @@ export default function MessageScreen() {
           <Text className="text-text-secondary" style={{ fontSize: 22 }}>↑</Text>
         </Pressable>
 
-        {/* Dismiss */}
+        {/* Dismiss — go home */}
         <Pressable
-          onPress={() => { if (!swiping) dismiss() }}
+          onPress={() => {
+            if (!transitioning) router.replace('/(tabs)')
+          }}
           accessibilityRole="button"
-          accessibilityLabel="Dismiss"
+          accessibilityLabel="Go home"
           hitSlop={{ top: 12, bottom: 12, left: 12, right: 12 }}
           style={({ pressed }) => ({ opacity: pressed ? 0.5 : 1, padding: 12 })}
         >

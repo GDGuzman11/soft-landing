@@ -1,7 +1,7 @@
 import '../global.css'
 import { Stack } from 'expo-router'
 import * as SplashScreen from 'expo-splash-screen'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import 'react-native-reanimated'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import {
@@ -32,15 +32,22 @@ export default function RootLayout() {
     Lora_400Regular_Italic,
   })
 
+  const [minDelayDone, setMinDelayDone] = useState(false)
+
+  useEffect(() => {
+    const timer = setTimeout(() => setMinDelayDone(true), 1800)
+    return () => clearTimeout(timer)
+  }, [])
+
   useEffect(() => {
     if (fontError) throw fontError
   }, [fontError])
 
   useEffect(() => {
-    if (fontsLoaded) SplashScreen.hideAsync()
-  }, [fontsLoaded])
+    if (fontsLoaded && minDelayDone) SplashScreen.hideAsync()
+  }, [fontsLoaded, minDelayDone])
 
-  if (!fontsLoaded) return null
+  if (!fontsLoaded || !minDelayDone) return null
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
