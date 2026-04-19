@@ -1,14 +1,11 @@
-import { View, Text, Switch, Pressable, ScrollView } from 'react-native'
+import { View, Text, Switch, Pressable, ScrollView, Alert } from 'react-native'
 import { router } from 'expo-router'
 import { useEffect, useState } from 'react'
 import { getSettings, saveSettings } from '@/storage/storage'
+import { requestPermission, scheduleDaily, cancelAll } from '@/services/notifications'
 import type { AppSettings } from '@/types'
 
-const DEFAULT_SETTINGS: Pick<AppSettings, 'haptics' | 'notifications' | 'subscription'> = {
-  haptics: true,
-  notifications: { enabled: false, frequency: 'off', times: [], timezone: '' },
-  subscription: { tier: 'free', entitlements: [], expiresAt: null, isTrialing: false },
-}
+const DEFAULT_REMINDER_TIME = '08:00'
 
 export default function SettingsScreen() {
   const [settings, setSettings] = useState<AppSettings | null>(null)
@@ -26,16 +23,60 @@ export default function SettingsScreen() {
 
   async function toggleNotifications() {
     if (!settings) return
-    const enabled = !settings.notifications.enabled
-    const updated = {
-      ...settings,
-      notifications: { ...settings.notifications, enabled },
+    const enabling = !settings.notifications.enabled
+
+    if (enabling) {
+      const granted = await requestPermission()
+      if (!granted) {
+        Alert.alert(
+          'Permission needed',
+          'Enable notifications in your device Settings to receive daily reminders.',
+          [{ text: 'OK' }]
+        )
+        return
+      }
+
+      const time = settings.notifications.times[0] ?? DEFAULT_REMINDER_TIME
+      await scheduleDaily(time)
+
+      const updated: AppSettings = {
+        ...settings,
+        notifications: {
+          ...settings.notifications,
+          enabled: true,
+          frequency: 'daily',
+          times: [time],
+        },
+      }
+      setSettings(updated)
+      await saveSettings(updated)
+    } else {
+      await cancelAll()
+      const updated: AppSettings = {
+        ...settings,
+        notifications: {
+          ...settings.notifications,
+          enabled: false,
+          frequency: 'off',
+        },
+      }
+      setSettings(updated)
+      await saveSettings(updated)
     }
-    setSettings(updated)
-    await saveSettings(updated)
   }
 
   const isPremium = settings?.subscription.tier === 'premium'
+  const reminderTime = settings?.notifications.times[0] ?? DEFAULT_REMINDER_TIME
+  const notificationsEnabled = settings?.notifications.enabled ?? false
+
+  function formatTime(time: string) {
+    const [hourStr, minuteStr] = time.split(':')
+    const hour = parseInt(hourStr, 10)
+    const minute = parseInt(minuteStr, 10)
+    const ampm = hour >= 12 ? 'PM' : 'AM'
+    const h = hour % 12 || 12
+    return `${h}:${minuteStr.padStart(2, '0')} ${ampm}`
+  }
 
   return (
     <ScrollView className="flex-1 bg-background" contentContainerStyle={{ paddingBottom: 48 }}>
@@ -69,7 +110,7 @@ export default function SettingsScreen() {
                 className="text-text-secondary text-sm mt-0.5"
                 style={{ fontFamily: 'DMSans_400Regular' }}
               >
-                {isPremium ? 'Unlimited check-ins' : '3 check-ins per day'}
+                {isPremium ? 'Unlimited check-ins' : '10 check-ins per day'}
               </Text>
             </View>
             {!isPremium && (
@@ -121,27 +162,31 @@ export default function SettingsScreen() {
           />
         </View>
 
-        <View className="flex-row items-center justify-between px-5 py-4 border-t border-border">
-          <View>
-            <Text
-              className="text-text-primary text-base"
-              style={{ fontFamily: 'DMSans_400Regular' }}
-            >
-              Daily reminder
-            </Text>
-            <Text
-              className="text-text-secondary text-sm mt-0.5"
-              style={{ fontFamily: 'DMSans_400Regular' }}
-            >
-              Nudge to check in each day
-            </Text>
+        <View className="px-5 py-4 border-t border-border">
+          <View className="flex-row items-center justify-between">
+            <View style={{ flex: 1, marginRight: 12 }}>
+              <Text
+                className="text-text-primary text-base"
+                style={{ fontFamily: 'DMSans_400Regular' }}
+              >
+                Daily reminder
+              </Text>
+              <Text
+                className="text-text-secondary text-sm mt-0.5"
+                style={{ fontFamily: 'DMSans_400Regular' }}
+              >
+                {notificationsEnabled
+                  ? `Reminder set for ${formatTime(reminderTime)}`
+                  : 'Nudge to check in each day'}
+              </Text>
+            </View>
+            <Switch
+              value={notificationsEnabled}
+              onValueChange={toggleNotifications}
+              trackColor={{ false: '#E8E3DC', true: '#C4956A' }}
+              thumbColor="#FFFFFF"
+            />
           </View>
-          <Switch
-            value={settings?.notifications.enabled ?? false}
-            onValueChange={toggleNotifications}
-            trackColor={{ false: '#E8E3DC', true: '#C4956A' }}
-            thumbColor="#FFFFFF"
-          />
         </View>
       </View>
 
@@ -149,7 +194,7 @@ export default function SettingsScreen() {
         className="text-text-secondary text-xs text-center mt-8"
         style={{ fontFamily: 'DMSans_400Regular' }}
       >
-        Soft Landing v1.0.0
+        Soft Landing v1.1.0
       </Text>
     </ScrollView>
   )
