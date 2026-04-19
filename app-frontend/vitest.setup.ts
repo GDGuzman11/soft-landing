@@ -1,5 +1,3 @@
-import '@testing-library/jest-native/extend-expect'
-
 // Mock AsyncStorage
 vi.mock('@react-native-async-storage/async-storage', () => ({
   default: {
