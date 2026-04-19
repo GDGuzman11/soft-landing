@@ -4,7 +4,10 @@
     "emotionId": "sad",
     "body": "The LORD is close to the brokenhearted and saves those who are crushed in spirit.",
     "reference": "Psalm 34:18",
-    "tags": ["comfort", "presence"],
+    "tags": [
+      "comfort",
+      "presence"
+    ],
     "tier": "free",
     "weight": 10,
     "usageCount": 0,
@@ -15,7 +18,10 @@
     "emotionId": "sad",
     "body": "Blessed are those who mourn, for they will be comforted.",
     "reference": "Matthew 5:4",
-    "tags": ["comfort", "mourning"],
+    "tags": [
+      "comfort",
+      "mourning"
+    ],
     "tier": "free",
     "weight": 9,
     "usageCount": 0,
@@ -26,7 +32,10 @@
     "emotionId": "sad",
     "body": "He heals the brokenhearted and binds up their wounds.",
     "reference": "Psalm 147:3",
-    "tags": ["healing", "comfort"],
+    "tags": [
+      "healing",
+      "comfort"
+    ],
     "tier": "free",
     "weight": 9,
     "usageCount": 0,
@@ -37,7 +46,10 @@
     "emotionId": "sad",
     "body": "Now is your time of grief, but I will see you again and you will rejoice, and no one will take away your joy.",
     "reference": "John 16:22",
-    "tags": ["hope", "joy"],
+    "tags": [
+      "hope",
+      "joy"
+    ],
     "tier": "free",
     "weight": 8,
     "usageCount": 0,
@@ -48,8 +60,361 @@
     "emotionId": "sad",
     "body": "In the same way, the Spirit helps us in our weakness. We do not know what we ought to pray for, but the Spirit himself intercedes for us.",
     "reference": "Romans 8:26",
-    "tags": ["spirit", "weakness"],
+    "tags": [
+      "spirit",
+      "weakness"
+    ],
     "tier": "free",
+    "weight": 8,
+    "usageCount": 0,
+    "lastUsed": null
+  },
+  {
+    "id": "sad-006",
+    "emotionId": "sad",
+    "body": "Weeping may stay for the night, but rejoicing comes in the morning.",
+    "reference": "Psalm 30:5",
+    "tags": [
+      "hope",
+      "morning"
+    ],
+    "tier": "free",
+    "weight": 10,
+    "usageCount": 0,
+    "lastUsed": null
+  },
+  {
+    "id": "sad-007",
+    "emotionId": "sad",
+    "body": "God is our refuge and strength, an ever-present help in trouble.",
+    "reference": "Psalm 46:1",
+    "tags": [
+      "refuge",
+      "strength"
+    ],
+    "tier": "free",
+    "weight": 9,
+    "usageCount": 0,
+    "lastUsed": null
+  },
+  {
+    "id": "sad-008",
+    "emotionId": "sad",
+    "body": "You have kept count of my tossings; put my tears in your bottle. Are they not in your book?",
+    "reference": "Psalm 56:8",
+    "tags": [
+      "seen",
+      "tears"
+    ],
+    "tier": "free",
+    "weight": 9,
+    "usageCount": 0,
+    "lastUsed": null
+  },
+  {
+    "id": "sad-009",
+    "emotionId": "sad",
+    "body": "Even though I walk through the darkest valley, I will fear no evil, for you are with me.",
+    "reference": "Psalm 23:4",
+    "tags": [
+      "presence",
+      "fear"
+    ],
+    "tier": "free",
+    "weight": 10,
+    "usageCount": 0,
+    "lastUsed": null
+  },
+  {
+    "id": "sad-010",
+    "emotionId": "sad",
+    "body": "Neither height nor depth, nor anything else in all creation, will be able to separate us from the love of God that is in Christ Jesus our Lord.",
+    "reference": "Romans 8:39",
+    "tags": [
+      "love",
+      "security"
+    ],
+    "tier": "free",
+    "weight": 10,
+    "usageCount": 0,
+    "lastUsed": null
+  },
+  {
+    "id": "sad-011",
+    "emotionId": "sad",
+    "body": "The LORD your God is with you, the Mighty Warrior who saves. He will take great delight in you; in his love he will no longer rebuke you, but will rejoice over you with singing.",
+    "reference": "Zephaniah 3:17",
+    "tags": [
+      "love",
+      "delight"
+    ],
+    "tier": "free",
+    "weight": 9,
+    "usageCount": 0,
+    "lastUsed": null
+  },
+  {
+    "id": "sad-012",
+    "emotionId": "sad",
+    "body": "I lift up my eyes to the mountains — where does my help come from? My help comes from the LORD, the Maker of heaven and earth.",
+    "reference": "Psalm 121:1-2",
+    "tags": [
+      "help",
+      "hope"
+    ],
+    "tier": "free",
+    "weight": 9,
+    "usageCount": 0,
+    "lastUsed": null
+  },
+  {
+    "id": "sad-013",
+    "emotionId": "sad",
+    "body": "He was despised and rejected by mankind, a man of suffering, and familiar with pain.",
+    "reference": "Isaiah 53:3",
+    "tags": [
+      "suffering",
+      "empathy"
+    ],
+    "tier": "free",
+    "weight": 8,
+    "usageCount": 0,
+    "lastUsed": null
+  },
+  {
+    "id": "sad-014",
+    "emotionId": "sad",
+    "body": "My flesh and my heart may fail, but God is the strength of my heart and my portion forever.",
+    "reference": "Psalm 73:26",
+    "tags": [
+      "strength",
+      "endurance"
+    ],
+    "tier": "free",
+    "weight": 9,
+    "usageCount": 0,
+    "lastUsed": null
+  },
+  {
+    "id": "sad-015",
+    "emotionId": "sad",
+    "body": "He will cover you with his feathers, and under his wings you will find refuge.",
+    "reference": "Psalm 91:4",
+    "tags": [
+      "refuge",
+      "safety"
+    ],
+    "tier": "free",
+    "weight": 9,
+    "usageCount": 0,
+    "lastUsed": null
+  },
+  {
+    "id": "sad-016",
+    "emotionId": "sad",
+    "body": "In this world you will have trouble. But take heart! I have overcome the world.",
+    "reference": "John 16:33",
+    "tags": [
+      "hope",
+      "victory"
+    ],
+    "tier": "premium",
+    "weight": 10,
+    "usageCount": 0,
+    "lastUsed": null
+  },
+  {
+    "id": "sad-017",
+    "emotionId": "sad",
+    "body": "Why, my soul, are you downcast? Why so disturbed within me? Put your hope in God, for I will yet praise him, my Savior and my God.",
+    "reference": "Psalm 42:11",
+    "tags": [
+      "hope",
+      "honesty"
+    ],
+    "tier": "premium",
+    "weight": 9,
+    "usageCount": 0,
+    "lastUsed": null
+  },
+  {
+    "id": "sad-018",
+    "emotionId": "sad",
+    "body": "After you have suffered a little while, he will himself restore you and make you strong, firm and steadfast.",
+    "reference": "1 Peter 5:10",
+    "tags": [
+      "restoration",
+      "hope"
+    ],
+    "tier": "premium",
+    "weight": 9,
+    "usageCount": 0,
+    "lastUsed": null
+  },
+  {
+    "id": "sad-019",
+    "emotionId": "sad",
+    "body": "He gives strength to the weary and increases the power of the weak.",
+    "reference": "Isaiah 40:29",
+    "tags": [
+      "strength",
+      "weakness"
+    ],
+    "tier": "premium",
+    "weight": 9,
+    "usageCount": 0,
+    "lastUsed": null
+  },
+  {
+    "id": "sad-020",
+    "emotionId": "sad",
+    "body": "For I know the plans I have for you, declares the LORD, plans to prosper you and not to harm you, plans to give you hope and a future.",
+    "reference": "Jeremiah 29:11",
+    "tags": [
+      "hope",
+      "future"
+    ],
+    "tier": "premium",
+    "weight": 10,
+    "usageCount": 0,
+    "lastUsed": null
+  },
+  {
+    "id": "sad-021",
+    "emotionId": "sad",
+    "body": "He will wipe every tear from their eyes. There will be no more death or mourning or crying or pain.",
+    "reference": "Revelation 21:4",
+    "tags": [
+      "hope",
+      "restoration"
+    ],
+    "tier": "premium",
+    "weight": 9,
+    "usageCount": 0,
+    "lastUsed": null
+  },
+  {
+    "id": "sad-022",
+    "emotionId": "sad",
+    "body": "The eternal God is your refuge, and underneath are the everlasting arms.",
+    "reference": "Deuteronomy 33:27",
+    "tags": [
+      "refuge",
+      "held"
+    ],
+    "tier": "premium",
+    "weight": 10,
+    "usageCount": 0,
+    "lastUsed": null
+  },
+  {
+    "id": "sad-023",
+    "emotionId": "sad",
+    "body": "You are my hiding place; you will protect me from trouble and surround me with songs of deliverance.",
+    "reference": "Psalm 32:7",
+    "tags": [
+      "safety",
+      "deliverance"
+    ],
+    "tier": "premium",
+    "weight": 9,
+    "usageCount": 0,
+    "lastUsed": null
+  },
+  {
+    "id": "sad-024",
+    "emotionId": "sad",
+    "body": "Do not fear, for I have redeemed you; I have summoned you by name; you are mine.",
+    "reference": "Isaiah 43:1",
+    "tags": [
+      "identity",
+      "love"
+    ],
+    "tier": "premium",
+    "weight": 10,
+    "usageCount": 0,
+    "lastUsed": null
+  },
+  {
+    "id": "sad-025",
+    "emotionId": "sad",
+    "body": "The LORD is near to all who call on him, to all who call on him in truth.",
+    "reference": "Psalm 145:18",
+    "tags": [
+      "presence",
+      "prayer"
+    ],
+    "tier": "premium",
+    "weight": 9,
+    "usageCount": 0,
+    "lastUsed": null
+  },
+  {
+    "id": "sad-026",
+    "emotionId": "sad",
+    "body": "I waited patiently for the LORD; he turned to me and heard my cry.",
+    "reference": "Psalm 40:1",
+    "tags": [
+      "heard",
+      "patience"
+    ],
+    "tier": "premium",
+    "weight": 8,
+    "usageCount": 0,
+    "lastUsed": null
+  },
+  {
+    "id": "sad-027",
+    "emotionId": "sad",
+    "body": "The LORD is gracious and compassionate, slow to anger and rich in love.",
+    "reference": "Psalm 145:8",
+    "tags": [
+      "compassion",
+      "love"
+    ],
+    "tier": "premium",
+    "weight": 9,
+    "usageCount": 0,
+    "lastUsed": null
+  },
+  {
+    "id": "sad-028",
+    "emotionId": "sad",
+    "body": "Come near to God and he will come near to you.",
+    "reference": "James 4:8",
+    "tags": [
+      "presence",
+      "invitation"
+    ],
+    "tier": "premium",
+    "weight": 9,
+    "usageCount": 0,
+    "lastUsed": null
+  },
+  {
+    "id": "sad-029",
+    "emotionId": "sad",
+    "body": "He has not despised or scorned the suffering of the afflicted one; he has not hidden his face from him but has listened to his cry for help.",
+    "reference": "Psalm 22:24",
+    "tags": [
+      "seen",
+      "heard"
+    ],
+    "tier": "premium",
+    "weight": 9,
+    "usageCount": 0,
+    "lastUsed": null
+  },
+  {
+    "id": "sad-030",
+    "emotionId": "sad",
+    "body": "You, LORD, hear the desire of the afflicted; you encourage them, and you listen to their cry.",
+    "reference": "Psalm 10:17",
+    "tags": [
+      "heard",
+      "encouragement"
+    ],
+    "tier": "premium",
     "weight": 8,
     "usageCount": 0,
     "lastUsed": null
@@ -59,7 +424,10 @@
     "emotionId": "neutral",
     "body": "Be still, and know that I am God.",
     "reference": "Psalm 46:10",
-    "tags": ["stillness", "trust"],
+    "tags": [
+      "stillness",
+      "trust"
+    ],
     "tier": "free",
     "weight": 10,
     "usageCount": 0,
@@ -70,7 +438,10 @@
     "emotionId": "neutral",
     "body": "I have learned, in whatever state I am, to be content.",
     "reference": "Philippians 4:11",
-    "tags": ["contentment", "peace"],
+    "tags": [
+      "contentment",
+      "peace"
+    ],
     "tier": "free",
     "weight": 9,
     "usageCount": 0,
@@ -81,7 +452,10 @@
     "emotionId": "neutral",
     "body": "It is good to wait quietly for the salvation of the LORD.",
     "reference": "Lamentations 3:26",
-    "tags": ["patience", "trust"],
+    "tags": [
+      "patience",
+      "trust"
+    ],
     "tier": "free",
     "weight": 8,
     "usageCount": 0,
@@ -92,7 +466,10 @@
     "emotionId": "neutral",
     "body": "In quietness and trust is your strength.",
     "reference": "Isaiah 30:15",
-    "tags": ["quietness", "strength"],
+    "tags": [
+      "quietness",
+      "strength"
+    ],
     "tier": "free",
     "weight": 9,
     "usageCount": 0,
@@ -103,9 +480,362 @@
     "emotionId": "neutral",
     "body": "You will keep in perfect peace those whose minds are steadfast, because they trust in you.",
     "reference": "Isaiah 26:3",
-    "tags": ["peace", "trust"],
+    "tags": [
+      "peace",
+      "trust"
+    ],
     "tier": "free",
     "weight": 9,
+    "usageCount": 0,
+    "lastUsed": null
+  },
+  {
+    "id": "neutral-006",
+    "emotionId": "neutral",
+    "body": "Trust in the LORD with all your heart and lean not on your own understanding; in all your ways submit to him, and he will make your paths straight.",
+    "reference": "Proverbs 3:5-6",
+    "tags": [
+      "trust",
+      "guidance"
+    ],
+    "tier": "free",
+    "weight": 10,
+    "usageCount": 0,
+    "lastUsed": null
+  },
+  {
+    "id": "neutral-007",
+    "emotionId": "neutral",
+    "body": "Seek first his kingdom and his righteousness, and all these things will be given to you as well.",
+    "reference": "Matthew 6:33",
+    "tags": [
+      "priority",
+      "trust"
+    ],
+    "tier": "free",
+    "weight": 9,
+    "usageCount": 0,
+    "lastUsed": null
+  },
+  {
+    "id": "neutral-008",
+    "emotionId": "neutral",
+    "body": "For we live by faith, not by sight.",
+    "reference": "2 Corinthians 5:7",
+    "tags": [
+      "faith",
+      "trust"
+    ],
+    "tier": "free",
+    "weight": 9,
+    "usageCount": 0,
+    "lastUsed": null
+  },
+  {
+    "id": "neutral-009",
+    "emotionId": "neutral",
+    "body": "Be still before the LORD and wait patiently for him.",
+    "reference": "Psalm 37:7",
+    "tags": [
+      "stillness",
+      "patience"
+    ],
+    "tier": "free",
+    "weight": 9,
+    "usageCount": 0,
+    "lastUsed": null
+  },
+  {
+    "id": "neutral-010",
+    "emotionId": "neutral",
+    "body": "Whether you turn to the right or to the left, your ears will hear a voice behind you, saying, 'This is the way; walk in it.'",
+    "reference": "Isaiah 30:21",
+    "tags": [
+      "guidance",
+      "direction"
+    ],
+    "tier": "free",
+    "weight": 9,
+    "usageCount": 0,
+    "lastUsed": null
+  },
+  {
+    "id": "neutral-011",
+    "emotionId": "neutral",
+    "body": "My grace is sufficient for you, for my power is made perfect in weakness.",
+    "reference": "2 Corinthians 12:9",
+    "tags": [
+      "grace",
+      "sufficiency"
+    ],
+    "tier": "free",
+    "weight": 10,
+    "usageCount": 0,
+    "lastUsed": null
+  },
+  {
+    "id": "neutral-012",
+    "emotionId": "neutral",
+    "body": "I am the vine; you are the branches. If you remain in me and I in you, you will bear much fruit.",
+    "reference": "John 15:5",
+    "tags": [
+      "abiding",
+      "fruitfulness"
+    ],
+    "tier": "free",
+    "weight": 9,
+    "usageCount": 0,
+    "lastUsed": null
+  },
+  {
+    "id": "neutral-013",
+    "emotionId": "neutral",
+    "body": "The LORD makes firm the steps of the one who delights in him.",
+    "reference": "Psalm 37:23",
+    "tags": [
+      "guidance",
+      "delight"
+    ],
+    "tier": "free",
+    "weight": 8,
+    "usageCount": 0,
+    "lastUsed": null
+  },
+  {
+    "id": "neutral-014",
+    "emotionId": "neutral",
+    "body": "And we know that in all things God works for the good of those who love him.",
+    "reference": "Romans 8:28",
+    "tags": [
+      "trust",
+      "purpose"
+    ],
+    "tier": "free",
+    "weight": 10,
+    "usageCount": 0,
+    "lastUsed": null
+  },
+  {
+    "id": "neutral-015",
+    "emotionId": "neutral",
+    "body": "He has made everything beautiful in its time.",
+    "reference": "Ecclesiastes 3:11",
+    "tags": [
+      "timing",
+      "trust"
+    ],
+    "tier": "free",
+    "weight": 9,
+    "usageCount": 0,
+    "lastUsed": null
+  },
+  {
+    "id": "neutral-016",
+    "emotionId": "neutral",
+    "body": "The heart of man plans his way, but the LORD establishes his steps.",
+    "reference": "Proverbs 16:9",
+    "tags": [
+      "guidance",
+      "sovereignty"
+    ],
+    "tier": "premium",
+    "weight": 8,
+    "usageCount": 0,
+    "lastUsed": null
+  },
+  {
+    "id": "neutral-017",
+    "emotionId": "neutral",
+    "body": "Whether you eat or drink or whatever you do, do it all for the glory of God.",
+    "reference": "1 Corinthians 10:31",
+    "tags": [
+      "purpose",
+      "ordinary"
+    ],
+    "tier": "premium",
+    "weight": 8,
+    "usageCount": 0,
+    "lastUsed": null
+  },
+  {
+    "id": "neutral-018",
+    "emotionId": "neutral",
+    "body": "I can do all this through him who gives me strength.",
+    "reference": "Philippians 4:13",
+    "tags": [
+      "strength",
+      "ability"
+    ],
+    "tier": "premium",
+    "weight": 10,
+    "usageCount": 0,
+    "lastUsed": null
+  },
+  {
+    "id": "neutral-019",
+    "emotionId": "neutral",
+    "body": "Look at the birds of the air; they do not sow or reap or store away in barns, and yet your heavenly Father feeds them. Are you not much more valuable than they?",
+    "reference": "Matthew 6:26",
+    "tags": [
+      "worth",
+      "provision"
+    ],
+    "tier": "premium",
+    "weight": 9,
+    "usageCount": 0,
+    "lastUsed": null
+  },
+  {
+    "id": "neutral-020",
+    "emotionId": "neutral",
+    "body": "Your word is a lamp for my feet, a light on my path.",
+    "reference": "Psalm 119:105",
+    "tags": [
+      "guidance",
+      "word"
+    ],
+    "tier": "premium",
+    "weight": 9,
+    "usageCount": 0,
+    "lastUsed": null
+  },
+  {
+    "id": "neutral-021",
+    "emotionId": "neutral",
+    "body": "The LORD is my light and my salvation — whom shall I fear?",
+    "reference": "Psalm 27:1",
+    "tags": [
+      "light",
+      "confidence"
+    ],
+    "tier": "premium",
+    "weight": 9,
+    "usageCount": 0,
+    "lastUsed": null
+  },
+  {
+    "id": "neutral-022",
+    "emotionId": "neutral",
+    "body": "But godliness with contentment is great gain.",
+    "reference": "1 Timothy 6:6",
+    "tags": [
+      "contentment",
+      "simplicity"
+    ],
+    "tier": "premium",
+    "weight": 8,
+    "usageCount": 0,
+    "lastUsed": null
+  },
+  {
+    "id": "neutral-023",
+    "emotionId": "neutral",
+    "body": "Commit your way to the LORD; trust in him and he will do this.",
+    "reference": "Psalm 37:5",
+    "tags": [
+      "trust",
+      "surrender"
+    ],
+    "tier": "premium",
+    "weight": 9,
+    "usageCount": 0,
+    "lastUsed": null
+  },
+  {
+    "id": "neutral-024",
+    "emotionId": "neutral",
+    "body": "He who began a good work in you will carry it on to completion until the day of Christ Jesus.",
+    "reference": "Philippians 1:6",
+    "tags": [
+      "growth",
+      "trust"
+    ],
+    "tier": "premium",
+    "weight": 10,
+    "usageCount": 0,
+    "lastUsed": null
+  },
+  {
+    "id": "neutral-025",
+    "emotionId": "neutral",
+    "body": "I praise you because I am fearfully and wonderfully made; your works are wonderful, I know that full well.",
+    "reference": "Psalm 139:14",
+    "tags": [
+      "identity",
+      "worth"
+    ],
+    "tier": "premium",
+    "weight": 9,
+    "usageCount": 0,
+    "lastUsed": null
+  },
+  {
+    "id": "neutral-026",
+    "emotionId": "neutral",
+    "body": "Taste and see that the LORD is good; blessed is the one who takes refuge in him.",
+    "reference": "Psalm 34:8",
+    "tags": [
+      "goodness",
+      "refuge"
+    ],
+    "tier": "premium",
+    "weight": 9,
+    "usageCount": 0,
+    "lastUsed": null
+  },
+  {
+    "id": "neutral-027",
+    "emotionId": "neutral",
+    "body": "Let the peace of Christ rule in your hearts, since as members of one body you were called to peace.",
+    "reference": "Colossians 3:15",
+    "tags": [
+      "peace",
+      "belonging"
+    ],
+    "tier": "premium",
+    "weight": 8,
+    "usageCount": 0,
+    "lastUsed": null
+  },
+  {
+    "id": "neutral-028",
+    "emotionId": "neutral",
+    "body": "The LORD your God is with you wherever you go.",
+    "reference": "Joshua 1:9",
+    "tags": [
+      "presence",
+      "courage"
+    ],
+    "tier": "premium",
+    "weight": 10,
+    "usageCount": 0,
+    "lastUsed": null
+  },
+  {
+    "id": "neutral-029",
+    "emotionId": "neutral",
+    "body": "Delight yourself in the LORD, and he will give you the desires of your heart.",
+    "reference": "Psalm 37:4",
+    "tags": [
+      "delight",
+      "desire"
+    ],
+    "tier": "premium",
+    "weight": 9,
+    "usageCount": 0,
+    "lastUsed": null
+  },
+  {
+    "id": "neutral-030",
+    "emotionId": "neutral",
+    "body": "The steadfast love of the LORD never ceases; his mercies never come to an end; they are new every morning.",
+    "reference": "Lamentations 3:22-23",
+    "tags": [
+      "mercy",
+      "renewal"
+    ],
+    "tier": "premium",
+    "weight": 10,
     "usageCount": 0,
     "lastUsed": null
   },
@@ -114,7 +844,10 @@
     "emotionId": "stressed",
     "body": "Come to me, all you who are weary and burdened, and I will give you rest.",
     "reference": "Matthew 11:28",
-    "tags": ["rest", "relief"],
+    "tags": [
+      "rest",
+      "relief"
+    ],
     "tier": "free",
     "weight": 10,
     "usageCount": 0,
@@ -125,7 +858,10 @@
     "emotionId": "stressed",
     "body": "Do not be anxious about anything, but in every situation, by prayer and petition, with thanksgiving, present your requests to God.",
     "reference": "Philippians 4:6",
-    "tags": ["anxiety", "prayer"],
+    "tags": [
+      "anxiety",
+      "prayer"
+    ],
     "tier": "free",
     "weight": 10,
     "usageCount": 0,
@@ -136,7 +872,10 @@
     "emotionId": "stressed",
     "body": "Cast all your anxiety on him because he cares for you.",
     "reference": "1 Peter 5:7",
-    "tags": ["anxiety", "care"],
+    "tags": [
+      "anxiety",
+      "care"
+    ],
     "tier": "free",
     "weight": 9,
     "usageCount": 0,
@@ -147,7 +886,10 @@
     "emotionId": "stressed",
     "body": "Peace I leave with you; my peace I give you. Do not let your hearts be troubled and do not be afraid.",
     "reference": "John 14:27",
-    "tags": ["peace", "fear"],
+    "tags": [
+      "peace",
+      "fear"
+    ],
     "tier": "free",
     "weight": 9,
     "usageCount": 0,
@@ -158,9 +900,362 @@
     "emotionId": "stressed",
     "body": "Cast your cares on the LORD and he will sustain you; he will never let the righteous be shaken.",
     "reference": "Psalm 55:22",
-    "tags": ["trust", "sustain"],
+    "tags": [
+      "trust",
+      "sustain"
+    ],
     "tier": "free",
     "weight": 8,
+    "usageCount": 0,
+    "lastUsed": null
+  },
+  {
+    "id": "stressed-006",
+    "emotionId": "stressed",
+    "body": "I sought the LORD, and he answered me; he delivered me from all my fears.",
+    "reference": "Psalm 34:4",
+    "tags": [
+      "fear",
+      "deliverance"
+    ],
+    "tier": "free",
+    "weight": 9,
+    "usageCount": 0,
+    "lastUsed": null
+  },
+  {
+    "id": "stressed-007",
+    "emotionId": "stressed",
+    "body": "When I am afraid, I put my trust in you.",
+    "reference": "Psalm 56:3",
+    "tags": [
+      "fear",
+      "trust"
+    ],
+    "tier": "free",
+    "weight": 9,
+    "usageCount": 0,
+    "lastUsed": null
+  },
+  {
+    "id": "stressed-008",
+    "emotionId": "stressed",
+    "body": "God has not given us a spirit of fear, but of power and of love and of a sound mind.",
+    "reference": "2 Timothy 1:7",
+    "tags": [
+      "fear",
+      "power"
+    ],
+    "tier": "free",
+    "weight": 10,
+    "usageCount": 0,
+    "lastUsed": null
+  },
+  {
+    "id": "stressed-009",
+    "emotionId": "stressed",
+    "body": "The LORD will fight for you; you need only to be still.",
+    "reference": "Exodus 14:14",
+    "tags": [
+      "surrender",
+      "trust"
+    ],
+    "tier": "free",
+    "weight": 10,
+    "usageCount": 0,
+    "lastUsed": null
+  },
+  {
+    "id": "stressed-010",
+    "emotionId": "stressed",
+    "body": "Be strong and courageous. Do not be afraid or terrified, for the LORD your God goes with you; he will never leave you nor forsake you.",
+    "reference": "Deuteronomy 31:6",
+    "tags": [
+      "courage",
+      "presence"
+    ],
+    "tier": "free",
+    "weight": 9,
+    "usageCount": 0,
+    "lastUsed": null
+  },
+  {
+    "id": "stressed-011",
+    "emotionId": "stressed",
+    "body": "When you pass through the waters, I will be with you; and when you pass through the rivers, they will not sweep over you.",
+    "reference": "Isaiah 43:2",
+    "tags": [
+      "presence",
+      "protection"
+    ],
+    "tier": "free",
+    "weight": 9,
+    "usageCount": 0,
+    "lastUsed": null
+  },
+  {
+    "id": "stressed-012",
+    "emotionId": "stressed",
+    "body": "Therefore do not worry about tomorrow, for tomorrow will worry about itself. Each day has enough trouble of its own.",
+    "reference": "Matthew 6:34",
+    "tags": [
+      "worry",
+      "present"
+    ],
+    "tier": "free",
+    "weight": 9,
+    "usageCount": 0,
+    "lastUsed": null
+  },
+  {
+    "id": "stressed-013",
+    "emotionId": "stressed",
+    "body": "Take my yoke upon you and learn from me, for I am gentle and humble in heart, and you will find rest for your souls.",
+    "reference": "Matthew 11:29",
+    "tags": [
+      "rest",
+      "gentleness"
+    ],
+    "tier": "free",
+    "weight": 9,
+    "usageCount": 0,
+    "lastUsed": null
+  },
+  {
+    "id": "stressed-014",
+    "emotionId": "stressed",
+    "body": "Do not let your hearts be troubled. You believe in God; believe also in me.",
+    "reference": "John 14:1",
+    "tags": [
+      "trust",
+      "peace"
+    ],
+    "tier": "free",
+    "weight": 9,
+    "usageCount": 0,
+    "lastUsed": null
+  },
+  {
+    "id": "stressed-015",
+    "emotionId": "stressed",
+    "body": "And the peace of God, which transcends all understanding, will guard your hearts and your minds in Christ Jesus.",
+    "reference": "Philippians 4:7",
+    "tags": [
+      "peace",
+      "guard"
+    ],
+    "tier": "free",
+    "weight": 10,
+    "usageCount": 0,
+    "lastUsed": null
+  },
+  {
+    "id": "stressed-016",
+    "emotionId": "stressed",
+    "body": "In my anguish I cried to the LORD, and he answered by setting me free.",
+    "reference": "Psalm 118:5",
+    "tags": [
+      "freedom",
+      "answered"
+    ],
+    "tier": "premium",
+    "weight": 8,
+    "usageCount": 0,
+    "lastUsed": null
+  },
+  {
+    "id": "stressed-017",
+    "emotionId": "stressed",
+    "body": "We are hard pressed on every side, but not crushed; perplexed, but not in despair.",
+    "reference": "2 Corinthians 4:8",
+    "tags": [
+      "perseverance",
+      "hope"
+    ],
+    "tier": "premium",
+    "weight": 9,
+    "usageCount": 0,
+    "lastUsed": null
+  },
+  {
+    "id": "stressed-018",
+    "emotionId": "stressed",
+    "body": "But blessed is the one who trusts in the LORD, whose confidence is in him.",
+    "reference": "Jeremiah 17:7",
+    "tags": [
+      "trust",
+      "confidence"
+    ],
+    "tier": "premium",
+    "weight": 9,
+    "usageCount": 0,
+    "lastUsed": null
+  },
+  {
+    "id": "stressed-019",
+    "emotionId": "stressed",
+    "body": "He reached down from on high and took hold of me; he drew me out of deep waters.",
+    "reference": "Psalm 18:16",
+    "tags": [
+      "rescue",
+      "saved"
+    ],
+    "tier": "premium",
+    "weight": 9,
+    "usageCount": 0,
+    "lastUsed": null
+  },
+  {
+    "id": "stressed-020",
+    "emotionId": "stressed",
+    "body": "The name of the LORD is a fortified tower; the righteous run to it and are safe.",
+    "reference": "Proverbs 18:10",
+    "tags": [
+      "safety",
+      "refuge"
+    ],
+    "tier": "premium",
+    "weight": 9,
+    "usageCount": 0,
+    "lastUsed": null
+  },
+  {
+    "id": "stressed-021",
+    "emotionId": "stressed",
+    "body": "You will not have to fight this battle. Take up your positions; stand firm and see the deliverance the LORD will give you.",
+    "reference": "2 Chronicles 20:17",
+    "tags": [
+      "trust",
+      "deliverance"
+    ],
+    "tier": "premium",
+    "weight": 9,
+    "usageCount": 0,
+    "lastUsed": null
+  },
+  {
+    "id": "stressed-022",
+    "emotionId": "stressed",
+    "body": "Wait for the LORD; be strong and take heart and wait for the LORD.",
+    "reference": "Psalm 27:14",
+    "tags": [
+      "patience",
+      "strength"
+    ],
+    "tier": "premium",
+    "weight": 8,
+    "usageCount": 0,
+    "lastUsed": null
+  },
+  {
+    "id": "stressed-023",
+    "emotionId": "stressed",
+    "body": "So do not throw away your confidence; it will be richly rewarded.",
+    "reference": "Hebrews 10:35",
+    "tags": [
+      "confidence",
+      "perseverance"
+    ],
+    "tier": "premium",
+    "weight": 8,
+    "usageCount": 0,
+    "lastUsed": null
+  },
+  {
+    "id": "stressed-024",
+    "emotionId": "stressed",
+    "body": "Even to your old age and gray hairs I am he, I am he who will sustain you. I have made you and I will carry you.",
+    "reference": "Isaiah 46:4",
+    "tags": [
+      "sustained",
+      "carried"
+    ],
+    "tier": "premium",
+    "weight": 9,
+    "usageCount": 0,
+    "lastUsed": null
+  },
+  {
+    "id": "stressed-025",
+    "emotionId": "stressed",
+    "body": "For God is not a God of disorder but of peace.",
+    "reference": "1 Corinthians 14:33",
+    "tags": [
+      "peace",
+      "order"
+    ],
+    "tier": "premium",
+    "weight": 8,
+    "usageCount": 0,
+    "lastUsed": null
+  },
+  {
+    "id": "stressed-026",
+    "emotionId": "stressed",
+    "body": "Humble yourselves, therefore, under God's mighty hand, that he may lift you up in due time.",
+    "reference": "1 Peter 5:6",
+    "tags": [
+      "humility",
+      "trust"
+    ],
+    "tier": "premium",
+    "weight": 8,
+    "usageCount": 0,
+    "lastUsed": null
+  },
+  {
+    "id": "stressed-027",
+    "emotionId": "stressed",
+    "body": "The LORD is my rock, my fortress and my deliverer; my God is my rock, in whom I take refuge.",
+    "reference": "Psalm 18:2",
+    "tags": [
+      "refuge",
+      "strength"
+    ],
+    "tier": "premium",
+    "weight": 9,
+    "usageCount": 0,
+    "lastUsed": null
+  },
+  {
+    "id": "stressed-028",
+    "emotionId": "stressed",
+    "body": "Surely God is my salvation; I will trust and not be afraid.",
+    "reference": "Isaiah 12:2",
+    "tags": [
+      "trust",
+      "salvation"
+    ],
+    "tier": "premium",
+    "weight": 9,
+    "usageCount": 0,
+    "lastUsed": null
+  },
+  {
+    "id": "stressed-029",
+    "emotionId": "stressed",
+    "body": "Those who trust in the LORD are like Mount Zion, which cannot be shaken but endures forever.",
+    "reference": "Psalm 125:1",
+    "tags": [
+      "trust",
+      "stability"
+    ],
+    "tier": "premium",
+    "weight": 8,
+    "usageCount": 0,
+    "lastUsed": null
+  },
+  {
+    "id": "stressed-030",
+    "emotionId": "stressed",
+    "body": "The LORD himself goes before you and will be with you; he will never leave you nor forsake you. Do not be afraid; do not be discouraged.",
+    "reference": "Deuteronomy 31:8",
+    "tags": [
+      "presence",
+      "courage"
+    ],
+    "tier": "premium",
+    "weight": 10,
     "usageCount": 0,
     "lastUsed": null
   },
@@ -169,7 +1264,10 @@
     "emotionId": "tired",
     "body": "Those who hope in the LORD will renew their strength. They will soar on wings like eagles; they will run and not grow weary, they will walk and not be faint.",
     "reference": "Isaiah 40:31",
-    "tags": ["strength", "renewal"],
+    "tags": [
+      "strength",
+      "renewal"
+    ],
     "tier": "free",
     "weight": 10,
     "usageCount": 0,
@@ -180,7 +1278,10 @@
     "emotionId": "tired",
     "body": "He makes me lie down in green pastures, he leads me beside quiet waters, he refreshes my soul.",
     "reference": "Psalm 23:2-3",
-    "tags": ["rest", "refresh"],
+    "tags": [
+      "rest",
+      "refresh"
+    ],
     "tier": "free",
     "weight": 10,
     "usageCount": 0,
@@ -191,7 +1292,10 @@
     "emotionId": "tired",
     "body": "Let us not become weary in doing good, for at the proper time we will reap a harvest if we do not give up.",
     "reference": "Galatians 6:9",
-    "tags": ["perseverance", "hope"],
+    "tags": [
+      "perseverance",
+      "hope"
+    ],
     "tier": "free",
     "weight": 9,
     "usageCount": 0,
@@ -202,7 +1306,10 @@
     "emotionId": "tired",
     "body": "My Presence will go with you, and I will give you rest.",
     "reference": "Exodus 33:14",
-    "tags": ["presence", "rest"],
+    "tags": [
+      "presence",
+      "rest"
+    ],
     "tier": "free",
     "weight": 9,
     "usageCount": 0,
@@ -213,8 +1320,361 @@
     "emotionId": "tired",
     "body": "Though outwardly we are wasting away, yet inwardly we are being renewed day by day.",
     "reference": "2 Corinthians 4:16",
-    "tags": ["renewal", "perseverance"],
+    "tags": [
+      "renewal",
+      "perseverance"
+    ],
     "tier": "free",
+    "weight": 8,
+    "usageCount": 0,
+    "lastUsed": null
+  },
+  {
+    "id": "tired-006",
+    "emotionId": "tired",
+    "body": "He will not grow tired or weary, and his understanding no one can fathom.",
+    "reference": "Isaiah 40:28",
+    "tags": [
+      "strength",
+      "God"
+    ],
+    "tier": "free",
+    "weight": 9,
+    "usageCount": 0,
+    "lastUsed": null
+  },
+  {
+    "id": "tired-007",
+    "emotionId": "tired",
+    "body": "My soul finds rest in God alone; my salvation comes from him.",
+    "reference": "Psalm 62:1",
+    "tags": [
+      "rest",
+      "salvation"
+    ],
+    "tier": "free",
+    "weight": 10,
+    "usageCount": 0,
+    "lastUsed": null
+  },
+  {
+    "id": "tired-008",
+    "emotionId": "tired",
+    "body": "Return to your rest, my soul, for the LORD has been good to you.",
+    "reference": "Psalm 116:7",
+    "tags": [
+      "rest",
+      "goodness"
+    ],
+    "tier": "free",
+    "weight": 9,
+    "usageCount": 0,
+    "lastUsed": null
+  },
+  {
+    "id": "tired-009",
+    "emotionId": "tired",
+    "body": "I will refresh the weary and satisfy the faint.",
+    "reference": "Jeremiah 31:25",
+    "tags": [
+      "refresh",
+      "satisfaction"
+    ],
+    "tier": "free",
+    "weight": 10,
+    "usageCount": 0,
+    "lastUsed": null
+  },
+  {
+    "id": "tired-010",
+    "emotionId": "tired",
+    "body": "He grants sleep to those he loves.",
+    "reference": "Psalm 127:2",
+    "tags": [
+      "rest",
+      "love"
+    ],
+    "tier": "free",
+    "weight": 8,
+    "usageCount": 0,
+    "lastUsed": null
+  },
+  {
+    "id": "tired-011",
+    "emotionId": "tired",
+    "body": "In peace I will lie down and sleep, for you alone, LORD, make me dwell in safety.",
+    "reference": "Psalm 4:8",
+    "tags": [
+      "peace",
+      "safety"
+    ],
+    "tier": "free",
+    "weight": 9,
+    "usageCount": 0,
+    "lastUsed": null
+  },
+  {
+    "id": "tired-012",
+    "emotionId": "tired",
+    "body": "The LORD is my strength and my shield; my heart trusts in him, and he helps me.",
+    "reference": "Psalm 28:7",
+    "tags": [
+      "strength",
+      "trust"
+    ],
+    "tier": "free",
+    "weight": 9,
+    "usageCount": 0,
+    "lastUsed": null
+  },
+  {
+    "id": "tired-013",
+    "emotionId": "tired",
+    "body": "So we fix our eyes not on what is seen, but on what is unseen, since what is seen is temporary, but what is unseen is eternal.",
+    "reference": "2 Corinthians 4:18",
+    "tags": [
+      "perspective",
+      "eternal"
+    ],
+    "tier": "free",
+    "weight": 8,
+    "usageCount": 0,
+    "lastUsed": null
+  },
+  {
+    "id": "tired-014",
+    "emotionId": "tired",
+    "body": "The one who calls you is faithful, and he will do it.",
+    "reference": "1 Thessalonians 5:24",
+    "tags": [
+      "faithful",
+      "trust"
+    ],
+    "tier": "free",
+    "weight": 9,
+    "usageCount": 0,
+    "lastUsed": null
+  },
+  {
+    "id": "tired-015",
+    "emotionId": "tired",
+    "body": "I lie down and sleep; I wake again, because the LORD sustains me.",
+    "reference": "Psalm 3:5",
+    "tags": [
+      "sustained",
+      "rest"
+    ],
+    "tier": "free",
+    "weight": 9,
+    "usageCount": 0,
+    "lastUsed": null
+  },
+  {
+    "id": "tired-016",
+    "emotionId": "tired",
+    "body": "Let us run with perseverance the race marked out for us, fixing our eyes on Jesus, the pioneer and perfecter of faith.",
+    "reference": "Hebrews 12:1-2",
+    "tags": [
+      "perseverance",
+      "focus"
+    ],
+    "tier": "premium",
+    "weight": 9,
+    "usageCount": 0,
+    "lastUsed": null
+  },
+  {
+    "id": "tired-017",
+    "emotionId": "tired",
+    "body": "Surely he took up our pain and bore our suffering.",
+    "reference": "Isaiah 53:4",
+    "tags": [
+      "empathy",
+      "carried"
+    ],
+    "tier": "premium",
+    "weight": 9,
+    "usageCount": 0,
+    "lastUsed": null
+  },
+  {
+    "id": "tired-018",
+    "emotionId": "tired",
+    "body": "He refreshes my soul. He guides me along the right paths for his name's sake.",
+    "reference": "Psalm 23:3",
+    "tags": [
+      "refresh",
+      "guidance"
+    ],
+    "tier": "premium",
+    "weight": 9,
+    "usageCount": 0,
+    "lastUsed": null
+  },
+  {
+    "id": "tired-019",
+    "emotionId": "tired",
+    "body": "We also glory in our sufferings, because we know that suffering produces perseverance; perseverance, character; and character, hope.",
+    "reference": "Romans 5:3-4",
+    "tags": [
+      "perseverance",
+      "hope"
+    ],
+    "tier": "premium",
+    "weight": 8,
+    "usageCount": 0,
+    "lastUsed": null
+  },
+  {
+    "id": "tired-020",
+    "emotionId": "tired",
+    "body": "My yoke is easy and my burden is light.",
+    "reference": "Matthew 11:30",
+    "tags": [
+      "rest",
+      "ease"
+    ],
+    "tier": "premium",
+    "weight": 9,
+    "usageCount": 0,
+    "lastUsed": null
+  },
+  {
+    "id": "tired-021",
+    "emotionId": "tired",
+    "body": "The Spirit helps us in our weakness.",
+    "reference": "Romans 8:26",
+    "tags": [
+      "spirit",
+      "weakness"
+    ],
+    "tier": "premium",
+    "weight": 9,
+    "usageCount": 0,
+    "lastUsed": null
+  },
+  {
+    "id": "tired-022",
+    "emotionId": "tired",
+    "body": "He who watches over you will not slumber.",
+    "reference": "Psalm 121:3",
+    "tags": [
+      "protection",
+      "watchful"
+    ],
+    "tier": "premium",
+    "weight": 9,
+    "usageCount": 0,
+    "lastUsed": null
+  },
+  {
+    "id": "tired-023",
+    "emotionId": "tired",
+    "body": "For everything there is a season, and a time for every matter under heaven.",
+    "reference": "Ecclesiastes 3:1",
+    "tags": [
+      "seasons",
+      "timing"
+    ],
+    "tier": "premium",
+    "weight": 8,
+    "usageCount": 0,
+    "lastUsed": null
+  },
+  {
+    "id": "tired-024",
+    "emotionId": "tired",
+    "body": "God is faithful; he will not let you be tested beyond what you can bear.",
+    "reference": "1 Corinthians 10:13",
+    "tags": [
+      "faithful",
+      "endurance"
+    ],
+    "tier": "premium",
+    "weight": 9,
+    "usageCount": 0,
+    "lastUsed": null
+  },
+  {
+    "id": "tired-025",
+    "emotionId": "tired",
+    "body": "The LORD gives strength to his people; the LORD blesses his people with peace.",
+    "reference": "Psalm 29:11",
+    "tags": [
+      "strength",
+      "peace"
+    ],
+    "tier": "premium",
+    "weight": 9,
+    "usageCount": 0,
+    "lastUsed": null
+  },
+  {
+    "id": "tired-026",
+    "emotionId": "tired",
+    "body": "I am with you and will watch over you wherever you go.",
+    "reference": "Genesis 28:15",
+    "tags": [
+      "presence",
+      "watchful"
+    ],
+    "tier": "premium",
+    "weight": 9,
+    "usageCount": 0,
+    "lastUsed": null
+  },
+  {
+    "id": "tired-027",
+    "emotionId": "tired",
+    "body": "Blessed are the poor in spirit, for theirs is the kingdom of heaven.",
+    "reference": "Matthew 5:3",
+    "tags": [
+      "humility",
+      "blessing"
+    ],
+    "tier": "premium",
+    "weight": 8,
+    "usageCount": 0,
+    "lastUsed": null
+  },
+  {
+    "id": "tired-028",
+    "emotionId": "tired",
+    "body": "So do not fear, for I am with you; do not be dismayed, for I am your God. I will strengthen you and help you.",
+    "reference": "Isaiah 41:10",
+    "tags": [
+      "strength",
+      "presence"
+    ],
+    "tier": "premium",
+    "weight": 10,
+    "usageCount": 0,
+    "lastUsed": null
+  },
+  {
+    "id": "tired-029",
+    "emotionId": "tired",
+    "body": "The Lamb at the center of the throne will be their shepherd; he will lead them to springs of living water. And God will wipe away every tear from their eyes.",
+    "reference": "Revelation 7:17",
+    "tags": [
+      "comfort",
+      "hope"
+    ],
+    "tier": "premium",
+    "weight": 8,
+    "usageCount": 0,
+    "lastUsed": null
+  },
+  {
+    "id": "tired-030",
+    "emotionId": "tired",
+    "body": "Do not be weary in doing good.",
+    "reference": "2 Thessalonians 3:13",
+    "tags": [
+      "perseverance",
+      "good"
+    ],
+    "tier": "premium",
     "weight": 8,
     "usageCount": 0,
     "lastUsed": null
@@ -224,7 +1684,10 @@
     "emotionId": "good",
     "body": "This is the day the LORD has made; let us rejoice and be glad in it.",
     "reference": "Psalm 118:24",
-    "tags": ["joy", "gratitude"],
+    "tags": [
+      "joy",
+      "gratitude"
+    ],
     "tier": "free",
     "weight": 10,
     "usageCount": 0,
@@ -235,7 +1698,10 @@
     "emotionId": "good",
     "body": "Every good and perfect gift is from above, coming down from the Father of the heavenly lights.",
     "reference": "James 1:17",
-    "tags": ["gratitude", "blessing"],
+    "tags": [
+      "gratitude",
+      "blessing"
+    ],
     "tier": "free",
     "weight": 9,
     "usageCount": 0,
@@ -246,7 +1712,10 @@
     "emotionId": "good",
     "body": "The joy of the LORD is your strength.",
     "reference": "Nehemiah 8:10",
-    "tags": ["joy", "strength"],
+    "tags": [
+      "joy",
+      "strength"
+    ],
     "tier": "free",
     "weight": 9,
     "usageCount": 0,
@@ -257,7 +1726,10 @@
     "emotionId": "good",
     "body": "You make known to me the path of life; you will fill me with joy in your presence, with eternal pleasures at your right hand.",
     "reference": "Psalm 16:11",
-    "tags": ["joy", "presence"],
+    "tags": [
+      "joy",
+      "presence"
+    ],
     "tier": "free",
     "weight": 9,
     "usageCount": 0,
@@ -268,8 +1740,361 @@
     "emotionId": "good",
     "body": "Rejoice in the Lord always. I will say it again: Rejoice!",
     "reference": "Philippians 4:4",
-    "tags": ["joy", "praise"],
+    "tags": [
+      "joy",
+      "praise"
+    ],
     "tier": "free",
+    "weight": 8,
+    "usageCount": 0,
+    "lastUsed": null
+  },
+  {
+    "id": "good-006",
+    "emotionId": "good",
+    "body": "Give thanks to the LORD, for he is good; his love endures forever.",
+    "reference": "Psalm 107:1",
+    "tags": [
+      "gratitude",
+      "love"
+    ],
+    "tier": "free",
+    "weight": 10,
+    "usageCount": 0,
+    "lastUsed": null
+  },
+  {
+    "id": "good-007",
+    "emotionId": "good",
+    "body": "You have turned my wailing into dancing; you removed my sackcloth and clothed me with joy.",
+    "reference": "Psalm 30:11",
+    "tags": [
+      "joy",
+      "transformation"
+    ],
+    "tier": "free",
+    "weight": 9,
+    "usageCount": 0,
+    "lastUsed": null
+  },
+  {
+    "id": "good-008",
+    "emotionId": "good",
+    "body": "Surely your goodness and love will follow me all the days of my life.",
+    "reference": "Psalm 23:6",
+    "tags": [
+      "goodness",
+      "love"
+    ],
+    "tier": "free",
+    "weight": 10,
+    "usageCount": 0,
+    "lastUsed": null
+  },
+  {
+    "id": "good-009",
+    "emotionId": "good",
+    "body": "May the God of hope fill you with all joy and peace as you trust in him, so that you may overflow with hope by the power of the Holy Spirit.",
+    "reference": "Romans 15:13",
+    "tags": [
+      "joy",
+      "hope"
+    ],
+    "tier": "free",
+    "weight": 10,
+    "usageCount": 0,
+    "lastUsed": null
+  },
+  {
+    "id": "good-010",
+    "emotionId": "good",
+    "body": "A cheerful heart is good medicine.",
+    "reference": "Proverbs 17:22",
+    "tags": [
+      "joy",
+      "health"
+    ],
+    "tier": "free",
+    "weight": 8,
+    "usageCount": 0,
+    "lastUsed": null
+  },
+  {
+    "id": "good-011",
+    "emotionId": "good",
+    "body": "I will sing of the LORD's great love forever; with my mouth I will make your faithfulness known through all generations.",
+    "reference": "Psalm 89:1",
+    "tags": [
+      "praise",
+      "faithfulness"
+    ],
+    "tier": "free",
+    "weight": 9,
+    "usageCount": 0,
+    "lastUsed": null
+  },
+  {
+    "id": "good-012",
+    "emotionId": "good",
+    "body": "Shout for joy to the LORD, all the earth. Worship the LORD with gladness; come before him with joyful songs.",
+    "reference": "Psalm 100:1-2",
+    "tags": [
+      "worship",
+      "joy"
+    ],
+    "tier": "free",
+    "weight": 9,
+    "usageCount": 0,
+    "lastUsed": null
+  },
+  {
+    "id": "good-013",
+    "emotionId": "good",
+    "body": "Satisfy us in the morning with your unfailing love, that we may sing for joy and be glad all our days.",
+    "reference": "Psalm 90:14",
+    "tags": [
+      "joy",
+      "morning"
+    ],
+    "tier": "free",
+    "weight": 9,
+    "usageCount": 0,
+    "lastUsed": null
+  },
+  {
+    "id": "good-014",
+    "emotionId": "good",
+    "body": "How abundant are the good things that you have stored up for those who fear you.",
+    "reference": "Psalm 31:19",
+    "tags": [
+      "abundance",
+      "blessing"
+    ],
+    "tier": "free",
+    "weight": 9,
+    "usageCount": 0,
+    "lastUsed": null
+  },
+  {
+    "id": "good-015",
+    "emotionId": "good",
+    "body": "Sing to the LORD a new song; sing to the LORD, all the earth.",
+    "reference": "Psalm 96:1",
+    "tags": [
+      "praise",
+      "worship"
+    ],
+    "tier": "free",
+    "weight": 8,
+    "usageCount": 0,
+    "lastUsed": null
+  },
+  {
+    "id": "good-016",
+    "emotionId": "good",
+    "body": "The LORD has done great things for us, and we are filled with joy.",
+    "reference": "Psalm 126:3",
+    "tags": [
+      "joy",
+      "gratitude"
+    ],
+    "tier": "premium",
+    "weight": 10,
+    "usageCount": 0,
+    "lastUsed": null
+  },
+  {
+    "id": "good-017",
+    "emotionId": "good",
+    "body": "Enter his gates with thanksgiving and his courts with praise; give thanks to him and praise his name.",
+    "reference": "Psalm 100:4",
+    "tags": [
+      "thanksgiving",
+      "praise"
+    ],
+    "tier": "premium",
+    "weight": 9,
+    "usageCount": 0,
+    "lastUsed": null
+  },
+  {
+    "id": "good-018",
+    "emotionId": "good",
+    "body": "I have come that they may have life, and have it to the full.",
+    "reference": "John 10:10",
+    "tags": [
+      "abundance",
+      "life"
+    ],
+    "tier": "premium",
+    "weight": 10,
+    "usageCount": 0,
+    "lastUsed": null
+  },
+  {
+    "id": "good-019",
+    "emotionId": "good",
+    "body": "You crown the year with your bounty, and your carts overflow with abundance.",
+    "reference": "Psalm 65:11",
+    "tags": [
+      "abundance",
+      "blessing"
+    ],
+    "tier": "premium",
+    "weight": 8,
+    "usageCount": 0,
+    "lastUsed": null
+  },
+  {
+    "id": "good-020",
+    "emotionId": "good",
+    "body": "How good and pleasant it is when God's people live together in unity.",
+    "reference": "Psalm 133:1",
+    "tags": [
+      "community",
+      "joy"
+    ],
+    "tier": "premium",
+    "weight": 8,
+    "usageCount": 0,
+    "lastUsed": null
+  },
+  {
+    "id": "good-021",
+    "emotionId": "good",
+    "body": "Let everything that has breath praise the LORD. Praise the LORD.",
+    "reference": "Psalm 150:6",
+    "tags": [
+      "praise",
+      "worship"
+    ],
+    "tier": "premium",
+    "weight": 9,
+    "usageCount": 0,
+    "lastUsed": null
+  },
+  {
+    "id": "good-022",
+    "emotionId": "good",
+    "body": "From the fullness of his grace we have all received one blessing after another.",
+    "reference": "John 1:16",
+    "tags": [
+      "grace",
+      "blessing"
+    ],
+    "tier": "premium",
+    "weight": 9,
+    "usageCount": 0,
+    "lastUsed": null
+  },
+  {
+    "id": "good-023",
+    "emotionId": "good",
+    "body": "The LORD is my strength and my song; he has given me victory.",
+    "reference": "Psalm 118:14",
+    "tags": [
+      "strength",
+      "victory"
+    ],
+    "tier": "premium",
+    "weight": 9,
+    "usageCount": 0,
+    "lastUsed": null
+  },
+  {
+    "id": "good-024",
+    "emotionId": "good",
+    "body": "I will give thanks to you, LORD, with all my heart; I will tell of all your wonderful deeds.",
+    "reference": "Psalm 9:1",
+    "tags": [
+      "gratitude",
+      "praise"
+    ],
+    "tier": "premium",
+    "weight": 9,
+    "usageCount": 0,
+    "lastUsed": null
+  },
+  {
+    "id": "good-025",
+    "emotionId": "good",
+    "body": "I have loved you with an everlasting love; I have drawn you with unfailing kindness.",
+    "reference": "Jeremiah 31:3",
+    "tags": [
+      "love",
+      "kindness"
+    ],
+    "tier": "premium",
+    "weight": 10,
+    "usageCount": 0,
+    "lastUsed": null
+  },
+  {
+    "id": "good-026",
+    "emotionId": "good",
+    "body": "Great is the LORD and most worthy of praise; his greatness no one can fathom.",
+    "reference": "Psalm 145:3",
+    "tags": [
+      "praise",
+      "greatness"
+    ],
+    "tier": "premium",
+    "weight": 8,
+    "usageCount": 0,
+    "lastUsed": null
+  },
+  {
+    "id": "good-027",
+    "emotionId": "good",
+    "body": "The LORD bless you and keep you; the LORD make his face shine on you and be gracious to you.",
+    "reference": "Numbers 6:24-25",
+    "tags": [
+      "blessing",
+      "grace"
+    ],
+    "tier": "premium",
+    "weight": 10,
+    "usageCount": 0,
+    "lastUsed": null
+  },
+  {
+    "id": "good-028",
+    "emotionId": "good",
+    "body": "Now to him who is able to do immeasurably more than all we ask or imagine, according to his power that is at work within us — to him be glory.",
+    "reference": "Ephesians 3:20",
+    "tags": [
+      "abundance",
+      "glory"
+    ],
+    "tier": "premium",
+    "weight": 9,
+    "usageCount": 0,
+    "lastUsed": null
+  },
+  {
+    "id": "good-029",
+    "emotionId": "good",
+    "body": "Delight yourself in the LORD, and he will give you the desires of your heart.",
+    "reference": "Psalm 37:4",
+    "tags": [
+      "delight",
+      "desire"
+    ],
+    "tier": "premium",
+    "weight": 9,
+    "usageCount": 0,
+    "lastUsed": null
+  },
+  {
+    "id": "good-030",
+    "emotionId": "good",
+    "body": "Let the message of Christ dwell among you richly as you teach and admonish one another with all wisdom through psalms, hymns, and songs from the Spirit, singing to God with gratitude in your hearts.",
+    "reference": "Colossians 3:16",
+    "tags": [
+      "gratitude",
+      "worship"
+    ],
+    "tier": "premium",
     "weight": 8,
     "usageCount": 0,
     "lastUsed": null
