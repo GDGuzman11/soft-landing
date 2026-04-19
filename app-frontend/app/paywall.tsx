@@ -48,7 +48,7 @@ export default function PaywallScreen() {
         </Text>
       </Pressable>
 
-      <Pressable onPress={() => router.back()} className="active:opacity-60">
+      <Pressable onPress={() => router.replace('/(tabs)')} className="active:opacity-60">
         <Text
           className="text-text-secondary text-sm"
           style={{ fontFamily: 'DMSans_400Regular' }}
