@@ -150,7 +150,6 @@ export default function DashboardScreen() {
                     fontFamily: 'Lora_400Regular',
                     fontSize: 14,
                     lineHeight: 22,
-                    numberOfLines: expandedVerse === verse.id ? undefined : 2,
                   }}
                   numberOfLines={expandedVerse === verse.id ? undefined : 2}
                 >
