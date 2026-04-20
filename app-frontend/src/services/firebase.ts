@@ -1,5 +1,5 @@
 import { initializeApp, getApps, getApp } from 'firebase/app'
-import { initializeAuth, getAuth, getReactNativePersistence } from 'firebase/auth'
+import { initializeAuth, getAuth } from 'firebase/auth'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
 const firebaseConfig = {
@@ -15,6 +15,10 @@ const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApp()
 
 export const auth = (() => {
   try {
+    // getReactNativePersistence is in the RN bundle of firebase/auth but absent from
+    // the web/node TypeScript declarations — require() resolves it at runtime only
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
+    const { getReactNativePersistence } = require('firebase/auth')
     return initializeAuth(app, {
       persistence: getReactNativePersistence(AsyncStorage),
     })
