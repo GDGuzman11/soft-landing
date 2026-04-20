@@ -22,7 +22,14 @@
         "UIBackgroundModes": [
           "fetch"
         ],
-        "ITSAppUsesNonExemptEncryption": false
+        "ITSAppUsesNonExemptEncryption": false,
+        "CFBundleURLTypes": [
+          {
+            "CFBundleURLSchemes": [
+              "com.googleusercontent.apps.780566026276-atjb22a57kgant0ls9llp2umbdi91phq"
+            ]
+          }
+        ]
       }
     },
     "android": {
