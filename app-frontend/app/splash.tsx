@@ -37,8 +37,8 @@ export default function SplashScreen() {
       300,
       withRepeat(
         withSequence(
-          withTiming(0.55, { duration: 1600, easing: Easing.inOut(Easing.sine) }),
-          withTiming(0.25, { duration: 1600, easing: Easing.inOut(Easing.sine) })
+          withTiming(0.55, { duration: 1600, easing: Easing.inOut(Easing.sin) }),
+          withTiming(0.25, { duration: 1600, easing: Easing.inOut(Easing.sin) })
         ),
         -1,
         false
