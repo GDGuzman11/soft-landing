@@ -1,4 +1,5 @@
 import { getFunctions, httpsCallable } from 'firebase/functions'
+import app from './firebase'
 import type { EmotionId } from '../types'
 
 type LetterPayload = {
@@ -16,11 +17,12 @@ type LetterResult = {
 
 export async function generateLetter(payload: LetterPayload): Promise<LetterResult> {
   try {
-    const functions = getFunctions()
+    const functions = getFunctions(app, 'us-central1')
     const fn = httpsCallable<LetterPayload, LetterResult>(functions, 'generateLetter')
     const result = await fn(payload)
     return result.data
-  } catch {
+  } catch (err) {
+    console.error('[letterService] generateLetter failed:', err)
     return { letter: null, showCrisisPrompt: false }
   }
 }
