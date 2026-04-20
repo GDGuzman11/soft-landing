@@ -80,17 +80,19 @@ export default function OnboardingDisclaimerScreen() {
           onPress={handleAccept}
           accessibilityRole="button"
           accessibilityLabel="I understand — Continue"
-          style={({ pressed }) => ({
-            backgroundColor: pressed ? '#B5845A' : '#C4956A',
+          className="active:opacity-80"
+          style={{
+            backgroundColor: '#C4956A',
             borderRadius: 9999,
             paddingVertical: 16,
             alignItems: 'center',
+            width: '100%',
             shadowColor: '#C4956A',
             shadowOffset: { width: 0, height: 4 },
             shadowOpacity: 0.3,
             shadowRadius: 12,
             elevation: 6,
-          })}
+          }}
         >
           <Text style={{ fontFamily: 'DMSans_500Medium', fontSize: 16, color: '#FFFFFF' }}>
             I understand — Continue

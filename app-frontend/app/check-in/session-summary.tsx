@@ -15,19 +15,27 @@ function getVerse(messageId: string): { body: string; reference?: string } {
 export default function SessionSummaryScreen() {
   const { ids } = useLocalSearchParams<{ ids: string }>()
   const [saved, setSaved] = useState<SavedMessage[]>([])
+  const [loaded, setLoaded] = useState(false)
 
   useEffect(() => {
-    if (!ids) return
+    if (!ids) {
+      setLoaded(true)
+      return
+    }
     const idList = ids.split(',').filter(Boolean)
     getSavedMessages().then((all) => {
       setSaved(all.filter((m) => idList.includes(m.id)))
+      setLoaded(true)
     })
   }, [ids])
 
-  if (saved.length === 0) {
-    router.replace('/(tabs)')
-    return null
-  }
+  useEffect(() => {
+    if (loaded && saved.length === 0) {
+      router.replace('/(tabs)')
+    }
+  }, [loaded, saved])
+
+  if (!loaded || saved.length === 0) return null
 
   return (
     <View style={{ flex: 1, backgroundColor: '#FAF8F5' }}>
