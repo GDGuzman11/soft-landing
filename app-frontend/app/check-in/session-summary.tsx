@@ -108,12 +108,13 @@ export default function SessionSummaryScreen() {
                   }
                   accessibilityRole="button"
                   accessibilityLabel="Write a letter for this verse"
-                  style={({ pressed }) => ({
-                    backgroundColor: pressed ? '#B5845A' : '#C4956A',
+                  className="active:opacity-80"
+                  style={{
+                    backgroundColor: '#C4956A',
                     paddingHorizontal: 18,
                     paddingVertical: 9,
                     borderRadius: 20,
-                  })}
+                  }}
                 >
                   <Text
                     style={{ fontFamily: 'DMSans_500Medium', fontSize: 13, color: '#FFFFFF' }}
@@ -130,7 +131,8 @@ export default function SessionSummaryScreen() {
           onPress={() => router.replace('/(tabs)')}
           accessibilityRole="button"
           accessibilityLabel="Done, go home"
-          style={({ pressed }) => ({ opacity: pressed ? 0.5 : 1, alignItems: 'center', marginTop: 8 })}
+          className="active:opacity-50"
+          style={{ alignItems: 'center', marginTop: 8 }}
         >
           <Text
             style={{ fontFamily: 'DMSans_400Regular', fontSize: 14, color: '#A09080' }}

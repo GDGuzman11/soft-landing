@@ -125,7 +125,8 @@ export default function LetterComposeScreen() {
         <Pressable
           onPress={() => router.back()}
           hitSlop={{ top: 12, bottom: 12, left: 12, right: 12 }}
-          style={({ pressed }) => ({ opacity: pressed ? 0.5 : 1, marginBottom: 24 })}
+          className="active:opacity-50"
+          style={{ marginBottom: 24 }}
           accessibilityRole="button"
           accessibilityLabel="Go back"
         >
@@ -248,13 +249,14 @@ export default function LetterComposeScreen() {
               disabled={letterLoading}
               accessibilityRole="button"
               accessibilityLabel={sendLabel}
-              style={({ pressed }) => ({
-                backgroundColor: pressed ? '#B5845A' : '#C4956A',
+              className="active:opacity-80"
+              style={{
+                backgroundColor: '#C4956A',
                 borderRadius: 28,
                 paddingVertical: 14,
                 alignItems: 'center',
                 opacity: letterLoading ? 0.7 : 1,
-              })}
+              }}
             >
               <Text
                 style={{ fontFamily: 'DMSans_700Bold', fontSize: 15, color: '#FFFFFF' }}
@@ -279,7 +281,7 @@ export default function LetterComposeScreen() {
           >
             <Text
               style={{
-                fontFamily: 'Lora_400Italic',
+                fontFamily: 'Lora_400Regular_Italic',
                 fontSize: 16,
                 color: '#3D2F2A',
                 lineHeight: 24,
@@ -327,12 +329,13 @@ export default function LetterComposeScreen() {
                   disabled={letterSaved}
                   accessibilityRole="button"
                   accessibilityLabel={letterSaved ? 'Letter saved' : 'Save letter'}
-                  style={({ pressed }) => ({
-                    backgroundColor: letterSaved ? '#9CB59A' : pressed ? '#B5845A' : '#C4956A',
+                  className="active:opacity-80"
+                  style={{
+                    backgroundColor: letterSaved ? '#9CB59A' : '#C4956A',
                     borderRadius: 24,
                     paddingHorizontal: 22,
                     paddingVertical: 11,
-                  })}
+                  }}
                 >
                   <Text
                     style={{ fontFamily: 'DMSans_500Medium', fontSize: 14, color: '#FFFFFF' }}
@@ -345,14 +348,14 @@ export default function LetterComposeScreen() {
                   onPress={handleShare}
                   accessibilityRole="button"
                   accessibilityLabel="Share letter"
-                  style={({ pressed }) => ({
+                  className="active:opacity-60"
+                  style={{
                     borderWidth: 1,
                     borderColor: '#C4956A',
                     borderRadius: 24,
                     paddingHorizontal: 22,
                     paddingVertical: 11,
-                    opacity: pressed ? 0.6 : 1,
-                  })}
+                  }}
                 >
                   <Text
                     style={{ fontFamily: 'DMSans_500Medium', fontSize: 14, color: '#C4956A' }}
@@ -368,11 +371,8 @@ export default function LetterComposeScreen() {
                 onPress={() => router.replace('/(tabs)')}
                 accessibilityRole="button"
                 accessibilityLabel="Done, go home"
-                style={({ pressed }) => ({
-                  opacity: pressed ? 0.5 : 1,
-                  alignItems: 'center',
-                  marginTop: 20,
-                })}
+                className="active:opacity-50"
+                style={{ alignItems: 'center', marginTop: 20 }}
               >
                 <Text
                   style={{ fontFamily: 'DMSans_400Regular', fontSize: 14, color: '#A09080' }}
@@ -387,11 +387,8 @@ export default function LetterComposeScreen() {
                 onPress={handleSend}
                 accessibilityRole="button"
                 accessibilityLabel="Retry"
-                style={({ pressed }) => ({
-                  opacity: pressed ? 0.5 : 1,
-                  alignItems: 'center',
-                  marginTop: 12,
-                })}
+                className="active:opacity-50"
+                style={{ alignItems: 'center', marginTop: 12 }}
               >
                 <Text
                   style={{ fontFamily: 'DMSans_400Regular', fontSize: 14, color: '#C4956A' }}
