@@ -13,7 +13,7 @@ import { router } from 'expo-router'
 import { useState, useEffect } from 'react'
 import * as WebBrowser from 'expo-web-browser'
 import * as AuthSession from 'expo-auth-session/providers/google'
-import { signInWithEmail, signInWithGoogle } from '@/services/auth'
+import { signInWithEmail, signInWithGoogle, sendVerificationEmail } from '@/services/auth'
 
 WebBrowser.maybeCompleteAuthSession()
 
@@ -62,8 +62,13 @@ export default function SignInScreen() {
     setLoading(true)
     setError(null)
     try {
-      await signInWithEmail(email.trim(), password)
-      router.replace('/(tabs)')
+      const user = await signInWithEmail(email.trim(), password)
+      if (!user.emailVerified) {
+        await sendVerificationEmail()
+        router.replace({ pathname: '/verify-email', params: { email: email.trim() } })
+      } else {
+        router.replace('/(tabs)')
+      }
     } catch (e: any) {
       const code = e?.code ?? ''
       setError(mapFirebaseError(code))

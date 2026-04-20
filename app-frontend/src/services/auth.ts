@@ -6,6 +6,7 @@ import {
   signInWithCredential,
   signOut,
   onAuthStateChanged,
+  sendEmailVerification,
   type User,
 } from 'firebase/auth'
 import { auth } from './firebase'
@@ -14,6 +15,7 @@ export interface AuthUser {
   uid: string
   email: string | null
   displayName: string | null
+  emailVerified: boolean
 }
 
 function toAuthUser(user: User): AuthUser {
@@ -21,6 +23,7 @@ function toAuthUser(user: User): AuthUser {
     uid: user.uid,
     email: user.email,
     displayName: user.displayName,
+    emailVerified: user.emailVerified,
   }
 }
 
@@ -39,6 +42,18 @@ export async function signInWithGoogle(idToken: string): Promise<AuthUser> {
   const googleCredential = GoogleAuthProvider.credential(idToken)
   const credential = await signInWithCredential(auth, googleCredential)
   return toAuthUser(credential.user)
+}
+
+export async function sendVerificationEmail(): Promise<void> {
+  const user = auth.currentUser
+  if (user) await sendEmailVerification(user)
+}
+
+export async function reloadAndCheckVerified(): Promise<boolean> {
+  const user = auth.currentUser
+  if (!user) return false
+  await user.reload()
+  return auth.currentUser?.emailVerified ?? false
 }
 
 export async function signOutUser(): Promise<void> {

@@ -44,7 +44,11 @@ export default function WelcomeScreen() {
   useEffect(() => {
     const user = getCurrentUser()
     if (user) {
-      router.replace('/(tabs)')
+      if (!user.emailVerified) {
+        router.replace({ pathname: '/verify-email', params: { email: user.email ?? '' } })
+      } else {
+        router.replace('/(tabs)')
+      }
       return
     }
 
