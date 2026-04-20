@@ -50,15 +50,25 @@ export async function performCheckIn(emotionId: EmotionId): Promise<CheckInResul
   return { event, message }
 }
 
+type BookmarkExtras = {
+  letter?: string
+  note?: string
+  emotionId?: EmotionId
+}
+
 export async function bookmarkMessage(
   checkInId: string,
-  messageId: string
+  messageId: string,
+  extras?: BookmarkExtras
 ): Promise<SavedMessage> {
   const entry: SavedMessage = {
     id: generateId(),
     checkInId,
     messageId,
     savedAt: new Date().toISOString(),
+    ...(extras?.note !== undefined && { note: extras.note }),
+    ...(extras?.letter !== undefined && { letter: extras.letter }),
+    ...(extras?.emotionId !== undefined && { emotionId: extras.emotionId }),
   }
   try {
     await saveMessage(entry)

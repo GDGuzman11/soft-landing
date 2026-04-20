@@ -124,7 +124,11 @@ export interface SavedMessage {
   /** ISO timestamp when the user saved it. */
   savedAt: IsoTimestamp;
   /** Optional user-supplied note attached to the saved message. */
-  note?: string;
+  note?: string;           // user's typed input ("what's on your heart")
+  /** AI-generated letter text. */
+  letter?: string;         // AI-generated letter text
+  /** Denormalized emotion id to avoid extra lookup in history. */
+  emotionId?: EmotionId;   // denormalized to avoid extra lookup in history
 }
 
 /**
@@ -182,6 +186,8 @@ export interface AppSettings {
   lastCheckInDate: IsoDate | null;
   /** Whether the user is browsing as a guest (not signed in). */
   isGuest: boolean;
+  /** Whether the user has used their first free AI letter. */
+  firstLetterUsed: boolean;
 }
 
 export interface AuthUser {

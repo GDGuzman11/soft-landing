@@ -28,6 +28,7 @@ const DEFAULT_SETTINGS: AppSettings = {
   checkInsToday: 0,
   lastCheckInDate: null,
   isGuest: false,
+  firstLetterUsed: false,
 }
 
 async function get<T>(key: string, fallback: T): Promise<T> {
@@ -106,4 +107,22 @@ export async function clearAllData(): Promise<void> {
 export async function setGuestMode(isGuest: boolean): Promise<void> {
   const settings = await getSettings()
   await saveSettings({ ...settings, isGuest })
+}
+
+export async function getFirstLetterUsed(): Promise<boolean> {
+  try {
+    const settings = await getSettings()
+    return settings.firstLetterUsed ?? false
+  } catch {
+    return false
+  }
+}
+
+export async function setFirstLetterUsed(value: boolean): Promise<void> {
+  try {
+    const settings = await getSettings()
+    await saveSettings({ ...settings, firstLetterUsed: value })
+  } catch {
+    // non-fatal
+  }
 }
