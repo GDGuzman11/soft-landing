@@ -191,6 +191,52 @@ export default function SettingsScreen() {
         </View>
       </View>
 
+      {/* About & Credits */}
+      <View className="mx-6 mt-6 rounded-2xl overflow-hidden border border-border bg-surface">
+        <Text
+          className="text-text-secondary text-xs uppercase px-5 pt-4 pb-3"
+          style={{ fontFamily: 'DMSans_500Medium', letterSpacing: 1 }}
+        >
+          About
+        </Text>
+
+        <View className="px-5 py-4 border-t border-border">
+          <Text
+            style={{ fontFamily: 'DMSans_500Medium', fontSize: 13, color: '#3D2F2A', marginBottom: 4 }}
+          >
+            Scripture
+          </Text>
+          <Text
+            style={{ fontFamily: 'DMSans_400Regular', fontSize: 12, color: '#A09080', lineHeight: 18 }}
+          >
+            Scripture taken from the Holy Bible, New International Version®, NIV®{'\n'}
+            Copyright © 1973, 1978, 1984, 2011 by Biblica, Inc.™{'\n'}
+            Used by permission. All rights reserved worldwide.
+          </Text>
+        </View>
+
+        <View className="px-5 py-4 border-t border-border">
+          <Text
+            style={{ fontFamily: 'DMSans_500Medium', fontSize: 13, color: '#3D2F2A', marginBottom: 4 }}
+          >
+            AI Letters
+          </Text>
+          <Text
+            style={{ fontFamily: 'DMSans_400Regular', fontSize: 12, color: '#A09080', lineHeight: 18 }}
+          >
+            Letters are written by AI for spiritual encouragement only — not professional, medical, or mental health advice.
+          </Text>
+        </View>
+
+        <View className="px-5 py-4 border-t border-border">
+          <Text
+            style={{ fontFamily: 'DMSans_400Regular', fontSize: 12, color: '#A09080', lineHeight: 18 }}
+          >
+            © 2026 Gabe & Jackie De Guzman. All rights reserved.
+          </Text>
+        </View>
+      </View>
+
       <Pressable
         onPress={() => {
           Alert.alert(
