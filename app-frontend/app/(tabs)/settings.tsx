@@ -3,6 +3,7 @@ import { router } from 'expo-router'
 import { useEffect, useState } from 'react'
 import { getSettings, saveSettings, clearAllData } from '@/storage/storage'
 import { requestPermission, scheduleDaily, cancelAll } from '@/services/notifications'
+import { signOutUser } from '@/services/auth'
 import type { AppSettings } from '@/types'
 
 const DEFAULT_REMINDER_TIME = '08:00'
@@ -202,7 +203,8 @@ export default function SettingsScreen() {
                 style: 'destructive',
                 onPress: async () => {
                   await clearAllData()
-                  router.replace('/onboarding')
+                  await signOutUser()
+                  router.replace('/welcome')
                 },
               },
             ]

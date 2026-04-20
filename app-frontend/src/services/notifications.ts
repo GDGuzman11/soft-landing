@@ -31,6 +31,7 @@ export async function requestPermission(): Promise<boolean> {
 }
 
 export async function scheduleDaily(time: string): Promise<void> {
+  if (!/^\d{1,2}:\d{2}$/.test(time)) throw new Error(`Invalid time format: ${time}`)
   await cancelAll()
 
   const [hourStr, minuteStr] = time.split(':')
@@ -53,5 +54,5 @@ export async function scheduleDaily(time: string): Promise<void> {
 }
 
 export async function cancelAll(): Promise<void> {
-  await ExpoNotifications.cancelAllScheduledNotificationsAsync()
+  await ExpoNotifications.cancelScheduledNotificationAsync(NOTIFICATION_ID)
 }

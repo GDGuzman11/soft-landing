@@ -5,6 +5,35 @@ All notable changes to Soft Landing will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.0] — 2026-04-20
+
+### Added
+- **Firebase Authentication**: Email/password and Google Sign-In via expo-auth-session. Full auth service layer with `signUpWithEmail`, `signInWithEmail`, `signInWithGoogle`, `signOutUser`, `subscribeToAuthChanges`.
+- **Email verification flow**: After registration, users receive a verification email. New `verify-email.tsx` screen with "I've verified" check, 30-second resend cooldown, and "Wrong email? Go back" escape.
+- **Welcome screen** (`welcome.tsx`): Combined splash + auth entry point. White cross glow with two staggered ripple rings (Option 2) and cross border glow pulse (Option 4). Replaces the standalone splash. Buttons: Create Account, Sign In, Continue as Guest.
+- **Sign-in screen** (`sign-in.tsx`): Email + password form with Google OAuth, error code mapping, forgot password stub, and link to register.
+- **Guest mode**: Users can continue without an account — `isGuest` flag in AppSettings gates limited access. 
+- **Firebase auth persistence**: Auth tokens now persist across cold app restarts via `getReactNativePersistence(AsyncStorage)`.
+- **Auth-aware navigation**: Home screen and settings properly handle auth state. "Start over" signs out the Firebase session before clearing local data.
+
+### Fixed
+- Firebase auth tokens lost on cold restart — inMemoryPersistence replaced with AsyncStorage persistence (BUG-012)
+- Duplicate `AuthUser` type — canonical definition consolidated in `src/types/index.ts` with `emailVerified` field; auth.ts imports from types (BUG-013)
+- Module-level `navigationChecked` flag in index.tsx broke auth guard after sign-out — replaced with `useRef` (BUG-015)
+- New Google users skipped `faithIntroComplete` check — name-saving decoupled from navigation chain (BUG-016)
+- Settings "Start over" did not sign out Firebase user — added `signOutUser()` before navigation (BUG-017)
+- `faith-intro.tsx` had wrong `accessibilityLabel` ("Welcome screen") (BUG-018)
+- `cancelAll()` nuked all scheduled notifications — now uses `cancelScheduledNotificationAsync(NOTIFICATION_ID)` (BUG-019)
+- `scheduleDaily()` silently accepted invalid time strings — added HH:mm regex guard (BUG-020)
+- `package.json` name was "expo-init-temp" — updated to "soft-landing" (BUG-021)
+- Register screen had no client-side password length validation before Firebase submission (BUG-023)
+
+### Known Issues
+- BUG-010: Paywall purchase buttons are no-ops — RevenueCat integration pending
+- BUG-011: Anti-repetition system non-functional — usageCount/lastUsed not persisted to storage
+- BUG-014: `canCheckIn()` bypass active — must be re-enabled before App Store submission
+- BUG-022: Welcome screen flashes briefly on cold launch for signed-in users (Firebase rehydration race)
+
 ## [1.1.0] — 2026-04-18
 
 ### Added

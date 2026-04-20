@@ -10,13 +10,9 @@ import {
   type User,
 } from 'firebase/auth'
 import { auth } from './firebase'
+import type { AuthUser } from '../types'
 
-export interface AuthUser {
-  uid: string
-  email: string | null
-  displayName: string | null
-  emailVerified: boolean
-}
+export type { AuthUser }
 
 function toAuthUser(user: User): AuthUser {
   return {

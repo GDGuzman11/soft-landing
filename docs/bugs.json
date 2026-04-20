@@ -146,6 +146,238 @@
       ],
       "resolution": "Changed to router.push('/paywall') so back navigation returns to emotion picker",
       "resolvedAt": "2026-04-18"
+    },
+    {
+      "id": "BUG-010",
+      "discovered": "2026-04-20",
+      "discoveredBy": "frontend-qa",
+      "severity": "critical",
+      "status": "open",
+      "area": "subscriptions",
+      "description": "Paywall purchase buttons are no-ops — both Monthly and Annual Pressables have onPress={() => {}}. RevenueCat SDK is not called. No purchase can be processed.",
+      "file": "app-frontend/app/paywall.tsx",
+      "reproductionSteps": [
+        "Navigate to paywall",
+        "Tap Monthly or Annual button",
+        "Nothing happens — no purchase initiated"
+      ],
+      "resolution": null,
+      "resolvedAt": null
+    },
+    {
+      "id": "BUG-011",
+      "discovered": "2026-04-20",
+      "discoveredBy": "data-security-qa",
+      "severity": "critical",
+      "status": "open",
+      "area": "data",
+      "description": "Anti-repetition system non-functional — selector reads usageCount and lastUsed from static catalog.json which always returns 0 and null. No code path writes updated values back to storage. effectiveWeight() penalty logic is dead code.",
+      "file": "app-frontend/src/messages/selector.ts",
+      "reproductionSteps": [
+        "Check in 10 times with the same emotion",
+        "Same verses can repeat because lastUsed is always null"
+      ],
+      "resolution": null,
+      "resolvedAt": null
+    },
+    {
+      "id": "BUG-012",
+      "discovered": "2026-04-20",
+      "discoveredBy": "data-security-qa",
+      "severity": "high",
+      "status": "resolved",
+      "area": "security",
+      "description": "Firebase auth used getAuth() which defaults to inMemoryPersistence in React Native — auth tokens lost on every cold app restart, users silently logged out",
+      "file": "app-frontend/src/services/firebase.ts",
+      "reproductionSteps": [
+        "Register or sign in",
+        "Fully close the app from the app switcher",
+        "Reopen — user is signed out and sees welcome screen"
+      ],
+      "resolution": "Replaced getAuth(app) with initializeAuth using getReactNativePersistence(AsyncStorage) — auth state now persists across app restarts",
+      "resolvedAt": "2026-04-20"
+    },
+    {
+      "id": "BUG-013",
+      "discovered": "2026-04-20",
+      "discoveredBy": "data-security-qa",
+      "severity": "high",
+      "status": "resolved",
+      "area": "data",
+      "description": "Duplicate AuthUser type definition — src/types/index.ts defined AuthUser without emailVerified; src/services/auth.ts defined its own local AuthUser with emailVerified. Consumers importing from @/types received wrong shape.",
+      "file": "app-frontend/src/types/index.ts",
+      "reproductionSteps": [
+        "Import AuthUser from @/types",
+        "Access .emailVerified — TypeScript error, field does not exist on that type"
+      ],
+      "resolution": "Added emailVerified to canonical AuthUser in types/index.ts. Removed duplicate interface from auth.ts — now imports and re-exports from types.",
+      "resolvedAt": "2026-04-20"
+    },
+    {
+      "id": "BUG-014",
+      "discovered": "2026-04-20",
+      "discoveredBy": "data-security-qa",
+      "severity": "high",
+      "status": "open",
+      "area": "subscriptions",
+      "description": "canCheckIn() is permanently bypassed — always returns true. Free users get unlimited check-ins. TEMP comment marks pre-ship requirement. Must be re-enabled before App Store submission.",
+      "file": "app-frontend/src/services/checkIn.ts",
+      "reproductionSteps": [
+        "Sign in as free user",
+        "Perform more than 10 check-ins in one day",
+        "Paywall never appears"
+      ],
+      "resolution": null,
+      "resolvedAt": null
+    },
+    {
+      "id": "BUG-015",
+      "discovered": "2026-04-20",
+      "discoveredBy": "frontend-qa",
+      "severity": "high",
+      "status": "resolved",
+      "area": "frontend",
+      "description": "Module-level navigationChecked flag in index.tsx persisted for the entire JS session — after sign-out within the same session, the auth guard never re-ran and unauthenticated users could access the home screen",
+      "file": "app-frontend/app/(tabs)/index.tsx",
+      "reproductionSteps": [
+        "Sign in, reach home screen",
+        "Sign out via Settings > Start over",
+        "Navigate to home tab — guard does not redirect to welcome"
+      ],
+      "resolution": "Replaced module-level let with useRef — flag resets on component unmount/remount so guard re-runs after each sign-out",
+      "resolvedAt": "2026-04-20"
+    },
+    {
+      "id": "BUG-016",
+      "discovered": "2026-04-20",
+      "discoveredBy": "frontend-qa",
+      "severity": "high",
+      "status": "resolved",
+      "area": "frontend",
+      "description": "New Google users skip faithIntroComplete check — name-saving was in an else-if chain before the faithIntro redirect, causing it to be swallowed for users with a displayName",
+      "file": "app-frontend/app/(tabs)/index.tsx",
+      "reproductionSteps": [
+        "Register via Google Sign-In",
+        "Complete onboarding",
+        "Faith intro screen never appears"
+      ],
+      "resolution": "Decoupled name-saving from the navigation chain — runs as a fire-and-forget side effect before navigation decisions",
+      "resolvedAt": "2026-04-20"
+    },
+    {
+      "id": "BUG-017",
+      "discovered": "2026-04-20",
+      "discoveredBy": "frontend-qa",
+      "severity": "medium",
+      "status": "resolved",
+      "area": "frontend",
+      "description": "Settings 'Start over' cleared local data but did not sign out the Firebase user — user remained authenticated while being sent to onboarding, causing a confusing half-reset state",
+      "file": "app-frontend/app/(tabs)/settings.tsx",
+      "reproductionSteps": [
+        "Sign in with email",
+        "Go to Settings > Start over > Clear & restart",
+        "Firebase session remains active — welcome screen is bypassed on next launch"
+      ],
+      "resolution": "Added signOutUser() call before navigation in the destructive handler. Now routes to /welcome instead of /onboarding to match unauthenticated state.",
+      "resolvedAt": "2026-04-20"
+    },
+    {
+      "id": "BUG-018",
+      "discovered": "2026-04-20",
+      "discoveredBy": "frontend-qa",
+      "severity": "medium",
+      "status": "resolved",
+      "area": "frontend",
+      "description": "faith-intro.tsx outer View had accessibilityLabel='Welcome screen' — incorrect label shown to screen readers",
+      "file": "app-frontend/app/faith-intro.tsx",
+      "reproductionSteps": [
+        "Enable VoiceOver/TalkBack",
+        "Navigate to faith intro screen",
+        "Screen announces 'Welcome screen'"
+      ],
+      "resolution": "Changed to accessibilityLabel='Faith intro screen'",
+      "resolvedAt": "2026-04-20"
+    },
+    {
+      "id": "BUG-019",
+      "discovered": "2026-04-20",
+      "discoveredBy": "data-security-qa",
+      "severity": "medium",
+      "status": "resolved",
+      "area": "notifications",
+      "description": "cancelAll() used cancelAllScheduledNotificationsAsync() — nukes every scheduled notification in the app, not just the daily reminder. Would silently cancel any future notifications added.",
+      "file": "app-frontend/src/services/notifications.ts",
+      "reproductionSteps": [
+        "Schedule any second notification",
+        "Toggle daily reminder off",
+        "All notifications are removed, not just the daily reminder"
+      ],
+      "resolution": "Switched to cancelScheduledNotificationAsync(NOTIFICATION_ID) for surgical cancellation",
+      "resolvedAt": "2026-04-20"
+    },
+    {
+      "id": "BUG-020",
+      "discovered": "2026-04-20",
+      "discoveredBy": "data-security-qa",
+      "severity": "low",
+      "status": "resolved",
+      "area": "data",
+      "description": "scheduleDaily() passed invalid time strings (e.g. empty or non-HH:mm format) silently to parseInt — NaN values sent to expo-notifications trigger opaque native errors",
+      "file": "app-frontend/src/services/notifications.ts",
+      "reproductionSteps": [
+        "Call scheduleDaily('')",
+        "No error thrown — NaN passed to notification trigger"
+      ],
+      "resolution": "Added regex guard: throws Error if time string doesn't match HH:mm format",
+      "resolvedAt": "2026-04-20"
+    },
+    {
+      "id": "BUG-021",
+      "discovered": "2026-04-20",
+      "discoveredBy": "data-security-qa",
+      "severity": "low",
+      "status": "resolved",
+      "area": "data",
+      "description": "package.json name was 'expo-init-temp' — leftover from Expo CLI scaffolding, misleading for EAS build metadata and CI tooling",
+      "file": "app-frontend/package.json",
+      "reproductionSteps": [
+        "Read package.json line 2"
+      ],
+      "resolution": "Updated to 'soft-landing'",
+      "resolvedAt": "2026-04-20"
+    },
+    {
+      "id": "BUG-022",
+      "discovered": "2026-04-20",
+      "discoveredBy": "frontend-qa",
+      "severity": "medium",
+      "status": "open",
+      "area": "frontend",
+      "description": "welcome.tsx auth check uses synchronous getCurrentUser() before Firebase rehydrates session on cold launch — logged-in users briefly see welcome screen before redirect",
+      "file": "app-frontend/app/welcome.tsx",
+      "reproductionSteps": [
+        "Sign in, fully close app",
+        "Reopen — welcome screen flashes briefly before redirecting to home"
+      ],
+      "resolution": null,
+      "resolvedAt": null
+    },
+    {
+      "id": "BUG-023",
+      "discovered": "2026-04-20",
+      "discoveredBy": "frontend-qa",
+      "severity": "medium",
+      "status": "open",
+      "area": "frontend",
+      "description": "register.tsx had no minimum password length validation before submitting to Firebase — single-character passwords would fail with opaque Firebase error rather than a clear client-side message",
+      "file": "app-frontend/app/register.tsx",
+      "reproductionSteps": [
+        "Enter a 1-character password on register screen",
+        "Tap Create Account",
+        "Firebase error returned instead of immediate UI validation"
+      ],
+      "resolution": "Added password.length < 6 check before submission with clear error message",
+      "resolvedAt": "2026-04-20"
     }
   ]
 }

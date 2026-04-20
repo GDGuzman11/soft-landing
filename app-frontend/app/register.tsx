@@ -58,7 +58,10 @@ export default function RegisterScreen() {
   }, [response])
 
   async function handleCreateAccount() {
-    if (!name.trim() || !email.trim() || !password) return
+    if (!name.trim() || !email.trim() || !password || password.length < 6) {
+      setError('Password must be at least 6 characters.')
+      return
+    }
     setLoading(true)
     setError(null)
     try {

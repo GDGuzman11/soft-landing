@@ -1,6 +1,6 @@
 import { View, Text, Pressable } from 'react-native'
 import { router } from 'expo-router'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { getSettings, saveSettings } from '@/storage/storage'
 import type { AppSettings } from '@/types'
 import { getCurrentUser } from '@/services/auth'
@@ -12,10 +12,6 @@ import Animated, {
   withSpring,
 } from 'react-native-reanimated'
 import * as Haptics from 'expo-haptics'
-
-// Module-level flag: only redirect once per app session.
-// Prevents loops when AsyncStorage is unavailable.
-let navigationChecked = false
 
 function getGreetingBase(): string {
   const hour = new Date().getHours()
@@ -32,27 +28,31 @@ function getGreeting(name?: string): string {
 
 export default function HomeScreen() {
   const [settings, setSettings] = useState<AppSettings | null>(null)
+  const navigationChecked = useRef(false)
   const greetingOpacity = useSharedValue(0)
   const greetingY = useSharedValue(12)
   const buttonOpacity = useSharedValue(0)
   const buttonY = useSharedValue(16)
 
   useEffect(() => {
-    if (!navigationChecked) {
-      navigationChecked = true
+    if (!navigationChecked.current) {
+      navigationChecked.current = true
       getSettings()
         .then((s) => {
           setSettings(s)
           const user = getCurrentUser()
-          const isGuest = (s as any).isGuest
+          const isGuest = s.isGuest
+
+          if (!s.name && user?.displayName) {
+            saveSettings({ ...s, name: user.displayName })
+              .then(() => setSettings(prev => prev ? { ...prev, name: user.displayName! } : prev))
+              .catch(() => {})
+          }
 
           if (!user && !isGuest) {
             router.replace('/welcome')
           } else if (!s.onboardingComplete) {
             router.replace('/onboarding')
-          } else if (!s.name && user?.displayName) {
-            saveSettings({ ...s, name: user.displayName })
-              .then(() => setSettings({ ...s, name: user.displayName! }))
           } else if (!s.faithIntroComplete) {
             router.replace('/faith-intro')
           }

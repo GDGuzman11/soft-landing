@@ -51,7 +51,7 @@ export default function FaithIntroScreen() {
   return (
     <View
       className="flex-1 bg-background items-center justify-center px-8"
-      accessibilityLabel="Welcome screen"
+      accessibilityLabel="Faith intro screen"
     >
       {/* Cross icon */}
       <Animated.View style={[{ alignItems: 'center', marginBottom: 44 }, crossStyle]}>
