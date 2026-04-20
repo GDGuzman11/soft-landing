@@ -51,7 +51,8 @@
           "color": "#C4956A",
           "sounds": []
         }
-      ]
+      ],
+      "expo-secure-store"
     ],
     "experiments": {
       "typedRoutes": true
