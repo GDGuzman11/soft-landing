@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Privacy Policy — Soft Landing</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #FAF8F5;
+      color: #3D2F2A;
+      line-height: 1.75;
+      padding: 0 0 80px;
+    }
+
+    /* ── Header ── */
+    header {
+      background: #FFFFFF;
+      border-bottom: 2px solid #C4956A;
+      padding: 36px 24px 24px;
+      text-align: center;
+    }
+    header .app-name {
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #C4956A;
+      margin-bottom: 6px;
+    }
+    header h1 {
+      font-size: 28px;
+      font-weight: 700;
+      color: #1A1209;
+      letter-spacing: -0.5px;
+    }
+    header .meta {
+      font-size: 13px;
+      color: #A09080;
+      margin-top: 8px;
+    }
+
+    /* ── Layout ── */
+    main { max-width: 700px; margin: 0 auto; padding: 40px 24px; }
+
+    /* ── Table of contents ── */
+    .toc {
+      background: #FFFFFF;
+      border: 1px solid #EDE8E0;
+      border-radius: 12px;
+      padding: 20px 24px;
+      margin-bottom: 40px;
+    }
+    .toc h2 {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: #A09080;
+      margin-bottom: 12px;
+      border: none;
+      padding: 0;
+    }
+    .toc ol { padding-left: 18px; }
+    .toc li { margin-bottom: 5px; }
+    .toc a { color: #C4956A; font-size: 14px; text-decoration: none; }
+    .toc a:hover { text-decoration: underline; }
+
+    /* ── Section headings ── */
+    .section {
+      margin-bottom: 44px;
+      scroll-margin-top: 24px;
+    }
+    .section-header {
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
+      margin-bottom: 14px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid #EDE8E0;
+    }
+    .section-number {
+      background: #C4956A;
+      color: #FFFFFF;
+      font-size: 12px;
+      font-weight: 700;
+      width: 28px;
+      height: 28px;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .section-title {
+      font-size: 19px;
+      font-weight: 700;
+      color: #1A1209;
+      letter-spacing: -0.2px;
+    }
+
+    /* ── Sub-headings ── */
+    h3 {
+      font-size: 14px;
+      font-weight: 700;
+      color: #3D2F2A;
+      margin: 18px 0 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    /* ── Body text ── */
+    p { font-size: 15px; color: #5A4A40; margin-bottom: 12px; }
+    ul, ol { padding-left: 22px; margin-bottom: 14px; }
+    li { font-size: 15px; color: #5A4A40; margin-bottom: 7px; }
+    a { color: #C4956A; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    strong { color: #3D2F2A; }
+
+    /* ── Callout boxes ── */
+    .callout {
+      background: #FFF8F0;
+      border-left: 4px solid #C4956A;
+      border-radius: 0 10px 10px 0;
+      padding: 14px 18px;
+      margin: 16px 0;
+      font-size: 14px;
+      color: #5A4A40;
+      line-height: 1.6;
+    }
+    .callout strong { color: #C4956A; }
+
+    .important {
+      background: #FFF3F0;
+      border-left: 4px solid #D46A50;
+      border-radius: 0 10px 10px 0;
+      padding: 14px 18px;
+      margin: 16px 0;
+      font-size: 14px;
+      color: #5A4A40;
+    }
+
+    /* ── Data table ── */
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 16px 0 20px;
+      font-size: 14px;
+    }
+    .data-table th {
+      background: #F0EBE3;
+      color: #3D2F2A;
+      font-weight: 700;
+      padding: 10px 14px;
+      text-align: left;
+      border: 1px solid #DDD5C8;
+    }
+    .data-table td {
+      padding: 9px 14px;
+      border: 1px solid #DDD5C8;
+      color: #5A4A40;
+      vertical-align: top;
+    }
+    .data-table tr:nth-child(even) td { background: #FAF8F5; }
+
+    /* ── Footer ── */
+    footer {
+      text-align: center;
+      font-size: 13px;
+      color: #A09080;
+      margin-top: 60px;
+      padding-top: 24px;
+      border-top: 1px solid #EDE8E0;
+    }
+    footer a { color: #C4956A; }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="app-name">Soft Landing</div>
+  <h1>Privacy Policy</h1>
+  <p class="meta">Effective: April 20, 2026 &nbsp;·&nbsp; Last updated: April 20, 2026 &nbsp;·&nbsp; Developer: Gabe De Guzman</p>
+</header>
+
+<main>
+
+  <div class="callout">
+    <strong>Plain-language summary:</strong> We do not sell your data. Your journal entries, verses, and letters are stored only on your device — never on our servers. When you generate a letter, only the text you type is sent to an AI service (Anthropic). Your account credentials are managed by Google Firebase.
+  </div>
+
+  <!-- TABLE OF CONTENTS -->
+  <div class="toc">
+    <h2>Contents</h2>
+    <ol>
+      <li><a href="#s1">What We Collect</a></li>
+      <li><a href="#s2">How Your Data Flows</a></li>
+      <li><a href="#s3">Third-Party Services</a></li>
+      <li><a href="#s4">Local Storage — What Stays on Your Device</a></li>
+      <li><a href="#s5">Push Notifications</a></li>
+      <li><a href="#s6">Guest Mode</a></li>
+      <li><a href="#s7">Crisis Keyword Detection</a></li>
+      <li><a href="#s8">AI-Generated Letters</a></li>
+      <li><a href="#s9">Children's Privacy (COPPA)</a></li>
+      <li><a href="#s10">Data Retention &amp; Deletion</a></li>
+      <li><a href="#s11">Your Rights — California (CCPA)</a></li>
+      <li><a href="#s12">Your Rights — European Union (GDPR)</a></li>
+      <li><a href="#s13">Security</a></li>
+      <li><a href="#s14">Data Breach Notification</a></li>
+      <li><a href="#s15">Changes to This Policy</a></li>
+      <li><a href="#s16">Contact Us</a></li>
+    </ol>
+  </div>
+
+  <!-- 1 -->
+  <div class="section" id="s1">
+    <div class="section-header">
+      <div class="section-number">1</div>
+      <div class="section-title">What We Collect</div>
+    </div>
+    <p>The table below lists every category of personal data involved in using Soft Landing, where it comes from, and where it goes.</p>
+    <table class="data-table">
+      <tr>
+        <th>Data</th>
+        <th>Source</th>
+        <th>Where It Goes</th>
+      </tr>
+      <tr>
+        <td>Name, email address</td>
+        <td>You enter at registration</td>
+        <td>Google Firebase Authentication (stored server-side)</td>
+      </tr>
+      <tr>
+        <td>Hashed password</td>
+        <td>You enter at registration</td>
+        <td>Google Firebase Authentication</td>
+      </tr>
+      <tr>
+        <td>Google account (name, email, profile photo)</td>
+        <td>Google Sign-In (if used)</td>
+        <td>Google Firebase Authentication; Google's own systems</td>
+      </tr>
+      <tr>
+        <td>Authentication tokens</td>
+        <td>Generated by Firebase on sign-in</td>
+        <td>Your device (AsyncStorage) and Firebase</td>
+      </tr>
+      <tr>
+        <td>Emotion selections, check-in history</td>
+        <td>Your in-app activity</td>
+        <td>Your device only (AsyncStorage)</td>
+      </tr>
+      <tr>
+        <td>Saved Bible verses</td>
+        <td>Your in-app activity</td>
+        <td>Your device only</td>
+      </tr>
+      <tr>
+        <td>Letter reflection text ("What's on your heart")</td>
+        <td>You type it</td>
+        <td>Our Firebase server (crisis check only) → Anthropic API (letter generation) → your device if you save</td>
+      </tr>
+      <tr>
+        <td>AI-generated letter text</td>
+        <td>Anthropic Claude API</td>
+        <td>Your device only if you choose to save</td>
+      </tr>
+      <tr>
+        <td>App settings and preferences</td>
+        <td>Your in-app activity</td>
+        <td>Your device only</td>
+      </tr>
+      <tr>
+        <td>Subscription status</td>
+        <td>App Store / Google Play purchase</td>
+        <td>RevenueCat (pseudonymous), Apple/Google</td>
+      </tr>
+      <tr>
+        <td>Push notification device token</td>
+        <td>Your device OS</td>
+        <td>Apple (APNs) or Google (FCM); we do not store this ourselves</td>
+      </tr>
+    </table>
+    <p>We do <strong>not</strong> collect location data, contacts, photos, microphone input, browsing history, device identifiers (IDFA/GAID), or crash/analytics telemetry beyond what Apple and Google collect independently through their platforms.</p>
+  </div>
+
+  <!-- 2 -->
+  <div class="section" id="s2">
+    <div class="section-header">
+      <div class="section-number">2</div>
+      <div class="section-title">How Your Data Flows</div>
+    </div>
+    <p>When you tap <strong>Send</strong> on the letter-compose screen, here is the exact sequence:</p>
+    <ol>
+      <li>Your reflection text, your first name, your selected emotion, and the Bible verse text are sent over HTTPS to our <strong>Firebase Cloud Function</strong> (hosted by Google in the United States).</li>
+      <li>Our server performs a <strong>crisis keyword check</strong> on your reflection text. If crisis language is detected, the request stops here and no letter is generated. Your text is not forwarded to Anthropic.</li>
+      <li>If no crisis content is detected, the data is forwarded to <strong>Anthropic's Claude API</strong> to generate your letter. The exact fields sent to Anthropic are: your first name, your emotion label, the Bible verse, and your reflection text (if provided).</li>
+      <li>Anthropic returns the generated letter to our Firebase server, which immediately returns it to your device. <strong>We do not store your reflection text or the generated letter on our servers.</strong></li>
+      <li>The letter is displayed on your device. If you tap <strong>Save letter</strong>, the letter and your reflection text are saved in encrypted local storage on your device only.</li>
+    </ol>
+    <div class="important">
+      Our Firebase server briefly processes your reflection text solely for the purpose of crisis detection and forwarding to Anthropic. This text is not written to any database or log by us. Firebase may capture metadata (function execution timestamps, error codes) but not the content of your submission.
+    </div>
+  </div>
+
+  <!-- 3 -->
+  <div class="section" id="s3">
+    <div class="section-header">
+      <div class="section-number">3</div>
+      <div class="section-title">Third-Party Services</div>
+    </div>
+    <p>We rely on the following services. Each has its own privacy practices.</p>
+
+    <h3>Google Firebase Authentication</h3>
+    <p>Manages account creation and sign-in. Firebase stores your email address, display name, and authentication tokens. Firebase is operated by Google LLC. If you use Google Sign-In, Google's own privacy policy governs the data Google collects during OAuth.</p>
+    <p><a href="https://firebase.google.com/support/privacy" target="_blank">Firebase Privacy Policy →</a> &nbsp;|&nbsp; <a href="https://policies.google.com/privacy" target="_blank">Google Privacy Policy →</a></p>
+
+    <h3>Anthropic (Claude AI)</h3>
+    <p>Generates your personal letters. We send Anthropic your first name, emotion label, Bible verse, and reflection text. Anthropic may retain submitted content and use it to improve their models in accordance with their policies. We recommend not submitting information you would not share with a third-party AI provider.</p>
+    <p><a href="https://www.anthropic.com/privacy" target="_blank">Anthropic Privacy Policy →</a> &nbsp;|&nbsp; <a href="https://www.anthropic.com/terms" target="_blank">Anthropic Terms of Use →</a></p>
+
+    <h3>RevenueCat</h3>
+    <p>Manages subscription purchases and entitlement verification. RevenueCat stores a pseudonymous user ID and your subscription history. Payment card details are handled exclusively by Apple App Store or Google Play — RevenueCat never sees your payment information.</p>
+    <p><a href="https://www.revenuecat.com/privacy" target="_blank">RevenueCat Privacy Policy →</a></p>
+
+    <h3>Apple App Store / Google Play</h3>
+    <p>Apple and Google independently collect device and usage data through their platforms in accordance with their own privacy policies. We do not control or access this data.</p>
+    <p><a href="https://www.apple.com/legal/privacy/" target="_blank">Apple Privacy Policy →</a> &nbsp;|&nbsp; <a href="https://policies.google.com/privacy" target="_blank">Google Privacy Policy →</a></p>
+  </div>
+
+  <!-- 4 -->
+  <div class="section" id="s4">
+    <div class="section-header">
+      <div class="section-number">4</div>
+      <div class="section-title">Local Storage — What Stays on Your Device</div>
+    </div>
+    <p>The following data is stored <strong>exclusively on your device</strong> using AsyncStorage (standard encrypted mobile storage). We cannot access, read, or retrieve any of this data:</p>
+    <ul>
+      <li>Your emotion check-in history (emotions selected, timestamps)</li>
+      <li>All saved Bible verses</li>
+      <li>AI-generated letters (if you choose to save them)</li>
+      <li>Your reflection text ("What's on your heart") — saved locally alongside the letter if you tap Save</li>
+      <li>App preferences (theme, notification settings, haptic settings)</li>
+      <li>Onboarding and disclaimer completion status</li>
+      <li>Your subscription tier (mirrored locally from RevenueCat for fast UI rendering)</li>
+    </ul>
+    <p>This data is permanently deleted when you uninstall the app or use <strong>Start over</strong> in Settings.</p>
+  </div>
+
+  <!-- 5 -->
+  <div class="section" id="s5">
+    <div class="section-header">
+      <div class="section-number">5</div>
+      <div class="section-title">Push Notifications</div>
+    </div>
+    <p>If you enable daily reminders, your device OS (Apple APNs or Google FCM) generates a push notification token. This token is used to deliver notifications and is managed by Apple or Google — we do not store push notification tokens on our own servers. You can disable notifications at any time in the app's Settings or in your device's notification preferences.</p>
+  </div>
+
+  <!-- 6 -->
+  <div class="section" id="s6">
+    <div class="section-header">
+      <div class="section-number">6</div>
+      <div class="section-title">Guest Mode</div>
+    </div>
+    <p>You may use the app as a guest without creating an account. In guest mode, no account credentials are collected or sent to Firebase. All app data (emotions, check-in history, preferences) is stored locally on your device only. Guest mode does not prevent the crisis keyword check if you use the letter feature — that check occurs on our server regardless of account status.</p>
+    <p>If you later create an account, your local data remains on your device and is not migrated to or linked with your account.</p>
+  </div>
+
+  <!-- 7 -->
+  <div class="section" id="s7">
+    <div class="section-header">
+      <div class="section-number">7</div>
+      <div class="section-title">Crisis Keyword Detection</div>
+    </div>
+    <div class="important">
+      <strong>This is not a crisis monitoring service.</strong> The App does not monitor your usage in real time or employ human reviewers.
+    </div>
+    <p>When you submit reflection text to generate a letter, our server automatically checks whether the text contains certain crisis-related phrases. This is a one-time automated check performed at the moment of submission. If crisis content is detected, the server returns crisis resource information (such as 988 and the Crisis Text Line) instead of generating a letter. Your text is not forwarded to Anthropic in this case.</p>
+    <p>This feature is provided solely as a safety measure. It does not constitute crisis counseling, mental health monitoring, or real-time intervention. If you are in crisis, please contact emergency services or a qualified professional immediately.</p>
+  </div>
+
+  <!-- 8 -->
+  <div class="section" id="s8">
+    <div class="section-header">
+      <div class="section-number">8</div>
+      <div class="section-title">AI-Generated Letters</div>
+    </div>
+    <p>Letters are generated by Anthropic's Claude AI model. Anthropic processes the data we send — your first name, emotion, verse, and reflection text — in accordance with their <a href="https://www.anthropic.com/privacy" target="_blank">Privacy Policy</a>. Anthropic may retain submitted content and use it for model improvement unless you exercise opt-out rights directly with Anthropic.</p>
+    <p>We do not store generated letters on our servers. Letters exist only on your device if you choose to save them.</p>
+  </div>
+
+  <!-- 9 -->
+  <div class="section" id="s9">
+    <div class="section-header">
+      <div class="section-number">9</div>
+      <div class="section-title">Children's Privacy (COPPA)</div>
+    </div>
+    <p>Soft Landing is not directed at children under the age of 13. We do not knowingly collect personal information from children under 13. Users must be at least 13 years old to create an account. If you are under 18, you should use the app only with the involvement of a parent or guardian.</p>
+    <p>If we become aware that we have inadvertently collected personal information from a child under 13, we will delete it promptly. If you believe a child under 13 has provided us with personal information, please contact us at <a href="mailto:gabedeguzman99@gmail.com">gabedeguzman99@gmail.com</a>.</p>
+  </div>
+
+  <!-- 10 -->
+  <div class="section" id="s10">
+    <div class="section-header">
+      <div class="section-number">10</div>
+      <div class="section-title">Data Retention &amp; Deletion</div>
+    </div>
+
+    <h3>Firebase Account Data</h3>
+    <p>Your Firebase account (name and email) is retained until you request deletion. To delete your account, contact us at <a href="mailto:gabedeguzman99@gmail.com">gabedeguzman99@gmail.com</a>. We will process deletion within 30 days and confirm by email.</p>
+
+    <h3>Anthropic-Processed Data</h3>
+    <p>Data sent to Anthropic is subject to Anthropic's own retention and deletion policies. We do not control Anthropic's retention practices. To exercise rights over data processed by Anthropic, contact Anthropic directly at <a href="https://www.anthropic.com/privacy" target="_blank">anthropic.com/privacy</a>.</p>
+
+    <h3>RevenueCat Subscription Records</h3>
+    <p>RevenueCat retains purchase and subscription records as required by Apple and Google's platform policies and applicable tax laws. Contact RevenueCat directly for deletion requests.</p>
+
+    <h3>Local Device Data</h3>
+    <p>All locally stored data is deleted immediately when you uninstall the app or use <strong>Start over</strong> in Settings → we have no ability to recover it after deletion.</p>
+  </div>
+
+  <!-- 11 -->
+  <div class="section" id="s11">
+    <div class="section-header">
+      <div class="section-number">11</div>
+      <div class="section-title">Your Rights — California Residents (CCPA)</div>
+    </div>
+    <p>If you are a California resident, the California Consumer Privacy Act (CCPA) provides you with the following rights:</p>
+    <ul>
+      <li><strong>Right to Know:</strong> You may request information about the categories and specific pieces of personal data we collect, use, and disclose.</li>
+      <li><strong>Right to Delete:</strong> You may request deletion of your personal data, subject to certain exceptions.</li>
+      <li><strong>Right to Opt-Out of Sale:</strong> We do not sell your personal information to third parties. You do not need to opt out.</li>
+      <li><strong>Right to Non-Discrimination:</strong> We will not discriminate against you for exercising your CCPA rights.</li>
+    </ul>
+    <p>To submit a request, email us at <a href="mailto:gabedeguzman99@gmail.com">gabedeguzman99@gmail.com</a> with the subject line "CCPA Request." We will respond within 45 days.</p>
+  </div>
+
+  <!-- 12 -->
+  <div class="section" id="s12">
+    <div class="section-header">
+      <div class="section-number">12</div>
+      <div class="section-title">Your Rights — European Union Residents (GDPR)</div>
+    </div>
+    <p>If you are located in the European Union or European Economic Area, you have rights under the General Data Protection Regulation (GDPR):</p>
+    <ul>
+      <li><strong>Right of Access:</strong> Request a copy of your personal data.</li>
+      <li><strong>Right to Rectification:</strong> Correct inaccurate data.</li>
+      <li><strong>Right to Erasure:</strong> Request deletion of your data ("right to be forgotten").</li>
+      <li><strong>Right to Data Portability:</strong> Receive your data in a machine-readable format.</li>
+      <li><strong>Right to Object:</strong> Object to processing based on legitimate interests.</li>
+      <li><strong>Right to Lodge a Complaint:</strong> File a complaint with your local data protection authority.</li>
+    </ul>
+    <p><strong>Lawful basis for processing:</strong> We process your account data based on contract performance (to provide the service). We process letter generation data based on your explicit consent at submission. We do not rely on legitimate interests for processing personal data.</p>
+    <p><strong>Data controller:</strong> Gabe De Guzman, <a href="mailto:gabedeguzman99@gmail.com">gabedeguzman99@gmail.com</a>. Firebase and Anthropic act as data processors under our instruction.</p>
+    <p>To exercise your GDPR rights, contact us at <a href="mailto:gabedeguzman99@gmail.com">gabedeguzman99@gmail.com</a>. We will respond within 30 days.</p>
+  </div>
+
+  <!-- 13 -->
+  <div class="section" id="s13">
+    <div class="section-header">
+      <div class="section-number">13</div>
+      <div class="section-title">Security</div>
+    </div>
+    <p>We take reasonable measures to protect your data, including:</p>
+    <ul>
+      <li>All data transmissions use HTTPS/TLS encryption</li>
+      <li>Authentication is handled by Google Firebase, which uses industry-standard security practices</li>
+      <li>We do not store your reflection text or generated letters on our servers</li>
+      <li>Firebase Cloud Functions enforce authentication — only signed-in users can generate letters</li>
+    </ul>
+    <p>No method of transmission over the internet or electronic storage is 100% secure. We cannot guarantee absolute security.</p>
+  </div>
+
+  <!-- 14 -->
+  <div class="section" id="s14">
+    <div class="section-header">
+      <div class="section-number">14</div>
+      <div class="section-title">Data Breach Notification</div>
+    </div>
+    <p>In the event of a data breach that affects your personal information stored by Firebase (account credentials), we will notify affected users by email within 72 hours of becoming aware of the breach, to the extent required by applicable law. The notification will describe the nature of the breach, the data affected, and steps we are taking to address it.</p>
+  </div>
+
+  <!-- 15 -->
+  <div class="section" id="s15">
+    <div class="section-header">
+      <div class="section-number">15</div>
+      <div class="section-title">Changes to This Policy</div>
+    </div>
+    <p>We may update this Privacy Policy from time to time. When we make material changes, we will update the "Last updated" date at the top of this page and notify you through an in-app notice or email. Your continued use of the App after changes take effect constitutes acceptance of the updated policy.</p>
+  </div>
+
+  <!-- 16 -->
+  <div class="section" id="s16">
+    <div class="section-header">
+      <div class="section-number">16</div>
+      <div class="section-title">Contact Us</div>
+    </div>
+    <p>Questions, concerns, or data requests:</p>
+    <p>
+      <strong>Email:</strong> <a href="mailto:gabedeguzman99@gmail.com">gabedeguzman99@gmail.com</a><br/>
+      <strong>Developer:</strong> Gabe De Guzman<br/>
+      <strong>App:</strong> Soft Landing
+    </p>
+  </div>
+
+  <footer>
+    © 2026 Soft Landing · <a href="terms.html">Terms of Service</a> · <a href="privacy-policy.html">Privacy Policy</a>
+  </footer>
+
+</main>
+</body>
+</html>

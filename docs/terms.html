@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Terms of Service — Soft Landing</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #FAF8F5;
+      color: #3D2F2A;
+      line-height: 1.75;
+      padding: 0 0 80px;
+    }
+
+    /* ── Header ── */
+    header {
+      background: #FFFFFF;
+      border-bottom: 2px solid #C4956A;
+      padding: 36px 24px 24px;
+      text-align: center;
+    }
+    header .app-name {
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #C4956A;
+      margin-bottom: 6px;
+    }
+    header h1 {
+      font-size: 28px;
+      font-weight: 700;
+      color: #1A1209;
+      letter-spacing: -0.5px;
+    }
+    header .meta {
+      font-size: 13px;
+      color: #A09080;
+      margin-top: 8px;
+    }
+
+    /* ── Layout ── */
+    main { max-width: 700px; margin: 0 auto; padding: 40px 24px; }
+
+    /* ── Table of contents ── */
+    .toc {
+      background: #FFFFFF;
+      border: 1px solid #EDE8E0;
+      border-radius: 12px;
+      padding: 20px 24px;
+      margin-bottom: 40px;
+    }
+    .toc h2 {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: #A09080;
+      margin-bottom: 12px;
+      border: none;
+      padding: 0;
+    }
+    .toc ol { padding-left: 18px; }
+    .toc li { margin-bottom: 5px; }
+    .toc a { color: #C4956A; font-size: 14px; text-decoration: none; }
+    .toc a:hover { text-decoration: underline; }
+
+    /* ── Section headings ── */
+    .section {
+      margin-bottom: 44px;
+      scroll-margin-top: 24px;
+    }
+    .section-header {
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
+      margin-bottom: 14px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid #EDE8E0;
+    }
+    .section-number {
+      background: #C4956A;
+      color: #FFFFFF;
+      font-size: 12px;
+      font-weight: 700;
+      width: 28px;
+      height: 28px;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .section-title {
+      font-size: 19px;
+      font-weight: 700;
+      color: #1A1209;
+      letter-spacing: -0.2px;
+    }
+
+    /* ── Sub-headings ── */
+    h3 {
+      font-size: 14px;
+      font-weight: 700;
+      color: #3D2F2A;
+      margin: 18px 0 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    /* ── Body text ── */
+    p { font-size: 15px; color: #5A4A40; margin-bottom: 12px; }
+    ul, ol { padding-left: 22px; margin-bottom: 14px; }
+    li { font-size: 15px; color: #5A4A40; margin-bottom: 7px; }
+    a { color: #C4956A; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    strong { color: #3D2F2A; }
+
+    /* ── Callout boxes ── */
+    .callout {
+      background: #FFF8F0;
+      border-left: 4px solid #C4956A;
+      border-radius: 0 10px 10px 0;
+      padding: 14px 18px;
+      margin: 16px 0;
+      font-size: 14px;
+      color: #5A4A40;
+      line-height: 1.6;
+    }
+    .callout strong { color: #C4956A; }
+
+    .important {
+      background: #FFF3F0;
+      border-left: 4px solid #D46A50;
+      border-radius: 0 10px 10px 0;
+      padding: 16px 18px;
+      margin: 16px 0;
+      font-size: 14px;
+      color: #5A4A40;
+      line-height: 1.65;
+    }
+    .important strong { color: #C0452A; }
+
+    /* ── Legal caps ── */
+    .legal-caps {
+      font-size: 13px;
+      color: #5A4A40;
+      line-height: 1.6;
+      margin-bottom: 12px;
+    }
+
+    /* ── Footer ── */
+    footer {
+      text-align: center;
+      font-size: 13px;
+      color: #A09080;
+      margin-top: 60px;
+      padding-top: 24px;
+      border-top: 1px solid #EDE8E0;
+    }
+    footer a { color: #C4956A; }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="app-name">Soft Landing</div>
+  <h1>Terms of Service</h1>
+  <p class="meta">Effective: April 20, 2026 &nbsp;·&nbsp; Last updated: April 20, 2026 &nbsp;·&nbsp; Developer: Gabe De Guzman</p>
+</header>
+
+<main>
+
+  <div class="callout">
+    <strong>By creating an account or using the App, you agree to these Terms.</strong> If you do not agree, do not use the App. These Terms form a legally binding agreement between you and Gabe De Guzman ("we," "us," or "our").
+  </div>
+
+  <!-- TABLE OF CONTENTS -->
+  <div class="toc">
+    <h2>Contents</h2>
+    <ol>
+      <li><a href="#s1">Eligibility and Account Registration</a></li>
+      <li><a href="#s2">License Grant</a></li>
+      <li><a href="#s3">Free Tier and Subscriptions</a></li>
+      <li><a href="#s4">NOT a Mental Health or Crisis Service</a></li>
+      <li><a href="#s5">AI-Generated Content</a></li>
+      <li><a href="#s6">Crisis Keyword Detection</a></li>
+      <li><a href="#s7">Guest Mode</a></li>
+      <li><a href="#s8">Bible Verse Content and Copyright</a></li>
+      <li><a href="#s9">User Conduct</a></li>
+      <li><a href="#s10">Intellectual Property</a></li>
+      <li><a href="#s11">Third-Party Services</a></li>
+      <li><a href="#s12">Disclaimer of Warranties</a></li>
+      <li><a href="#s13">Limitation of Liability</a></li>
+      <li><a href="#s14">Indemnification</a></li>
+      <li><a href="#s15">Termination</a></li>
+      <li><a href="#s16">Dispute Resolution and Arbitration</a></li>
+      <li><a href="#s17">Governing Law</a></li>
+      <li><a href="#s18">General Provisions</a></li>
+      <li><a href="#s19">Changes to These Terms</a></li>
+      <li><a href="#s20">Contact</a></li>
+    </ol>
+  </div>
+
+  <!-- 1 -->
+  <div class="section" id="s1">
+    <div class="section-header">
+      <div class="section-number">1</div>
+      <div class="section-title">Eligibility and Account Registration</div>
+    </div>
+    <p>You must be at least <strong>13 years old</strong> to use Soft Landing. Users between the ages of 13 and 17 may only use the App with the involvement and consent of a parent or legal guardian.</p>
+    <p>You are responsible for providing accurate registration information and for maintaining the confidentiality of your account credentials. You are responsible for all activity that occurs under your account. Notify us immediately at <a href="mailto:gabedeguzman99@gmail.com">gabedeguzman99@gmail.com</a> if you believe your account has been compromised.</p>
+    <p>We reserve the right to suspend or terminate accounts that contain false information or that are used in violation of these Terms.</p>
+  </div>
+
+  <!-- 2 -->
+  <div class="section" id="s2">
+    <div class="section-header">
+      <div class="section-number">2</div>
+      <div class="section-title">License Grant</div>
+    </div>
+    <p>We grant you a limited, non-exclusive, non-transferable, revocable license to download and use the App on a personal device you own or control, solely for your personal, non-commercial purposes and in accordance with these Terms.</p>
+    <p>You may not:</p>
+    <ul>
+      <li>Copy, modify, distribute, sell, or sublicense the App or any part of it</li>
+      <li>Reverse engineer, decompile, or attempt to extract the source code</li>
+      <li>Use the App to build a competing product or service</li>
+      <li>Remove, alter, or obscure any proprietary notices or labels</li>
+      <li>Use automated tools, bots, or scripts to access or interact with the App</li>
+    </ul>
+  </div>
+
+  <!-- 3 -->
+  <div class="section" id="s3">
+    <div class="section-header">
+      <div class="section-number">3</div>
+      <div class="section-title">Free Tier and Subscriptions</div>
+    </div>
+
+    <h3>Free Tier</h3>
+    <p>Free accounts include up to 10 check-ins per day and one free AI letter. We reserve the right to adjust free tier limits with reasonable notice.</p>
+
+    <h3>Premium Subscription Plans</h3>
+    <ul>
+      <li><strong>Monthly:</strong> $4.99 per month</li>
+      <li><strong>Annual:</strong> $34.99 per year</li>
+    </ul>
+
+    <h3>Auto-Renewal (Apple App Store)</h3>
+    <div class="important">
+      <strong>Required Apple disclosure:</strong> Your Soft Landing subscription automatically renews unless it is cancelled at least 24 hours before the end of the current subscription period. Payment will be charged to your Apple ID Account at confirmation of purchase and upon each renewal. Manage or cancel your subscription in your Account Settings in the App Store. Cancellation takes effect the day after the last day of the current subscription period. No refund is issued for the unused portion of the current period.
+    </div>
+
+    <h3>Auto-Renewal (Google Play)</h3>
+    <p>Your subscription automatically renews at the end of each billing period unless cancelled at least 24 hours before the renewal date. Manage or cancel your subscription in Google Play → Subscriptions → Soft Landing. Cancellation takes effect at the end of the current billing period.</p>
+
+    <h3>Refunds</h3>
+    <p>Refund requests are governed by Apple App Store or Google Play's refund policies. We do not independently issue refunds outside of those platforms except where required by applicable law.</p>
+
+    <h3>Price Changes</h3>
+    <p>We may change subscription prices. For active subscribers, price changes take effect at the next renewal after at least 30 days' notice. Continued use after the effective date constitutes acceptance of the new price.</p>
+
+    <h3>Export Compliance</h3>
+    <p>The App may not be used or downloaded in countries subject to U.S. export sanctions or trade embargoes. By using the App, you represent that you are not located in a U.S.-sanctioned country and are not on any U.S. government restricted parties list.</p>
+  </div>
+
+  <!-- 4 -->
+  <div class="section" id="s4">
+    <div class="section-header">
+      <div class="section-number">4</div>
+      <div class="section-title">NOT a Mental Health or Crisis Service</div>
+    </div>
+
+    <div class="important">
+      <strong>⚠ Please read this section carefully.</strong> This section limits our legal liability and describes the nature of the App.
+    </div>
+
+    <p>Soft Landing provides spiritual encouragement through Bible verses and AI-generated reflections. <strong>It is not a mental health service, psychiatric service, counseling service, crisis service, or medical service of any kind.</strong> Nothing in the App constitutes professional mental health advice, diagnosis, or treatment.</p>
+
+    <p>The App does not:</p>
+    <ul>
+      <li>Diagnose, treat, prevent, or cure any mental health condition</li>
+      <li>Provide crisis intervention or real-time monitoring</li>
+      <li>Employ licensed mental health professionals</li>
+      <li>Provide emergency response services</li>
+    </ul>
+
+    <p>The App is not a substitute for professional mental health care, medical advice, or psychiatric treatment. If you are struggling with mental health challenges, please seek qualified professional help.</p>
+
+    <p><strong>If you are experiencing a mental health crisis or suicidal thoughts, contact:</strong></p>
+    <ul>
+      <li>988 Suicide &amp; Crisis Lifeline — call or text <strong>988</strong> (U.S.)</li>
+      <li>Crisis Text Line — text <strong>HOME</strong> to <strong>741741</strong></li>
+      <li>Emergency services — call <strong>911</strong></li>
+    </ul>
+
+    <p>We expressly disclaim any liability for decisions made or actions taken based on content provided by this App, including AI-generated letters. Your use of the App for emotional or spiritual support is entirely voluntary and at your own discretion.</p>
+  </div>
+
+  <!-- 5 -->
+  <div class="section" id="s5">
+    <div class="section-header">
+      <div class="section-number">5</div>
+      <div class="section-title">AI-Generated Content</div>
+    </div>
+    <p>Personal letters in this App are generated by Anthropic's Claude AI model. Regarding AI-generated content:</p>
+    <ul>
+      <li>It may contain inaccuracies, factual errors, or theological imprecisions</li>
+      <li>It is not reviewed or endorsed by any religious authority, denomination, or clergy</li>
+      <li>It is generated by an automated system and does not reflect the views of any human author</li>
+      <li>It should not be treated as spiritual counsel, doctrinal instruction, or professional advice of any kind</li>
+      <li>Anthropic's AI models may produce unexpected or inappropriate output despite content filtering — we do not guarantee the quality or suitability of any generated letter</li>
+    </ul>
+    <p>When you submit text to generate a letter, that text is processed by Anthropic pursuant to their <a href="https://www.anthropic.com/privacy" target="_blank">Privacy Policy</a> and <a href="https://www.anthropic.com/terms" target="_blank">Terms of Use</a>. Anthropic prohibits certain categories of content — requests that violate Anthropic's policies will be refused. Do not submit content that is harmful, illegal, or that you would not share with a third-party AI provider.</p>
+  </div>
+
+  <!-- 6 -->
+  <div class="section" id="s6">
+    <div class="section-header">
+      <div class="section-number">6</div>
+      <div class="section-title">Crisis Keyword Detection</div>
+    </div>
+    <p>The letter-generation feature includes automated crisis keyword detection. This is a one-time automated check at the moment of submission — it does not involve real-time human monitoring, 24/7 surveillance, or crisis counseling. If the system detects crisis-related language in your submission, it returns crisis resource information instead of generating a letter.</p>
+    <p>This feature is a safety aid, not a crisis intervention service. We disclaim all liability arising from the operation or limitations of this automated detection system.</p>
+  </div>
+
+  <!-- 7 -->
+  <div class="section" id="s7">
+    <div class="section-header">
+      <div class="section-number">7</div>
+      <div class="section-title">Guest Mode</div>
+    </div>
+    <p>You may use certain App features without creating an account ("Guest Mode"). Guest mode users:</p>
+    <ul>
+      <li>Cannot generate AI letters (account required for server-side letter generation)</li>
+      <li>Have all app data stored locally on their device only</li>
+      <li>Will lose all local data if they uninstall the App, as there is no account to recover it</li>
+    </ul>
+    <p>These Terms apply to guest users to the same extent as registered users.</p>
+  </div>
+
+  <!-- 8 -->
+  <div class="section" id="s8">
+    <div class="section-header">
+      <div class="section-number">8</div>
+      <div class="section-title">Bible Verse Content and Copyright</div>
+    </div>
+    <p>Scripture quotations are taken from the <strong>Holy Bible, New International Version®, NIV®</strong>. Copyright © 1973, 1978, 1984, 2011 by Biblica, Inc.™ Used by permission of Zondervan. All rights reserved worldwide. <a href="https://www.zondervan.com" target="_blank">zondervan.com</a></p>
+    <p>The "NIV" and "New International Version" are trademarks registered in the United States Patent and Trademark Office by Biblica, Inc.™</p>
+    <p>We do not guarantee the theological accuracy of verse selections, their applicability to any specific situation, or that the selection of a verse constitutes spiritual guidance. We recommend consulting authoritative biblical resources and qualified clergy for theological interpretation.</p>
+  </div>
+
+  <!-- 9 -->
+  <div class="section" id="s9">
+    <div class="section-header">
+      <div class="section-number">9</div>
+      <div class="section-title">User Conduct</div>
+    </div>
+    <p>You agree not to use the App to:</p>
+    <ul>
+      <li>Submit content that is illegal, harmful, threatening, abusive, harassing, defamatory, or obscene</li>
+      <li>Attempt to gain unauthorized access to any part of the App or its infrastructure</li>
+      <li>Impersonate any person, entity, or religious authority</li>
+      <li>Submit content intended to manipulate, abuse, or circumvent the AI content system</li>
+      <li>Violate any applicable local, state, national, or international law or regulation</li>
+    </ul>
+    <p>We reserve the right to terminate access for users who violate this section without prior notice.</p>
+  </div>
+
+  <!-- 10 -->
+  <div class="section" id="s10">
+    <div class="section-header">
+      <div class="section-number">10</div>
+      <div class="section-title">Intellectual Property</div>
+    </div>
+    <p>The App, its design, graphics, UI elements, and original written content (excluding Bible text and AI-generated letters) are owned by Gabe De Guzman and protected by copyright, trademark, and other intellectual property laws.</p>
+    <p>You retain ownership of any personal reflection text you write in the App. By submitting text to generate a letter, you grant us a limited, non-exclusive license to transmit that text to Anthropic solely for letter generation. This license terminates as soon as the letter is returned to your device.</p>
+    <p>AI-generated letters are provided to you for your personal use. We make no intellectual property claims over generated letter content.</p>
+  </div>
+
+  <!-- 11 -->
+  <div class="section" id="s11">
+    <div class="section-header">
+      <div class="section-number">11</div>
+      <div class="section-title">Third-Party Services</div>
+    </div>
+    <p>The App relies on third-party services including Google Firebase, Anthropic, RevenueCat, Apple App Store, and Google Play. These services are governed by their own terms and privacy policies. We are not responsible for the practices, content, or availability of these services. Links to crisis resources (988, Crisis Text Line) are provided as a public service — we are not affiliated with these organizations and disclaim all liability for their content or services.</p>
+    <p>You must also comply with the terms of the platform you use to access the App (Apple App Store Terms of Service or Google Play Terms of Service).</p>
+  </div>
+
+  <!-- 12 -->
+  <div class="section" id="s12">
+    <div class="section-header">
+      <div class="section-number">12</div>
+      <div class="section-title">Disclaimer of Warranties</div>
+    </div>
+    <p class="legal-caps">THE APP IS PROVIDED "AS IS" AND "AS AVAILABLE" WITHOUT WARRANTIES OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, TITLE, AND NON-INFRINGEMENT. WE DO NOT WARRANT THAT THE APP WILL BE UNINTERRUPTED, ERROR-FREE, SECURE, OR FREE OF VIRUSES OR OTHER HARMFUL COMPONENTS. WE DO NOT WARRANT THAT AI-GENERATED CONTENT WILL BE ACCURATE, COMPLETE, THEOLOGICALLY SOUND, OR SUITABLE FOR ANY PARTICULAR PURPOSE.</p>
+  </div>
+
+  <!-- 13 -->
+  <div class="section" id="s13">
+    <div class="section-header">
+      <div class="section-number">13</div>
+      <div class="section-title">Limitation of Liability</div>
+    </div>
+    <p class="legal-caps">TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, IN NO EVENT SHALL GABE DE GUZMAN BE LIABLE FOR ANY INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, PUNITIVE, OR EXEMPLARY DAMAGES ARISING OUT OF OR RELATED TO YOUR USE OF OR INABILITY TO USE THE APP, INCLUDING BUT NOT LIMITED TO LOSS OF PROFITS, DATA, GOODWILL, OR OTHER INTANGIBLE LOSSES, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.</p>
+    <p class="legal-caps">OUR TOTAL CUMULATIVE LIABILITY TO YOU FOR ALL CLAIMS ARISING FROM OR RELATED TO THESE TERMS OR THE APP SHALL NOT EXCEED THE GREATER OF (A) THE TOTAL AMOUNT YOU PAID US IN THE 12 MONTHS PRECEDING THE CLAIM OR (B) $10.00 USD.</p>
+    <p>Some jurisdictions do not allow the exclusion of certain warranties or limitations of liability. In such jurisdictions, our liability is limited to the maximum extent permitted by law.</p>
+  </div>
+
+  <!-- 14 -->
+  <div class="section" id="s14">
+    <div class="section-header">
+      <div class="section-number">14</div>
+      <div class="section-title">Indemnification</div>
+    </div>
+    <p>You agree to indemnify, defend, and hold harmless Gabe De Guzman from and against any claims, liabilities, damages, losses, and expenses (including reasonable attorneys' fees) arising from: (a) your use of the App; (b) your violation of these Terms; (c) your violation of any third party's rights; or (d) any content you submit through the App.</p>
+  </div>
+
+  <!-- 15 -->
+  <div class="section" id="s15">
+    <div class="section-header">
+      <div class="section-number">15</div>
+      <div class="section-title">Termination</div>
+    </div>
+    <p>We may suspend or terminate your access to the App at any time, with or without cause, with or without notice, effective immediately. Grounds for termination include but are not limited to: violation of these Terms, conduct harmful to other users or us, or if we discontinue the App.</p>
+    <p>Upon termination, your license to use the App ends immediately. Sections 4, 5, 12, 13, 14, 16, and 18 survive termination.</p>
+    <p>You may terminate your account at any time by using <strong>Start over</strong> in Settings or contacting us at <a href="mailto:gabedeguzman99@gmail.com">gabedeguzman99@gmail.com</a>.</p>
+  </div>
+
+  <!-- 16 -->
+  <div class="section" id="s16">
+    <div class="section-header">
+      <div class="section-number">16</div>
+      <div class="section-title">Dispute Resolution and Arbitration</div>
+    </div>
+    <p><strong>Informal resolution first.</strong> Before filing any formal claim, you agree to contact us at <a href="mailto:gabedeguzman99@gmail.com">gabedeguzman99@gmail.com</a> and give us 30 days to attempt to resolve the dispute informally.</p>
+    <p><strong>Binding arbitration.</strong> If the dispute is not resolved informally, you and we agree that any dispute, claim, or controversy arising from or relating to the App or these Terms shall be resolved by binding individual arbitration administered by the American Arbitration Association (AAA) under its Consumer Arbitration Rules, rather than in court.</p>
+    <p><strong>Class action waiver.</strong> YOU AND WE AGREE THAT EACH MAY BRING CLAIMS AGAINST THE OTHER ONLY IN YOUR OR OUR INDIVIDUAL CAPACITY AND NOT AS A PLAINTIFF OR CLASS MEMBER IN ANY PURPORTED CLASS OR REPRESENTATIVE PROCEEDING. The arbitrator may not consolidate more than one person's claims.</p>
+    <p>Nothing in this section prevents either party from seeking injunctive or equitable relief in a court of competent jurisdiction to protect intellectual property rights or prevent immediate harm.</p>
+    <p>If the class action waiver is found unenforceable, then the entirety of this arbitration section is void, and disputes will be resolved in court under Section 17.</p>
+  </div>
+
+  <!-- 17 -->
+  <div class="section" id="s17">
+    <div class="section-header">
+      <div class="section-number">17</div>
+      <div class="section-title">Governing Law</div>
+    </div>
+    <p>These Terms are governed by and construed in accordance with the laws of the State of California, United States, without regard to its conflict of law provisions. To the extent court proceedings are permitted under Section 16, you consent to personal jurisdiction in the state and federal courts located in California.</p>
+  </div>
+
+  <!-- 18 -->
+  <div class="section" id="s18">
+    <div class="section-header">
+      <div class="section-number">18</div>
+      <div class="section-title">General Provisions</div>
+    </div>
+
+    <h3>Entire Agreement</h3>
+    <p>These Terms, together with our Privacy Policy, constitute the entire agreement between you and us regarding the App and supersede all prior agreements, understandings, or representations.</p>
+
+    <h3>Severability</h3>
+    <p>If any provision of these Terms is found to be invalid or unenforceable, that provision shall be modified to the minimum extent necessary to make it enforceable, and the remaining provisions shall continue in full force and effect.</p>
+
+    <h3>Waiver</h3>
+    <p>Our failure to enforce any right or provision of these Terms shall not constitute a waiver of that right or provision in the future.</p>
+
+    <h3>Force Majeure</h3>
+    <p>We are not liable for any failure or delay in performance of our obligations under these Terms resulting from causes beyond our reasonable control, including acts of God, internet outages, third-party service failures (Firebase, Anthropic, Apple, Google), natural disasters, or government actions.</p>
+
+    <h3>Right to Modify the Service</h3>
+    <p>We reserve the right to modify, suspend, or discontinue the App or any feature at any time, with or without notice. We are not liable to you or any third party for any modification, suspension, or discontinuation of the service.</p>
+
+    <h3>Assignment</h3>
+    <p>You may not assign these Terms or any rights under them without our written consent. We may assign these Terms in connection with a merger, acquisition, or sale of assets.</p>
+
+    <h3>No Third-Party Beneficiaries</h3>
+    <p>These Terms do not create any third-party beneficiary rights.</p>
+  </div>
+
+  <!-- 19 -->
+  <div class="section" id="s19">
+    <div class="section-header">
+      <div class="section-number">19</div>
+      <div class="section-title">Changes to These Terms</div>
+    </div>
+    <p>We may update these Terms from time to time. For material changes, we will update the "Last updated" date and provide notice through an in-app notification or email. Your continued use of the App after changes take effect constitutes acceptance of the revised Terms. If you do not agree to the revised Terms, you must stop using the App.</p>
+  </div>
+
+  <!-- 20 -->
+  <div class="section" id="s20">
+    <div class="section-header">
+      <div class="section-number">20</div>
+      <div class="section-title">Contact</div>
+    </div>
+    <p>Questions or concerns about these Terms:</p>
+    <p>
+      <strong>Email:</strong> <a href="mailto:gabedeguzman99@gmail.com">gabedeguzman99@gmail.com</a><br/>
+      <strong>Developer:</strong> Gabe De Guzman<br/>
+      <strong>App:</strong> Soft Landing
+    </p>
+  </div>
+
+  <footer>
+    © 2026 Soft Landing · <a href="terms.html">Terms of Service</a> · <a href="privacy-policy.html">Privacy Policy</a>
+  </footer>
+
+</main>
+</body>
+</html>

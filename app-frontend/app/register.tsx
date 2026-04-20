@@ -7,6 +7,7 @@ import {
   ScrollView,
   KeyboardAvoidingView,
   Platform,
+  Linking,
 } from 'react-native'
 import { router } from 'expo-router'
 import { useState, useEffect } from 'react'
@@ -15,6 +16,9 @@ import * as AuthSession from 'expo-auth-session/providers/google'
 import { signUpWithEmail, signInWithGoogle, sendVerificationEmail } from '@/services/auth'
 
 WebBrowser.maybeCompleteAuthSession()
+
+const TERMS_URL = 'https://gdguzman11.github.io/soft-landing/terms.html'
+const PRIVACY_URL = 'https://gdguzman11.github.io/soft-landing/privacy-policy.html'
 
 function mapFirebaseError(code: string): string {
   switch (code) {
@@ -206,46 +210,63 @@ export default function RegisterScreen() {
         </Text>
 
         {/* ToS checkbox */}
-        <Pressable
-          onPress={() => setTosAccepted((v) => !v)}
-          accessibilityRole="checkbox"
-          accessibilityState={{ checked: tosAccepted }}
-          accessibilityLabel="Agree to Terms of Service"
-          style={{ flexDirection: 'row', alignItems: 'flex-start', gap: 12, marginBottom: 24 }}
-        >
-          <View
-            style={{
-              width: 20,
-              height: 20,
-              borderRadius: 4,
-              borderWidth: 1.5,
-              borderColor: tosAccepted ? '#C4956A' : '#C4B59A',
-              backgroundColor: tosAccepted ? '#C4956A' : 'transparent',
-              alignItems: 'center',
-              justifyContent: 'center',
-              marginTop: 1,
-              flexShrink: 0,
-            }}
+        <View style={{ flexDirection: 'row', alignItems: 'flex-start', gap: 12, marginBottom: 24 }}>
+          <Pressable
+            onPress={() => setTosAccepted((v) => !v)}
+            accessibilityRole="checkbox"
+            accessibilityState={{ checked: tosAccepted }}
+            accessibilityLabel="Agree to Terms of Service and Privacy Policy"
+            hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
           >
-            {tosAccepted ? (
-              <Text style={{ color: '#FFFFFF', fontSize: 12, lineHeight: 16 }}>✓</Text>
-            ) : null}
-          </View>
+            <View
+              style={{
+                width: 22,
+                height: 22,
+                borderRadius: 5,
+                borderWidth: 1.5,
+                borderColor: tosAccepted ? '#C4956A' : '#C4B59A',
+                backgroundColor: tosAccepted ? '#C4956A' : 'transparent',
+                alignItems: 'center',
+                justifyContent: 'center',
+                marginTop: 1,
+              }}
+            >
+              {tosAccepted ? (
+                <Text style={{ color: '#FFFFFF', fontSize: 13, lineHeight: 17 }}>✓</Text>
+              ) : null}
+            </View>
+          </Pressable>
+
           <Text
             style={{
               fontFamily: 'DMSans_400Regular',
               fontSize: 13,
               color: '#A09080',
-              lineHeight: 20,
+              lineHeight: 21,
               flex: 1,
             }}
           >
-            I agree to the{' '}
-            <Text style={{ color: '#C4956A' }}>Terms of Service</Text> and{' '}
-            <Text style={{ color: '#C4956A' }}>Privacy Policy</Text>.
-            {' '}Soft Landing provides spiritual encouragement, not professional advice.
+            I have read and agree to the{' '}
+            <Text
+              style={{ color: '#C4956A', fontFamily: 'DMSans_500Medium' }}
+              onPress={() => Linking.openURL(TERMS_URL)}
+              accessibilityRole="link"
+              accessibilityLabel="Read Terms of Service"
+            >
+              Terms of Service
+            </Text>
+            {' '}and{' '}
+            <Text
+              style={{ color: '#C4956A', fontFamily: 'DMSans_500Medium' }}
+              onPress={() => Linking.openURL(PRIVACY_URL)}
+              accessibilityRole="link"
+              accessibilityLabel="Read Privacy Policy"
+            >
+              Privacy Policy
+            </Text>
+            . Soft Landing provides spiritual encouragement only — not professional advice.
           </Text>
-        </Pressable>
+        </View>
 
         {error ? (
           <Text
