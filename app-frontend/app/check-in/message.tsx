@@ -44,6 +44,7 @@ export default function MessageScreen() {
   })
   const [verseIsSaved, setVerseIsSaved] = useState(false)
   const [transitioning, setTransitioning] = useState(false)
+  const [sessionSavedIds, setSessionSavedIds] = useState<string[]>([])
 
   // Entrance animation
   const cardOpacity = useSharedValue(0)
@@ -98,9 +99,23 @@ export default function MessageScreen() {
     actionsOpacity.value = withDelay(200, withTiming(1, { duration: 300 }))
   }
 
+  function navigateDone() {
+    if (sessionSavedIds.length > 0) {
+      router.replace({
+        pathname: '/check-in/session-summary',
+        params: { ids: sessionSavedIds.join(',') },
+      })
+    } else {
+      router.replace('/(tabs)')
+    }
+  }
+
   async function handleSaveAndNext() {
     if (!verseIsSaved) {
-      await bookmarkMessage(verse.checkInId, verse.messageId)
+      const saved = await bookmarkMessage(verse.checkInId, verse.messageId, {
+        emotionId: emotionId as EmotionId,
+      })
+      setSessionSavedIds((prev) => [...prev, saved.id])
       setVerseIsSaved(true)
     }
     Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success)
@@ -215,7 +230,7 @@ export default function MessageScreen() {
     >
       {/* Done button — top-right, exits to home */}
       <Pressable
-        onPress={() => router.replace('/(tabs)')}
+        onPress={navigateDone}
         accessibilityRole="button"
         accessibilityLabel="Done"
         hitSlop={{ top: 12, bottom: 12, left: 12, right: 12 }}
@@ -375,7 +390,7 @@ export default function MessageScreen() {
         {/* Dismiss — go home */}
         <Pressable
           onPress={() => {
-            if (!transitioning) router.replace('/(tabs)')
+            if (!transitioning) navigateDone()
           }}
           accessibilityRole="button"
           accessibilityLabel="Go home"

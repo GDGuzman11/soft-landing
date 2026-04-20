@@ -188,6 +188,8 @@ export interface AppSettings {
   isGuest: boolean;
   /** Whether the user has used their first free AI letter. */
   firstLetterUsed: boolean;
+  /** Whether the user has accepted the app disclaimer. */
+  disclaimerAccepted: boolean;
 }
 
 export interface AuthUser {

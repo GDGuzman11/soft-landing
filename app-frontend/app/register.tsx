@@ -35,6 +35,7 @@ export default function RegisterScreen() {
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [tosAccepted, setTosAccepted] = useState(false)
 
   const [request, response, promptAsync] = AuthSession.useAuthRequest({
     clientId: process.env.EXPO_PUBLIC_GOOGLE_CLIENT_ID,
@@ -58,6 +59,10 @@ export default function RegisterScreen() {
   }, [response])
 
   async function handleCreateAccount() {
+    if (!tosAccepted) {
+      setError('Please agree to the Terms of Service to continue.')
+      return
+    }
     if (!name.trim() || !email.trim() || !password || password.length < 6) {
       setError('Password must be at least 6 characters.')
       return
@@ -200,6 +205,48 @@ export default function RegisterScreen() {
           at least 6 characters
         </Text>
 
+        {/* ToS checkbox */}
+        <Pressable
+          onPress={() => setTosAccepted((v) => !v)}
+          accessibilityRole="checkbox"
+          accessibilityState={{ checked: tosAccepted }}
+          accessibilityLabel="Agree to Terms of Service"
+          style={{ flexDirection: 'row', alignItems: 'flex-start', gap: 12, marginBottom: 24 }}
+        >
+          <View
+            style={{
+              width: 20,
+              height: 20,
+              borderRadius: 4,
+              borderWidth: 1.5,
+              borderColor: tosAccepted ? '#C4956A' : '#C4B59A',
+              backgroundColor: tosAccepted ? '#C4956A' : 'transparent',
+              alignItems: 'center',
+              justifyContent: 'center',
+              marginTop: 1,
+              flexShrink: 0,
+            }}
+          >
+            {tosAccepted ? (
+              <Text style={{ color: '#FFFFFF', fontSize: 12, lineHeight: 16 }}>✓</Text>
+            ) : null}
+          </View>
+          <Text
+            style={{
+              fontFamily: 'DMSans_400Regular',
+              fontSize: 13,
+              color: '#A09080',
+              lineHeight: 20,
+              flex: 1,
+            }}
+          >
+            I agree to the{' '}
+            <Text style={{ color: '#C4956A' }}>Terms of Service</Text> and{' '}
+            <Text style={{ color: '#C4956A' }}>Privacy Policy</Text>.
+            {' '}Soft Landing provides spiritual encouragement, not professional advice.
+          </Text>
+        </Pressable>
+
         {error ? (
           <Text
             style={{
@@ -244,7 +291,10 @@ export default function RegisterScreen() {
         </Pressable>
 
         <Pressable
-          onPress={() => !loading && promptAsync()}
+          onPress={() => {
+            if (!tosAccepted) { setError('Please agree to the Terms of Service to continue.'); return }
+            if (!loading) promptAsync()
+          }}
           disabled={!request || loading}
           className="active:opacity-80"
           style={{

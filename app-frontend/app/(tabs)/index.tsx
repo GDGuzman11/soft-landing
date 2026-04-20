@@ -51,6 +51,8 @@ export default function HomeScreen() {
 
           if (!user && !isGuest) {
             router.replace('/welcome')
+          } else if (!s.disclaimerAccepted) {
+            router.replace('/onboarding-disclaimer')
           } else if (!s.onboardingComplete) {
             router.replace('/onboarding')
           } else if (!s.faithIntroComplete) {

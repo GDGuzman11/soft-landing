@@ -29,6 +29,7 @@ const DEFAULT_SETTINGS: AppSettings = {
   lastCheckInDate: null,
   isGuest: false,
   firstLetterUsed: false,
+  disclaimerAccepted: false,
 }
 
 async function get<T>(key: string, fallback: T): Promise<T> {
@@ -98,6 +99,18 @@ export async function incrementCheckInCount(): Promise<number> {
   })
 
   return newCount
+}
+
+export async function updateSavedMessage(
+  id: string,
+  updates: Partial<Omit<SavedMessage, 'id'>>
+): Promise<void> {
+  try {
+    const saved = await getSavedMessages()
+    await set(KEYS.SAVED_MESSAGES, saved.map((m) => (m.id === id ? { ...m, ...updates } : m)))
+  } catch {
+    // non-fatal
+  }
 }
 
 export async function clearAllData(): Promise<void> {

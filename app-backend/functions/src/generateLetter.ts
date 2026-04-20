@@ -2,6 +2,7 @@ import { onCall, HttpsError } from 'firebase-functions/v2/https'
 import Anthropic from '@anthropic-ai/sdk'
 import { buildPrompt } from './prompt'
 import { containsCrisisContent } from './crisisKeywords'
+import { getRandomMockLetter } from './mockLetters'
 import type { GenerateLetterData, GenerateLetterResult } from './types'
 
 export const generateLetter = onCall(
@@ -34,7 +35,7 @@ export const generateLetter = onCall(
 
     const apiKey = process.env.ANTHROPIC_API_KEY
     if (!apiKey) {
-      throw new HttpsError('internal', 'Service configuration error')
+      return { letter: getRandomMockLetter(emotionId), showCrisisPrompt: false }
     }
 
     const client = new Anthropic({ apiKey })
