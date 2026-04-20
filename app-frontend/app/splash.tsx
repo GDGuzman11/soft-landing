@@ -7,7 +7,10 @@ import Animated, {
   withTiming,
   withDelay,
   withSpring,
+  withSequence,
+  withRepeat,
   runOnJS,
+  Easing,
 } from 'react-native-reanimated'
 
 function navigate() {
@@ -15,26 +18,55 @@ function navigate() {
 }
 
 export default function SplashScreen() {
+  const glowOpacity = useSharedValue(0)
+  const glowScale = useSharedValue(0.6)
+  const innerGlowOpacity = useSharedValue(0)
   const crossOpacity = useSharedValue(0)
-  const crossScale = useSharedValue(0.7)
+  const crossScale = useSharedValue(0.75)
   const titleOpacity = useSharedValue(0)
-  const titleY = useSharedValue(10)
+  const titleY = useSharedValue(12)
   const screenOpacity = useSharedValue(1)
 
   useEffect(() => {
-    // Cross appears first
-    crossOpacity.value = withTiming(1, { duration: 600 })
-    crossScale.value = withSpring(1, { damping: 16, stiffness: 90 })
+    // Ambient glow blooms in first — slow, heavenly
+    glowOpacity.value = withTiming(1, { duration: 1000, easing: Easing.out(Easing.quad) })
+    glowScale.value = withTiming(1, { duration: 1200, easing: Easing.out(Easing.quad) })
 
-    // Title fades in after cross
-    titleOpacity.value = withDelay(400, withTiming(1, { duration: 700 }))
-    titleY.value = withDelay(400, withTiming(0, { duration: 700 }))
+    // Inner halo pulses gently in a breathing loop
+    innerGlowOpacity.value = withDelay(
+      300,
+      withRepeat(
+        withSequence(
+          withTiming(0.55, { duration: 1600, easing: Easing.inOut(Easing.sine) }),
+          withTiming(0.25, { duration: 1600, easing: Easing.inOut(Easing.sine) })
+        ),
+        -1,
+        false
+      )
+    )
 
-    // Hold, then fade out and navigate
-    screenOpacity.value = withDelay(1800, withTiming(0, { duration: 500 }, () => {
+    // Cross rises gently after glow establishes
+    crossOpacity.value = withDelay(300, withTiming(1, { duration: 700 }))
+    crossScale.value = withDelay(300, withSpring(1, { damping: 18, stiffness: 80 }))
+
+    // Title drifts up softly
+    titleOpacity.value = withDelay(800, withTiming(1, { duration: 800, easing: Easing.out(Easing.quad) }))
+    titleY.value = withDelay(800, withTiming(0, { duration: 800, easing: Easing.out(Easing.quad) }))
+
+    // Hold then fade out
+    screenOpacity.value = withDelay(2200, withTiming(0, { duration: 500 }, () => {
       runOnJS(navigate)()
     }))
   }, [])
+
+  const outerGlowStyle = useAnimatedStyle(() => ({
+    opacity: glowOpacity.value,
+    transform: [{ scale: glowScale.value }],
+  }))
+
+  const innerGlowStyle = useAnimatedStyle(() => ({
+    opacity: innerGlowOpacity.value,
+  }))
 
   const crossStyle = useAnimatedStyle(() => ({
     opacity: crossOpacity.value,
@@ -59,8 +91,34 @@ export default function SplashScreen() {
         justifyContent: 'center',
       }, screenStyle]}
     >
+      {/* Outer ambient glow — large, very faint warm bloom */}
+      <Animated.View
+        style={[{
+          position: 'absolute',
+          width: 280,
+          height: 280,
+          borderRadius: 140,
+          backgroundColor: '#C4956A',
+          opacity: 0,
+        }, outerGlowStyle]}
+        pointerEvents="none"
+      />
+
+      {/* Inner breathing halo */}
+      <Animated.View
+        style={[{
+          position: 'absolute',
+          width: 140,
+          height: 140,
+          borderRadius: 70,
+          backgroundColor: '#C4956A',
+          opacity: 0,
+        }, innerGlowStyle]}
+        pointerEvents="none"
+      />
+
       {/* Cross */}
-      <Animated.View style={[{ alignItems: 'center', marginBottom: 28 }, crossStyle]}>
+      <Animated.View style={[{ alignItems: 'center', marginBottom: 32 }, crossStyle]}>
         <View style={{ width: 52, height: 68, position: 'relative', alignItems: 'center' }}>
           <View style={{
             position: 'absolute',
@@ -82,7 +140,7 @@ export default function SplashScreen() {
         </View>
       </Animated.View>
 
-      {/* App name */}
+      {/* App name + tagline */}
       <Animated.View style={[{ alignItems: 'center' }, titleStyle]}>
         <Text
           style={{
@@ -100,7 +158,7 @@ export default function SplashScreen() {
             fontSize: 13,
             color: '#A09080',
             marginTop: 8,
-            letterSpacing: 0.4,
+            letterSpacing: 0.5,
           }}
         >
           Find rest in His Word.
