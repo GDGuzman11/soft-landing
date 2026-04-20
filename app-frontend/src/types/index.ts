@@ -180,6 +180,14 @@ export interface AppSettings {
   checkInsToday: number;
   /** ISO calendar date the `checkInsToday` counter applies to. */
   lastCheckInDate: IsoDate | null;
+  /** Whether the user is browsing as a guest (not signed in). */
+  isGuest: boolean;
+}
+
+export interface AuthUser {
+  uid: string;
+  email: string | null;
+  displayName: string | null;
 }
 
 /**

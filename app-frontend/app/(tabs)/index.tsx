@@ -1,8 +1,9 @@
 import { View, Text, Pressable } from 'react-native'
 import { router } from 'expo-router'
 import { useEffect, useState } from 'react'
-import { getSettings } from '@/storage/storage'
+import { getSettings, saveSettings } from '@/storage/storage'
 import type { AppSettings } from '@/types'
+import { getCurrentUser } from '@/services/auth'
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
@@ -42,9 +43,19 @@ export default function HomeScreen() {
       getSettings()
         .then((s) => {
           setSettings(s)
-          if (!s.onboardingComplete) router.replace('/onboarding')
-          else if (!s.name) router.replace('/register')
-          else if (!s.faithIntroComplete) router.replace('/faith-intro')
+          const user = getCurrentUser()
+          const isGuest = (s as any).isGuest
+
+          if (!user && !isGuest) {
+            router.replace('/welcome')
+          } else if (!s.onboardingComplete) {
+            router.replace('/onboarding')
+          } else if (!s.name && user?.displayName) {
+            saveSettings({ ...s, name: user.displayName })
+              .then(() => setSettings({ ...s, name: user.displayName! }))
+          } else if (!s.faithIntroComplete) {
+            router.replace('/faith-intro')
+          }
         })
         .catch(() => {})
     }

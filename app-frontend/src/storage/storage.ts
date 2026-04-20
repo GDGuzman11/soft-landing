@@ -27,6 +27,7 @@ const DEFAULT_SETTINGS: AppSettings = {
   faithIntroComplete: false,
   checkInsToday: 0,
   lastCheckInDate: null,
+  isGuest: false,
 }
 
 async function get<T>(key: string, fallback: T): Promise<T> {
@@ -100,4 +101,9 @@ export async function incrementCheckInCount(): Promise<number> {
 
 export async function clearAllData(): Promise<void> {
   await AsyncStorage.multiRemove([KEYS.SETTINGS, KEYS.CHECK_INS, KEYS.SAVED_MESSAGES])
+}
+
+export async function setGuestMode(isGuest: boolean): Promise<void> {
+  const settings = await getSettings()
+  await saveSettings({ ...settings, isGuest })
 }

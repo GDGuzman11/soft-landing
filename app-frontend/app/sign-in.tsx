@@ -4,6 +4,7 @@ import {
   TextInput,
   Pressable,
   ActivityIndicator,
+  Alert,
   ScrollView,
   KeyboardAvoidingView,
   Platform,
@@ -12,25 +13,24 @@ import { router } from 'expo-router'
 import { useState, useEffect } from 'react'
 import * as WebBrowser from 'expo-web-browser'
 import * as AuthSession from 'expo-auth-session/providers/google'
-import { signUpWithEmail, signInWithGoogle } from '@/services/auth'
+import { signInWithEmail, signInWithGoogle } from '@/services/auth'
 
 WebBrowser.maybeCompleteAuthSession()
 
 function mapFirebaseError(code: string): string {
   switch (code) {
-    case 'auth/email-already-in-use':
-      return 'An account with that email already exists.'
-    case 'auth/invalid-email':
-      return 'Please enter a valid email address.'
-    case 'auth/weak-password':
-      return 'Password must be at least 6 characters.'
+    case 'auth/invalid-credential':
+      return 'Incorrect email or password.'
+    case 'auth/user-not-found':
+      return 'No account found with that email.'
+    case 'auth/too-many-requests':
+      return 'Too many attempts. Try again later.'
     default:
       return 'Something went wrong. Please try again.'
   }
 }
 
-export default function RegisterScreen() {
-  const [name, setName] = useState('')
+export default function SignInScreen() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
@@ -48,7 +48,7 @@ export default function RegisterScreen() {
         setLoading(true)
         setError(null)
         signInWithGoogle(id_token)
-          .then(() => router.replace('/onboarding'))
+          .then(() => router.replace('/(tabs)'))
           .catch(() => {
             setError('Google sign-in failed. Please try again.')
             setLoading(false)
@@ -57,13 +57,13 @@ export default function RegisterScreen() {
     }
   }, [response])
 
-  async function handleCreateAccount() {
-    if (!name.trim() || !email.trim() || !password) return
+  async function handleSignIn() {
+    if (!email.trim() || !password) return
     setLoading(true)
     setError(null)
     try {
-      await signUpWithEmail(name.trim(), email.trim(), password)
-      router.replace('/onboarding')
+      await signInWithEmail(email.trim(), password)
+      router.replace('/(tabs)')
     } catch (e: any) {
       const code = e?.code ?? ''
       setError(mapFirebaseError(code))
@@ -99,7 +99,7 @@ export default function RegisterScreen() {
             marginBottom: 8,
           }}
         >
-          Create your account.
+          Welcome back.
         </Text>
         <Text
           style={{
@@ -110,31 +110,8 @@ export default function RegisterScreen() {
             letterSpacing: 0.3,
           }}
         >
-          Your safe place to land each day.
+          Sign in to continue.
         </Text>
-
-        <TextInput
-          value={name}
-          onChangeText={setName}
-          placeholder="Your name"
-          placeholderTextColor="#C4B59A"
-          autoCapitalize="words"
-          autoCorrect={false}
-          editable={!loading}
-          style={{
-            width: '100%',
-            borderWidth: 1,
-            borderColor: '#E8E3DC',
-            borderRadius: 16,
-            paddingHorizontal: 20,
-            paddingVertical: 14,
-            fontFamily: 'DMSans_400Regular',
-            fontSize: 16,
-            backgroundColor: '#FFFFFF',
-            color: '#1A1A1A',
-            marginBottom: 12,
-          }}
-        />
 
         <TextInput
           value={email}
@@ -167,7 +144,7 @@ export default function RegisterScreen() {
           placeholderTextColor="#C4B59A"
           secureTextEntry
           editable={!loading}
-          onSubmitEditing={handleCreateAccount}
+          onSubmitEditing={handleSignIn}
           returnKeyType="done"
           style={{
             width: '100%',
@@ -180,21 +157,20 @@ export default function RegisterScreen() {
             fontSize: 16,
             backgroundColor: '#FFFFFF',
             color: '#1A1A1A',
-            marginBottom: 4,
+            marginBottom: 8,
           }}
         />
-        <Text
-          style={{
-            fontFamily: 'DMSans_400Regular',
-            fontSize: 12,
-            color: '#A09080',
-            marginBottom: 28,
-            marginLeft: 4,
-            letterSpacing: 0.2,
-          }}
+
+        <Pressable
+          onPress={() => Alert.alert('Coming soon', 'Password reset will be available soon.')}
+          style={{ alignSelf: 'flex-end', marginBottom: 28, padding: 4 }}
+          accessibilityRole="button"
+          accessibilityLabel="Forgot password"
         >
-          at least 6 characters
-        </Text>
+          <Text style={{ fontFamily: 'DMSans_400Regular', fontSize: 13, color: '#A09080' }}>
+            Forgot password?
+          </Text>
+        </Pressable>
 
         {error ? (
           <Text
@@ -211,7 +187,7 @@ export default function RegisterScreen() {
         ) : null}
 
         <Pressable
-          onPress={handleCreateAccount}
+          onPress={handleSignIn}
           disabled={loading}
           className="active:opacity-80"
           style={{
@@ -228,13 +204,13 @@ export default function RegisterScreen() {
             opacity: loading ? 0.7 : 1,
           }}
           accessibilityRole="button"
-          accessibilityLabel="Create Account"
+          accessibilityLabel="Sign In"
         >
           {loading ? (
             <ActivityIndicator color="#FFFFFF" />
           ) : (
             <Text style={{ fontFamily: 'DMSans_500Medium', fontSize: 16, color: '#FFFFFF' }}>
-              Create Account
+              Sign In
             </Text>
           )}
         </Pressable>
@@ -254,22 +230,22 @@ export default function RegisterScreen() {
             opacity: !request || loading ? 0.5 : 1,
           }}
           accessibilityRole="button"
-          accessibilityLabel="Sign up with Google"
+          accessibilityLabel="Sign in with Google"
         >
           <Text style={{ fontFamily: 'DMSans_500Medium', fontSize: 16, color: '#1A1A1A' }}>
-            <Text style={{ color: '#4285F4' }}>G</Text>  Sign up with Google
+            <Text style={{ color: '#4285F4' }}>G</Text>  Sign in with Google
           </Text>
         </Pressable>
 
         <Pressable
-          onPress={() => router.push('/sign-in')}
+          onPress={() => router.push('/register')}
           style={{ alignItems: 'center', padding: 8 }}
           accessibilityRole="button"
-          accessibilityLabel="Sign in to existing account"
+          accessibilityLabel="Create an account"
         >
           <Text style={{ fontFamily: 'DMSans_400Regular', fontSize: 14, color: '#A09080' }}>
-            Already have an account?{' '}
-            <Text style={{ color: '#C4956A', fontFamily: 'DMSans_500Medium' }}>Sign in</Text>
+            Don't have an account?{' '}
+            <Text style={{ color: '#C4956A', fontFamily: 'DMSans_500Medium' }}>Create one</Text>
           </Text>
         </Pressable>
       </ScrollView>

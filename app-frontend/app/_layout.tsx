@@ -18,7 +18,7 @@ import {
 export { ErrorBoundary } from 'expo-router'
 
 export const unstable_settings = {
-  initialRouteName: 'splash',
+  initialRouteName: 'welcome',
 }
 
 SplashScreen.preventAutoHideAsync()
@@ -52,7 +52,9 @@ export default function RootLayout() {
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
     <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: '#FAF8F5' } }}>
+      <Stack.Screen name="welcome" options={{ animation: 'none' }} />
       <Stack.Screen name="splash" options={{ animation: 'none' }} />
+      <Stack.Screen name="sign-in" options={{ animation: 'fade' }} />
       <Stack.Screen name="(tabs)" />
       <Stack.Screen name="check-in/emotions" options={{ animation: 'fade' }} />
       <Stack.Screen name="check-in/envelope" options={{ animation: 'fade' }} />
