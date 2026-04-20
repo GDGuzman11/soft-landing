@@ -6,7 +6,7 @@ import { getRandomMockLetter } from './mockLetters'
 import type { GenerateLetterData, GenerateLetterResult } from './types'
 
 export const generateLetter = onCall(
-  { region: 'us-central1' },
+  { region: 'us-central1', invoker: 'public' },
   async (request): Promise<GenerateLetterResult> => {
     // Firebase onCall v2 auto-verifies Firebase Auth JWT
     if (!request.auth) {
