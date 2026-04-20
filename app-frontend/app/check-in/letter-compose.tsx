@@ -12,6 +12,7 @@ import { router, useLocalSearchParams } from 'expo-router'
 import { useEffect, useState } from 'react'
 import { getSavedMessages, getSettings, updateSavedMessage, setFirstLetterUsed } from '@/storage/storage'
 import { generateLetter } from '@/services/letterService'
+import { getCurrentUser } from '@/services/auth'
 import LetterCard from '@/components/LetterCard'
 import type { SavedMessage, Message, AppSettings, EmotionId } from '@/types'
 import catalog from '@/messages/catalog.json'
@@ -52,6 +53,10 @@ export default function LetterComposeScreen() {
   const canUseLetter = isPremium || !settings.firstLetterUsed
 
   async function handleSend() {
+    if (!getCurrentUser()) {
+      router.push('/sign-in')
+      return
+    }
     if (!canUseLetter) {
       router.push('/paywall')
       return
