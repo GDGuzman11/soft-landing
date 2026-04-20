@@ -9,7 +9,7 @@ const sdk_1 = __importDefault(require("@anthropic-ai/sdk"));
 const prompt_1 = require("./prompt");
 const crisisKeywords_1 = require("./crisisKeywords");
 const mockLetters_1 = require("./mockLetters");
-exports.generateLetter = (0, https_1.onCall)({ region: 'us-central1' }, async (request) => {
+exports.generateLetter = (0, https_1.onCall)({ region: 'us-central1', invoker: 'public' }, async (request) => {
     // Firebase onCall v2 auto-verifies Firebase Auth JWT
     if (!request.auth) {
         throw new https_1.HttpsError('unauthenticated', 'Sign in to write a letter.');
