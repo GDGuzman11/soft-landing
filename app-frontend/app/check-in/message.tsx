@@ -228,29 +228,6 @@ export default function MessageScreen() {
       className="flex-1 bg-background items-center justify-center px-8"
       accessibilityLabel="Your verse"
     >
-      {/* Done button — top-right, exits to home */}
-      <Pressable
-        onPress={navigateDone}
-        accessibilityRole="button"
-        accessibilityLabel="Done"
-        hitSlop={{ top: 12, bottom: 12, left: 12, right: 12 }}
-        style={({ pressed }) => ({
-          position: 'absolute',
-          top: 52,
-          right: 24,
-          opacity: pressed ? 0.5 : 1,
-        })}
-      >
-        <Text
-          style={{
-            fontFamily: 'DMSans_400Regular',
-            fontSize: 14,
-            color: '#A09080',
-          }}
-        >
-          Done
-        </Text>
-      </Pressable>
 
       {/* Save indicator — appears on right when swiping right */}
       <Animated.View
