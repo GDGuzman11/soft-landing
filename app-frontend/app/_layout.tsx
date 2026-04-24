@@ -4,6 +4,7 @@ import * as SplashScreen from 'expo-splash-screen'
 import { useEffect, useState } from 'react'
 import 'react-native-reanimated'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
+import { initPurchases } from '@/services/purchases'
 import {
   useFonts,
   DMSans_400Regular,
@@ -33,6 +34,10 @@ export default function RootLayout() {
   })
 
   const [minDelayDone, setMinDelayDone] = useState(false)
+
+  useEffect(() => {
+    initPurchases()
+  }, [])
 
   useEffect(() => {
     const timer = setTimeout(() => setMinDelayDone(true), 200)

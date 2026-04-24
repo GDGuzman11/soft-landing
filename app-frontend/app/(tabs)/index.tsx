@@ -1,7 +1,7 @@
 import { View, Text, Pressable } from 'react-native'
 import { router } from 'expo-router'
 import { useEffect, useRef, useState } from 'react'
-import { getSettings, saveSettings } from '@/storage/storage'
+import { getSettings, saveSettings, getSavedMessages } from '@/storage/storage'
 import type { AppSettings } from '@/types'
 import { getCurrentUser } from '@/services/auth'
 import Animated, {
@@ -28,6 +28,7 @@ function getGreeting(name?: string): string {
 
 export default function HomeScreen() {
   const [settings, setSettings] = useState<AppSettings | null>(null)
+  const [savedCount, setSavedCount] = useState(0)
   const navigationChecked = useRef(false)
   const greetingOpacity = useSharedValue(0)
   const greetingY = useSharedValue(12)
@@ -66,6 +67,8 @@ export default function HomeScreen() {
     greetingY.value = withTiming(0, { duration: 600 })
     buttonOpacity.value = withDelay(300, withTiming(1, { duration: 500 }))
     buttonY.value = withDelay(300, withSpring(0, { damping: 20, stiffness: 160 }))
+
+    getSavedMessages().then(msgs => setSavedCount(msgs.length)).catch(() => {})
   }, [])
 
   const greetingStyle = useAnimatedStyle(() => ({
@@ -89,12 +92,26 @@ export default function HomeScreen() {
       accessibilityLabel="Home screen"
     >
       <Animated.Text
-        className="text-text-primary text-3xl mb-16"
-        style={[{ fontFamily: 'DMSans_400Regular', letterSpacing: -0.5 }, greetingStyle]}
+        className="text-text-primary text-3xl"
+        style={[{ fontFamily: 'DMSans_400Regular', letterSpacing: -0.5, marginBottom: savedCount > 0 ? 16 : 64 }, greetingStyle]}
         accessibilityRole="header"
       >
         {getGreeting(settings?.name || undefined)}
       </Animated.Text>
+
+      {savedCount > 0 && (
+        <Text
+          style={{
+            fontFamily: 'Lora_400Regular_Italic',
+            fontSize: 13,
+            color: '#A09080',
+            textAlign: 'center',
+            marginBottom: 24,
+          }}
+        >
+          ✦  {savedCount} moment{savedCount === 1 ? '' : 's'} of grace  ✦
+        </Text>
+      )}
 
       <Animated.View style={buttonStyle}>
         <Pressable

@@ -13,7 +13,7 @@ import { router } from 'expo-router'
 import { useState, useEffect } from 'react'
 import * as WebBrowser from 'expo-web-browser'
 import * as AuthSession from 'expo-auth-session/providers/google'
-import { signInWithEmail, signInWithGoogle, sendVerificationEmail, resetPassword } from '@/services/auth'
+import { signInWithEmail, signInWithGoogle, signInWithApple, sendVerificationEmail, resetPassword } from '@/services/auth'
 
 WebBrowser.maybeCompleteAuthSession()
 
@@ -240,7 +240,7 @@ export default function SignInScreen() {
             borderRadius: 9999,
             paddingVertical: 16,
             alignItems: 'center',
-            marginBottom: 32,
+            marginBottom: 12,
             borderWidth: 1,
             borderColor: '#E8E3DC',
             opacity: !request || loading ? 0.5 : 1,
@@ -252,6 +252,45 @@ export default function SignInScreen() {
             <Text style={{ color: '#4285F4' }}>G</Text>  Sign in with Google
           </Text>
         </Pressable>
+
+        {Platform.OS === 'ios' && (
+          <Pressable
+            onPress={async () => {
+              if (loading) return
+              setLoading(true)
+              setError(null)
+              try {
+                await signInWithApple()
+                router.replace('/(tabs)')
+              } catch (e: any) {
+                if (e?.code !== 'ERR_REQUEST_CANCELED') {
+                  setError('Apple sign-in failed. Please try again.')
+                }
+                setLoading(false)
+              }
+            }}
+            disabled={loading}
+            className="active:opacity-80"
+            style={{
+              backgroundColor: '#FFFFFF',
+              borderRadius: 9999,
+              paddingVertical: 16,
+              alignItems: 'center',
+              marginBottom: 32,
+              borderWidth: 1,
+              borderColor: '#E8E3DC',
+              opacity: loading ? 0.5 : 1,
+            }}
+            accessibilityRole="button"
+            accessibilityLabel="Sign in with Apple"
+          >
+            <Text style={{ fontFamily: 'DMSans_500Medium', fontSize: 16, color: '#1A1A1A' }}>
+              Sign in with Apple
+            </Text>
+          </Pressable>
+        )}
+
+        {Platform.OS !== 'ios' && <View style={{ marginBottom: 32 }} />}
 
         <Pressable
           onPress={() => router.push('/register')}

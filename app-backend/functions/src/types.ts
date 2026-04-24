@@ -6,6 +6,7 @@ export interface GenerateLetterData {
   reference: string
   userInput?: string
   userName: string
+  hourOfDay?: number
 }
 
 export interface GenerateLetterResult {

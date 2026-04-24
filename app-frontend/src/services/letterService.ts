@@ -8,6 +8,7 @@ type LetterPayload = {
   reference: string
   userInput?: string
   userName: string
+  hourOfDay?: number
 }
 
 type LetterResult = {

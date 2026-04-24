@@ -77,7 +77,7 @@ export default function HistoryScreen() {
       <FlatList
         data={saved}
         keyExtractor={(item) => item.id}
-        contentContainerStyle={{ paddingHorizontal: 24, paddingBottom: 32, gap: 12 }}
+        contentContainerStyle={{ paddingHorizontal: 24, paddingBottom: 32, gap: 16 }}
         renderItem={({ item }) => {
           const { body, reference } = getMessage(item.messageId)
           const emotionColor = item.emotionId ? EMOTION_COLORS[item.emotionId] : undefined
@@ -92,16 +92,17 @@ export default function HistoryScreen() {
                 shadowOpacity: 0.04,
                 shadowRadius: 8,
                 elevation: 2,
+                marginBottom: 16,
               }}
             >
-              {/* Emotion dot + reference row */}
+              {/* Emotion dot + reference row with date at top-right */}
               <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 4, gap: 8 }}>
                 {emotionColor ? (
                   <View
                     style={{
-                      width: 8,
-                      height: 8,
-                      borderRadius: 4,
+                      width: 12,
+                      height: 12,
+                      borderRadius: 6,
                       backgroundColor: emotionColor,
                     }}
                   />
@@ -113,11 +114,24 @@ export default function HistoryScreen() {
                       fontSize: 12,
                       color: '#C4956A',
                       letterSpacing: 0.3,
+                      flex: 1,
                     }}
                   >
                     {reference}
                   </Text>
-                ) : null}
+                ) : <View style={{ flex: 1 }} />}
+                <Text
+                  style={{
+                    fontFamily: 'DMSans_400Regular',
+                    fontSize: 12,
+                    color: '#C4956A',
+                  }}
+                >
+                  {new Date(item.savedAt).toLocaleDateString('en-US', {
+                    month: 'short',
+                    day: 'numeric',
+                  })}
+                </Text>
               </View>
 
               <Text
@@ -191,9 +205,14 @@ export default function HistoryScreen() {
                         fontSize: 13,
                         color: '#A09080',
                       }}
-                      numberOfLines={1}
+                      numberOfLines={2}
                     >
-                      {item.letter.slice(0, 60)}…{"  "}
+                      {(() => {
+                        const text = item.letter
+                        const match = text.match(/^.+?[.!?](?=\s|$)/)
+                        if (match && match[0].length <= 120) return match[0]
+                        return text.slice(0, 100) + '…'
+                      })()}{"  "}
                       <Text style={{ color: '#C4956A' }}>Read your letter →</Text>
                     </Text>
                   )}
@@ -226,18 +245,7 @@ export default function HistoryScreen() {
                 </Pressable>
               )}
 
-              <View className="flex-row items-center justify-between">
-                <Text
-                  className="text-text-secondary text-xs"
-                  style={{ fontFamily: 'DMSans_400Regular' }}
-                >
-                  {new Date(item.savedAt).toLocaleDateString('en-US', {
-                    month: 'short',
-                    day: 'numeric',
-                    year: 'numeric',
-                  })}
-                </Text>
-
+              <View className="flex-row items-center justify-end">
                 <View style={{ flexDirection: 'row', gap: 16, alignItems: 'center' }}>
                   <Pressable
                     onPress={() => handleShare(item.messageId, item.letter)}

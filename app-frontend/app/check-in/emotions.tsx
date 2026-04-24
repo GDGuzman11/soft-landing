@@ -12,12 +12,12 @@ const TAGLINES: Record<string, string> = {
   good: 'Feeling grateful today',
 }
 
-const GLYPHS: Record<string, string> = {
-  stressed: '✦',
-  tired: '✦',
-  sad: '✦',
-  neutral: '✦',
-  good: '✦',
+const EMOTION_EMOJIS: Record<string, string> = {
+  stressed: '🌊',
+  tired: '🌙',
+  sad: '🌧️',
+  neutral: '☁️',
+  good: '☀️',
 }
 
 function darken(hex: string, amount = 40): string {
@@ -97,15 +97,12 @@ export default function EmotionsScreen() {
               {/* Decorative glyph */}
               <Text
                 style={{
-                  fontFamily: 'DMSans_400Regular',
-                  fontSize: 11,
-                  color: glyphColor,
-                  opacity: 0.6,
+                  fontSize: 22,
+                  opacity: 0.85,
                   marginBottom: 6,
-                  letterSpacing: 4,
                 }}
               >
-                {GLYPHS[emotion.id]}
+                {EMOTION_EMOJIS[emotion.id]}
               </Text>
 
               {/* Emotion label */}

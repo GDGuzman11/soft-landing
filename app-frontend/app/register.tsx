@@ -13,7 +13,7 @@ import { router } from 'expo-router'
 import { useState, useEffect } from 'react'
 import * as WebBrowser from 'expo-web-browser'
 import * as AuthSession from 'expo-auth-session/providers/google'
-import { signUpWithEmail, signInWithGoogle, sendVerificationEmail } from '@/services/auth'
+import { signUpWithEmail, signInWithGoogle, signInWithApple, sendVerificationEmail } from '@/services/auth'
 
 WebBrowser.maybeCompleteAuthSession()
 
@@ -324,7 +324,7 @@ export default function RegisterScreen() {
             borderRadius: 9999,
             paddingVertical: 16,
             alignItems: 'center',
-            marginBottom: 32,
+            marginBottom: 12,
             borderWidth: 1,
             borderColor: '#E8E3DC',
             opacity: !request || loading ? 0.5 : 1,
@@ -336,6 +336,46 @@ export default function RegisterScreen() {
             <Text style={{ color: '#4285F4' }}>G</Text>  Sign up with Google
           </Text>
         </Pressable>
+
+        {Platform.OS === 'ios' && (
+          <Pressable
+            onPress={async () => {
+              if (!tosAccepted) { setError('Please agree to the Terms of Service to continue.'); return }
+              if (loading) return
+              setLoading(true)
+              setError(null)
+              try {
+                await signInWithApple()
+                router.replace('/onboarding')
+              } catch (e: any) {
+                if (e?.code !== 'ERR_REQUEST_CANCELED') {
+                  setError('Apple sign-in failed. Please try again.')
+                }
+                setLoading(false)
+              }
+            }}
+            disabled={loading}
+            className="active:opacity-80"
+            style={{
+              backgroundColor: '#FFFFFF',
+              borderRadius: 9999,
+              paddingVertical: 16,
+              alignItems: 'center',
+              marginBottom: 32,
+              borderWidth: 1,
+              borderColor: '#E8E3DC',
+              opacity: loading ? 0.5 : 1,
+            }}
+            accessibilityRole="button"
+            accessibilityLabel="Sign up with Apple"
+          >
+            <Text style={{ fontFamily: 'DMSans_500Medium', fontSize: 16, color: '#1A1A1A' }}>
+              Sign up with Apple
+            </Text>
+          </Pressable>
+        )}
+
+        {Platform.OS !== 'ios' && <View style={{ marginBottom: 32 }} />}
 
         <Pressable
           onPress={() => router.push('/sign-in')}

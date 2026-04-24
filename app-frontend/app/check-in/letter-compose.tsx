@@ -50,7 +50,7 @@ export default function LetterComposeScreen() {
   const emotionId = (savedMessage.emotionId ?? 'neutral') as EmotionId
   const userName = settings.name?.trim() || 'friend'
   const isPremium = settings.subscription.tier === 'premium'
-  const canUseLetter = isPremium || !settings.firstLetterUsed
+  const canUseLetter = true // TODO: re-enable after testing — was: isPremium || !settings.firstLetterUsed
 
   async function handleSend() {
     if (!getCurrentUser()) {
@@ -71,6 +71,7 @@ export default function LetterComposeScreen() {
       reference,
       userInput: userInput.trim() || undefined,
       userName,
+      hourOfDay: new Date().getHours(),
     })
 
     setLetterLoading(false)

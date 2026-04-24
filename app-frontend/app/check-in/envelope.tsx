@@ -247,9 +247,9 @@ export default function EnvelopeScreen() {
       withTiming(1, { duration: 80 })
     )
 
-    // Card lifts then fades
-    cardScale.value = withDelay(200, withTiming(1.04, { duration: 200 }))
-    screenOpacity.value = withDelay(350, withTiming(0, { duration: 320 }, () => {
+    // Card lifts then fades — 400ms breath pause after the seal pulse
+    cardScale.value = withDelay(600, withTiming(1.04, { duration: 200 }))
+    screenOpacity.value = withDelay(750, withTiming(0, { duration: 320 }, () => {
       runOnJS(navigateToMessage)()
     }))
   }

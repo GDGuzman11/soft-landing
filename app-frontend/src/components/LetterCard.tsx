@@ -1,6 +1,6 @@
 import { View, Text, ActivityIndicator } from 'react-native'
 import Animated, { useSharedValue, useAnimatedStyle, withSpring, withRepeat, withSequence, withTiming } from 'react-native-reanimated'
-import { useEffect } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 type Props = {
   letter: string | null
@@ -51,12 +51,44 @@ export default function LetterCard({ letter, name, isLoading, error }: Props) {
   const translateY = useSharedValue(30)
   const opacity = useSharedValue(0)
 
+  const [displayedText, setDisplayedText] = useState('')
+  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null)
+
+  const cursorOpacity = useSharedValue(1)
+
   useEffect(() => {
     if (letter || error) {
       translateY.value = withSpring(0, { damping: 18, stiffness: 120 })
       opacity.value = withTiming(1, { duration: 300 })
     }
   }, [letter, error])
+
+  useEffect(() => {
+    if (!letter || isLoading) { setDisplayedText(''); return }
+    setDisplayedText('')
+    let i = 0
+    intervalRef.current = setInterval(() => {
+      i++
+      setDisplayedText(letter.slice(0, i))
+      if (i >= letter.length) clearInterval(intervalRef.current!)
+    }, 18)
+    return () => { if (intervalRef.current) clearInterval(intervalRef.current) }
+  }, [letter, isLoading])
+
+  useEffect(() => {
+    cursorOpacity.value = withRepeat(
+      withSequence(
+        withTiming(0, { duration: 500 }),
+        withTiming(1, { duration: 500 })
+      ),
+      -1,
+      false
+    )
+  }, [])
+
+  const cursorStyle = useAnimatedStyle(() => ({
+    opacity: cursorOpacity.value,
+  }))
 
   const cardStyle = useAnimatedStyle(() => ({
     transform: [{ translateY: translateY.value }],
@@ -102,16 +134,33 @@ export default function LetterCard({ letter, name, isLoading, error }: Props) {
             Dear {name},
           </Text>
 
-          <Text
-            style={{
-              fontFamily: 'Lora_400Regular',
-              fontSize: 17,
-              color: '#1A1A1A',
-              lineHeight: 26,
-            }}
-          >
-            {letter}
-          </Text>
+          <View style={{ flexDirection: 'row', flexWrap: 'wrap', alignItems: 'flex-end' }}>
+            <Text
+              style={{
+                fontFamily: 'Lora_400Regular',
+                fontSize: 17,
+                color: '#1A1A1A',
+                lineHeight: 26,
+              }}
+            >
+              {displayedText}
+            </Text>
+            {displayedText.length < (letter?.length ?? 0) && (
+              <Animated.Text
+                style={[
+                  {
+                    fontFamily: 'Lora_400Regular',
+                    fontSize: 17,
+                    color: '#C4956A',
+                    lineHeight: 26,
+                  },
+                  cursorStyle,
+                ]}
+              >
+                |
+              </Animated.Text>
+            )}
+          </View>
 
           <Text
             style={{

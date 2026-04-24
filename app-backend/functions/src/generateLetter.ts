@@ -14,7 +14,7 @@ export const generateLetter = onCall(
     }
 
     const data = request.data as GenerateLetterData
-    const { emotionId, verseBody, reference, userInput, userName } = data
+    const { emotionId, verseBody, reference, userInput, userName, hourOfDay } = data
 
     // Input validation
     if (!verseBody || typeof verseBody !== 'string' || verseBody.trim().length === 0) {
@@ -53,6 +53,7 @@ export const generateLetter = onCall(
               reference,
               userInput: userInput?.trim() || undefined,
               userName: userName?.trim() || 'friend',
+              hourOfDay,
             }),
           },
         ],

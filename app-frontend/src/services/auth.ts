@@ -3,6 +3,7 @@ import {
   signInWithEmailAndPassword,
   updateProfile,
   GoogleAuthProvider,
+  OAuthProvider,
   signInWithCredential,
   signOut,
   onAuthStateChanged,
@@ -11,6 +12,7 @@ import {
   type User,
 } from 'firebase/auth'
 import { auth } from './firebase'
+import * as AppleAuthentication from 'expo-apple-authentication'
 import type { AuthUser } from '../types'
 
 export type { AuthUser }
@@ -70,4 +72,18 @@ export function subscribeToAuthChanges(callback: (user: AuthUser | null) => void
   return onAuthStateChanged(auth, (user) => {
     callback(user ? toAuthUser(user) : null)
   })
+}
+
+export async function signInWithApple(): Promise<void> {
+  const credential = await AppleAuthentication.signInAsync({
+    requestedScopes: [
+      AppleAuthentication.AppleAuthenticationScope.FULL_NAME,
+      AppleAuthentication.AppleAuthenticationScope.EMAIL,
+    ],
+  })
+  const { identityToken } = credential
+  if (!identityToken) throw new Error('No Apple identity token returned')
+  const provider = new OAuthProvider('apple.com')
+  const firebaseCredential = provider.credential({ idToken: identityToken })
+  await signInWithCredential(auth, firebaseCredential)
 }
