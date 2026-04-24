@@ -10,11 +10,11 @@ import Animated, {
   withSpring,
   interpolate,
   Extrapolation,
+  runOnJS,
 } from 'react-native-reanimated'
 import * as Haptics from 'expo-haptics'
 import { bookmarkMessage, canCheckIn, performCheckIn } from '@/services/checkIn'
 import type { EmotionId } from '@/types'
-import TourTooltip from '@/components/TourTooltip'
 
 const SWIPE_THRESHOLD = 110
 
@@ -26,19 +26,14 @@ interface VerseData {
 }
 
 export default function MessageScreen() {
-  const { emotionId, messageBody, messageReference, checkInId, messageId, tour } =
+  const { emotionId, messageBody, messageReference, checkInId, messageId } =
     useLocalSearchParams<{
       emotionId: string
       messageBody: string
       messageReference: string
       checkInId: string
       messageId: string
-      tour?: string
     }>()
-  const isTour = tour === '1'
-  const [showTooltip, setShowTooltip] = useState(isTour)
-  const [showSymbolsTooltip, setShowSymbolsTooltip] = useState(false)
-  const hasSwipedInTour = showSymbolsTooltip
 
   const [verse, setVerse] = useState<VerseData>({
     body: messageBody,
@@ -149,32 +144,25 @@ export default function MessageScreen() {
     .onEnd((e) => {
       if (transitioning) return
 
-      if (Math.abs(e.translationX) > SWIPE_THRESHOLD && isTour && !hasSwipedInTour) {
-        // Tour mode: intercept first swipe — snap back and show symbol guide
-        cardX.value = withSpring(0, { damping: 20, stiffness: 200 })
-        cardRotate.value = withSpring(0, { damping: 20, stiffness: 200 })
-        saveOpacity.value = withTiming(0, { duration: 200 })
-        discardOpacity.value = withTiming(0, { duration: 200 })
-        setShowSymbolsTooltip(true)
-      } else if (e.translationX > SWIPE_THRESHOLD) {
+      if (e.translationX > SWIPE_THRESHOLD) {
         // Swipe right → save + next
-        setTransitioning(true)
+        runOnJS(setTransitioning)(true)
         cardX.value = withTiming(700, { duration: 280 })
         cardRotate.value = withTiming(22, { duration: 280 })
         cardOpacity.value = withTiming(0, { duration: 260 })
         saveOpacity.value = withTiming(0, { duration: 200 })
         cardY.value = withTiming(cardY.value - 10, { duration: 280 }, () => {
-          handleSaveAndNext()
+          runOnJS(handleSaveAndNext)()
         })
       } else if (e.translationX < -SWIPE_THRESHOLD) {
         // Swipe left → discard + next
-        setTransitioning(true)
+        runOnJS(setTransitioning)(true)
         cardX.value = withTiming(-700, { duration: 280 })
         cardRotate.value = withTiming(-22, { duration: 280 })
         cardOpacity.value = withTiming(0, { duration: 260 })
         discardOpacity.value = withTiming(0, { duration: 200 })
         cardY.value = withTiming(cardY.value - 10, { duration: 280 }, () => {
-          handleDiscardAndNext()
+          runOnJS(handleDiscardAndNext)()
         })
       } else {
         // Snap back
@@ -219,7 +207,7 @@ export default function MessageScreen() {
     setTransitioning(true)
     cardX.value = withTiming(700, { duration: 300 })
     cardRotate.value = withTiming(20, { duration: 300 })
-    cardOpacity.value = withTiming(0, { duration: 280 }, () => handleSaveAndNext())
+    cardOpacity.value = withTiming(0, { duration: 280 }, () => runOnJS(handleSaveAndNext)())
   }
 
   async function handleShare() {
@@ -393,25 +381,6 @@ export default function MessageScreen() {
           </Text>
         </Pressable>
       </Animated.View>
-
-      {showTooltip && (
-        <TourTooltip
-          text="Swipe right to save a verse to your collection. Swipe left to let it go and see another."
-          onDismiss={() => setShowTooltip(false)}
-        />
-      )}
-
-      {showSymbolsTooltip && (
-        <TourTooltip
-          rows={[
-            { symbol: '☆', label: 'Save this verse to your collection' },
-            { symbol: '↑', label: 'Share it with someone who needs it' },
-            { symbol: '×', label: 'Wrap up and see what you saved' },
-          ]}
-          buttonLabel="Next →"
-          onDismiss={() => router.replace('/(tabs)?tourStep=5')}
-        />
-      )}
     </View>
   )
 }

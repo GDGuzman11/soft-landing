@@ -71,6 +71,7 @@ export default function RootLayout() {
       <Stack.Screen name="faith-intro" options={{ animation: 'fade' }} />
       <Stack.Screen name="onboarding-profile" options={{ headerShown: false, animation: 'fade' }} />
       <Stack.Screen name="onboarding-disclaimer" options={{ headerShown: false, animation: 'fade' }} />
+      <Stack.Screen name="tour" options={{ headerShown: false, animation: 'fade' }} />
       <Stack.Screen name="check-in/session-summary" options={{ headerShown: false, animation: 'fade' }} />
       <Stack.Screen name="check-in/letter-compose" options={{ headerShown: false, animation: 'fade' }} />
     </Stack>

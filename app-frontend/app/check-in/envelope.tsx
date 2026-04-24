@@ -15,7 +15,6 @@ import * as Haptics from 'expo-haptics'
 import { performCheckIn } from '@/services/checkIn'
 import type { CheckInResult } from '@/services/checkIn'
 import type { EmotionId } from '@/types'
-import TourTooltip from '@/components/TourTooltip'
 
 const { width } = Dimensions.get('window')
 const CARD_WIDTH = width * 0.85
@@ -162,12 +161,10 @@ function WaxSeal({ loading }: { loading: boolean }) {
 // ─────────────────────────────────────────────────────────────────────────────
 
 export default function EnvelopeScreen() {
-  const { emotionId, tour } = useLocalSearchParams<{ emotionId: string; tour?: string }>()
-  const isTour = tour === '1'
+  const { emotionId } = useLocalSearchParams<{ emotionId: string }>()
   const [result, setResult] = useState<CheckInResult | null>(null)
   const [loading, setLoading] = useState(true)
   const [opening, setOpening] = useState(false)
-  const [showTooltip, setShowTooltip] = useState(isTour)
 
   const cardY = useSharedValue(420)
   const cardScale = useSharedValue(1)
@@ -230,7 +227,6 @@ export default function EnvelopeScreen() {
         messageReference: result.message.reference ?? '',
         checkInId: result.event.id,
         messageId: result.message.id,
-        ...(isTour ? { tour: '1' } : {}),
       },
     })
   }
@@ -380,12 +376,6 @@ export default function EnvelopeScreen() {
         }, overlayStyle]}
       />
 
-      {showTooltip && (
-        <TourTooltip
-          text="Your verse is sealed inside. Tap when you're ready to open it."
-          onDismiss={() => setShowTooltip(false)}
-        />
-      )}
     </View>
   )
 }

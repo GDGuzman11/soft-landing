@@ -162,7 +162,7 @@ export default function WelcomeScreen() {
     } catch {
       // non-fatal
     }
-    router.replace('/check-in/emotions?tour=1')
+    router.replace('/tour')
   }
 
   return (
