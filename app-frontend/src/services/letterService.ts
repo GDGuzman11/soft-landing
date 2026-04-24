@@ -10,12 +10,14 @@ type LetterPayload = {
   userName: string
   hourOfDay?: number
   faithBackground?: string | null
+  primaryIntent?: string | null
   lifeStage?: string | null
 }
 
 type LetterResult = {
   letter: string | null
   showCrisisPrompt: boolean
+  blocked?: boolean
 }
 
 export async function generateLetter(payload: LetterPayload): Promise<LetterResult> {

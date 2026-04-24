@@ -16,6 +16,7 @@ interface PromptParams {
   userName: string
   hourOfDay?: number
   faithBackground?: 'established' | 'exploring' | 'between' | null
+  primaryIntent?: 'peace' | 'strength' | 'comfort' | 'guidance' | 'exploring' | null
   lifeStage?: 'early' | 'middle' | 'later' | null
 }
 
@@ -53,6 +54,22 @@ function getLifeStageContext(lifeStage?: string | null): string {
   return ''
 }
 
+function getPrimaryIntentContext(primaryIntent?: string | null): string {
+  if (primaryIntent === 'peace') {
+    return "\n\nWhat they came for: This person is looking for peace — not advice on how to find it, but the actual feeling of it. The world around them feels loud or out of control. Let the pace of your writing slow down. By the last sentence, the chaos should feel a little further away — not because you told them it would be, but because the letter itself carried a different air."
+  }
+  if (primaryIntent === 'strength') {
+    return "\n\nWhat they came for: This person needs strength to keep going. They are not asking for rest — they are asking for something firm to stand on. Do not give them a pep talk. Give them something true. The letter should leave them feeling more capable than when they started — not because you said \"you've got this,\" but because something in them got a little steadier."
+  }
+  if (primaryIntent === 'comfort') {
+    return "\n\nWhat they came for: This person is going through something painful and came specifically for comfort. Do not rush past the pain to get to the hope. Sit in it with them longer than feels comfortable — that is what real comfort looks like. The turn toward something better should feel earned, not assumed. Meet them where they are before you go anywhere else."
+  }
+  if (primaryIntent === 'guidance') {
+    return "\n\nWhat they came for: This person is facing a decision or searching for direction. They are not looking for an answer — they are looking for clarity that a decision is possible. The letter should acknowledge the weight of not knowing, and leave them feeling less alone in the uncertainty. The verse should feel like a light pointing somewhere, not a prescription."
+  }
+  return ''
+}
+
 function sanitizeUserText(text: string): string {
   // Strip angle brackets to prevent XML/HTML injection in prompt context
   return text.replace(/[<>]/g, '')
@@ -66,6 +83,7 @@ export function buildPrompt({
   userName,
   hourOfDay,
   faithBackground,
+  primaryIntent,
   lifeStage,
 }: PromptParams): string {
   const emotionLabel = EMOTION_LABELS[emotionId] ?? 'uncertain'
@@ -78,6 +96,7 @@ export function buildPrompt({
 
   const toneGuidance = getToneGuidance(hourOfDay)
   const faithContext = getFaithContext(faithBackground)
+  const intentContext = getPrimaryIntentContext(primaryIntent)
   const lifeStageContext = getLifeStageContext(lifeStage)
 
   return `You are sitting down to write a personal letter to someone you love. Not a pastor, not a therapist — a lifelong friend who knows this person's heart and who also knows the Word deeply. You write the way someone talks at 11pm when they're being real: warm, specific, unhurried.
@@ -87,7 +106,7 @@ You are writing to ${safeUserName}, who is feeling ${emotionLabel} right now.
 The verse they received today:
 "${verseBody}" — ${reference}
 
-${inputSection}Write a personal letter of 120-160 words. The priority order is this: first, their situation — what they shared or what they're feeling. Second, the verse — it arrives because of them, not the other way around. The verse is not the point; they are the point. The verse is just what showed up when you were thinking about them. Third, leave them standing a little taller. Not because you gave them advice — because they felt understood. The ending should feel like something landed, not like encouragement was delivered.
+${inputSection}Write a personal letter of 120-160 words. The priority order is this: first, their situation — what they shared or what they're feeling. Second, the verse — it was chosen specifically for someone feeling ${emotionLabel}, and it belongs to this moment. Show how it speaks directly to what they are carrying right now, not in general terms, but in a way that could only apply to them. Third, leave them standing a little taller. Not because you gave them advice — because they felt understood. The ending should feel like something landed, not like encouragement was delivered.
 
 The letter must sound like:
   A real person who loves them — warm, specific, unhurried
@@ -99,7 +118,7 @@ Never use: "you should", "try to", "remember to", "I encourage you", "I want you
 
 Never use em dashes (—). Write around them. Use a period, a comma, or a new sentence instead.
 
-Never explain the verse. Let it live inside the letter as a natural thought — not a quote being introduced, not a lesson being taught. It surfaces the way something occurs to a friend mid-sentence.
+Never explain the verse. Let it live inside the letter as a natural thought — not a quote being introduced, not a lesson being taught. It surfaces the way something occurs to a friend mid-sentence, because they were already thinking about you.
 
-The UI adds "Dear ${safeUserName}," at the start and "With you in this." at the end. Do not write either.${toneGuidance}${faithContext}${lifeStageContext}`
+The UI adds "Dear ${safeUserName}," at the start and "With you in this." at the end. Do not write either.${toneGuidance}${faithContext}${intentContext}${lifeStageContext}`
 }

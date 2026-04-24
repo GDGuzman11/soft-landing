@@ -2,6 +2,7 @@ import { onCall, HttpsError } from 'firebase-functions/v2/https'
 import Anthropic from '@anthropic-ai/sdk'
 import { buildPrompt } from './prompt'
 import { containsCrisisContent } from './crisisKeywords'
+import { filterUserInput } from './inputFilter'
 import { getRandomMockLetter } from './mockLetters'
 import { checkRateLimit } from './rateLimit'
 import type { GenerateLetterData, GenerateLetterResult } from './types'
@@ -9,6 +10,7 @@ import type { GenerateLetterData, GenerateLetterResult } from './types'
 const VALID_EMOTIONS = ['stressed', 'tired', 'sad', 'neutral', 'good']
 const VALID_FAITH_BACKGROUNDS = ['established', 'exploring', 'between']
 const VALID_LIFE_STAGES = ['early', 'middle', 'later']
+const VALID_INTENTS = ['peace', 'strength', 'comfort', 'guidance', 'exploring']
 
 function validateInputs(data: GenerateLetterData): void {
   if (!data.verseBody || typeof data.verseBody !== 'string' || data.verseBody.trim().length === 0) {
@@ -35,6 +37,9 @@ function validateInputs(data: GenerateLetterData): void {
   if (data.faithBackground !== undefined && data.faithBackground !== null && !VALID_FAITH_BACKGROUNDS.includes(data.faithBackground)) {
     throw new HttpsError('invalid-argument', 'Invalid faithBackground')
   }
+  if (data.primaryIntent !== undefined && data.primaryIntent !== null && !VALID_INTENTS.includes(data.primaryIntent)) {
+    throw new HttpsError('invalid-argument', 'Invalid primaryIntent')
+  }
   if (data.lifeStage !== undefined && data.lifeStage !== null && !VALID_LIFE_STAGES.includes(data.lifeStage)) {
     throw new HttpsError('invalid-argument', 'Invalid lifeStage')
   }
@@ -50,7 +55,15 @@ export const generateLetter = onCall(
     const data = request.data as GenerateLetterData
     validateInputs(data)
 
-    const { emotionId, verseBody, reference, userInput, userName, hourOfDay, faithBackground, lifeStage } = data
+    const { emotionId, verseBody, reference, userInput, userName, hourOfDay, faithBackground, primaryIntent, lifeStage } = data
+
+    // Block malicious input before it reaches the AI
+    if (userInput) {
+      const filterResult = filterUserInput(userInput)
+      if (!filterResult.safe) {
+        return { letter: null, showCrisisPrompt: false, blocked: true }
+      }
+    }
 
     try {
       await checkRateLimit(request.auth.uid)
@@ -87,6 +100,7 @@ export const generateLetter = onCall(
               userName: userName?.trim() || 'friend',
               hourOfDay,
               faithBackground: faithBackground as 'established' | 'exploring' | 'between' | null | undefined,
+              primaryIntent: primaryIntent as 'peace' | 'strength' | 'comfort' | 'guidance' | 'exploring' | null | undefined,
               lifeStage: lifeStage as 'early' | 'middle' | 'later' | null | undefined,
             }),
           },

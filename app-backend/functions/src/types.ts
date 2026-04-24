@@ -8,10 +8,12 @@ export interface GenerateLetterData {
   userName: string
   hourOfDay?: number
   faithBackground?: string | null
+  primaryIntent?: string | null
   lifeStage?: string | null
 }
 
 export interface GenerateLetterResult {
   letter: string | null
   showCrisisPrompt: boolean
+  blocked?: boolean
 }

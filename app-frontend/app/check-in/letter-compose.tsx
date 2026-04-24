@@ -32,7 +32,7 @@ export default function LetterComposeScreen() {
   const [userInput, setUserInput] = useState('')
   const [letter, setLetter] = useState<string | null>(null)
   const [letterLoading, setLetterLoading] = useState(false)
-  const [letterError, setLetterError] = useState<'network' | null>(null)
+  const [letterError, setLetterError] = useState<'network' | 'blocked' | null>(null)
   const [showCrisisPrompt, setShowCrisisPrompt] = useState(false)
   const [letterSaved, setLetterSaved] = useState(false)
 
@@ -73,6 +73,7 @@ export default function LetterComposeScreen() {
       userName,
       hourOfDay: new Date().getHours(),
       faithBackground: settings?.faithBackground ?? null,
+      primaryIntent: settings?.primaryIntent ?? null,
       lifeStage: settings?.lifeStage ?? null,
     })
 
@@ -80,6 +81,11 @@ export default function LetterComposeScreen() {
 
     if (result.showCrisisPrompt) {
       setShowCrisisPrompt(true)
+      return
+    }
+
+    if (result.blocked) {
+      setLetterError('blocked')
       return
     }
 
