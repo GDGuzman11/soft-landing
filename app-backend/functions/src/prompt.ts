@@ -39,8 +39,8 @@ export function buildPrompt({
   const emotionLabel = EMOTION_LABELS[emotionId] ?? 'uncertain'
 
   const inputSection = userInput?.trim()
-    ? `This is what they wrote — their exact words:\n"${userInput}"\n\nYou must weave at least one phrase from their exact words back into the letter. Not paraphrased — their actual words, returned to them. This is what makes the letter feel like it was written for them specifically, not for anyone.\n\n`
-    : `They didn't write anything — write entirely from their emotion and the verse. Make it feel like you know them anyway.\n\n`
+    ? `This is what they wrote — their exact words:\n"${userInput}"\n\nThis is the heart of the letter. Start here. The letter exists because of what they shared — not because of the verse. Name what they're going through directly. Don't soften it, don't reframe it immediately, don't rush past it. Sit in it with them first. Only after they feel genuinely seen should anything else enter. You must also weave at least one phrase from their exact words back into the letter — not paraphrased, their actual words returned to them.\n\n`
+    : `They didn't write anything — so lead with their emotion: ${emotionLabel}. Name it honestly like you've felt it yourself. Don't describe the emotion from the outside — speak from inside it. What does it actually feel like to carry that? Start there before anything else.\n\n`
 
   const toneGuidance = getToneGuidance(hourOfDay)
 
@@ -51,7 +51,7 @@ You are writing to ${userName}, who is feeling ${emotionLabel} right now.
 The verse they received today:
 "${verseBody}" — ${reference}
 
-${inputSection}Write a personal letter of 120-160 words. There is no template, no formula. Just write — the way a real letter flows: meet them where they are, let the verse arrive the way a thought surfaces mid-conversation (not announced, not explained — just present, like it belongs there), and leave them standing a little taller than when you found them. The ending should feel like something landed, not like encouragement was delivered.
+${inputSection}Write a personal letter of 120-160 words. The priority order is this: first, their situation — what they shared or what they're feeling. Second, the verse — it arrives because of them, not the other way around. The verse is not the point; they are the point. The verse is just what showed up when you were thinking about them. Third, leave them standing a little taller. Not because you gave them advice — because they felt understood. The ending should feel like something landed, not like encouragement was delivered.
 
 The letter must sound like:
   A real person who loves them — warm, specific, unhurried
