@@ -52,8 +52,6 @@ export default function OnboardingProfileScreen() {
   const [faithBackground, setFaithBackground] = useState<FaithBackground>(null)
   const [primaryIntent, setPrimaryIntent] = useState<PrimaryIntent>(null)
   const [lifeStage, setLifeStage] = useState<LifeStage>(null)
-  const [canAdvance, setCanAdvance] = useState(false)
-
   const opacity = useSharedValue(1)
   const translateX = useSharedValue(0)
 
@@ -65,7 +63,6 @@ export default function OnboardingProfileScreen() {
   function transitionToSlide(nextSlide: number) {
     opacity.value = withTiming(0, { duration: 220 }, () => {
       runOnJS(setSlide)(nextSlide)
-      runOnJS(setCanAdvance)(false)
       translateX.value = 20
       opacity.value = withTiming(1, { duration: 280 })
       translateX.value = withSpring(0, { damping: 20, stiffness: 200 })
@@ -93,33 +90,27 @@ export default function OnboardingProfileScreen() {
     router.replace('/faith-intro')
   }
 
-  function handleNext() {
-    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)
+  function advance(fb: FaithBackground, pi: PrimaryIntent, ls: LifeStage) {
     if (slide < TOTAL_SLIDES - 1) {
       transitionToSlide(slide + 1)
     } else {
-      finish(faithBackground, primaryIntent, lifeStage)
+      finish(fb, pi, ls)
     }
   }
 
   function handleSkip() {
-    if (slide < TOTAL_SLIDES - 1) {
-      transitionToSlide(slide + 1)
-    } else {
-      finish(faithBackground, primaryIntent, lifeStage)
-    }
+    advance(faithBackground, primaryIntent, lifeStage)
   }
 
   function handleSelect(value: string) {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)
-    if (slide === 0) {
-      setFaithBackground(value as FaithBackground)
-    } else if (slide === 1) {
-      setPrimaryIntent(value as PrimaryIntent)
-    } else {
-      setLifeStage(value as LifeStage)
-    }
-    setCanAdvance(true)
+    let fb = faithBackground
+    let pi = primaryIntent
+    let ls = lifeStage
+    if (slide === 0) { fb = value as FaithBackground; setFaithBackground(fb) }
+    else if (slide === 1) { pi = value as PrimaryIntent; setPrimaryIntent(pi) }
+    else { ls = value as LifeStage; setLifeStage(ls) }
+    setTimeout(() => advance(fb, pi, ls), 350)
   }
 
   function getSelectedValue(): string | null {
@@ -130,9 +121,6 @@ export default function OnboardingProfileScreen() {
 
   const current = SLIDES[slide]
   const selectedValue = getSelectedValue()
-  const isLastSlide = slide === TOTAL_SLIDES - 1
-  const ctaLabel = isLastSlide ? 'Done →' : 'Next →'
-
   return (
     <View style={{ flex: 1, backgroundColor: '#FAF8F5' }}>
       <ScrollView
@@ -217,37 +205,6 @@ export default function OnboardingProfileScreen() {
             </Text>
           </Pressable>
 
-          {/* Next / Done button — visible after selection or skip */}
-          {canAdvance && (
-            <Pressable
-              onPress={handleNext}
-              style={({ pressed }) => ({
-                backgroundColor: '#C4956A',
-                borderRadius: 100,
-                paddingVertical: 16,
-                paddingHorizontal: 40,
-                alignItems: 'center',
-                alignSelf: 'center',
-                shadowColor: '#C4956A',
-                shadowOffset: { width: 0, height: pressed ? 2 : 4 },
-                shadowOpacity: pressed ? 0.2 : 0.3,
-                shadowRadius: pressed ? 8 : 12,
-                elevation: pressed ? 3 : 6,
-              })}
-              accessibilityRole="button"
-              accessibilityLabel={ctaLabel}
-            >
-              <Text
-                style={{
-                  fontFamily: 'DMSans_500Medium',
-                  fontSize: 15,
-                  color: '#FFFFFF',
-                }}
-              >
-                {ctaLabel}
-              </Text>
-            </Pressable>
-          )}
         </Animated.View>
       </ScrollView>
 
