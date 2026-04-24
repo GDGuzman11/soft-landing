@@ -34,6 +34,10 @@ const DEFAULT_SETTINGS: AppSettings = {
   isGuest: false,
   firstLetterUsed: false,
   disclaimerAccepted: false,
+  faithBackground: null,
+  primaryIntent: null,
+  lifeStage: null,
+  profileComplete: false,
 }
 
 async function get<T>(key: string, fallback: T): Promise<T> {

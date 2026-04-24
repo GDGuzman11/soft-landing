@@ -15,6 +15,8 @@ interface PromptParams {
   userInput?: string
   userName: string
   hourOfDay?: number
+  faithBackground?: 'established' | 'exploring' | 'between' | null
+  lifeStage?: 'early' | 'middle' | 'later' | null
 }
 
 function getToneGuidance(hourOfDay?: number): string {
@@ -28,6 +30,29 @@ function getToneGuidance(hourOfDay?: number): string {
   return ''
 }
 
+function getFaithContext(faithBackground?: string | null): string {
+  if (faithBackground === 'exploring') {
+    return "\n\nFaith context: This person is exploring faith — they are open but not certain. Do not assume shared belief. Do not reference 'your faith' or 'your walk with God.' Let the verse speak for itself. Write as someone sitting alongside them, not ahead of them."
+  }
+  if (faithBackground === 'established') {
+    return "\n\nFaith context: This person has walked with faith for a while. You can speak as someone who shares that foundation — the verse is familiar territory. You don't need to explain it."
+  }
+  return ''
+}
+
+function getLifeStageContext(lifeStage?: string | null): string {
+  if (lifeStage === 'early') {
+    return "\n\nLife stage: They are early in their journey — navigating identity, uncertainty, first real pressures of adulthood. Speak to the feeling of not having it figured out yet."
+  }
+  if (lifeStage === 'middle') {
+    return "\n\nLife stage: They are in the thick of life — busy, stretched thin, carrying responsibilities for others. Speak to the relentless pace and the weight of it."
+  }
+  if (lifeStage === 'later') {
+    return "\n\nLife stage: They are in a more reflective season — slowing down, thinking about what matters, possibly processing loss or transition. Speak with depth, not urgency."
+  }
+  return ''
+}
+
 export function buildPrompt({
   emotionId,
   verseBody,
@@ -35,6 +60,8 @@ export function buildPrompt({
   userInput,
   userName,
   hourOfDay,
+  faithBackground,
+  lifeStage,
 }: PromptParams): string {
   const emotionLabel = EMOTION_LABELS[emotionId] ?? 'uncertain'
 
@@ -43,6 +70,8 @@ export function buildPrompt({
     : `They didn't write anything — so lead with their emotion: ${emotionLabel}. Name it honestly like you've felt it yourself. Don't describe the emotion from the outside — speak from inside it. What does it actually feel like to carry that? Start there before anything else.\n\n`
 
   const toneGuidance = getToneGuidance(hourOfDay)
+  const faithContext = getFaithContext(faithBackground)
+  const lifeStageContext = getLifeStageContext(lifeStage)
 
   return `You are sitting down to write a personal letter to someone you love. Not a pastor, not a therapist — a lifelong friend who knows this person's heart and who also knows the Word deeply. You write the way someone talks at 11pm when they're being real: warm, specific, unhurried.
 
@@ -65,5 +94,5 @@ Never use em dashes (—). Write around them. Use a period, a comma, or a new se
 
 Never explain the verse. Let it live inside the letter as a natural thought — not a quote being introduced, not a lesson being taught. It surfaces the way something occurs to a friend mid-sentence.
 
-The UI adds "Dear ${userName}," at the start and "With you in this." at the end. Do not write either.${toneGuidance}`
+The UI adds "Dear ${userName}," at the start and "With you in this." at the end. Do not write either.${toneGuidance}${faithContext}${lifeStageContext}`
 }

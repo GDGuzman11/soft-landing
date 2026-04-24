@@ -72,6 +72,8 @@ export default function LetterComposeScreen() {
       userInput: userInput.trim() || undefined,
       userName,
       hourOfDay: new Date().getHours(),
+      faithBackground: settings?.faithBackground ?? null,
+      lifeStage: settings?.lifeStage ?? null,
     })
 
     setLetterLoading(false)

@@ -190,6 +190,14 @@ export interface AppSettings {
   firstLetterUsed: boolean;
   /** Whether the user has accepted the app disclaimer. */
   disclaimerAccepted: boolean;
+  /** The user's faith background, captured during personalization onboarding. */
+  faithBackground: 'established' | 'exploring' | 'between' | null;
+  /** The primary spiritual intent the user is seeking, used to boost message selection. */
+  primaryIntent: 'peace' | 'strength' | 'comfort' | 'guidance' | 'exploring' | null;
+  /** The user's life stage, captured during personalization onboarding. */
+  lifeStage: 'early' | 'middle' | 'later' | null;
+  /** Whether the user has completed the personalization profile flow. */
+  profileComplete: boolean;
 }
 
 export interface AuthUser {

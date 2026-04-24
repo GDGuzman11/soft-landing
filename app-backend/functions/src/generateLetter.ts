@@ -14,7 +14,7 @@ export const generateLetter = onCall(
     }
 
     const data = request.data as GenerateLetterData
-    const { emotionId, verseBody, reference, userInput, userName, hourOfDay } = data
+    const { emotionId, verseBody, reference, userInput, userName, hourOfDay, faithBackground, lifeStage } = data
 
     // Input validation
     if (!verseBody || typeof verseBody !== 'string' || verseBody.trim().length === 0) {
@@ -54,6 +54,8 @@ export const generateLetter = onCall(
               userInput: userInput?.trim() || undefined,
               userName: userName?.trim() || 'friend',
               hourOfDay,
+              faithBackground: faithBackground as 'established' | 'exploring' | 'between' | null | undefined,
+              lifeStage: lifeStage as 'early' | 'middle' | 'later' | null | undefined,
             }),
           },
         ],

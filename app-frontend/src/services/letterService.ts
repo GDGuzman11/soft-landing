@@ -9,6 +9,8 @@ type LetterPayload = {
   userInput?: string
   userName: string
   hourOfDay?: number
+  faithBackground?: string | null
+  lifeStage?: string | null
 }
 
 type LetterResult = {

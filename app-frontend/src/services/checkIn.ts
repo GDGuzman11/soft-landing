@@ -27,8 +27,10 @@ export async function canCheckIn(): Promise<boolean> {
 }
 
 export async function performCheckIn(emotionId: EmotionId): Promise<CheckInResult> {
-  const tier = await getSettings().then((s) => s.subscription.tier).catch(() => 'free' as const)
-  const message = await selectMessage(emotionId, tier)
+  const settings = await getSettings().catch(() => null)
+  const tier = settings?.subscription.tier ?? 'free'
+  const primaryIntent = settings?.primaryIntent ?? null
+  const message = await selectMessage(emotionId, tier, primaryIntent)
 
   const event: CheckInEvent = {
     id: generateId(),

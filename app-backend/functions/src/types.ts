@@ -7,6 +7,8 @@ export interface GenerateLetterData {
   userInput?: string
   userName: string
   hourOfDay?: number
+  faithBackground?: string | null
+  lifeStage?: string | null
 }
 
 export interface GenerateLetterResult {

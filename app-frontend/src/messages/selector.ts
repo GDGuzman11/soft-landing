@@ -5,19 +5,34 @@ import catalog from './catalog.json'
 const RECENT_PENALTY_HOURS = 48
 const RECENT_PENALTY_FACTOR = 0.2
 
-function effectiveWeight(message: Message, now: Date): number {
-  if (!message.lastUsed) return message.weight
+const INTENT_TAG_MAP: Record<string, string[]> = {
+  peace:    ['comfort', 'rest', 'presence'],
+  strength: ['perseverance', 'strength', 'courage'],
+  comfort:  ['grief', 'comfort', 'healing'],
+  guidance: ['wisdom', 'direction', 'trust'],
+}
+
+function effectiveWeight(message: Message, now: Date, intentTags: string[]): number {
+  const tagBoost = intentTags.some((tag) => message.tags?.includes(tag)) ? 1.5 : 1
+
+  if (!message.lastUsed) return message.weight * tagBoost
 
   const hoursSinceUsed = (now.getTime() - new Date(message.lastUsed).getTime()) / 3_600_000
   if (hoursSinceUsed < RECENT_PENALTY_HOURS) {
-    return message.weight * RECENT_PENALTY_FACTOR
+    return message.weight * RECENT_PENALTY_FACTOR * tagBoost
   }
-  return message.weight
+  return message.weight * tagBoost
 }
 
-export async function selectMessage(emotionId: EmotionId, tier: Tier): Promise<Message> {
+export async function selectMessage(
+  emotionId: EmotionId,
+  tier: Tier,
+  primaryIntent?: string | null
+): Promise<Message> {
   const now = new Date()
   const meta = await getMessageMetadata()
+
+  const intentTags = primaryIntent ? (INTENT_TAG_MAP[primaryIntent] ?? []) : []
 
   const pool = (catalog as Message[])
     .filter((m) => m.emotionId === emotionId && (tier === 'premium' || m.tier === 'free'))
@@ -29,7 +44,7 @@ export async function selectMessage(emotionId: EmotionId, tier: Tier): Promise<M
 
   if (pool.length === 0) throw new Error(`No messages found for emotion: ${emotionId}`)
 
-  const weights = pool.map((m) => effectiveWeight(m, now))
+  const weights = pool.map((m) => effectiveWeight(m, now, intentTags))
   const total = weights.reduce((sum, w) => sum + w, 0)
 
   let rand = Math.random() * total
