@@ -6,17 +6,19 @@ Built with React Native + Expo, TypeScript strict, NativeWind, React Native Rean
 
 ## What it does
 
-1. **Welcome** — Animated cross with soft white glow + ripple rings. Register, Sign In, or Continue as Guest
-2. **Register / Sign In** — Email + password or Google Sign-In. Email verification required before first use
-3. **Onboarding** — 2-slide intro shown once after first registration
-4. **Faith intro** — Amber cross + "Find rest in His Word." shown once after onboarding
-5. **Home** — Time-based greeting with user's name, single Check In button
-6. **Emotion picker** — Five full-width cards: Stressed, Tired, Sad, Neutral, Good
-7. **Envelope** — Candle wax-sealed card floats in, tap to open
-8. **Verse** — NIV Bible verse in Lora serif; swipe right to save, left to skip. New verse loads immediately
-9. **History** — All saved verses with scripture reference and a Share button
-10. **Settings** — Notifications toggle, subscription status, Start over
-11. **Paywall** — Shown when free tier (10/day) is reached; Monthly $4.99 / Annual $34.99
+1. **Welcome** — Animated cross with soft white glow + ripple rings. Register, Sign In, or Take a Tour
+2. **Take a Tour** — 4-slide visual preview of the app for new visitors; "Enter the App →" drops them into the check-in flow
+3. **Register / Sign In** — Email + password or Google Sign-In. Email verification required before first use
+4. **Onboarding** — 2-slide intro shown once after first registration
+5. **Onboarding profile** — 3-question profile (faith background, intent, life stage); Design A "Candlelight" aesthetic
+6. **Faith intro** — Amber cross + "Find rest in His Word." shown once after onboarding
+7. **Home** — Time-based greeting with user's name, single Check In button
+8. **Emotion picker** — Five full-width cards: Stressed, Tired, Sad, Neutral, Good
+9. **Envelope** — Candle wax-sealed card floats in, tap to open
+10. **Verse** — NIV Bible verse in Lora serif; swipe right to save, left to skip. New verse loads immediately
+11. **History** — All saved verses with scripture reference, AI letter, and Share button
+12. **Settings** — Notifications toggle, subscription status, Start over
+13. **Paywall** — Shown when free tier (10/day) is reached; Monthly $4.99 / Annual $34.99
 
 ## Prerequisites
 
@@ -62,12 +64,15 @@ soft-landing/
 ├── app-frontend/          # Expo app
 │   ├── app/               # Expo Router file-based routes
 │   │   ├── (tabs)/        # Home, History, Settings tabs
-│   │   ├── check-in/      # Emotions → Envelope → Message flow
+│   │   ├── check-in/      # Emotions → Envelope → Message → Session Summary → Letter flow
 │   │   ├── welcome.tsx    # Combined splash + auth entry point
+│   │   ├── tour.tsx       # 4-slide pre-tour screen for guest users
 │   │   ├── sign-in.tsx    # Email/password + Google sign-in
 │   │   ├── register.tsx   # Account creation with email verification
 │   │   ├── verify-email.tsx
 │   │   ├── onboarding.tsx
+│   │   ├── onboarding-profile.tsx  # 3-question profile (Design A Candlelight)
+│   │   ├── onboarding-disclaimer.tsx
 │   │   ├── faith-intro.tsx
 │   │   └── paywall.tsx
 │   ├── src/
@@ -98,12 +103,15 @@ pnpm exec expo start --web
 
 Open `http://localhost:8081/dashboard` (dev/web only).
 
-## Current build state (v1.2.0)
+## Current build state (v1.3.0)
 
 - Full auth flow: register, sign in (email + Google), email verification, guest mode
 - Firebase Auth with AsyncStorage persistence — users stay signed in across restarts
 - 150 NIV Bible verses, 30 per emotion, free/premium split (15 each)
-- Welcome screen: white cross glow + ripple rings + auth buttons
+- "Take a Tour" guided experience: 4-slide visual preview → emotion picker → envelope → verse swipe → letter
+- Onboarding profile (3 questions, Design A Candlelight): saves faith background, intent, life stage
+- AI letter generation via Firebase Cloud Function → Claude Haiku; first letter free, then premium
+- Crisis input filtering and Firestore security rules deployed to backend
 - All screens functional end-to-end in Expo Go
 - EAS projectId: `2d79e638-f797-42ff-86b3-94f5c20fa6ff`
 - GitHub Actions CI: `tsc --noEmit` + `vitest run` + Expo web export on every push

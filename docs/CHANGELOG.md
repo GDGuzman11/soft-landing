@@ -5,6 +5,32 @@ All notable changes to Soft Landing will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.3.0] — 2026-04-24
+
+### Added
+- **Pre-tour slide screen** (`app/tour.tsx`): 4-slide visual preview of the app shown to guest users before they enter the check-in flow. Each slide features a visual mockup and a caption — emotion picker tiles, sealed envelope card, verse card with gesture symbols (☆ ↑ ×), and AI letter preview. "Enter the App →" on the final slide navigates to the emotion picker. "Skip →" exits the tour at any point.
+- **Onboarding profile screen** (`app/onboarding-profile.tsx`): 3-question profile captured after registration — faith background ("Where are you with faith right now?"), primary intent ("What are you most looking for?"), and life stage ("Which of these feels most like you?"). Design A "Candlelight": parchment option cards (`#FDF9F4`), amber glow shadow + scale spring on selection, Lora typography for option text, ✦ progress ornaments (not dots), crossfade-only transitions, "I'd rather not say" skip in Lora italic.
+- **`TourTooltip` component** (`src/components/TourTooltip.tsx`): Reusable bottom-anchored parchment sheet (`#F5F0E8`) for contextual in-app guidance. Supports plain text mode and symbol-row mode (icon + label pairs). Entrance: spring up from below + fade. Dismiss: slide down + fade, then `onDismiss` fires after 260ms.
+- **History tab tour hint**: Guest users returning from the check-in flow see a tooltip on the History tab explaining the saved verses collection.
+- **Home tab tour hint**: The final tour step on the Home tab invites guest users to create an account.
+
+### Changed
+- **"Continue as Guest" renamed to "Take a Tour"** on the welcome screen — accurately describes the guided experience new visitors receive.
+- **Guest routing**: Tapping "Take a Tour" now opens `app/tour.tsx` (pre-tour slides) instead of dropping users directly into the check-in flow with `tour=1` params.
+- **Onboarding flags pre-set on tour start**: `handleGuest()` now sets `disclaimerAccepted`, `onboardingComplete`, `faithIntroComplete`, and `profileComplete` to `true` before launching the tour — prevents the home screen nav guard from redirecting tour users to the disclaimer or onboarding flows.
+
+### Fixed
+- **App crash on first verse swipe** (BUG-024): Restored `runOnJS` wrapping around `setTransitioning` and `handleSaveAndNext`/`handleDiscardAndNext` calls in the gesture handler's `onEnd` worklet. Direct React state mutation from the UI-thread gesture worklet caused the app to close on first swipe. All state setter calls from worklet context are now wrapped with `runOnJS`.
+- **Double questionnaire on registration** (BUG-025): `verify-email.tsx` and Google/Apple registration paths now route to `/onboarding-disclaimer` instead of jumping directly to `/onboarding`. Previously, the home screen's nav guard fired a second redirect to `/onboarding-disclaimer` after the full flow completed, sending users through the questionnaire a second time.
+- **Tour routing to empty History**: Tour users who never saved a verse were routed to the History tab, which showed an empty state with a confusing tooltip. Tour now routes directly to the Home tab after the check-in flow.
+
+### Backend
+- **Crisis input filtering** (`functions/src/inputFilter.ts`): New module strips angle brackets and backtick sequences from user input before prompt interpolation, guarding against prompt injection. Expanded crisis keyword list to include indirect expressions of self-harm.
+- **Firestore security rules** (`firestore.rules`): Deny-all rules deployed — only `letterUsage/{uid}` is accessible by the authenticated owner (rate-limit tracking). All other paths blocked.
+- **Prompt quality rewrite** (`functions/src/prompt.ts`): Removed mechanical FIRST/SECOND/THIRD section labels, expanded banned-phrases list ("I want you to know", "you are not alone", "lean into", etc.), added explicit instruction to use user's exact words near-verbatim when present.
+
+---
+
 ## [1.2.0] — 2026-04-20
 
 ### Added
