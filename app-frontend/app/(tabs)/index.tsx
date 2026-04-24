@@ -15,15 +15,9 @@ import * as Haptics from 'expo-haptics'
 
 function getGreetingBase(): string {
   const hour = new Date().getHours()
-  if (hour < 12) return 'Good morning'
-  if (hour < 17) return 'Good afternoon'
-  return 'Good evening'
-}
-
-function getGreeting(name?: string): string {
-  const base = getGreetingBase()
-  if (name) return `${base}, ${name}.`
-  return `${base}.`
+  if (hour < 12) return 'Good morning,'
+  if (hour < 17) return 'Good afternoon,'
+  return 'Good evening,'
 }
 
 export default function HomeScreen() {
@@ -91,13 +85,34 @@ export default function HomeScreen() {
       className="flex-1 bg-background items-center justify-center px-8"
       accessibilityLabel="Home screen"
     >
-      <Animated.Text
-        className="text-text-primary text-3xl"
-        style={[{ fontFamily: 'DMSans_400Regular', letterSpacing: -0.5, marginBottom: savedCount > 0 ? 16 : 64 }, greetingStyle]}
+      <Animated.View
+        style={[{ alignItems: 'center', marginBottom: savedCount > 0 ? 16 : 64 }, greetingStyle]}
         accessibilityRole="header"
       >
-        {getGreeting(settings?.name || undefined)}
-      </Animated.Text>
+        <Text
+          style={{
+            fontFamily: 'Lora_400Regular_Italic',
+            fontSize: 22,
+            color: '#A09080',
+            textAlign: 'center',
+            marginBottom: 6,
+          }}
+        >
+          {getGreetingBase()}
+        </Text>
+        {settings?.name ? (
+          <Text
+            style={{
+              fontFamily: 'Lora_400Regular_Italic',
+              fontSize: 34,
+              color: '#1A1A1A',
+              textAlign: 'center',
+            }}
+          >
+            {settings.name}
+          </Text>
+        ) : null}
+      </Animated.View>
 
       {savedCount > 0 && (
         <Text
