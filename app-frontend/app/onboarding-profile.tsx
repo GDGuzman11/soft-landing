@@ -6,7 +6,6 @@ import Animated, {
   useAnimatedStyle,
   withTiming,
   withSpring,
-  runOnJS,
 } from 'react-native-reanimated'
 import * as Haptics from 'expo-haptics'
 import { getSettings, saveSettings } from '@/storage/storage'
@@ -18,29 +17,29 @@ type LifeStage = AppSettings['lifeStage']
 
 const SLIDES = [
   {
-    question: 'Where are you with faith right now?',
+    question: 'Where are you with faith?',
     options: [
-      { label: "I've walked with Jesus for a while", value: 'established' as const },
-      { label: "I'm exploring — open but not sure", value: 'exploring' as const },
-      { label: 'Somewhere in between', value: 'between' as const },
+      { label: 'Walking with it for a while', value: 'established' as const },
+      { label: 'Still finding my way', value: 'exploring' as const },
+      { label: 'Somewhere in the middle', value: 'between' as const },
     ],
   },
   {
-    question: 'What are you most looking for?',
+    question: 'What are you looking for?',
     options: [
-      { label: 'Peace in the middle of chaos', value: 'peace' as const },
+      { label: 'Peace in the chaos', value: 'peace' as const },
       { label: 'Strength to keep going', value: 'strength' as const },
-      { label: "Comfort — I'm going through something hard", value: 'comfort' as const },
-      { label: "Guidance for a decision I'm facing", value: 'guidance' as const },
-      { label: 'Just exploring for now', value: 'exploring' as const },
+      { label: 'Comfort in a hard season', value: 'comfort' as const },
+      { label: 'Guidance for a decision', value: 'guidance' as const },
+      { label: 'Just exploring', value: 'exploring' as const },
     ],
   },
   {
-    question: 'Which of these feels most like you?',
+    question: 'Where are you in life?',
     options: [
-      { label: 'Early in the journey — figuring things out', value: 'early' as const },
-      { label: "In the thick of it — a lot on my plate", value: 'middle' as const },
-      { label: 'Slowing down — more reflective these days', value: 'later' as const },
+      { label: 'Early — still figuring things out', value: 'early' as const },
+      { label: 'Busy — a lot on my plate', value: 'middle' as const },
+      { label: 'Reflective — taking things slower', value: 'later' as const },
     ],
   },
 ] as const
@@ -62,7 +61,7 @@ export default function OnboardingProfileScreen() {
 
   function transitionToSlide(nextSlide: number) {
     opacity.value = withTiming(0, { duration: 220 }, () => {
-      runOnJS(setSlide)(nextSlide)
+      setSlide(nextSlide)
       translateX.value = 20
       opacity.value = withTiming(1, { duration: 280 })
       translateX.value = withSpring(0, { damping: 20, stiffness: 200 })
