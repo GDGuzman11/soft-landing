@@ -78,7 +78,7 @@ export default function RegisterScreen() {
     try {
       await signUpWithEmail(fullName, email.trim(), password)
       await sendVerificationEmail()
-      router.replace({ pathname: '/verify-email', params: { email: email.trim() } })
+      router.replace('/verify-email')
     } catch (e: any) {
       if (__DEV__) console.error('[register] sign-up error:', e?.code, e?.message)
       const code = e?.code ?? ''

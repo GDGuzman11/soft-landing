@@ -1,12 +1,12 @@
 import { View, Text, Pressable, ActivityIndicator } from 'react-native'
-import { router, useLocalSearchParams } from 'expo-router'
+import { router } from 'expo-router'
 import { useState, useEffect } from 'react'
-import { sendVerificationEmail, reloadAndCheckVerified, signOutUser } from '@/services/auth'
+import { sendVerificationEmail, reloadAndCheckVerified, signOutUser, getCurrentUser } from '@/services/auth'
 
 const RESEND_COOLDOWN = 30
 
 export default function VerifyEmailScreen() {
-  const { email } = useLocalSearchParams<{ email: string }>()
+  const email = getCurrentUser()?.email ?? null
   const [checking, setChecking] = useState(false)
   const [resending, setResending] = useState(false)
   const [error, setError] = useState<string | null>(null)

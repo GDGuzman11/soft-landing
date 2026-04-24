@@ -1,0 +1,14 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Rate limiting collection — each user can only read/write their own doc
+    match /letterUsage/{uid} {
+      allow read, write: if request.auth != null && request.auth.uid == uid;
+    }
+
+    // Deny everything else — app does not use Firestore for user data in V1
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
