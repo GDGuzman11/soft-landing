@@ -268,7 +268,7 @@ export default function MessageScreen() {
           saveIndicatorStyle,
         ]}
       >
-        <Text style={{ fontFamily: 'DMSans_700Bold', fontSize: 14, color: '#FFFFFF' }}>
+        <Text style={{ fontFamily: 'DMSans_500Medium', fontSize: 14, color: '#FFFFFF' }}>
           ★  Save
         </Text>
       </Animated.View>
@@ -289,7 +289,7 @@ export default function MessageScreen() {
           discardIndicatorStyle,
         ]}
       >
-        <Text style={{ fontFamily: 'DMSans_700Bold', fontSize: 14, color: '#FFFFFF' }}>
+        <Text style={{ fontFamily: 'DMSans_500Medium', fontSize: 14, color: '#FFFFFF' }}>
           ✕  Skip
         </Text>
       </Animated.View>

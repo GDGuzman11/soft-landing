@@ -265,7 +265,7 @@ export default function LetterComposeScreen() {
               }}
             >
               <Text
-                style={{ fontFamily: 'DMSans_700Bold', fontSize: 15, color: '#FFFFFF' }}
+                style={{ fontFamily: 'DMSans_500Medium', fontSize: 15, color: '#FFFFFF' }}
               >
                 {sendLabel}
               </Text>
