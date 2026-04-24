@@ -1,12 +1,11 @@
 import { View, Text, Pressable, ScrollView } from 'react-native'
 import { router } from 'expo-router'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
   withTiming,
   withSpring,
-  runOnJS,
 } from 'react-native-reanimated'
 import * as Haptics from 'expo-haptics'
 import { getSettings, saveSettings } from '@/storage/storage'
@@ -47,33 +46,116 @@ const SLIDES = [
 
 const TOTAL_SLIDES = SLIDES.length
 
+type OptionCardProps = {
+  label: string
+  isSelected: boolean
+  onPress: () => void
+}
+
+function OptionCard({ label, isSelected, onPress }: OptionCardProps) {
+  const scale = useSharedValue(1)
+  const shadowOpacityAnim = useSharedValue(0.04)
+  const shadowRadiusAnim = useSharedValue(4)
+  const dotOpacity = useSharedValue(0)
+
+  useEffect(() => {
+    if (isSelected) {
+      scale.value = withSpring(1.02, { damping: 15, stiffness: 200 })
+      shadowOpacityAnim.value = withTiming(0.22, { duration: 300 })
+      shadowRadiusAnim.value = withTiming(18, { duration: 300 })
+      dotOpacity.value = withTiming(1, { duration: 200 })
+    } else {
+      scale.value = withSpring(1, { damping: 15, stiffness: 200 })
+      shadowOpacityAnim.value = withTiming(0.04, { duration: 200 })
+      shadowRadiusAnim.value = withTiming(4, { duration: 200 })
+      dotOpacity.value = withTiming(0, { duration: 150 })
+    }
+  }, [isSelected])
+
+  const cardStyle = useAnimatedStyle(() => ({
+    transform: [{ scale: scale.value }],
+    shadowOpacity: shadowOpacityAnim.value,
+    shadowRadius: shadowRadiusAnim.value,
+  }))
+
+  const dotStyle = useAnimatedStyle(() => ({
+    opacity: dotOpacity.value,
+  }))
+
+  return (
+    <Pressable
+      onPress={onPress}
+      accessibilityRole="radio"
+      accessibilityState={{ checked: isSelected }}
+      accessibilityLabel={label}
+    >
+      <Animated.View
+        style={[
+          {
+            backgroundColor: '#FDF9F4',
+            borderRadius: 16,
+            paddingVertical: 16,
+            paddingHorizontal: 20,
+            marginBottom: 12,
+            borderWidth: isSelected ? 1.5 : 1,
+            borderColor: isSelected ? '#C4956A' : '#EDE8E0',
+            shadowColor: '#C4956A',
+            shadowOffset: { width: 0, height: 2 },
+            elevation: isSelected ? 6 : 1,
+            flexDirection: 'row',
+            alignItems: 'center',
+          },
+          cardStyle,
+        ]}
+      >
+        <Animated.Text
+          style={[
+            {
+              fontSize: 7,
+              color: '#C4956A',
+              marginRight: 10,
+              lineHeight: 22,
+            },
+            dotStyle,
+          ]}
+        >
+          ●
+        </Animated.Text>
+        <Text
+          style={{
+            fontFamily: 'Lora_400Regular',
+            fontSize: 15,
+            color: '#1A1A1A',
+            lineHeight: 22,
+            flex: 1,
+          }}
+        >
+          {label}
+        </Text>
+      </Animated.View>
+    </Pressable>
+  )
+}
+
 export default function OnboardingProfileScreen() {
   const [slide, setSlide] = useState(0)
   const [faithBackground, setFaithBackground] = useState<FaithBackground>(null)
   const [primaryIntent, setPrimaryIntent] = useState<PrimaryIntent>(null)
   const [lifeStage, setLifeStage] = useState<LifeStage>(null)
   const opacity = useSharedValue(1)
-  const translateX = useSharedValue(0)
 
   const animStyle = useAnimatedStyle(() => ({
     opacity: opacity.value,
-    transform: [{ translateX: translateX.value }],
   }))
 
   function transitionToSlide(nextSlide: number) {
     opacity.value = withTiming(0, { duration: 220 }, () => {
-      runOnJS(setSlide)(nextSlide)
-      translateX.value = 20
+      setSlide(nextSlide)
       opacity.value = withTiming(1, { duration: 280 })
-      translateX.value = withSpring(0, { damping: 20, stiffness: 200 })
     })
   }
 
-  async function finish(
-    fb: FaithBackground,
-    pi: PrimaryIntent,
-    ls: LifeStage,
-  ) {
+  async function finish(fb: FaithBackground, pi: PrimaryIntent, ls: LifeStage) {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)
     try {
       const s = await getSettings()
@@ -121,115 +203,115 @@ export default function OnboardingProfileScreen() {
 
   const current = SLIDES[slide]
   const selectedValue = getSelectedValue()
+
   return (
     <View style={{ flex: 1, backgroundColor: '#FAF8F5' }}>
-      <ScrollView
-        contentContainerStyle={{
-          flexGrow: 1,
-          paddingHorizontal: 28,
-          paddingTop: 72,
-          paddingBottom: 40,
-        }}
-        showsVerticalScrollIndicator={false}
-        keyboardShouldPersistTaps="handled"
-      >
-        <Animated.View style={[{ width: '100%' }, animStyle]}>
-          {/* Question */}
-          <Text
-            style={{
-              fontFamily: 'Lora_400Regular_Italic',
-              fontSize: 22,
-              color: '#1A1A1A',
-              textAlign: 'center',
-              marginBottom: 28,
-              lineHeight: 32,
-            }}
-          >
-            {current.question}
-          </Text>
-
-          {/* Options */}
-          {current.options.map((option) => {
-            const isSelected = selectedValue === option.value
-            return (
-              <Pressable
-                key={option.value}
-                onPress={() => handleSelect(option.value)}
-                style={{
-                  backgroundColor: isSelected ? '#FDF6EE' : '#FFFFFF',
-                  borderRadius: 16,
-                  paddingVertical: 16,
-                  paddingHorizontal: 20,
-                  marginBottom: 12,
-                  borderWidth: 1.5,
-                  borderColor: isSelected ? '#C4956A' : '#E8E3DC',
-                  shadowColor: '#000',
-                  shadowOffset: { width: 0, height: 1 },
-                  shadowOpacity: 0.04,
-                  shadowRadius: 4,
-                  elevation: 1,
-                }}
-                accessibilityRole="radio"
-                accessibilityState={{ checked: isSelected }}
-                accessibilityLabel={option.label}
-              >
-                <Text
-                  style={{
-                    fontFamily: 'DMSans_400Regular',
-                    fontSize: 15,
-                    color: '#1A1A1A',
-                    lineHeight: 22,
-                  }}
-                >
-                  {option.label}
-                </Text>
-              </Pressable>
-            )
-          })}
-
-          {/* Skip */}
-          <Pressable
-            onPress={handleSkip}
-            style={{ marginTop: 4, marginBottom: 28, alignItems: 'center' }}
-            accessibilityRole="button"
-            accessibilityLabel="Skip this question"
-          >
-            <Text
-              style={{
-                fontFamily: 'DMSans_400Regular',
-                fontSize: 13,
-                color: '#A09080',
-              }}
-            >
-              Skip
-            </Text>
-          </Pressable>
-
-        </Animated.View>
-      </ScrollView>
-
-      {/* Slide dots */}
+      {/* ✦ progress ornaments — fixed at top */}
       <View
         style={{
           flexDirection: 'row',
           justifyContent: 'center',
           alignItems: 'center',
-          gap: 8,
-          paddingBottom: 40,
+          gap: 16,
+          position: 'absolute',
+          top: 52,
+          left: 0,
+          right: 0,
+          zIndex: 10,
         }}
       >
         {SLIDES.map((_, i) => (
-          <View
+          <Text
             key={i}
             style={{
-              width: i === slide ? 20 : 6,
-              height: 6,
-              borderRadius: 3,
-              backgroundColor: i === slide ? '#C4956A' : '#E8E3DC',
+              fontSize: 14,
+              color: i === slide ? '#C4956A' : '#D9D0C4',
             }}
-          />
+          >
+            ✦
+          </Text>
         ))}
       </View>
+
+      <ScrollView
+        contentContainerStyle={{
+          flexGrow: 1,
+          paddingHorizontal: 28,
+          paddingTop: 116,
+          paddingBottom: 48,
+        }}
+        showsVerticalScrollIndicator={false}
+        keyboardShouldPersistTaps="handled"
+      >
+        <Animated.View style={[{ width: '100%' }, animStyle]}>
+          {/* Ornament above question */}
+          <Text
+            style={{
+              fontSize: 18,
+              color: '#C4956A',
+              textAlign: 'center',
+              marginBottom: 16,
+              opacity: 0.7,
+            }}
+          >
+            ✦
+          </Text>
+
+          {/* Question */}
+          <Text
+            style={{
+              fontFamily: 'Lora_400Regular_Italic',
+              fontSize: 24,
+              color: '#1A1A1A',
+              textAlign: 'center',
+              marginBottom: 16,
+              lineHeight: 34,
+            }}
+          >
+            {current.question}
+          </Text>
+
+          {/* Thin amber rule */}
+          <View
+            style={{
+              width: 40,
+              height: 1,
+              backgroundColor: '#C4956A',
+              opacity: 0.4,
+              alignSelf: 'center',
+              marginBottom: 32,
+            }}
+          />
+
+          {/* Options */}
+          {current.options.map((option) => (
+            <OptionCard
+              key={option.value}
+              label={option.label}
+              isSelected={selectedValue === option.value}
+              onPress={() => handleSelect(option.value)}
+            />
+          ))}
+
+          {/* Skip */}
+          <Pressable
+            onPress={handleSkip}
+            style={{ marginTop: 8, alignItems: 'center' }}
+            accessibilityRole="button"
+            accessibilityLabel="Skip this question"
+          >
+            <Text
+              style={{
+                fontFamily: 'Lora_400Regular_Italic',
+                fontSize: 13,
+                color: '#A09080',
+              }}
+            >
+              I'd rather not say
+            </Text>
+          </Pressable>
+        </Animated.View>
+      </ScrollView>
     </View>
   )
 }
