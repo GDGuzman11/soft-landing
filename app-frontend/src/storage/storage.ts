@@ -5,7 +5,11 @@ const KEYS = {
   SETTINGS: '@soft_landing/settings',
   CHECK_INS: '@soft_landing/check_ins',
   SAVED_MESSAGES: '@soft_landing/saved_messages',
+  MESSAGE_METADATA: '@soft_landing/message_metadata',
 } as const
+
+type MessageMeta = { lastUsed: string; usageCount: number }
+type MessageMetadataStore = Record<string, MessageMeta>
 
 const DEFAULT_SETTINGS: AppSettings = {
   theme: 'system',
@@ -113,8 +117,26 @@ export async function updateSavedMessage(
   }
 }
 
+export async function getMessageMetadata(): Promise<MessageMetadataStore> {
+  return get<MessageMetadataStore>(KEYS.MESSAGE_METADATA, {})
+}
+
+export async function updateMessageMetadata(messageId: string): Promise<void> {
+  try {
+    const meta = await getMessageMetadata()
+    const existing = meta[messageId]
+    meta[messageId] = {
+      lastUsed: new Date().toISOString(),
+      usageCount: (existing?.usageCount ?? 0) + 1,
+    }
+    await set(KEYS.MESSAGE_METADATA, meta)
+  } catch {
+    // non-fatal
+  }
+}
+
 export async function clearAllData(): Promise<void> {
-  await AsyncStorage.multiRemove([KEYS.SETTINGS, KEYS.CHECK_INS, KEYS.SAVED_MESSAGES])
+  await AsyncStorage.multiRemove([KEYS.SETTINGS, KEYS.CHECK_INS, KEYS.SAVED_MESSAGES, KEYS.MESSAGE_METADATA])
 }
 
 export async function setGuestMode(isGuest: boolean): Promise<void> {

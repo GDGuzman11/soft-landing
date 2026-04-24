@@ -7,6 +7,7 @@ import {
   signOut,
   onAuthStateChanged,
   sendEmailVerification,
+  sendPasswordResetEmail,
   type User,
 } from 'firebase/auth'
 import { auth } from './firebase'
@@ -50,6 +51,10 @@ export async function reloadAndCheckVerified(): Promise<boolean> {
   if (!user) return false
   await user.reload()
   return auth.currentUser?.emailVerified ?? false
+}
+
+export async function resetPassword(email: string): Promise<void> {
+  await sendPasswordResetEmail(auth, email)
 }
 
 export async function signOutUser(): Promise<void> {

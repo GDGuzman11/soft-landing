@@ -22,7 +22,7 @@ export async function generateLetter(payload: LetterPayload): Promise<LetterResu
     const result = await fn(payload)
     return result.data
   } catch (err) {
-    console.error('[letterService] generateLetter failed:', err)
+    if (__DEV__) console.error('[letterService] generateLetter failed:', err)
     return { letter: null, showCrisisPrompt: false }
   }
 }

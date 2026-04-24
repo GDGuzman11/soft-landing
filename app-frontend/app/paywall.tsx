@@ -1,4 +1,4 @@
-import { View, Text, Pressable } from 'react-native'
+import { View, Text, Pressable, Alert } from 'react-native'
 import { router } from 'expo-router'
 
 export default function PaywallScreen() {
@@ -20,7 +20,7 @@ export default function PaywallScreen() {
 
       <Pressable
         className="w-full bg-accent rounded-2xl py-4 mb-3 active:opacity-80"
-        onPress={() => {}}
+        onPress={() => Alert.alert('Coming soon', 'Subscriptions will be available in the next update.')}
       >
         <Text
           className="text-white text-center text-base"
@@ -32,7 +32,7 @@ export default function PaywallScreen() {
 
       <Pressable
         className="w-full border border-accent rounded-2xl py-4 mb-8 active:opacity-80"
-        onPress={() => {}}
+        onPress={() => Alert.alert('Coming soon', 'Subscriptions will be available in the next update.')}
       >
         <Text
           className="text-accent text-center text-base"

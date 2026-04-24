@@ -13,7 +13,7 @@ import { router } from 'expo-router'
 import { useState, useEffect } from 'react'
 import * as WebBrowser from 'expo-web-browser'
 import * as AuthSession from 'expo-auth-session/providers/google'
-import { signInWithEmail, signInWithGoogle, sendVerificationEmail } from '@/services/auth'
+import { signInWithEmail, signInWithGoogle, sendVerificationEmail, resetPassword } from '@/services/auth'
 
 WebBrowser.maybeCompleteAuthSession()
 
@@ -167,7 +167,18 @@ export default function SignInScreen() {
         />
 
         <Pressable
-          onPress={() => Alert.alert('Coming soon', 'Password reset will be available soon.')}
+          onPress={async () => {
+            if (!email.trim()) {
+              setError('Enter your email above first.')
+              return
+            }
+            try {
+              await resetPassword(email.trim())
+              Alert.alert('Check your email', `A reset link has been sent to ${email.trim()}.`)
+            } catch {
+              setError('Could not send reset email. Check the address and try again.')
+            }
+          }}
           style={{ alignSelf: 'flex-end', marginBottom: 28, padding: 4 }}
           accessibilityRole="button"
           accessibilityLabel="Forgot password"

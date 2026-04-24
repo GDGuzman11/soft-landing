@@ -78,7 +78,7 @@ export default function RegisterScreen() {
       await sendVerificationEmail()
       router.replace({ pathname: '/verify-email', params: { email: email.trim() } })
     } catch (e: any) {
-      console.error('[register] sign-up error:', e?.code, e?.message, e)
+      if (__DEV__) console.error('[register] sign-up error:', e?.code, e?.message)
       const code = e?.code ?? ''
       setError(mapFirebaseError(code))
       setLoading(false)
