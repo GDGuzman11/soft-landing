@@ -34,7 +34,8 @@ function mapFirebaseError(code: string): string {
 }
 
 export default function RegisterScreen() {
-  const [name, setName] = useState('')
+  const [firstName, setFirstName] = useState('')
+  const [lastName, setLastName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
@@ -67,14 +68,15 @@ export default function RegisterScreen() {
       setError('Please agree to the Terms of Service to continue.')
       return
     }
-    if (!name.trim() || !email.trim() || !password || password.length < 6) {
-      setError('Password must be at least 6 characters.')
+    if (!firstName.trim() || !lastName.trim() || !email.trim() || !password || password.length < 6) {
+      setError('Please fill in all fields. Password must be at least 6 characters.')
       return
     }
     setLoading(true)
     setError(null)
+    const fullName = `${firstName.trim()} ${lastName.trim()}`
     try {
-      await signUpWithEmail(name.trim(), email.trim(), password)
+      await signUpWithEmail(fullName, email.trim(), password)
       await sendVerificationEmail()
       router.replace({ pathname: '/verify-email', params: { email: email.trim() } })
     } catch (e: any) {
@@ -127,28 +129,50 @@ export default function RegisterScreen() {
           Your safe place to land each day.
         </Text>
 
-        <TextInput
-          value={name}
-          onChangeText={setName}
-          placeholder="Your name"
-          placeholderTextColor="#C4B59A"
-          autoCapitalize="words"
-          autoCorrect={false}
-          editable={!loading}
-          style={{
-            width: '100%',
-            borderWidth: 1,
-            borderColor: '#E8E3DC',
-            borderRadius: 16,
-            paddingHorizontal: 20,
-            paddingVertical: 14,
-            fontFamily: 'DMSans_400Regular',
-            fontSize: 16,
-            backgroundColor: '#FFFFFF',
-            color: '#1A1A1A',
-            marginBottom: 12,
-          }}
-        />
+        <View style={{ flexDirection: 'row', gap: 10, marginBottom: 12 }}>
+          <TextInput
+            value={firstName}
+            onChangeText={setFirstName}
+            placeholder="First name"
+            placeholderTextColor="#C4B59A"
+            autoCapitalize="words"
+            autoCorrect={false}
+            editable={!loading}
+            style={{
+              flex: 1,
+              borderWidth: 1,
+              borderColor: '#E8E3DC',
+              borderRadius: 16,
+              paddingHorizontal: 20,
+              paddingVertical: 14,
+              fontFamily: 'DMSans_400Regular',
+              fontSize: 16,
+              backgroundColor: '#FFFFFF',
+              color: '#1A1A1A',
+            }}
+          />
+          <TextInput
+            value={lastName}
+            onChangeText={setLastName}
+            placeholder="Last name"
+            placeholderTextColor="#C4B59A"
+            autoCapitalize="words"
+            autoCorrect={false}
+            editable={!loading}
+            style={{
+              flex: 1,
+              borderWidth: 1,
+              borderColor: '#E8E3DC',
+              borderRadius: 16,
+              paddingHorizontal: 20,
+              paddingVertical: 14,
+              fontFamily: 'DMSans_400Regular',
+              fontSize: 16,
+              backgroundColor: '#FFFFFF',
+              color: '#1A1A1A',
+            }}
+          />
+        </View>
 
         <TextInput
           value={email}
