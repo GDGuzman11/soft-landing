@@ -12,14 +12,6 @@ const TAGLINES: Record<string, string> = {
   good: 'Feeling grateful today',
 }
 
-const EMOTION_EMOJIS: Record<string, string> = {
-  stressed: '🌊',
-  tired: '🌙',
-  sad: '🌧️',
-  neutral: '☁️',
-  good: '☀️',
-}
-
 function darken(hex: string, amount = 40): string {
   const n = parseInt(hex.slice(1), 16)
   const r = Math.max(0, (n >> 16) - amount)
@@ -94,43 +86,59 @@ export default function EmotionsScreen() {
                 justifyContent: 'center' as const,
               })}
             >
-              {/* Decorative glyph */}
-              <Text
-                style={{
-                  fontSize: 22,
-                  opacity: 0.85,
-                  marginBottom: 6,
-                }}
-              >
-                {EMOTION_EMOJIS[emotion.id]}
-              </Text>
+              {({ pressed }) => (
+                <>
+                  {/* Decorative glyph with glow on press */}
+                  <View
+                    style={{
+                      marginBottom: 6,
+                      shadowColor: '#FFFFFF',
+                      shadowOffset: { width: 0, height: 0 },
+                      shadowOpacity: pressed ? 0.95 : 0,
+                      shadowRadius: pressed ? 14 : 0,
+                      elevation: pressed ? 10 : 0,
+                    }}
+                  >
+                    <Text
+                      style={{
+                        fontFamily: 'DMSans_500Medium',
+                        fontSize: 22,
+                        color: glyphColor,
+                        letterSpacing: 4,
+                      }}
+                    >
+                      ✦
+                    </Text>
+                  </View>
 
-              {/* Emotion label */}
-              <Text
-                style={{
-                  fontFamily: 'DMSans_500Medium',
-                  fontSize: 18,
-                  color: '#1A1A1A',
-                  textAlign: 'center',
-                  marginBottom: 5,
-                }}
-              >
-                {emotion.label}
-              </Text>
+                  {/* Emotion label */}
+                  <Text
+                    style={{
+                      fontFamily: 'DMSans_500Medium',
+                      fontSize: 18,
+                      color: '#1A1A1A',
+                      textAlign: 'center',
+                      marginBottom: 5,
+                    }}
+                  >
+                    {emotion.label}
+                  </Text>
 
-              {/* Tagline */}
-              <Text
-                style={{
-                  fontFamily: 'Lora_400Regular_Italic',
-                  fontSize: 13,
-                  color: glyphColor,
-                  opacity: 0.75,
-                  textAlign: 'center',
-                  letterSpacing: 0.1,
-                }}
-              >
-                {TAGLINES[emotion.id]}
-              </Text>
+                  {/* Tagline */}
+                  <Text
+                    style={{
+                      fontFamily: 'Lora_400Regular_Italic',
+                      fontSize: 13,
+                      color: glyphColor,
+                      opacity: 0.75,
+                      textAlign: 'center',
+                      letterSpacing: 0.1,
+                    }}
+                  >
+                    {TAGLINES[emotion.id]}
+                  </Text>
+                </>
+              )}
             </Pressable>
           )
         })}
