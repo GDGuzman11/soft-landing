@@ -6,8 +6,8 @@ Built with React Native + Expo, TypeScript strict, NativeWind, React Native Rean
 
 ## What it does
 
-1. **Welcome** — Animated cross with soft white glow + ripple rings. Register, Sign In, or Take a Tour
-2. **Take a Tour** — 4-slide visual preview of the app for new visitors; "Enter the App →" drops them into the check-in flow
+1. **Welcome** — Animated cross with soft white glow + ripple rings. Register, Sign In, or How It Works
+2. **How It Works** — Scrollable editorial guide: four labelled sections (Check In, Your Verse, Your Collection, Letters) in warm prose. "Begin →" enters the check-in flow
 3. **Register / Sign In** — Email + password or Google Sign-In. Email verification required before first use
 4. **Onboarding** — 2-slide intro shown once after first registration
 5. **Onboarding profile** — 3-question profile (faith background, intent, life stage); Design A "Candlelight" aesthetic
@@ -66,7 +66,7 @@ soft-landing/
 │   │   ├── (tabs)/        # Home, History, Settings tabs
 │   │   ├── check-in/      # Emotions → Envelope → Message → Session Summary → Letter flow
 │   │   ├── welcome.tsx    # Combined splash + auth entry point
-│   │   ├── tour.tsx       # 4-slide pre-tour screen for guest users
+│   │   ├── tour.tsx       # "How It Works" editorial guide for new visitors
 │   │   ├── sign-in.tsx    # Email/password + Google sign-in
 │   │   ├── register.tsx   # Account creation with email verification
 │   │   ├── verify-email.tsx
@@ -108,7 +108,7 @@ Open `http://localhost:8081/dashboard` (dev/web only).
 - Full auth flow: register, sign in (email + Google), email verification, guest mode
 - Firebase Auth with AsyncStorage persistence — users stay signed in across restarts
 - 150 NIV Bible verses, 30 per emotion, free/premium split (15 each)
-- "Take a Tour" guided experience: 4-slide visual preview → emotion picker → envelope → verse swipe → letter
+- "How It Works" editorial guide for new visitors: scrollable, four labelled sections, fixed Begin → button
 - Onboarding profile (3 questions, Design A Candlelight): saves faith background, intent, life stage
 - AI letter generation via Firebase Cloud Function → Claude Haiku; first letter free, then premium
 - Crisis input filtering and Firestore security rules deployed to backend

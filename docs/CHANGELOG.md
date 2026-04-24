@@ -8,16 +8,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.3.0] — 2026-04-24
 
 ### Added
-- **Pre-tour slide screen** (`app/tour.tsx`): 4-slide visual preview of the app shown to guest users before they enter the check-in flow. Each slide features a visual mockup and a caption — emotion picker tiles, sealed envelope card, verse card with gesture symbols (☆ ↑ ×), and AI letter preview. "Enter the App →" on the final slide navigates to the emotion picker. "Skip →" exits the tour at any point.
+- **"How It Works" editorial screen** (`app/tour.tsx`): Scrollable pre-entry guide shown to visitors who tap "How It Works" on the welcome screen. Four clearly labelled sections — **Check In**, **Your Verse**, **Your Collection**, **Letters** — written in warm, readable prose matching the app's typographic voice (amber uppercase labels, Lora italic headings, DM Sans body). Amber cross header, ✦ ornament divider, thin rule separators between sections, and a closing note in muted Lora italic. Fixed bottom bar with amber **Begin →** pill and a muted "or skip to get started" link. Header fades in on mount; content crossfades in 200ms later.
 - **Onboarding profile screen** (`app/onboarding-profile.tsx`): 3-question profile captured after registration — faith background ("Where are you with faith right now?"), primary intent ("What are you most looking for?"), and life stage ("Which of these feels most like you?"). Design A "Candlelight": parchment option cards (`#FDF9F4`), amber glow shadow + scale spring on selection, Lora typography for option text, ✦ progress ornaments (not dots), crossfade-only transitions, "I'd rather not say" skip in Lora italic.
 - **`TourTooltip` component** (`src/components/TourTooltip.tsx`): Reusable bottom-anchored parchment sheet (`#F5F0E8`) for contextual in-app guidance. Supports plain text mode and symbol-row mode (icon + label pairs). Entrance: spring up from below + fade. Dismiss: slide down + fade, then `onDismiss` fires after 260ms.
 - **History tab tour hint**: Guest users returning from the check-in flow see a tooltip on the History tab explaining the saved verses collection.
 - **Home tab tour hint**: The final tour step on the Home tab invites guest users to create an account.
 
 ### Changed
-- **"Continue as Guest" renamed to "Take a Tour"** on the welcome screen — accurately describes the guided experience new visitors receive.
-- **Guest routing**: Tapping "Take a Tour" now opens `app/tour.tsx` (pre-tour slides) instead of dropping users directly into the check-in flow with `tour=1` params.
-- **Onboarding flags pre-set on tour start**: `handleGuest()` now sets `disclaimerAccepted`, `onboardingComplete`, `faithIntroComplete`, and `profileComplete` to `true` before launching the tour — prevents the home screen nav guard from redirecting tour users to the disclaimer or onboarding flows.
+- **"Continue as Guest" renamed to "How It Works"** on the welcome screen — more inviting and action-oriented than "Continue as Guest"; accurately frames what tapping it delivers.
+- **Guest routing**: Tapping "How It Works" now opens `app/tour.tsx` (the editorial guide) instead of dropping users directly into the check-in flow with route params.
+- **Onboarding flags pre-set on guest entry**: `handleGuest()` now sets `disclaimerAccepted`, `onboardingComplete`, `faithIntroComplete`, and `profileComplete` to `true` before launching the tour — prevents the home screen nav guard from redirecting guest users back through the onboarding or disclaimer flows.
 
 ### Fixed
 - **App crash on first verse swipe** (BUG-024): Restored `runOnJS` wrapping around `setTransitioning` and `handleSaveAndNext`/`handleDiscardAndNext` calls in the gesture handler's `onEnd` worklet. Direct React state mutation from the UI-thread gesture worklet caused the app to close on first swipe. All state setter calls from worklet context are now wrapped with `runOnJS`.

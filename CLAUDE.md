@@ -67,19 +67,21 @@ One agent's work per commit. Reference a bug ID in the body when relevant (e.g. 
 - **Interaction model:** vertical card stack for the emotion picker (deliberate, not a rushed grid), Reanimated envelope flight, single tap to open
 
 ## Active context
-*Session 2026-04-18 — V1.1 complete. Bible verse pivot, faith intro, in-app splash, swipe flow, and all QA fixes applied. App runs in Expo Go. Next steps: (1) set up RevenueCat with App Store Connect products (API keys in .env), (2) submit to TestFlight via `eas build --profile preview --platform ios`.*
+*Session 2026-04-24 — V1.3.0. Full auth, AI letters, onboarding profile (Design A Candlelight), and "How It Works" editorial guide shipped. App runs in Expo Go. Next steps: (1) set up RevenueCat with App Store Connect products (API keys in .env), (2) submit to TestFlight via `eas build --profile preview --platform ios`.*
 
 ## Current build state
-- All screens functional: splash → onboarding → faith-intro → home → emotions → envelope → message (swipe flow) → save/share/dismiss → history
-- 25 NIV Bible verses across 5 emotions, each with scripture reference (e.g., "Psalm 34:18")
-- Faith intro screen: amber cross + "Find rest in His Word." — shown once after onboarding
-- In-app splash screen: animated cross + brand text, runs on every cold launch
+- All screens functional: welcome → (how it works / register / sign-in) → onboarding → onboarding-profile → faith-intro → home → emotions → envelope → message (swipe flow) → session-summary → letter-compose → history
+- 150 NIV Bible verses, 30 per emotion, free/premium split (15 each)
+- Firebase Auth: email/password + Google Sign-In, AsyncStorage persistence, email verification
+- "How It Works" screen: scrollable editorial guide (4 labelled sections) for new visitors
+- Onboarding profile: 3-question Candlelight design — faith background, intent, life stage
+- AI letter generation: Firebase Cloud Function → Claude Haiku; first letter free, then premium-gated
 - Candle wax seal envelope: sealed card with wax seal component, pulse on tap
 - Swipe gesture flow: right = save + next verse, left = skip + next verse (continuous)
 - AsyncStorage v2.1.2 (Expo Go compatible)
 - NativeWind v4 with babel.config.js preset config
 - Weighted selection with anti-repetition
-- Native share sheet on message reveal + history (Instagram, X, Threads, Facebook, etc.)
+- Native share sheet on message reveal + history
 - Free tier: 10 check-ins/day
 - RevenueCat integration: wired in types and constants, SDK init pending (needs API keys in .env)
 - EAS Build profiles: development / preview / production in `eas.json`
