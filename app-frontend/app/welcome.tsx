@@ -151,7 +151,14 @@ export default function WelcomeScreen() {
   async function handleGuest() {
     try {
       const settings = await getSettings()
-      await saveSettings({ ...(settings as any), isGuest: true })
+      await saveSettings({
+        ...(settings as any),
+        isGuest: true,
+        disclaimerAccepted: true,
+        onboardingComplete: true,
+        faithIntroComplete: true,
+        profileComplete: true,
+      })
     } catch {
       // non-fatal
     }

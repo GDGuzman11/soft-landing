@@ -8,8 +8,6 @@ import Animated, {
   withTiming,
   withDelay,
   withSpring,
-  withSequence,
-  runOnJS,
   interpolate,
   Extrapolation,
 } from 'react-native-reanimated'
@@ -157,26 +155,26 @@ export default function MessageScreen() {
         cardRotate.value = withSpring(0, { damping: 20, stiffness: 200 })
         saveOpacity.value = withTiming(0, { duration: 200 })
         discardOpacity.value = withTiming(0, { duration: 200 })
-        runOnJS(setShowSymbolsTooltip)(true)
+        setShowSymbolsTooltip(true)
       } else if (e.translationX > SWIPE_THRESHOLD) {
         // Swipe right → save + next
-        runOnJS(setTransitioning)(true)
+        setTransitioning(true)
         cardX.value = withTiming(700, { duration: 280 })
         cardRotate.value = withTiming(22, { duration: 280 })
         cardOpacity.value = withTiming(0, { duration: 260 })
         saveOpacity.value = withTiming(0, { duration: 200 })
         cardY.value = withTiming(cardY.value - 10, { duration: 280 }, () => {
-          runOnJS(handleSaveAndNext)()
+          handleSaveAndNext()
         })
       } else if (e.translationX < -SWIPE_THRESHOLD) {
         // Swipe left → discard + next
-        runOnJS(setTransitioning)(true)
+        setTransitioning(true)
         cardX.value = withTiming(-700, { duration: 280 })
         cardRotate.value = withTiming(-22, { duration: 280 })
         cardOpacity.value = withTiming(0, { duration: 260 })
         discardOpacity.value = withTiming(0, { duration: 200 })
         cardY.value = withTiming(cardY.value - 10, { duration: 280 }, () => {
-          runOnJS(handleDiscardAndNext)()
+          handleDiscardAndNext()
         })
       } else {
         // Snap back
@@ -221,7 +219,7 @@ export default function MessageScreen() {
     setTransitioning(true)
     cardX.value = withTiming(700, { duration: 300 })
     cardRotate.value = withTiming(20, { duration: 300 })
-    cardOpacity.value = withTiming(0, { duration: 280 }, () => runOnJS(handleSaveAndNext)())
+    cardOpacity.value = withTiming(0, { duration: 280 }, () => handleSaveAndNext())
   }
 
   async function handleShare() {
@@ -411,7 +409,7 @@ export default function MessageScreen() {
             { symbol: '×', label: 'Wrap up and see what you saved' },
           ]}
           buttonLabel="Next →"
-          onDismiss={() => router.replace('/(tabs)/history?tourStep=4')}
+          onDismiss={() => router.replace('/(tabs)?tourStep=5')}
         />
       )}
     </View>
