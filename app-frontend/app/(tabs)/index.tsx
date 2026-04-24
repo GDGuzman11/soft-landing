@@ -91,11 +91,13 @@ export default function HomeScreen() {
       >
         <Text
           style={{
-            fontFamily: 'Lora_400Regular_Italic',
-            fontSize: 22,
-            color: '#A09080',
+            fontFamily: 'DMSans_400Regular',
+            fontSize: 13,
+            color: '#B8A898',
             textAlign: 'center',
-            marginBottom: 6,
+            letterSpacing: 3,
+            textTransform: 'uppercase',
+            marginBottom: 10,
           }}
         >
           {getGreetingBase()}
@@ -103,10 +105,11 @@ export default function HomeScreen() {
         {settings?.name ? (
           <Text
             style={{
-              fontFamily: 'Lora_400Regular_Italic',
-              fontSize: 34,
+              fontFamily: 'DMSans_400Regular',
+              fontSize: 32,
               color: '#1A1A1A',
               textAlign: 'center',
+              letterSpacing: 1.5,
             }}
           >
             {settings.name}
