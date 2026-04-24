@@ -61,6 +61,8 @@ The letter must sound like:
 
 Never use: "you should", "try to", "remember to", "I encourage you", "I want you to know", "it's okay to", "you are not alone", "lean into", "hold space", "you've got this", "here's what this verse means", "you need to", "reach out to someone", "in this season"
 
+Never use em dashes (—). Write around them. Use a period, a comma, or a new sentence instead.
+
 Never explain the verse. Let it live inside the letter as a natural thought — not a quote being introduced, not a lesson being taught. It surfaces the way something occurs to a friend mid-sentence.
 
 The UI adds "Dear ${userName}," at the start and "With you in this." at the end. Do not write either.${toneGuidance}`
