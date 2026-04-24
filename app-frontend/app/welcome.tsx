@@ -13,7 +13,6 @@ import Animated, {
 } from 'react-native-reanimated'
 import * as WebBrowser from 'expo-web-browser'
 import { getCurrentUser } from '@/services/auth'
-import { getSettings, saveSettings } from '@/storage/storage'
 
 WebBrowser.maybeCompleteAuthSession()
 
@@ -148,20 +147,7 @@ export default function WelcomeScreen() {
     transform: [{ translateY: buttonsY.value }],
   }))
 
-  async function handleGuest() {
-    try {
-      const settings = await getSettings()
-      await saveSettings({
-        ...(settings as any),
-        isGuest: true,
-        disclaimerAccepted: true,
-        onboardingComplete: true,
-        faithIntroComplete: true,
-        profileComplete: true,
-      })
-    } catch {
-      // non-fatal
-    }
+  function handleHowItWorks() {
     router.replace('/tour')
   }
 
@@ -337,7 +323,7 @@ export default function WelcomeScreen() {
         </Pressable>
 
         <Pressable
-          onPress={handleGuest}
+          onPress={handleHowItWorks}
           className="active:opacity-80"
           style={{ marginTop: 8, paddingVertical: 8 }}
           accessibilityRole="button"

@@ -189,35 +189,20 @@ export default function TourScreen() {
         gap: 10,
       }}>
         <Pressable
-          onPress={() => router.replace('/check-in/emotions')}
+          onPress={() => router.replace('/welcome')}
           accessibilityRole="button"
-          accessibilityLabel="Begin"
+          accessibilityLabel="Create an account or sign in"
           style={({ pressed }) => ({
-            backgroundColor: '#C4956A',
             borderRadius: 9999,
             paddingVertical: 16,
             alignItems: 'center',
-            opacity: pressed ? 0.85 : 1,
-            shadowColor: '#C4956A',
-            shadowOffset: { width: 0, height: 4 },
-            shadowOpacity: 0.28,
-            shadowRadius: 12,
-            elevation: 6,
+            opacity: pressed ? 0.7 : 1,
+            borderWidth: 1.5,
+            borderColor: '#C4956A',
           })}
         >
-          <Text style={{ fontFamily: 'DMSans_500Medium', fontSize: 16, color: '#FFFFFF' }}>
+          <Text style={{ fontFamily: 'DMSans_500Medium', fontSize: 16, color: '#C4956A' }}>
             Begin →
-          </Text>
-        </Pressable>
-
-        <Pressable
-          onPress={() => router.replace('/check-in/emotions')}
-          accessibilityRole="button"
-          accessibilityLabel="Skip and get started"
-          style={({ pressed }) => ({ opacity: pressed ? 0.5 : 1, alignItems: 'center', paddingVertical: 4 })}
-        >
-          <Text style={{ fontFamily: 'DMSans_400Regular', fontSize: 13, color: '#C0A898' }}>
-            or skip to get started
           </Text>
         </Pressable>
       </View>
