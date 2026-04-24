@@ -54,7 +54,7 @@ export default function RegisterScreen() {
         setLoading(true)
         setError(null)
         signInWithGoogle(id_token)
-          .then(() => router.replace('/onboarding'))
+          .then(() => router.replace('/onboarding-disclaimer'))
           .catch(() => {
             setError('Google sign-in failed. Please try again.')
             setLoading(false)
@@ -370,7 +370,7 @@ export default function RegisterScreen() {
               setError(null)
               try {
                 await signInWithApple()
-                router.replace('/onboarding')
+                router.replace('/onboarding-disclaimer')
               } catch (e: any) {
                 if (e?.code !== 'ERR_REQUEST_CANCELED') {
                   setError('Apple sign-in failed. Please try again.')

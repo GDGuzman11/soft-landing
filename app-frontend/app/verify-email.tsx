@@ -24,7 +24,7 @@ export default function VerifyEmailScreen() {
     try {
       const verified = await reloadAndCheckVerified()
       if (verified) {
-        router.replace('/onboarding')
+        router.replace('/onboarding-disclaimer')
       } else {
         setError("We haven't received your verification yet. Check your inbox and click the link.")
       }

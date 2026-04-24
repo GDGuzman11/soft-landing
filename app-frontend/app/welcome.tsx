@@ -45,7 +45,7 @@ export default function WelcomeScreen() {
     const user = getCurrentUser()
     if (user) {
       if (!user.emailVerified) {
-        router.replace({ pathname: '/verify-email', params: { email: user.email ?? '' } })
+        router.replace('/verify-email')
       } else {
         router.replace('/(tabs)')
       }
