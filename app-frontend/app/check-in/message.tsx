@@ -16,6 +16,7 @@ import Animated, {
 import * as Haptics from 'expo-haptics'
 import { bookmarkMessage, canCheckIn, performCheckIn } from '@/services/checkIn'
 import type { EmotionId } from '@/types'
+import TourTooltip from '@/components/TourTooltip'
 
 const SWIPE_THRESHOLD = 110
 
@@ -27,14 +28,16 @@ interface VerseData {
 }
 
 export default function MessageScreen() {
-  const { emotionId, messageBody, messageReference, checkInId, messageId } =
+  const { emotionId, messageBody, messageReference, checkInId, messageId, tour } =
     useLocalSearchParams<{
       emotionId: string
       messageBody: string
       messageReference: string
       checkInId: string
       messageId: string
+      tour?: string
     }>()
+  const [showTooltip, setShowTooltip] = useState(tour === '1')
 
   const [verse, setVerse] = useState<VerseData>({
     body: messageBody,
@@ -382,6 +385,13 @@ export default function MessageScreen() {
           </Text>
         </Pressable>
       </Animated.View>
+
+      {showTooltip && (
+        <TourTooltip
+          text="This was chosen for how you're feeling. Swipe right to save it, left to let it go."
+          onDismiss={() => setShowTooltip(false)}
+        />
+      )}
     </View>
   )
 }

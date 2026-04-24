@@ -155,7 +155,7 @@ export default function WelcomeScreen() {
     } catch {
       // non-fatal
     }
-    router.replace('/(tabs)')
+    router.replace('/check-in/emotions?tour=1')
   }
 
   return (
@@ -334,10 +334,10 @@ export default function WelcomeScreen() {
           className="active:opacity-80"
           style={{ marginTop: 8, paddingVertical: 8 }}
           accessibilityRole="button"
-          accessibilityLabel="Continue as Guest"
+          accessibilityLabel="Take a Tour"
         >
           <Text style={{ fontFamily: 'DMSans_400Regular', fontSize: 14, color: '#C0A898' }}>
-            Continue as Guest
+            Take a Tour
           </Text>
         </Pressable>
       </Animated.View>

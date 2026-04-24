@@ -1,8 +1,10 @@
 import { View, Text, Pressable, ScrollView } from 'react-native'
-import { router } from 'expo-router'
+import { router, useLocalSearchParams } from 'expo-router'
+import { useState } from 'react'
 import * as Haptics from 'expo-haptics'
 import { EMOTIONS } from '@/constants/emotions'
 import { canCheckIn } from '@/services/checkIn'
+import TourTooltip from '@/components/TourTooltip'
 
 const TAGLINES: Record<string, string> = {
   stressed: 'Carrying too much right now',
@@ -21,6 +23,10 @@ function darken(hex: string, amount = 40): string {
 }
 
 export default function EmotionsScreen() {
+  const { tour } = useLocalSearchParams<{ tour?: string }>()
+  const isTour = tour === '1'
+  const [showTooltip, setShowTooltip] = useState(isTour)
+
   async function handleSelect(emotionId: string) {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)
     const allowed = await canCheckIn()
@@ -28,11 +34,20 @@ export default function EmotionsScreen() {
       router.push('/paywall')
       return
     }
-    router.push({ pathname: '/check-in/envelope', params: { emotionId } })
+    router.push({
+      pathname: '/check-in/envelope',
+      params: { emotionId, ...(isTour ? { tour: '1' } : {}) },
+    })
   }
 
   return (
-    <View className="flex-1 bg-background" accessibilityLabel="Emotion picker">
+    <View style={{ flex: 1 }} className="bg-background" accessibilityLabel="Emotion picker">
+      {showTooltip && (
+        <TourTooltip
+          text="Pick the word that's closest to where you are right now. No right answer."
+          onDismiss={() => setShowTooltip(false)}
+        />
+      )}
       {/* Header */}
       <View style={{ paddingHorizontal: 24, paddingTop: 64, paddingBottom: 28, alignItems: 'center' }}>
         <Text
