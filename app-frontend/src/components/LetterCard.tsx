@@ -175,17 +175,7 @@ export default function LetterCard({ letter, name, isLoading, error }: Props) {
         </>
       ) : null}
 
-      <Text
-        style={{
-          fontFamily: 'DMSans_400Regular',
-          fontSize: 11,
-          color: '#C4B59A',
-          marginTop: 16,
-          textAlign: 'center',
-        }}
-      >
-        Written by AI for spiritual encouragement only.
-      </Text>
+
     </Animated.View>
   )
 }
