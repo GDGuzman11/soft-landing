@@ -37,7 +37,10 @@ export default function MessageScreen() {
       messageId: string
       tour?: string
     }>()
-  const [showTooltip, setShowTooltip] = useState(tour === '1')
+  const isTour = tour === '1'
+  const [showTooltip, setShowTooltip] = useState(isTour)
+  const [showSymbolsTooltip, setShowSymbolsTooltip] = useState(false)
+  const hasSwipedInTour = showSymbolsTooltip
 
   const [verse, setVerse] = useState<VerseData>({
     body: messageBody,
@@ -148,7 +151,14 @@ export default function MessageScreen() {
     .onEnd((e) => {
       if (transitioning) return
 
-      if (e.translationX > SWIPE_THRESHOLD) {
+      if (Math.abs(e.translationX) > SWIPE_THRESHOLD && isTour && !hasSwipedInTour) {
+        // Tour mode: intercept first swipe — snap back and show symbol guide
+        cardX.value = withSpring(0, { damping: 20, stiffness: 200 })
+        cardRotate.value = withSpring(0, { damping: 20, stiffness: 200 })
+        saveOpacity.value = withTiming(0, { duration: 200 })
+        discardOpacity.value = withTiming(0, { duration: 200 })
+        runOnJS(setShowSymbolsTooltip)(true)
+      } else if (e.translationX > SWIPE_THRESHOLD) {
         // Swipe right → save + next
         runOnJS(setTransitioning)(true)
         cardX.value = withTiming(700, { duration: 280 })
@@ -388,8 +398,20 @@ export default function MessageScreen() {
 
       {showTooltip && (
         <TourTooltip
-          text="This was chosen for how you're feeling. Swipe right to save it, left to let it go."
+          text="Swipe right to save a verse to your collection. Swipe left to let it go and see another."
           onDismiss={() => setShowTooltip(false)}
+        />
+      )}
+
+      {showSymbolsTooltip && (
+        <TourTooltip
+          rows={[
+            { symbol: '☆', label: 'Save this verse to your collection' },
+            { symbol: '↑', label: 'Share it with someone who needs it' },
+            { symbol: '×', label: 'Wrap up and see what you saved' },
+          ]}
+          buttonLabel="Next →"
+          onDismiss={() => router.replace('/(tabs)/history?tourStep=4')}
         />
       )}
     </View>

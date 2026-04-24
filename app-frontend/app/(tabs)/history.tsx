@@ -1,10 +1,11 @@
 import { View, Text, FlatList, Pressable, Share } from 'react-native'
 import { useCallback, useState } from 'react'
-import { useFocusEffect, router } from 'expo-router'
+import { useFocusEffect, router, useLocalSearchParams } from 'expo-router'
 import { getSavedMessages, deleteSavedMessage } from '@/storage/storage'
 import type { SavedMessage, Message, EmotionId } from '@/types'
 import catalog from '@/messages/catalog.json'
 import { EMOTIONS } from '@/constants/emotions'
+import TourTooltip from '@/components/TourTooltip'
 
 const messages = catalog as Message[]
 
@@ -22,8 +23,10 @@ function getMessage(messageId: string): { body: string; reference?: string } {
 }
 
 export default function HistoryScreen() {
+  const { tourStep } = useLocalSearchParams<{ tourStep?: string }>()
   const [saved, setSaved] = useState<SavedMessage[]>([])
   const [expandedLetter, setExpandedLetter] = useState<string | null>(null)
+  const [showTooltip, setShowTooltip] = useState(tourStep === '4')
 
   useFocusEffect(
     useCallback(() => {
@@ -281,6 +284,17 @@ export default function HistoryScreen() {
           )
         }}
       />
+
+      {showTooltip && (
+        <TourTooltip
+          text="Everything you save lives here — your own collection of verses, whenever you need them."
+          buttonLabel="Next →"
+          onDismiss={() => {
+            setShowTooltip(false)
+            router.replace('/(tabs)?tourStep=5')
+          }}
+        />
+      )}
     </View>
   )
 }

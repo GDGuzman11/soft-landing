@@ -7,12 +7,16 @@ import Animated, {
 } from 'react-native-reanimated'
 import { useEffect } from 'react'
 
+type SymbolRow = { symbol: string; label: string }
+
 type Props = {
-  text: string
+  text?: string
+  rows?: SymbolRow[]
+  buttonLabel?: string
   onDismiss: () => void
 }
 
-export default function TourTooltip({ text, onDismiss }: Props) {
+export default function TourTooltip({ text, rows, buttonLabel = 'Got it →', onDismiss }: Props) {
   const translateY = useSharedValue(100)
   const opacity = useSharedValue(0)
   const overlayOpacity = useSharedValue(0)
@@ -107,26 +111,77 @@ export default function TourTooltip({ text, onDismiss }: Props) {
           ✦
         </Text>
 
-        {/* Tooltip text */}
-        <Text
-          style={{
-            fontFamily: 'Lora_400Regular_Italic',
-            fontSize: 17,
-            color: '#3D2F2A',
-            textAlign: 'center',
-            lineHeight: 26,
-            marginBottom: 24,
-            maxWidth: 300,
-          }}
-        >
-          {text}
-        </Text>
+        {/* Text body */}
+        {text ? (
+          <Text
+            style={{
+              fontFamily: 'Lora_400Regular_Italic',
+              fontSize: 17,
+              color: '#3D2F2A',
+              textAlign: 'center',
+              lineHeight: 26,
+              marginBottom: 24,
+              maxWidth: 300,
+            }}
+          >
+            {text}
+          </Text>
+        ) : null}
 
-        {/* Got it button */}
+        {/* Symbol rows */}
+        {rows ? (
+          <View style={{ width: '100%', marginBottom: 24, gap: 14 }}>
+            {rows.map((row) => (
+              <View
+                key={row.symbol}
+                style={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  gap: 16,
+                  paddingHorizontal: 8,
+                }}
+              >
+                <View
+                  style={{
+                    width: 40,
+                    height: 40,
+                    borderRadius: 12,
+                    backgroundColor: '#EDE8E0',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}
+                >
+                  <Text
+                    style={{
+                      fontFamily: 'DMSans_400Regular',
+                      fontSize: 20,
+                      color: '#3D2F2A',
+                    }}
+                  >
+                    {row.symbol}
+                  </Text>
+                </View>
+                <Text
+                  style={{
+                    fontFamily: 'Lora_400Regular_Italic',
+                    fontSize: 15,
+                    color: '#3D2F2A',
+                    lineHeight: 22,
+                    flex: 1,
+                  }}
+                >
+                  {row.label}
+                </Text>
+              </View>
+            ))}
+          </View>
+        ) : null}
+
+        {/* Action button */}
         <Pressable
           onPress={dismiss}
           accessibilityRole="button"
-          accessibilityLabel="Got it"
+          accessibilityLabel={buttonLabel}
           style={({ pressed }) => ({
             backgroundColor: '#C4956A',
             borderRadius: 24,
@@ -142,7 +197,7 @@ export default function TourTooltip({ text, onDismiss }: Props) {
               color: '#FFFFFF',
             }}
           >
-            Got it →
+            {buttonLabel}
           </Text>
         </Pressable>
       </Animated.View>

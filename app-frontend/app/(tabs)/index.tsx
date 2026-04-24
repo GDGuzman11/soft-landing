@@ -1,9 +1,10 @@
 import { View, Text, Pressable } from 'react-native'
-import { router } from 'expo-router'
+import { router, useLocalSearchParams } from 'expo-router'
 import { useEffect, useRef, useState } from 'react'
 import { getSettings, saveSettings, getSavedMessages } from '@/storage/storage'
 import type { AppSettings } from '@/types'
 import { getCurrentUser } from '@/services/auth'
+import TourTooltip from '@/components/TourTooltip'
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
@@ -21,8 +22,10 @@ function getGreetingBase(): string {
 }
 
 export default function HomeScreen() {
+  const { tourStep } = useLocalSearchParams<{ tourStep?: string }>()
   const [settings, setSettings] = useState<AppSettings | null>(null)
   const [savedCount, setSavedCount] = useState(0)
+  const [showTourTooltip, setShowTourTooltip] = useState(tourStep === '5')
   const navigationChecked = useRef(false)
   const greetingOpacity = useSharedValue(0)
   const greetingY = useSharedValue(12)
@@ -155,6 +158,17 @@ export default function HomeScreen() {
           </Text>
         </Pressable>
       </Animated.View>
+
+      {showTourTooltip && (
+        <TourTooltip
+          text="This is where you return each day. A new verse is always waiting whenever you need a moment."
+          buttonLabel="Create an account →"
+          onDismiss={() => {
+            setShowTourTooltip(false)
+            router.replace('/register')
+          }}
+        />
+      )}
     </View>
   )
 }
