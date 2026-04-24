@@ -9,25 +9,55 @@ const sdk_1 = __importDefault(require("@anthropic-ai/sdk"));
 const prompt_1 = require("./prompt");
 const crisisKeywords_1 = require("./crisisKeywords");
 const mockLetters_1 = require("./mockLetters");
+const rateLimit_1 = require("./rateLimit");
+const VALID_EMOTIONS = ['stressed', 'tired', 'sad', 'neutral', 'good'];
+const VALID_FAITH_BACKGROUNDS = ['established', 'exploring', 'between'];
+const VALID_LIFE_STAGES = ['early', 'middle', 'later'];
+function validateInputs(data) {
+    if (!data.verseBody || typeof data.verseBody !== 'string' || data.verseBody.trim().length === 0) {
+        throw new https_1.HttpsError('invalid-argument', 'verseBody is required');
+    }
+    if (data.verseBody.length > 1000) {
+        throw new https_1.HttpsError('invalid-argument', 'verseBody too long');
+    }
+    if (!data.emotionId || !VALID_EMOTIONS.includes(data.emotionId)) {
+        throw new https_1.HttpsError('invalid-argument', 'Valid emotionId is required');
+    }
+    if (data.userInput !== undefined && data.userInput.length > 1000) {
+        throw new https_1.HttpsError('invalid-argument', 'Message too long — keep it under 1000 characters');
+    }
+    if (data.reference !== undefined && (typeof data.reference !== 'string' || data.reference.length > 100)) {
+        throw new https_1.HttpsError('invalid-argument', 'Invalid reference');
+    }
+    if (data.userName !== undefined && (typeof data.userName !== 'string' || data.userName.length > 100)) {
+        throw new https_1.HttpsError('invalid-argument', 'Invalid userName');
+    }
+    if (data.hourOfDay !== undefined && (typeof data.hourOfDay !== 'number' || data.hourOfDay < 0 || data.hourOfDay > 23)) {
+        throw new https_1.HttpsError('invalid-argument', 'hourOfDay must be 0–23');
+    }
+    if (data.faithBackground !== undefined && data.faithBackground !== null && !VALID_FAITH_BACKGROUNDS.includes(data.faithBackground)) {
+        throw new https_1.HttpsError('invalid-argument', 'Invalid faithBackground');
+    }
+    if (data.lifeStage !== undefined && data.lifeStage !== null && !VALID_LIFE_STAGES.includes(data.lifeStage)) {
+        throw new https_1.HttpsError('invalid-argument', 'Invalid lifeStage');
+    }
+}
 exports.generateLetter = (0, https_1.onCall)({ region: 'us-central1', invoker: 'public' }, async (request) => {
-    // Firebase onCall v2 auto-verifies Firebase Auth JWT
     if (!request.auth) {
         throw new https_1.HttpsError('unauthenticated', 'Sign in to write a letter.');
     }
     const data = request.data;
-    const { emotionId, verseBody, reference, userInput, userName } = data;
-    // Input validation
-    if (!verseBody || typeof verseBody !== 'string' || verseBody.trim().length === 0) {
-        throw new https_1.HttpsError('invalid-argument', 'verseBody is required');
+    validateInputs(data);
+    const { emotionId, verseBody, reference, userInput, userName, hourOfDay, faithBackground, lifeStage } = data;
+    try {
+        await (0, rateLimit_1.checkRateLimit)(request.auth.uid);
     }
-    if (!emotionId || !['stressed', 'tired', 'sad', 'neutral', 'good'].includes(emotionId)) {
-        throw new https_1.HttpsError('invalid-argument', 'Valid emotionId is required');
+    catch (err) {
+        if (err instanceof Error && err.message === 'RATE_LIMIT_EXCEEDED') {
+            throw new https_1.HttpsError('resource-exhausted', 'Letter limit reached — try again in an hour.');
+        }
+        // Rate limit storage failure is non-fatal — continue
     }
-    if (userInput !== undefined && userInput.length > 1000) {
-        throw new https_1.HttpsError('invalid-argument', 'Message too long — keep it under 1000 characters');
-    }
-    // Crisis detection — surface resources instead of generating a letter
-    // userInput is never logged for privacy
     if (userInput && (0, crisisKeywords_1.containsCrisisContent)(userInput)) {
         return { letter: null, showCrisisPrompt: true };
     }
@@ -49,6 +79,9 @@ exports.generateLetter = (0, https_1.onCall)({ region: 'us-central1', invoker: '
                         reference,
                         userInput: (userInput === null || userInput === void 0 ? void 0 : userInput.trim()) || undefined,
                         userName: (userName === null || userName === void 0 ? void 0 : userName.trim()) || 'friend',
+                        hourOfDay,
+                        faithBackground: faithBackground,
+                        lifeStage: lifeStage,
                     }),
                 },
             ],
@@ -60,10 +93,8 @@ exports.generateLetter = (0, https_1.onCall)({ region: 'us-central1', invoker: '
         return { letter: letterContent.text, showCrisisPrompt: false };
     }
     catch (err) {
-        // Re-throw HttpsErrors as-is
         if (err instanceof https_1.HttpsError)
             throw err;
-        // Wrap unexpected errors
         throw new https_1.HttpsError('internal', 'Failed to generate letter');
     }
 });
