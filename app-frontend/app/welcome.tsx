@@ -341,10 +341,10 @@ export default function WelcomeScreen() {
           className="active:opacity-80"
           style={{ marginTop: 8, paddingVertical: 8 }}
           accessibilityRole="button"
-          accessibilityLabel="Take a Tour"
+          accessibilityLabel="How It Works"
         >
           <Text style={{ fontFamily: 'DMSans_400Regular', fontSize: 14, color: '#C0A898' }}>
-            Take a Tour
+            How It Works
           </Text>
         </Pressable>
       </Animated.View>
