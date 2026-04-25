@@ -13,7 +13,6 @@ export const CRISIS_KEYWORDS: string[] = [
   // ── Explicit self-harm / suicide ──────────────────────────────────────────
   'kill myself',
   'killing myself',
-  'kill myself',
   'end my life',
   'end it all',
   'want to die',

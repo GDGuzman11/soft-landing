@@ -6,7 +6,7 @@ type Props = {
   letter: string | null
   name: string
   isLoading: boolean
-  error: 'network' | 'blocked' | null
+  error: 'network' | 'blocked' | 'rateLimited' | null
   onRetry?: () => void
 }
 
@@ -125,6 +125,18 @@ export default function LetterCard({ letter, name, isLoading, error }: Props) {
           }}
         >
           We weren't able to process that message. Share what's on your heart in your own words.
+        </Text>
+      ) : error === 'rateLimited' ? (
+        <Text
+          style={{
+            fontFamily: 'Lora_400Regular',
+            fontSize: 15,
+            color: '#9A8F82',
+            textAlign: 'center',
+            paddingVertical: 16,
+          }}
+        >
+          You've written quite a few letters today. Come back in an hour and there will be more waiting.
         </Text>
       ) : error ? (
         <Text

@@ -32,7 +32,7 @@ export default function LetterComposeScreen() {
   const [userInput, setUserInput] = useState('')
   const [letter, setLetter] = useState<string | null>(null)
   const [letterLoading, setLetterLoading] = useState(false)
-  const [letterError, setLetterError] = useState<'network' | 'blocked' | null>(null)
+  const [letterError, setLetterError] = useState<'network' | 'blocked' | 'rateLimited' | null>(null)
   const [showCrisisPrompt, setShowCrisisPrompt] = useState(false)
   const [letterSaved, setLetterSaved] = useState(false)
 
@@ -86,6 +86,11 @@ export default function LetterComposeScreen() {
 
     if (result.blocked) {
       setLetterError('blocked')
+      return
+    }
+
+    if (result.rateLimited) {
+      setLetterError('rateLimited')
       return
     }
 
@@ -396,7 +401,7 @@ export default function LetterComposeScreen() {
               </Pressable>
             )}
 
-            {letterError && (
+            {letterError && letterError !== 'rateLimited' && (
               <Pressable
                 onPress={handleSend}
                 accessibilityRole="button"
