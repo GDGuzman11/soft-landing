@@ -132,6 +132,15 @@ function buildPrompt({ emotionId, verseBody, reference, userInput, userName, hou
     const inputSection = getInputSection(safeInput, emotionLabel);
     const emotionGoals = getEmotionParagraphGoals(emotionId);
     const openingAngle = getOpeningAngle();
+    console.log('[buildPrompt] context blocks', {
+        hasLifeStage: !!lifeStageCtx,
+        hasFaith: !!faithCtx,
+        hasIntent: !!intentCtx,
+        hasTone: !!toneCtx,
+        hasUserInput: !!safeInput,
+        openingAngleIndex: OPENING_ANGLES.indexOf(openingAngle),
+        emotionId,
+    });
     // Build the "who this person is" block — only include lines that have content
     const whoTheyAre = [
         `They are feeling ${emotionLabel} right now.`,

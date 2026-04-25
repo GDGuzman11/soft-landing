@@ -48,12 +48,25 @@ function validateInputs(data) {
     }
 }
 exports.generateLetter = (0, https_1.onCall)({ region: 'us-central1', invoker: 'public' }, async (request) => {
+    var _a, _b, _c;
     if (!request.auth) {
         throw new https_1.HttpsError('unauthenticated', 'Sign in to write a letter.');
     }
     const data = request.data;
     validateInputs(data);
     const { emotionId, verseBody, reference, userInput, userName, hourOfDay, faithBackground, primaryIntent, lifeStage } = data;
+    console.log('[generateLetter] params', {
+        emotionId,
+        reference,
+        verseLength: verseBody === null || verseBody === void 0 ? void 0 : verseBody.length,
+        hasUserInput: !!userInput,
+        userInputLength: (_a = userInput === null || userInput === void 0 ? void 0 : userInput.length) !== null && _a !== void 0 ? _a : 0,
+        faithBackground: faithBackground !== null && faithBackground !== void 0 ? faithBackground : 'null',
+        primaryIntent: primaryIntent !== null && primaryIntent !== void 0 ? primaryIntent : 'null',
+        lifeStage: lifeStage !== null && lifeStage !== void 0 ? lifeStage : 'null',
+        hourOfDay: hourOfDay !== null && hourOfDay !== void 0 ? hourOfDay : 'null',
+        uid: ((_c = (_b = request.auth) === null || _b === void 0 ? void 0 : _b.uid) === null || _c === void 0 ? void 0 : _c.slice(0, 8)) + '…',
+    });
     // Block malicious input before it reaches the AI
     if (userInput) {
         const filterResult = (0, inputFilter_1.filterUserInput)(userInput);
@@ -90,6 +103,11 @@ exports.generateLetter = (0, https_1.onCall)({ region: 'us-central1', invoker: '
             primaryIntent: primaryIntent,
             lifeStage: lifeStage,
         });
+        console.log('[generateLetter] prompt fingerprint', {
+            openingAngle: prompt.user.slice(prompt.user.indexOf('\n\n') + 2, prompt.user.indexOf('\n\n') + 2 + 80).replace(/\n/g, ' '),
+            userMessageLength: prompt.user.length,
+            systemMessageLength: prompt.system.length,
+        });
         const response = await client.messages.create({
             model: 'claude-sonnet-4-6',
             max_tokens: 600,
@@ -101,6 +119,13 @@ exports.generateLetter = (0, https_1.onCall)({ region: 'us-central1', invoker: '
         if (letterContent.type !== 'text') {
             throw new https_1.HttpsError('internal', 'Unexpected response format');
         }
+        console.log('[generateLetter] claude response', {
+            stopReason: response.stop_reason,
+            inputTokens: response.usage.input_tokens,
+            outputTokens: response.usage.output_tokens,
+            letterLength: letterContent.text.length,
+            letterFirstLine: letterContent.text.slice(0, 80).replace(/\n/g, ' '),
+        });
         return { letter: letterContent.text, showCrisisPrompt: false };
     }
     catch (err) {
