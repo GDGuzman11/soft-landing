@@ -26,6 +26,20 @@ function sanitizeUserText(text: string): string {
   return text.replace(/[<>]/g, '')
 }
 
+const OPENING_ANGLES = [
+  'Open with a question — one that names exactly what this feeling is like from the inside, the question they haven\'t been able to ask out loud.',
+  'Open in the middle of the experience — as if you\'ve already been sitting with them for a while, mid-thought.',
+  'Open with something specific you\'ve noticed about what it\'s like to carry this particular weight right now.',
+  'Open with a single true sentence about this emotion that most people feel but almost nobody says.',
+  'Open with the thing they\'ve probably been doing or thinking in this state — the small, honest detail of it.',
+  'Open with what this kind of day actually feels like from the inside — not described from the outside, lived from within.',
+  'Open quietly, as if arriving beside them without announcement — the first sentence already present, not introducing itself.',
+]
+
+function getOpeningAngle(): string {
+  return OPENING_ANGLES[Math.floor(Math.random() * OPENING_ANGLES.length)]
+}
+
 function buildSystemPrompt(): string {
   return `You write personal letters to people you've known for years. You are their closest friend — not a pastor, not a therapist, not a counselor. You speak with warmth and without authority. You never give advice. You never tell someone what they should do. You write the way someone talks at 11pm when the guard is down — real, honest, unhurried.
 
@@ -161,6 +175,7 @@ export function buildPrompt({
   const intentContext = getPrimaryIntentContext(primaryIntent)
   const lifeStageContext = getLifeStageContext(lifeStage)
   const toneGuidance = getToneGuidance(hourOfDay)
+  const openingAngle = getOpeningAngle()
 
   const user = `You are writing to ${safeUserName}, who is feeling ${emotionLabel} right now.
 
@@ -171,7 +186,7 @@ ${inputSection}
 
 ${emotionGoals}
 
-Open differently every time. Find a fresh entry point — sometimes a question, sometimes an observation about the specific texture of this feeling, sometimes a quiet statement that lands in the middle of the experience, sometimes the thing they've probably been thinking or doing in this state. The first sentence must feel like it was written only for this person in this moment. Never open the same way twice.
+${openingAngle} The first sentence must feel like it was written only for this person in this moment.
 
 Never use: em dashes (—), "lean into", "hold space", "in this season", "you've got this", "I want you to know", "you are not alone"
 
