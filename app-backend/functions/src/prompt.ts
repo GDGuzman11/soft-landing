@@ -168,23 +168,23 @@ export function buildPrompt({
     emotionId,
   })
 
-  // Build the "who this person is" block — only include lines that have content
-  const whoTheyAre = [
-    `They are feeling ${emotionLabel} right now.`,
-    lifeStageCtx,
-    faithCtx,
-  ].filter(Boolean).join(' ')
+  // Layer 1: Questionnaire answers — sets tone and voice (permanent, answered once at registration)
+  const toneBlock = [faithCtx, lifeStageCtx, intentCtx].filter(Boolean).join('\n')
+
+  // Layer 2: Emotion — defines the letter's arc and paragraph structure
+  // Layer 3: Verse — the content anchor
+  // Layer 4: User's typed message — final shaping detail
 
   const user = `You are writing to ${safeUserName}.
 
-${whoTheyAre}${intentCtx ? `\n\n${intentCtx}` : ''}
+${toneBlock ? `${toneBlock}\n\n` : ''}They are feeling ${emotionLabel} right now.
+
+${emotionGoals}
 
 The verse they received today:
 "${verseBody}" — ${reference}${toneCtx ? `\n${toneCtx}` : ''}
 
 ${inputSection}
-
-${emotionGoals}
 
 ${openingAngle} The first sentence must feel like it was written only for this person in this moment.
 
