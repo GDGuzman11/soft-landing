@@ -65,6 +65,10 @@ export const generateLetter = onCall(
       }
     }
 
+    if (userInput && containsCrisisContent(userInput)) {
+      return { letter: null, showCrisisPrompt: true }
+    }
+
     try {
       await checkRateLimit(request.auth.uid)
     } catch (err: unknown) {
@@ -72,10 +76,6 @@ export const generateLetter = onCall(
         throw new HttpsError('resource-exhausted', 'Letter limit reached — try again in an hour.')
       }
       // Rate limit storage failure is non-fatal — continue
-    }
-
-    if (userInput && containsCrisisContent(userInput)) {
-      return { letter: null, showCrisisPrompt: true }
     }
 
     const apiKey = process.env.ANTHROPIC_API_KEY

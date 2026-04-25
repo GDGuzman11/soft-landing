@@ -3,10 +3,6 @@ import { useState } from 'react'
 import { EMOTIONS } from '@/constants/emotions'
 import catalog from '@/messages/catalog.json'
 
-if (!__DEV__) {
-  throw new Error('Dashboard is only available in development')
-}
-
 const PHASES = [
   { label: 'Phase 0 — Foundation', done: true },
   { label: 'Phase 1 — Infrastructure', done: true },
@@ -16,18 +12,20 @@ const PHASES = [
 ]
 
 const FEATURES = [
-  { label: 'NIV Bible verses (25 total, 5 per emotion)', done: true },
+  { label: 'NIV Bible verses (150 total, 30 per emotion)', done: true },
   { label: 'Scripture reference on message screen', done: true },
   { label: 'Enhanced envelope (wax seal, fold lines)', done: true },
   { label: 'Faith intro landing page', done: true },
   { label: 'Native share sheet', done: true },
-  { label: 'Free tier: 3 check-ins/day', done: true },
+  { label: 'Free tier: 10 check-ins/day', done: true },
   { label: 'RevenueCat integration (needs API keys)', done: false },
   { label: 'Push notifications (wired, needs scheduler)', done: false },
   { label: 'TestFlight / App Store submission', done: false },
 ]
 
 export default function DashboardScreen() {
+  if (!__DEV__) return null
+
   const [selectedEmotion, setSelectedEmotion] = useState<string | null>(null)
   const [expandedVerse, setExpandedVerse] = useState<string | null>(null)
 

@@ -1,6 +1,6 @@
 import { View, Text, Pressable, Dimensions } from 'react-native'
-import { router, useLocalSearchParams } from 'expo-router'
-import { useEffect, useState } from 'react'
+import { router, useLocalSearchParams, useFocusEffect } from 'expo-router'
+import { useEffect, useState, useCallback } from 'react'
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
@@ -197,6 +197,16 @@ export default function EnvelopeScreen() {
 
     hintOpacity.value = withDelay(1000, withTiming(1, { duration: 600 }))
   }, [])
+
+  useFocusEffect(
+    useCallback(() => {
+      screenOpacity.value = 1
+      cardScale.value = 1
+      sealScale.value = 1
+      hintOpacity.value = 0
+      setOpening(false)
+    }, [])
+  )
 
   const cardStyle = useAnimatedStyle(() => ({
     transform: [

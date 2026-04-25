@@ -16,4 +16,5 @@ export interface GenerateLetterResult {
   letter: string | null
   showCrisisPrompt: boolean
   blocked?: boolean
+  rateLimited?: boolean
 }

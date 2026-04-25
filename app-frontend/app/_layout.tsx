@@ -74,6 +74,7 @@ export default function RootLayout() {
       <Stack.Screen name="tour" options={{ headerShown: false, animation: 'fade' }} />
       <Stack.Screen name="check-in/session-summary" options={{ headerShown: false, animation: 'fade' }} />
       <Stack.Screen name="check-in/letter-compose" options={{ headerShown: false, animation: 'fade' }} />
+      <Stack.Screen name="dashboard/index" options={{ headerShown: false }} />
     </Stack>
     </GestureHandlerRootView>
   )
