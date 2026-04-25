@@ -86,25 +86,23 @@ export const generateLetter = onCall(
     const client = new Anthropic({ apiKey })
 
     try {
+      const prompt = buildPrompt({
+        emotionId,
+        verseBody,
+        reference,
+        userInput: userInput?.trim() || undefined,
+        userName: userName?.trim() || 'friend',
+        hourOfDay,
+        faithBackground: faithBackground as 'established' | 'exploring' | 'between' | null | undefined,
+        primaryIntent: primaryIntent as 'peace' | 'strength' | 'comfort' | 'guidance' | 'exploring' | null | undefined,
+        lifeStage: lifeStage as 'early' | 'middle' | 'later' | null | undefined,
+      })
+
       const response = await client.messages.create({
-        model: 'claude-haiku-4-5-20251001',
-        max_tokens: 400,
-        messages: [
-          {
-            role: 'user',
-            content: buildPrompt({
-              emotionId,
-              verseBody,
-              reference,
-              userInput: userInput?.trim() || undefined,
-              userName: userName?.trim() || 'friend',
-              hourOfDay,
-              faithBackground: faithBackground as 'established' | 'exploring' | 'between' | null | undefined,
-              primaryIntent: primaryIntent as 'peace' | 'strength' | 'comfort' | 'guidance' | 'exploring' | null | undefined,
-              lifeStage: lifeStage as 'early' | 'middle' | 'later' | null | undefined,
-            }),
-          },
-        ],
+        model: 'claude-sonnet-4-6',
+        max_tokens: 600,
+        system: prompt.system,
+        messages: [{ role: 'user', content: prompt.user }],
       })
 
       const letterContent = response.content[0]
