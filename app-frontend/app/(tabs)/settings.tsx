@@ -93,6 +93,13 @@ export default function SettingsScreen() {
       {/* Subscription */}
       <View className="mx-6 mb-6 rounded-2xl overflow-hidden border border-border">
         <View className="px-5 py-4 bg-surface">
+          {settings?.name?.trim() ? (
+            <Text
+              style={{ fontFamily: 'DMSans_500Medium', fontSize: 16, color: '#3D2F2A', marginBottom: 12 }}
+            >
+              {settings.name.trim()}
+            </Text>
+          ) : null}
           <Text
             className="text-text-secondary text-xs uppercase mb-3"
             style={{ fontFamily: 'DMSans_500Medium', letterSpacing: 1 }}

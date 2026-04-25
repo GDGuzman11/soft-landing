@@ -1,8 +1,8 @@
 import { View, Text, FlatList, Pressable, Share } from 'react-native'
 import { useCallback, useState } from 'react'
 import { useFocusEffect, router, useLocalSearchParams } from 'expo-router'
-import { getSavedMessages, deleteSavedMessage } from '@/storage/storage'
-import type { SavedMessage, Message, EmotionId } from '@/types'
+import { getSavedMessages, deleteSavedMessage, getSettings } from '@/storage/storage'
+import type { SavedMessage, Message, EmotionId, AppSettings } from '@/types'
 import catalog from '@/messages/catalog.json'
 import { EMOTIONS } from '@/constants/emotions'
 import TourTooltip from '@/components/TourTooltip'
@@ -27,12 +27,16 @@ export default function HistoryScreen() {
   const [saved, setSaved] = useState<SavedMessage[]>([])
   const [expandedLetter, setExpandedLetter] = useState<string | null>(null)
   const [showTooltip, setShowTooltip] = useState(tourStep === '4')
+  const [settings, setSettings] = useState<AppSettings | null>(null)
 
   useFocusEffect(
     useCallback(() => {
       getSavedMessages().then(setSaved)
+      getSettings().then(setSettings)
     }, [])
   )
+
+  const userName = settings?.name?.trim() || 'friend'
 
   async function handleDelete(id: string) {
     await deleteSavedMessage(id)
@@ -168,7 +172,7 @@ export default function HistoryScreen() {
                           marginBottom: 8,
                         }}
                       >
-                        Dear {item.note ? '…' : 'you'},
+                        Dear {userName},
                       </Text>
                       <Text
                         style={{
@@ -291,7 +295,7 @@ export default function HistoryScreen() {
           buttonLabel="Next →"
           onDismiss={() => {
             setShowTooltip(false)
-            router.replace('/(tabs)?tourStep=5')
+            router.replace({ pathname: '/(tabs)', params: { tourStep: '5' } })
           }}
         />
       )}

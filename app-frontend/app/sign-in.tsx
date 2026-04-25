@@ -81,7 +81,7 @@ export default function SignInScreen() {
       const user = await signInWithEmail(email.trim(), password)
       if (!user.emailVerified) {
         await sendVerificationEmail()
-        router.replace({ pathname: '/verify-email', params: { email: email.trim() } })
+        router.replace('/verify-email')
       } else {
         await stampReturningUser()
         router.replace('/(tabs)')
