@@ -80,51 +80,44 @@ function getInputSection(safeInput, emotionLabel) {
     }
     return `They didn't write anything. Lead from their emotion: ${emotionLabel}. Name what it actually feels like from the inside. Don't describe it — inhabit it.`;
 }
+function getLifeStageContext(lifeStage) {
+    if (lifeStage === 'early')
+        return 'They are early in their journey — still figuring things out, navigating identity and first real pressures.';
+    if (lifeStage === 'middle')
+        return 'They are in the thick of it — stretched thin, carrying responsibilities for others with little margin left.';
+    if (lifeStage === 'later')
+        return 'They are in a more reflective season — slowing down, possibly processing loss or what has changed.';
+    return '';
+}
 function getFaithContext(faithBackground) {
-    if (faithBackground === 'exploring') {
-        return `\n\nFaith context: This person is exploring — open but not certain. Don't assume shared belief. Don't use "God" as a given. Let the verse speak as wisdom that doesn't require a label. Write as someone sitting beside them, not ahead of them.`;
-    }
-    if (faithBackground === 'established') {
-        return `\n\nFaith context: This person has walked with faith for a while. Speak from shared ground — the verse is familiar territory. You don't need to handle it carefully.`;
-    }
+    if (faithBackground === 'exploring')
+        return 'They are exploring faith — open but not certain. Do not assume shared belief. Let the verse speak as wisdom, not doctrine.';
+    if (faithBackground === 'established')
+        return 'They have walked with faith for a while — the verse is familiar ground, not foreign territory.';
+    if (faithBackground === 'between')
+        return 'Their relationship with faith is somewhere in between — not far from it, not fully in it.';
     return '';
 }
 function getPrimaryIntentContext(primaryIntent) {
-    if (primaryIntent === 'peace') {
-        return `\n\nWhat they came for: Peace — not advice on how to find it, the actual feeling of it. Let the pace of your writing slow down. By the last sentence, the noise should feel a little further away — not because you said so, but because the letter itself breathes differently.`;
-    }
-    if (primaryIntent === 'strength') {
-        return `\n\nWhat they came for: Strength. Not a pep talk — something firm and true to stand on. The closing should leave them feeling steadier — not because you said encouraging words, but because something real landed.`;
-    }
-    if (primaryIntent === 'comfort') {
-        return `\n\nWhat they came for: Comfort in something painful. Don't rush past the pain to get to the hope. Sit in it longer than feels comfortable — that's what real comfort looks like. The turn toward something better should feel earned, not assumed.`;
-    }
-    if (primaryIntent === 'guidance') {
-        return `\n\nWhat they came for: Direction in uncertainty. Don't resolve the uncertainty — acknowledge the weight of not knowing. Leave them feeling less alone in it, not more certain about what to do.`;
-    }
-    return '';
-}
-function getLifeStageContext(lifeStage) {
-    if (lifeStage === 'early') {
-        return `\n\nLife stage: Early — figuring things out, navigating identity and first real pressures. Speak to the feeling of not having it together yet.`;
-    }
-    if (lifeStage === 'middle') {
-        return `\n\nLife stage: In the thick of it — busy, stretched, carrying responsibilities for others. Speak to the weight of the pace.`;
-    }
-    if (lifeStage === 'later') {
-        return `\n\nLife stage: More reflective — slowing down, possibly processing loss or transition. Write with depth, not urgency.`;
-    }
+    if (primaryIntent === 'peace')
+        return 'What they came for: peace. Not advice on how to find it — the actual feeling of it. Let the pace of your writing slow down. By the last sentence, the noise should feel a little further away.';
+    if (primaryIntent === 'strength')
+        return 'What they came for: strength. Not a pep talk — something firm and true to stand on. The closing should leave them feeling steadier.';
+    if (primaryIntent === 'comfort')
+        return 'What they came for: comfort in something painful. Don\'t rush past the pain. Sit in it longer than feels comfortable — that\'s what real comfort looks like.';
+    if (primaryIntent === 'guidance')
+        return 'What they came for: direction in uncertainty. Don\'t resolve the uncertainty — acknowledge the weight of not knowing. Leave them feeling less alone in it.';
+    if (primaryIntent === 'exploring')
+        return 'They are just beginning to open up to something. Don\'t assume they know what they need — write as if you\'re exploring the moment alongside them.';
     return '';
 }
 function getToneGuidance(hourOfDay) {
     if (hourOfDay === undefined)
         return '';
-    if (hourOfDay >= 5 && hourOfDay < 12) {
-        return `\n\nTime of day: Morning. The day hasn't started yet. Write with the quiet energy of a new beginning — speak to what they're about to face, not just what they've carried.`;
-    }
-    if (hourOfDay >= 20 || hourOfDay < 5) {
-        return `\n\nTime of day: Evening. They are tired; the day is behind them. Write with the warmth of a day's end — speak to rest, to laying it down, to the quiet that comes when you stop carrying alone.`;
-    }
+    if (hourOfDay >= 5 && hourOfDay < 12)
+        return 'They are reading this in the morning — the day hasn\'t started yet. Write with the quiet energy of a new beginning.';
+    if (hourOfDay >= 20 || hourOfDay < 5)
+        return 'They are reading this at night — the day is behind them. Write with the warmth of a day\'s end, speak to rest and laying it down.';
     return '';
 }
 function buildPrompt({ emotionId, verseBody, reference, userInput, userName, hourOfDay, faithBackground, primaryIntent, lifeStage, }) {
@@ -132,17 +125,25 @@ function buildPrompt({ emotionId, verseBody, reference, userInput, userName, hou
     const emotionLabel = (_a = EMOTION_LABELS[emotionId]) !== null && _a !== void 0 ? _a : 'uncertain';
     const safeInput = userInput ? sanitizeUserText(userInput) : undefined;
     const safeUserName = sanitizeUserText(userName);
+    const lifeStageCtx = getLifeStageContext(lifeStage);
+    const faithCtx = getFaithContext(faithBackground);
+    const intentCtx = getPrimaryIntentContext(primaryIntent);
+    const toneCtx = getToneGuidance(hourOfDay);
     const inputSection = getInputSection(safeInput, emotionLabel);
     const emotionGoals = getEmotionParagraphGoals(emotionId);
-    const faithContext = getFaithContext(faithBackground);
-    const intentContext = getPrimaryIntentContext(primaryIntent);
-    const lifeStageContext = getLifeStageContext(lifeStage);
-    const toneGuidance = getToneGuidance(hourOfDay);
     const openingAngle = getOpeningAngle();
-    const user = `You are writing to ${safeUserName}, who is feeling ${emotionLabel} right now.
+    // Build the "who this person is" block — only include lines that have content
+    const whoTheyAre = [
+        `They are feeling ${emotionLabel} right now.`,
+        lifeStageCtx,
+        faithCtx,
+    ].filter(Boolean).join(' ');
+    const user = `You are writing to ${safeUserName}.
+
+${whoTheyAre}${intentCtx ? `\n\n${intentCtx}` : ''}
 
 The verse they received today:
-"${verseBody}" — ${reference}
+"${verseBody}" — ${reference}${toneCtx ? `\n${toneCtx}` : ''}
 
 ${inputSection}
 
@@ -154,7 +155,7 @@ Never use: em dashes (—), "lean into", "hold space", "in this season", "you've
 
 Never explain the verse. Never give advice. Never tell them what to do.
 
-The UI adds "Dear ${safeUserName}," at the start and "With you in this." at the end. Do not write either.${faithContext}${intentContext}${lifeStageContext}${toneGuidance}`;
+The UI adds "Dear ${safeUserName}," at the start and "With you in this." at the end. Do not write either.`;
     return { system: buildSystemPrompt(), user };
 }
 //# sourceMappingURL=prompt.js.map

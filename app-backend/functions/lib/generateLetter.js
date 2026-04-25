@@ -61,6 +61,9 @@ exports.generateLetter = (0, https_1.onCall)({ region: 'us-central1', invoker: '
             return { letter: null, showCrisisPrompt: false, blocked: true };
         }
     }
+    if (userInput && (0, crisisKeywords_1.containsCrisisContent)(userInput)) {
+        return { letter: null, showCrisisPrompt: true };
+    }
     try {
         await (0, rateLimit_1.checkRateLimit)(request.auth.uid);
     }
@@ -69,9 +72,6 @@ exports.generateLetter = (0, https_1.onCall)({ region: 'us-central1', invoker: '
             throw new https_1.HttpsError('resource-exhausted', 'Letter limit reached — try again in an hour.');
         }
         // Rate limit storage failure is non-fatal — continue
-    }
-    if (userInput && (0, crisisKeywords_1.containsCrisisContent)(userInput)) {
-        return { letter: null, showCrisisPrompt: true };
     }
     const apiKey = process.env.ANTHROPIC_API_KEY;
     if (!apiKey) {
