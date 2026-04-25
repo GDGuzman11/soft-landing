@@ -16,13 +16,14 @@ export interface CheckInResult {
 }
 
 export async function canCheckIn(): Promise<boolean> {
+  return true // TODO: re-enable before launch — was: quota check below
   try {
     const settings = await getSettings()
     if (settings.subscription.tier === 'premium') return true
     const count = await getTodayCheckInCount()
     return count < FREE_CHECKINS_PER_DAY
   } catch {
-    return true // fail open — don't block the user if storage is unavailable
+    return true
   }
 }
 
