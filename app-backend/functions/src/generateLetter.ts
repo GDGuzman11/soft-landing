@@ -57,6 +57,19 @@ export const generateLetter = onCall(
 
     const { emotionId, verseBody, reference, userInput, userName, hourOfDay, faithBackground, primaryIntent, lifeStage } = data
 
+    console.log('[generateLetter] params', {
+      emotionId,
+      reference,
+      verseLength: verseBody?.length,
+      hasUserInput: !!userInput,
+      userInputLength: userInput?.length ?? 0,
+      faithBackground: faithBackground ?? 'null',
+      primaryIntent: primaryIntent ?? 'null',
+      lifeStage: lifeStage ?? 'null',
+      hourOfDay: hourOfDay ?? 'null',
+      uid: request.auth?.uid?.slice(0, 8) + '…',
+    })
+
     // Block malicious input before it reaches the AI
     if (userInput) {
       const filterResult = filterUserInput(userInput)
@@ -98,6 +111,12 @@ export const generateLetter = onCall(
         lifeStage: lifeStage as 'early' | 'middle' | 'later' | null | undefined,
       })
 
+      console.log('[generateLetter] prompt fingerprint', {
+        openingAngle: prompt.user.slice(prompt.user.indexOf('\n\n') + 2, prompt.user.indexOf('\n\n') + 2 + 80).replace(/\n/g, ' '),
+        userMessageLength: prompt.user.length,
+        systemMessageLength: prompt.system.length,
+      })
+
       const response = await client.messages.create({
         model: 'claude-sonnet-4-6',
         max_tokens: 600,
@@ -110,6 +129,14 @@ export const generateLetter = onCall(
       if (letterContent.type !== 'text') {
         throw new HttpsError('internal', 'Unexpected response format')
       }
+
+      console.log('[generateLetter] claude response', {
+        stopReason: response.stop_reason,
+        inputTokens: response.usage.input_tokens,
+        outputTokens: response.usage.output_tokens,
+        letterLength: letterContent.text.length,
+        letterFirstLine: letterContent.text.slice(0, 80).replace(/\n/g, ' '),
+      })
 
       return { letter: letterContent.text, showCrisisPrompt: false }
     } catch (err) {
