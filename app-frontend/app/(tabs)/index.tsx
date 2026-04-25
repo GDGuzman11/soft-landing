@@ -53,6 +53,8 @@ export default function HomeScreen() {
             router.replace('/onboarding-disclaimer')
           } else if (!s.onboardingComplete) {
             router.replace('/onboarding')
+          } else if (!s.profileComplete && !s.faithIntroComplete) {
+            router.replace('/onboarding-profile')
           } else if (!s.faithIntroComplete) {
             router.replace('/faith-intro')
           }
