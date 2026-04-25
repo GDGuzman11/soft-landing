@@ -14,8 +14,24 @@ import { useState, useEffect } from 'react'
 import * as WebBrowser from 'expo-web-browser'
 import * as AuthSession from 'expo-auth-session/providers/google'
 import { signInWithEmail, signInWithGoogle, signInWithApple, sendVerificationEmail, resetPassword } from '@/services/auth'
+import { getSettings, saveSettings } from '@/storage/storage'
 
 WebBrowser.maybeCompleteAuthSession()
+
+async function stampReturningUser() {
+  try {
+    const s = await getSettings()
+    await saveSettings({
+      ...s,
+      disclaimerAccepted: true,
+      onboardingComplete: true,
+      profileComplete: true,
+      faithIntroComplete: true,
+    })
+  } catch {
+    // non-fatal — nav guard will handle any remaining redirects gracefully
+  }
+}
 
 function mapFirebaseError(code: string): string {
   switch (code) {
@@ -48,7 +64,7 @@ export default function SignInScreen() {
         setLoading(true)
         setError(null)
         signInWithGoogle(id_token)
-          .then(() => router.replace('/(tabs)'))
+          .then(() => stampReturningUser().then(() => router.replace('/(tabs)')))
           .catch(() => {
             setError('Google sign-in failed. Please try again.')
             setLoading(false)
@@ -67,6 +83,7 @@ export default function SignInScreen() {
         await sendVerificationEmail()
         router.replace({ pathname: '/verify-email', params: { email: email.trim() } })
       } else {
+        await stampReturningUser()
         router.replace('/(tabs)')
       }
     } catch (e: any) {
@@ -261,6 +278,7 @@ export default function SignInScreen() {
               setError(null)
               try {
                 await signInWithApple()
+                await stampReturningUser()
                 router.replace('/(tabs)')
               } catch (e: any) {
                 if (e?.code !== 'ERR_REQUEST_CANCELED') {

@@ -6,6 +6,7 @@ import Animated, {
   useAnimatedStyle,
   withTiming,
   withSpring,
+  runOnJS,
 } from 'react-native-reanimated'
 import * as Haptics from 'expo-haptics'
 import { getSettings, saveSettings } from '@/storage/storage'
@@ -150,7 +151,7 @@ export default function OnboardingProfileScreen() {
 
   function transitionToSlide(nextSlide: number) {
     opacity.value = withTiming(0, { duration: 220 }, () => {
-      setSlide(nextSlide)
+      runOnJS(setSlide)(nextSlide)
       opacity.value = withTiming(1, { duration: 280 })
     })
   }
