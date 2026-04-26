@@ -190,7 +190,9 @@ When this verse surfaces, engage with its specific words and imagery — not jus
 
 ${openingAngle} The first sentence must feel like it was written only for this person in this moment.
 
-Never use: em dashes (—), "lean into", "hold space", "in this season", "this season", "you've got this", "I want you to know", "you are not alone"
+Do not write the em dash character (—) anywhere in this letter. Not once. Use a comma, a period, or a new sentence instead.
+
+Never write: "lean into", "hold space", "in this season", "this season", "you've got this", "I want you to know", "you are not alone"
 
 Never explain the verse. Never give advice. Never tell them what to do.
 

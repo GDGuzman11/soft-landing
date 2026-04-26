@@ -2,7 +2,7 @@
 
 A faith-based emotional check-in app for iOS and Android. Open the app, pick how you're feeling, tap the wax-sealed envelope that floats in, and receive a Bible verse selected for that emotion. Swipe right to save it, left to skip to the next one.
 
-Built with React Native + Expo, TypeScript strict, NativeWind, React Native Reanimated, and Firebase Auth.
+Built with React Native + Expo, TypeScript strict, NativeWind, React Native Reanimated, Firebase Auth, and Firebase Cloud Functions backed by Claude Sonnet 4.6.
 
 ## What it does
 
@@ -82,7 +82,7 @@ soft-landing/
 │   │   ├── storage/       # AsyncStorage typed wrappers
 │   │   └── types/         # All TypeScript interfaces
 │   └── __tests__/         # Vitest unit tests
-├── app-backend/           # Reserved for V2 cloud sync — unused in V1
+├── app-backend/           # Firebase Cloud Functions — AI letter generation via Claude Sonnet 4.6
 ├── app-qa/                # Maestro end-to-end flows
 └── docs/                  # ARCHITECTURE, DECISIONS, CHANGELOG, bugs.json
 ```
@@ -103,14 +103,19 @@ pnpm exec expo start --web
 
 Open `http://localhost:8081/dashboard` (dev/web only).
 
-## Current build state (v1.3.0)
+## Current build state (v1.4.0)
 
 - Full auth flow: register, sign in (email + Google), email verification, guest mode
 - Firebase Auth with AsyncStorage persistence — users stay signed in across restarts
 - 150 NIV Bible verses, 30 per emotion, free/premium split (15 each)
 - "How It Works" editorial guide for new visitors: scrollable, four labelled sections, fixed Begin → button
 - Onboarding profile (3 questions, Design A Candlelight): saves faith background, intent, life stage
-- AI letter generation via Firebase Cloud Function → Claude Haiku; first letter free, then premium
+- **AI letter generation fully working**: Firebase Cloud Function → Claude Sonnet 4.6; first letter free, then premium
+  - `ANTHROPIC_API_KEY` stored in Firebase Secret Manager and correctly declared in `onCall()` options
+  - 4-layer personalization: questionnaire answers → emotion arc → verse anchor → user's typed input
+  - User input positioned first in prompt for maximum Claude weighting
+  - Verse engagement rule: Claude engages specific words/imagery, not just "a verse arrived"
+  - Letters auto-saved immediately after generation — no manual Save tap required
 - Crisis input filtering and Firestore security rules deployed to backend
 - All screens functional end-to-end in Expo Go
 - EAS projectId: `2d79e638-f797-42ff-86b3-94f5c20fa6ff`

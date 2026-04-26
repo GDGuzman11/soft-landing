@@ -5,6 +5,26 @@ All notable changes to Soft Landing will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.4.0] — 2026-04-25
+
+### Fixed
+- **AI letters were never calling Claude** (root cause): `ANTHROPIC_API_KEY` existed in Firebase Secret Manager but was not declared in the `onCall()` options. Without `secrets: ['ANTHROPIC_API_KEY']`, `process.env.ANTHROPIC_API_KEY` was always `undefined` at runtime and every call silently fell through to the static mock-letter fallback. Added `secrets: ['ANTHROPIC_API_KEY']` to `onCall()` — letters now call Claude Sonnet 4.6 for real.
+- **Questionnaire data not reaching letters for existing users**: Home screen nav guard used `!s.profileComplete && !s.faithIntroComplete` (AND), so users who had already completed faith-intro but had null profile answers were never routed to the questionnaire. Changed to `!s.profileComplete` — existing users now see the profile screen once on next launch.
+
+### Changed
+- **Prompt engineering — 4-layer personalization system**:
+  - User input moved to the top of the prompt (before emotion goals) so Claude weights it heavily rather than treating it as a trailing afterthought
+  - Rewrote input instruction: "The first paragraph must address this directly — not echoing their words back verbatim, but making it unmistakably clear you heard exactly what they said"
+  - Added verse engagement rule: "engage with its specific words and imagery — the reader should recognize which verse this is from the way you use it"
+  - Separated em dash ban into its own emphatic rule: "Do not write the em dash character (—) anywhere. Not once."
+  - Added "this season" to banned phrases (Claude was bypassing "in this season" via the variant "this season is asking")
+- **Letters auto-save**: `handleSend()` in `letter-compose.tsx` now calls `updateSavedMessage()` immediately after generation — letter persists to History without requiring the user to tap Save
+
+### Backend
+- Upgraded model from `claude-haiku-4-5-20251001` to `claude-sonnet-4-6` for reliable emotion-aware paragraph structure and personalization quality
+
+---
+
 ## [1.3.0] — 2026-04-24
 
 ### Added
