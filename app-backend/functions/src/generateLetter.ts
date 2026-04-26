@@ -46,7 +46,7 @@ function validateInputs(data: GenerateLetterData): void {
 }
 
 export const generateLetter = onCall(
-  { region: 'us-central1', invoker: 'public' },
+  { region: 'us-central1', invoker: 'public', secrets: ['ANTHROPIC_API_KEY'] },
   async (request): Promise<GenerateLetterResult> => {
     if (!request.auth) {
       throw new HttpsError('unauthenticated', 'Sign in to write a letter.')

@@ -47,7 +47,7 @@ function validateInputs(data) {
         throw new https_1.HttpsError('invalid-argument', 'Invalid lifeStage');
     }
 }
-exports.generateLetter = (0, https_1.onCall)({ region: 'us-central1', invoker: 'public' }, async (request) => {
+exports.generateLetter = (0, https_1.onCall)({ region: 'us-central1', invoker: 'public', secrets: ['ANTHROPIC_API_KEY'] }, async (request) => {
     var _a, _b, _c;
     if (!request.auth) {
         throw new https_1.HttpsError('unauthenticated', 'Sign in to write a letter.');
