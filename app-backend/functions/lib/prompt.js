@@ -167,6 +167,8 @@ Never write: "lean into", "hold space", "in this season", "this season", "you've
 
 Never explain the verse. Never give advice. Never tell them what to do.
 
+Find the single most emotionally resonant sentence in your letter — the one most likely to make someone pause and re-read it. It must be something YOU wrote, not the verse text and not the opening greeting. Wrap only that one sentence in double brackets: [[like this]]. Do not wrap more than one sentence.
+
 The UI adds "Dear ${safeUserName}," at the start and "With you in this." at the end. Do not write either.`;
     return { system: buildSystemPrompt(), user };
 }

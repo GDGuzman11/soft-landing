@@ -7,8 +7,9 @@ import Animated, {
   withSequence,
   withTiming,
   withDelay,
+  Easing,
 } from 'react-native-reanimated'
-import { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 type Props = {
   letter: string | null
@@ -27,6 +28,97 @@ function splitAtFirstParagraph(letter: string): { before: string; after: string 
     before: letter.slice(0, idx).trim(),
     after: letter.slice(idx).trim(),
   }
+}
+
+function parseHighlightSegments(text: string): { text: string; highlight: boolean }[] {
+  const parts = text.split(/(\[\[[\s\S]*?\]\])/)
+  return parts
+    .filter((p) => p.length > 0)
+    .map((p) => {
+      if (p.startsWith('[[') && p.endsWith(']]')) {
+        return { text: p.slice(2, -2), highlight: true }
+      }
+      return { text: p, highlight: false }
+    })
+}
+
+function ResonantLine({ text, animationReady }: { text: string; animationReady: boolean }) {
+  const ruleOpacity = useSharedValue(0)
+
+  useEffect(() => {
+    if (!animationReady) return
+    ruleOpacity.value = withDelay(
+      600,
+      withTiming(1, { duration: 900, easing: Easing.out(Easing.quad) })
+    )
+  }, [animationReady])
+
+  const ruleStyle = useAnimatedStyle(() => ({ opacity: ruleOpacity.value }))
+
+  return (
+    <View style={{ paddingLeft: 16, marginVertical: 8 }}>
+      <Animated.View
+        style={[
+          { position: 'absolute', left: 0, top: 0, bottom: 0, width: 2, backgroundColor: '#C4956A' },
+          ruleStyle,
+        ]}
+      />
+      <Text
+        style={{ fontFamily: 'Lora_400Regular', fontSize: 17, color: '#1A1A1A', lineHeight: 26, letterSpacing: 0.15 }}
+      >
+        {text}
+      </Text>
+    </View>
+  )
+}
+
+function BodySection({
+  originalText,
+  displayedText,
+  showCursor,
+  typingDone,
+  cursorNode,
+}: {
+  originalText: string
+  displayedText: string
+  showCursor: boolean
+  typingDone: boolean
+  cursorNode: React.ReactNode
+}) {
+  if (typingDone) {
+    const segments = parseHighlightSegments(originalText)
+    if (segments.some((s) => s.highlight)) {
+      return (
+        <View>
+          {segments.map((seg, i) =>
+            seg.highlight ? (
+              <ResonantLine key={i} text={seg.text} animationReady />
+            ) : seg.text ? (
+              <Text
+                key={i}
+                style={{ fontFamily: 'Lora_400Regular', fontSize: 17, color: '#1A1A1A', lineHeight: 26 }}
+              >
+                {seg.text}
+              </Text>
+            ) : null
+          )}
+        </View>
+      )
+    }
+    return (
+      <Text style={{ fontFamily: 'Lora_400Regular', fontSize: 17, color: '#1A1A1A', lineHeight: 26 }}>
+        {originalText.replace(/\[\[|\]\]/g, '')}
+      </Text>
+    )
+  }
+  return (
+    <View style={{ flexDirection: 'row', flexWrap: 'wrap', alignItems: 'flex-end' }}>
+      <Text style={{ fontFamily: 'Lora_400Regular', fontSize: 17, color: '#1A1A1A', lineHeight: 26 }}>
+        {displayedText}
+      </Text>
+      {showCursor && cursorNode}
+    </View>
+  )
 }
 
 function PullQuote({
@@ -217,21 +309,24 @@ export default function LetterCard({
     let activeTimeout: ReturnType<typeof setTimeout> | null = null
     let active = true
 
+    // Strip [[...]] markers before typewriter so they never appear as characters
+    const cleanLetter = letter.replace(/\[\[|\]\]/g, '')
+
     if (!hasPullQuote) {
       // Simple typewriter — full letter as one block
       let i = 0
       activeInterval = setInterval(() => {
         if (!active) return
         i++
-        setDisplayedBefore(letter.slice(0, i))
-        if (i >= letter.length) {
+        setDisplayedBefore(cleanLetter.slice(0, i))
+        if (i >= cleanLetter.length) {
           clearInterval(activeInterval!)
           activeInterval = null
           setTypingPhase('done')
         }
       }, 18)
     } else {
-      const { before, after } = splitAtFirstParagraph(letter)
+      const { before, after } = splitAtFirstParagraph(cleanLetter)
 
       // Phase 1: type paragraph 1
       let i = 0
@@ -349,12 +444,13 @@ export default function LetterCard({
           </Text>
 
           {/* Paragraph 1 */}
-          <View style={{ flexDirection: 'row', flexWrap: 'wrap', alignItems: 'flex-end' }}>
-            <Text style={{ fontFamily: 'Lora_400Regular', fontSize: 17, color: '#1A1A1A', lineHeight: 26 }}>
-              {displayedBefore}
-            </Text>
-            {!typingDone && typingPhase === 'before' && cursorNode}
-          </View>
+          <BodySection
+            originalText={hasPullQuote ? splitAtFirstParagraph(letter).before : letter}
+            displayedText={displayedBefore}
+            showCursor={!typingDone && typingPhase === 'before'}
+            typingDone={typingDone}
+            cursorNode={cursorNode}
+          />
 
           {/* Verse pull-quote */}
           {hasPullQuote && pullQuoteVisible && (
@@ -366,13 +462,14 @@ export default function LetterCard({
           )}
 
           {/* Paragraph 2 + 3 */}
-          {displayedAfter.length > 0 && (
-            <View style={{ flexDirection: 'row', flexWrap: 'wrap', alignItems: 'flex-end' }}>
-              <Text style={{ fontFamily: 'Lora_400Regular', fontSize: 17, color: '#1A1A1A', lineHeight: 26 }}>
-                {displayedAfter}
-              </Text>
-              {!typingDone && typingPhase === 'after' && cursorNode}
-            </View>
+          {(displayedAfter.length > 0 || typingDone) && hasPullQuote && (
+            <BodySection
+              originalText={splitAtFirstParagraph(letter).after}
+              displayedText={displayedAfter}
+              showCursor={!typingDone && typingPhase === 'after'}
+              typingDone={typingDone}
+              cursorNode={cursorNode}
+            />
           )}
 
           <Text
