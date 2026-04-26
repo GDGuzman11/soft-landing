@@ -337,6 +337,8 @@ export default function LetterComposeScreen() {
               isLoading={letterLoading}
               error={letterError}
               onRetry={handleSend}
+              verseBody={body}
+              verseReference={reference}
             />
 
             {hasLetter && (
