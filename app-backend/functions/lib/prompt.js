@@ -76,7 +76,7 @@ Third paragraph: Invite them to receive this fully. Joy is something to let land
 }
 function getInputSection(safeInput, emotionLabel) {
     if (safeInput === null || safeInput === void 0 ? void 0 : safeInput.trim()) {
-        return `This is what they wrote:\n"${safeInput}"\n\nLet this shape the tone, the angle, and what the first paragraph addresses. You are responding to what they shared — not reflecting their words back.`;
+        return `This is what they wrote:\n"${safeInput}"\n\nThe first paragraph must address this directly — not echoing their words back verbatim, but making it unmistakably clear you heard exactly what they said. Their specific situation shapes the entire letter.`;
     }
     return `They didn't write anything. Lead from their emotion: ${emotionLabel}. Name what it actually feels like from the inside. Don't describe it — inhabit it.`;
 }
@@ -148,18 +148,20 @@ function buildPrompt({ emotionId, verseBody, reference, userInput, userName, hou
     // Layer 4: User's typed message — final shaping detail
     const user = `You are writing to ${safeUserName}.
 
-${toneBlock ? `${toneBlock}\n\n` : ''}They are feeling ${emotionLabel} right now.
+${toneBlock ? `${toneBlock}\n\n` : ''}${inputSection}
+
+They are feeling ${emotionLabel} right now.
 
 ${emotionGoals}
 
 The verse they received today:
 "${verseBody}" — ${reference}${toneCtx ? `\n${toneCtx}` : ''}
 
-${inputSection}
+When this verse surfaces, engage with its specific words and imagery — not just the fact that a verse exists. The reader should recognize which verse this is from the way you use it.
 
 ${openingAngle} The first sentence must feel like it was written only for this person in this moment.
 
-Never use: em dashes (—), "lean into", "hold space", "in this season", "you've got this", "I want you to know", "you are not alone"
+Never use: em dashes (—), "lean into", "hold space", "in this season", "this season", "you've got this", "I want you to know", "you are not alone"
 
 Never explain the verse. Never give advice. Never tell them what to do.
 

@@ -105,6 +105,11 @@ export default function LetterComposeScreen() {
     }
 
     setLetter(result.letter)
+    await updateSavedMessage(savedMessageId, {
+      letter: result.letter,
+      note: userInput.trim() || undefined,
+    })
+    setLetterSaved(true)
   }
 
   async function handleSaveLetter() {
