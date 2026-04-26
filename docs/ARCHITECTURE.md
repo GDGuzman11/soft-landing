@@ -1,128 +1,230 @@
-# Architecture
+# Architecture — Soft Landing v1.4
 
-Soft Landing is a local-first React Native app built with Expo. There is no backend in V1; all state lives on the device. This document describes the module boundaries, data flow, and the rationale behind the local-first choice — plus the migration path to cloud sync in V2.
+Soft Landing is a hybrid React Native app: local-first for all user data, with a Firebase Cloud Function backend for AI letter generation. This document describes the module structure, data flow, security boundaries, and the rationale behind key design decisions.
 
 ## System overview
 
 ```
-                       ┌──────────────────────────────┐
-                       │       Daily local push       │
-                       │ (expo-notifications, on-dev) │
-                       └──────────────┬───────────────┘
-                                      │ user taps
-                                      ▼
-┌──────────────────────────────────────────────────────────────────┐
-│                          Expo Router app                         │
-│                                                                  │
-│   ┌─────────────┐   ┌─────────────┐   ┌──────────┐  ┌─────────┐  │
-│   │ EmotionPick │──▶│ EnvelopeFly │──▶│ Reveal   │─▶│ History │  │
-│   │   (cards)   │   │ (Reanimated)│   │ (Lora msg)│ │ (saved) │  │
-│   └─────┬───────┘   └─────────────┘   └────┬─────┘  └─────────┘  │
-│         │                                   │                    │
-│         ▼                                   ▼                    │
-│   ┌────────────────────────────────────────────────────────────┐ │
-│   │                       lib/ (logic)                         │ │
-│   │  storage  │  messages  │  streaks  │  subs  │ notifications│ │
-│   └────────────────────────┬───────────────────────────────────┘ │
-└────────────────────────────┼─────────────────────────────────────┘
-                             │
-                ┌────────────┴───────────┐
-                ▼                        ▼
-        ┌──────────────┐         ┌────────────────┐
-        │ AsyncStorage │         │   RevenueCat   │
-        │  (local DB)  │         │  (entitlements)│
-        └──────────────┘         └────────────────┘
+                ┌──────────────────────────────────────────────────┐
+                │                   Expo Router app                │
+                │                                                  │
+                │  Welcome → Onboarding → Profile → Faith Intro    │
+                │         ↓                                        │
+                │  Home → Emotions → Envelope → Message (swipe)    │
+                │         ↓                                        │
+                │  Session Summary → Letter Compose                │
+                │         ↓                                        │
+                │  History tab ← Saved messages + letters          │
+                └──────────────────────────────────────────────────┘
+                         │                      │
+              ┌──────────┘                      └───────────────────┐
+              ▼                                                      ▼
+   ┌──────────────────────┐              ┌────────────────────────────────┐
+   │     AsyncStorage     │              │    Firebase (Google Cloud)     │
+   │  (all local data)    │              │                                │
+   │  - AppSettings       │              │  Firebase Auth                 │
+   │  - CheckInEvents     │              │  (email/password + Google)     │
+   │  - SavedMessages     │              │                                │
+   │  - MessageMetadata   │              │  Cloud Functions v2             │
+   └──────────────────────┘              │  generateLetter (onCall)       │
+                                         │  → Claude Sonnet 4.6           │
+              ┌──────────────────────┐   │                                │
+              │      RevenueCat      │   │  Firestore                     │
+              │  (entitlements only) │   │  letterUsage/{uid}             │
+              └──────────────────────┘   │  (rate-limit counter)          │
+                                         └────────────────────────────────┘
 ```
+
+## Screen map
+
+| Route | File | Description |
+|---|---|---|
+| `/welcome` | `app/welcome.tsx` | App entry — cross animation, Create Account / Sign In / How It Works |
+| `/register` | `app/register.tsx` | Email/password + Google sign-up |
+| `/sign-in` | `app/sign-in.tsx` | Email/password + Google sign-in |
+| `/verify-email` | `app/verify-email.tsx` | Post-registration — checks verification, resend link |
+| `/onboarding-disclaimer` | `app/onboarding-disclaimer.tsx` | Legal disclaimer, requires explicit tap-through |
+| `/onboarding` | `app/onboarding.tsx` | 2-slide intro (what the app does) |
+| `/onboarding-profile` | `app/onboarding-profile.tsx` | 3-question profile: faith background, intent, life stage |
+| `/faith-intro` | `app/faith-intro.tsx` | One-time faith-context intro screen before home |
+| `/(tabs)` | `app/(tabs)/index.tsx` | Home — greeting, check-in button, streak/history hint |
+| `/(tabs)/history` | `app/(tabs)/history.tsx` | Saved verses + letters |
+| `/(tabs)/settings` | `app/(tabs)/settings.tsx` | Name, subscription, notifications, sign out |
+| `/check-in/emotions` | `app/check-in/emotions.tsx` | Emotion picker — 5 full-width cards |
+| `/check-in/envelope` | `app/check-in/envelope.tsx` | Sealed card with wax seal, spring fly-in, tap to open |
+| `/check-in/message` | `app/check-in/message.tsx` | Verse reveal + swipe flow (right=save, left=skip) |
+| `/check-in/session-summary` | `app/check-in/session-summary.tsx` | Post-session — shows saved verses, entry to letter compose |
+| `/check-in/letter-compose` | `app/check-in/letter-compose.tsx` | AI letter: verse + optional input → generates letter |
+| `/paywall` | `app/paywall.tsx` | Premium upgrade — monthly / annual |
+| `/tour` | `app/tour.tsx` | "How It Works" editorial guide for guest visitors |
 
 ## Module map
 
 | Path | Owner | Responsibility |
 |---|---|---|
-| `app-frontend/app/` | frontend | Expo Router routes — `index.tsx` (emotion picker), `reveal.tsx`, `history.tsx`, `settings.tsx`, `dashboard.tsx` |
-| `app-frontend/components/` | frontend | `EmotionCard`, `Envelope`, `MessageReveal`, `StreakBadge`, `Paywall` |
-| `app-frontend/hooks/` | frontend | UI hooks — `useEnvelopeFlight`, `useEmotionTheme` |
-| `app-frontend/lib/storage/` | data | AsyncStorage adapter, schema versioning, migrations |
-| `app-frontend/lib/messages/` | data | Message library JSON, selection algorithm (no repeats within N) |
-| `app-frontend/lib/streaks/` | data | Daily streak counter, calendar math, timezone handling |
-| `app-frontend/lib/subscriptions/` | security | RevenueCat init, entitlement checks, free-tier gate (3/day) |
-| `app-frontend/lib/notifications/` | security | Permission requests, daily reminder scheduling |
-| `app-qa/` | tester | Vitest suites, Maestro flows, fixtures |
-| `docs/` | docs | This file, DECISIONS, CHANGELOG, bugs.json |
+| `app-frontend/app/` | frontend | All Expo Router routes (see screen map above) |
+| `app-frontend/src/components/` | frontend | `LetterCard`, `TourTooltip`, `EmotionCard`, `Envelope` |
+| `app-frontend/src/services/auth.ts` | frontend | Firebase Auth wrapper — signUp, signIn, Google, signOut, resetPassword |
+| `app-frontend/src/services/letterService.ts` | frontend | Firebase httpsCallable wrapper for `generateLetter` |
+| `app-frontend/src/services/checkIn.ts` | data | `canCheckIn()`, `performCheckIn()`, `bookmarkMessage()` |
+| `app-frontend/src/services/purchases.ts` | security | RevenueCat SDK init |
+| `app-frontend/src/storage/storage.ts` | data | AsyncStorage adapter — all typed read/write helpers |
+| `app-frontend/src/messages/catalog.json` | data | 150 NIV verses — 30 per emotion, 15 free / 15 premium each |
+| `app-frontend/src/messages/selector.ts` | data | Weighted verse selection with anti-repetition penalty |
+| `app-frontend/src/types/index.ts` | data | All shared TypeScript types |
+| `app-backend/functions/src/generateLetter.ts` | security | Firebase onCall function — auth, rate limiting, input validation, crisis detection, Claude call |
+| `app-backend/functions/src/prompt.ts` | security | 4-layer prompt builder — questionnaire + emotion + verse + user input |
+| `app-backend/functions/src/inputFilter.ts` | security | Multi-layer injection filter (SQL, NoSQL, prompt injection, code injection, obfuscation) |
+| `app-backend/functions/src/textNormalizer.ts` | security | Normalizes leet speak, Unicode homoglyphs, zero-width chars before pattern matching |
+| `app-backend/functions/src/crisisKeywords.ts` | security | 114 crisis phrases — if matched, returns `{ letter: null, showCrisisPrompt: true }` |
+| `app-backend/firestore.rules` | security | Deny-all rules; only `letterUsage/{uid}` accessible by owner |
+| `app-qa/` | tester | Vitest suites, Maestro flows |
+| `docs/` | docs | ARCHITECTURE, SECURITY, CHANGELOG, DECISIONS, bugs.json |
 
-## Data flow — single check-in
+## Data flow — check-in to letter
 
-1. **Trigger.** User taps the app icon, or taps a daily local notification scheduled by `lib/notifications`.
-2. **Gate check.** On mount, `lib/subscriptions.canCheckIn()` reads today's count from `lib/storage` and the active entitlement from RevenueCat. If the user is on free tier and has used 3 today → render `Paywall` instead of the picker.
-3. **Emotion picker.** `app/index.tsx` renders the vertical card stack. User taps one → state held in a route param / context.
-4. **Message selection.** `lib/messages.pickFor(emotion, history)` returns a message string, biased away from messages shown in the last N check-ins (recorded in storage).
-5. **Envelope flight.** `app/reveal.tsx` mounts; `Envelope` runs the Reanimated flight + arrival sequence on the UI thread. The envelope is tinted by the emotion color map from `CLAUDE.md`.
-6. **Reveal.** User taps the envelope. `MessageReveal` cross-fades the Lora-rendered message in.
-7. **Persist.** `lib/storage.recordCheckIn({ emotion, messageId, timestamp })` writes the entry. `lib/streaks.recompute()` updates the streak.
-8. **Return.** User dismisses → back to picker (now possibly gated) or history.
+```
+1. Auth check
+   Home screen → canCheckIn() checks daily quota from AsyncStorage
+   Free tier limit: 10 check-ins/day (rolls over at device midnight)
 
-## Local-first rationale
+2. Emotion selection
+   /check-in/emotions → 5 emotion cards → user taps one
+   emotionId carried forward as route param
 
-V1 ships with **zero infrastructure**:
-- **No accounts.** Friction-free first run; emotional state never leaves the device.
-- **No servers.** Nothing to host, monitor, or breach. RevenueCat is the only external service and it never sees emotion data.
-- **Offline by default.** The app works on a plane, in a tunnel, anywhere.
-- **Faster MVP.** No API contracts, no schema negotiations, no auth flows. We can ship in weeks instead of months.
+3. Verse selection
+   selector.ts runs weighted selection filtered by emotionId
+   Anti-repetition: usageCount + lastUsed stored in messageMetadata
+   Premium verses (ids 16-30) gated by subscription tier
 
-Cost: no cross-device sync, no analytics on emotion patterns beyond what fits on-device. We accept this for V1.
+4. Envelope open
+   /check-in/envelope → wax seal pulse → spring animation → navigate
+
+5. Verse reveal + swipe flow
+   /check-in/message → verse displays → swipe right=save, swipe left=skip
+   Saved verses → bookmarkMessage() → AsyncStorage SavedMessages
+
+6. Session summary
+   /check-in/session-summary → shows verses saved this session
+   "Write a letter →" per verse
+
+7. Letter generation (server-side)
+   /check-in/letter-compose → optional user input → handleSend()
+   → generateLetter Firebase callable
+   → auth check (request.auth)
+   → rate limit check (Firestore letterUsage/{uid}, max 20/hr)
+   → input validation (schema + injection filter + normalizer)
+   → crisis check (114 phrases) → if flagged: { letter: null, showCrisisPrompt: true }
+   → buildPrompt() (4-layer personalization)
+   → Claude Sonnet 4.6 → letter string with [[resonant line]] markers
+   → returned to client, auto-saved to AsyncStorage
+```
+
+## AI letter — 4-layer prompt personalization
+
+The `buildPrompt()` function in `prompt.ts` assembles context in this priority order:
+
+| Layer | Source | What it does |
+|---|---|---|
+| 1 — Questionnaire | `faithBackground`, `lifeStage`, `primaryIntent` from AppSettings | Sets base tone and voice — answered once at registration, permanent context |
+| 2 — Emotion | `emotionId` | Defines paragraph arc — each emotion has different goals for all 3 paragraphs |
+| 3 — Verse | `verseBody`, `reference` | Content anchor — Claude must engage with the verse's specific words, not just acknowledge it exists |
+| 4 — User input | `userInput` (optional) | Highest-specificity shaping — if present, first paragraph addresses it directly |
+
+**Resonant line highlighting**: Claude wraps the single most emotionally resonant sentence it wrote in `[[double brackets]]`. The frontend strips these for the typewriter pass, then after typing completes, re-parses the original string to render that sentence with a 2px amber left border rule (fades in 600ms post-typing).
+
+**Opening variation**: A random angle is selected from 7 opening strategies each call — ensures no two letters open the same way.
+
+## Input security pipeline
+
+All user-submitted text passes through these layers before reaching Claude:
+
+1. **Schema validation** — field types, lengths, allowed enums enforced server-side
+2. **Injection filtering** (`inputFilter.ts`) — blocks SQL/NoSQL/prompt injection, jailbreak patterns, code injection, path traversal
+3. **Obfuscation normalization** (`textNormalizer.ts`) — normalizes leet speak, Unicode homoglyphs, zero-width characters, base64/ROT13 before pattern matching
+4. **Crisis detection** (`crisisKeywords.ts`) — 114 phrases; if matched → no letter generated, crisis resources returned to UI
+
+## Authentication architecture
+
+Firebase Auth is the identity layer. Token verification is automatic via Firebase's `onCall()` — no manual JWT parsing needed.
+
+- **Persistence**: `getReactNativePersistence(AsyncStorage)` — tokens survive cold restarts
+- **Email/password**: standard Firebase Auth with email verification gate
+- **Google Sign-In**: `expo-auth-session` → `GoogleAuthProvider.credential()` → `signInWithCredential()`
+- **Guest mode**: `isGuest: true` in AppSettings — guests can check in but cannot generate AI letters (prompts account creation)
+- **Auth-aware navigation**: Home screen `useEffect` fires on auth state change, routes to appropriate onboarding step based on flags in AppSettings
+
+## AppSettings schema
+
+All user preferences live in a single AsyncStorage object at key `@soft_landing/settings`:
+
+```typescript
+interface AppSettings {
+  name: string
+  email: string
+  isGuest: boolean
+  onboardingComplete: boolean
+  disclaimerAccepted: boolean
+  faithIntroComplete: boolean
+  profileComplete: boolean
+  firstLetterUsed: boolean
+  faithBackground: 'established' | 'exploring' | 'between' | null
+  primaryIntent: 'peace' | 'strength' | 'comfort' | 'guidance' | 'exploring' | null
+  lifeStage: 'early' | 'middle' | 'later' | null
+  subscription: SubscriptionState          // tier, expiresAt, source
+  hapticFeedback: boolean
+  notificationEnabled: boolean
+  notificationTime: string                 // 'HH:mm' local time
+}
+```
 
 ## Subscription architecture
 
-RevenueCat is the source of truth for entitlements. The app never talks to App Store Connect or Google Play Billing directly.
+RevenueCat is the source of truth for entitlements. The app never calls App Store Connect or Play Billing directly.
 
 - **Entitlement name:** `premium`
-- **Free tier:** 3 check-ins per local day (rolls over at device midnight). Counter lives in AsyncStorage, keyed by ISO date.
-- **Premium tier:** unlimited check-ins, full history view, future themes.
-- **Products:** `softlanding_monthly` ($4.99 USD) and `softlanding_annual` ($34.99 USD).
-- **Gating point:** `lib/subscriptions.canCheckIn()` is the single chokepoint. UI calls it before rendering the picker; tests assert the gate is honored.
-- **Restore purchases:** required by both stores — exposed in Settings.
-- **Receipt validation:** delegated to RevenueCat (server-side). The app trusts RevenueCat's `customerInfo` response.
+- **Free tier:** 10 check-ins/day (daily counter resets at device midnight); 1 free AI letter (tracked via `firstLetterUsed`)
+- **Premium tier:** Unlimited check-ins, all 150 verses, unlimited AI letters
+- **Products:** `softlanding_monthly` ($4.99/month), `softlanding_annual` ($34.99/year)
+- **Client-side state is cache only** — `canUseLetter` gate (currently bypassed for testing) must be re-enabled before launch; purchase validation is server-side via RevenueCat
 
-## Future migration path — V1 → V2 cloud sync
+## Rate limiting
 
-V2 introduces optional cloud sync (opt-in, e2e-encrypted check-in history across devices). To make this painless:
+`generateLetter` enforces per-user rate limiting using a Firestore transactional counter:
 
-1. **Storage adapter.** `lib/storage` exposes a narrow async interface. The current implementation is AsyncStorage-backed; a future `RemoteSyncAdapter` will satisfy the same interface and queue writes when offline.
-2. **Schema versioning.** Every persisted record has a `schemaVersion` field. Migrations live in `lib/storage/migrations/` and run on app launch.
-3. **No PII at rest.** Even in V1, we avoid storing identifying info — only emotion + timestamp + messageId. This keeps V2 encryption scope small.
-4. **`app-backend/` is reserved.** When V2 starts, the backend agent owns it; the storage adapter is the only frontend surface that changes.
+- **Limit:** 20 letter generations per rolling 1-hour window per authenticated UID
+- **Storage:** `letterUsage/{uid}` — readable/writable only by the authenticated owner (Firestore rules enforced)
+- **On limit exceeded:** `HttpsError('resource-exhausted')` → client shows `rateLimited` error message
 
-## Dev dashboard
+## Firebase infrastructure
 
-A web-only inspector at `app-frontend/app/dashboard.tsx`, owned by the tester agent. It runs only when launched via `expo start --web` and is excluded from production builds via a route guard checking `__DEV__`.
-
-Surfaces:
-- **Emotion picker preview** — render every card state side by side
-- **Message library coverage** — counts per emotion, recently-shown list
-- **Streak math** — paste a check-in history, see computed streak
-- **Subscription mocks** — toggle `free` / `premium`, override today's count
-- **Bug tracker view** — read-only render of `docs/bugs.json`
-
-The dashboard is a development convenience and is never shipped to the App Store or Play Store.
+| Service | Use | Notes |
+|---|---|---|
+| Firebase Auth | User identity | Email/password + Google |
+| Cloud Functions v2 | `generateLetter` | `us-central1`, `onCall`, `secrets: ['ANTHROPIC_API_KEY']` |
+| Firestore | Rate limit counters | `letterUsage/{uid}` only; deny-all rules for everything else |
+| Secret Manager | `ANTHROPIC_API_KEY` | Injected at runtime via `secrets` option — never in env vars or console |
+| Cloud Run | Managed by Functions v2 | Must be locked to require authentication before App Store submission |
 
 ## Bug schema
 
 `docs/bugs.json` follows this `Bug` interface:
 
-```ts
+```typescript
 interface Bug {
   id: string;                // "BUG-001" sequential
   discovered: string;        // ISO 8601 date
-  discoveredBy: string;      // agent name: frontend | data | security | tester | docs
+  discoveredBy: string;      // agent name
   severity: "critical" | "high" | "medium" | "low";
   status: "open" | "in-progress" | "resolved" | "wont-fix";
   area: "frontend" | "data" | "security" | "ux" | "notifications" | "subscriptions";
   description: string;
-  file?: string;             // path relative to repo root
+  file?: string;
   reproductionSteps: string[];
-  commit?: string;           // commit sha that fixed it
+  commit?: string;
   resolution?: string;
   resolvedAt: string | null;
 }
 ```
 
-All agents append to `bugs` immediately on discovery — do not wait for a triage cycle.
+All agents append to `bugs` immediately on discovery.

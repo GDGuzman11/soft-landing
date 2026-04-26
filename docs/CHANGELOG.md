@@ -5,6 +5,24 @@ All notable changes to Soft Landing will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.4.1] — 2026-04-26
+
+### Added
+- **Resonant line highlight**: After the typewriter finishes, the single most emotionally resonant sentence Claude wrote fades in a 2px amber left border rule (opacity 0→1, 600ms delay, 900ms `withTiming`, `Easing.out(Easing.quad)`). Text was already visible during typing — only the rule animates in. Graceful fallback if Claude omits the markers: full letter renders as plain text with no crash.
+- **Verse pull-quote block**: The Bible verse is lifted out of the letter body and rendered as a centered pull-quote block between paragraphs 1 and 2. Hairlines draw outward from center, verse fades up from below, reference fades in last. Typewriter gates paragraph 2 until the pull-quote animation settles (~1.1s).
+
+### Fixed
+- **`app-backend/functions/tsconfig.json` error**: TypeScript 5.9 requires explicit `rootDir` when `outDir` is set. Added `"rootDir": "src"` — previously the inferred value was silently accepted, now an error.
+
+### Prompt
+- **Resonant line instruction added to `prompt.ts`**: Claude is instructed to wrap the single most emotionally resonant sentence it wrote in `[[double brackets]]`. Frontend strips these for the typewriter, then re-parses for segmented rendering after typing completes.
+
+### Docs
+- **`docs/SECURITY.md`**: Security policy moved from repo root to `docs/` and fully rewritten to reflect v1.4 state — AI letter data flow, 4-layer input security pipeline, rate limiting, Firestore rules, pre-launch checklist with all open security items.
+- **`docs/ARCHITECTURE.md`**: Complete rewrite — v1 local-only description replaced with accurate v1.4 architecture covering Firebase Auth, Cloud Functions, AI letter pipeline, 4-layer prompt personalization, AppSettings schema, input security layers, rate limiting, and full screen/module maps.
+
+---
+
 ## [1.4.0] — 2026-04-25
 
 ### Fixed
