@@ -28,6 +28,13 @@ function sanitizeUserText(text: string): string {
   return text.replace(/[<>]/g, '')
 }
 
+// Strips characters that could escape the quoted verse envelope in the prompt
+// ("${verseBody}" — ${reference}). Verse data is admin-imported, not user-supplied,
+// but this decouples AI safety from the integrity of the import pipeline.
+function sanitizeVerseText(text: string): string {
+  return text.replace(/["\\`]|(\$\{)/g, '')
+}
+
 const OPENING_ANGLES = [
   'Open with a question — one that names exactly what this feeling is like from the inside, the question they haven\'t been able to ask out loud.',
   'Open in the middle of the experience — as if you\'ve already been sitting with them for a while, mid-thought.',
@@ -151,6 +158,9 @@ export function buildPrompt({
   const emotionLabel = EMOTION_LABELS[emotionId] ?? 'uncertain'
   const safeInput = userInput ? sanitizeUserText(userInput) : undefined
   const safeUserName = sanitizeUserText(userName)
+  const safeVerseBody = sanitizeVerseText(verseBody)
+  const safeModernText = modernText ? sanitizeVerseText(modernText) : undefined
+  const safeReference = sanitizeVerseText(reference)
 
   const lifeStageCtx = getLifeStageContext(lifeStage)
   const faithCtx = getFaithContext(faithBackground)
@@ -188,7 +198,7 @@ ${emotionGoals}
 The verse they received today:
 
 VERSE (King James Version):
-"${verseBody}" — ${reference}${modernText ? `\n\nPlain-language rendering:\n"${modernText}"\n\nEngage with the verse's specific imagery and meaning. Your letter should feel contemporary — write in the language of the plain-language rendering, not the archaic KJV phrasing.` : ''}${toneCtx ? `\n${toneCtx}` : ''}
+"${safeVerseBody}" — ${safeReference}${safeModernText ? `\n\nPlain-language rendering:\n"${safeModernText}"\n\nEngage with the verse's specific imagery and meaning. Your letter should feel contemporary — write in the language of the plain-language rendering, not the archaic KJV phrasing.` : ''}${toneCtx ? `\n${toneCtx}` : ''}
 
 When this verse surfaces, engage with its specific words and imagery — not just the fact that a verse exists. The reader should recognize which verse this is from the way you use it.
 
