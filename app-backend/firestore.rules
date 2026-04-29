@@ -6,7 +6,13 @@ service cloud.firestore {
       allow read, write: if request.auth != null && request.auth.uid == uid;
     }
 
-    // Deny everything else — app does not use Firestore for user data in V1
+    // Bible verse catalog — authenticated users can read, nobody can write from the client
+    match /verses/{verseId} {
+      allow read: if request.auth != null;
+      allow write: if false;
+    }
+
+    // Deny everything else
     match /{document=**} {
       allow read, write: if false;
     }
