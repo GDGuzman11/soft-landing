@@ -1,3 +1,5 @@
 - [Vitest setup quirks](reference_vitest_setup.md) — vitest.config.ts include globs and pre-loaded mocks in vitest.setup.ts
 - [Firestore mocking](feedback_firestore_mocking.md) — mock ../services/firebase to avoid initializeApp at import time; getDocs returns object with forEach, not array
 - [Deterministic Math.random](feedback_deterministic_random.md) — sweep pattern for non-flaky weighted-selection ratio assertions
+- [__DEV__ global shim](feedback_dev_global_shim.md) — set globalThis.__DEV__ = false in service tests that hit catch branches
+- [Firebase app default export mock](feedback_firebase_app_mock.md) — mock `../firebase` default to stub when testing service modules
