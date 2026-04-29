@@ -77,6 +77,8 @@ export interface Message {
   subEmotionId?: string;
   /** The validating copy shown to the user. */
   body: string;
+  /** World English Bible paraphrase — plain-language equivalent of the KJV body. */
+  modernText: string;
   /** Scripture reference for the verse (e.g. "Psalm 34:18"). */
   reference?: string;
   /** Free-form tags used for filtering and analytics (e.g. `grief`, `work`). */

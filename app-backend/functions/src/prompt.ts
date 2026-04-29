@@ -1,4 +1,4 @@
-// prompt.ts v1.3 — moved personalization context to top of prompt so it influences generation
+// prompt.ts v1.4 — added optional WEB modernText alongside KJV verseBody for contemporary phrasing
 import type { EmotionId } from './types'
 
 const EMOTION_LABELS: Record<EmotionId, string> = {
@@ -12,6 +12,7 @@ const EMOTION_LABELS: Record<EmotionId, string> = {
 interface PromptParams {
   emotionId: EmotionId
   verseBody: string
+  modernText?: string
   reference: string
   userInput?: string
   userName: string
@@ -138,6 +139,7 @@ function getToneGuidance(hourOfDay?: number): string {
 export function buildPrompt({
   emotionId,
   verseBody,
+  modernText,
   reference,
   userInput,
   userName,
@@ -184,7 +186,11 @@ They are feeling ${emotionLabel} right now.
 ${emotionGoals}
 
 The verse they received today:
-"${verseBody}" — ${reference}${toneCtx ? `\n${toneCtx}` : ''}
+
+VERSE (King James Version):
+"${verseBody}" — ${reference}${modernText ? `\n\nPlain-language rendering:\n"${modernText}"` : ''}
+
+Engage with the verse's specific imagery and meaning. Your letter should feel contemporary — write in the language of the plain-language rendering, not the archaic KJV phrasing.${toneCtx ? `\n${toneCtx}` : ''}
 
 When this verse surfaces, engage with its specific words and imagery — not just the fact that a verse exists. The reader should recognize which verse this is from the way you use it.
 

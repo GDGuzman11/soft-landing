@@ -89,7 +89,7 @@ function tryDecodeBase64(s) {
         const printable = decoded.replace(/[^\x20-\x7E]/g, '');
         return printable.length > decoded.length * 0.6 ? printable.toLowerCase() : null;
     }
-    catch (_a) {
+    catch {
         return null;
     }
 }

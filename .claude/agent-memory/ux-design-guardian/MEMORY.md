@@ -1,0 +1,1 @@
+- [iOS widget family system](design_widget_family_system.md) — shared visual rules, seal-state grammar, and typography contract for small widgets A–E

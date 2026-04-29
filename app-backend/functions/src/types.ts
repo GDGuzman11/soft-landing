@@ -3,6 +3,7 @@ export type EmotionId = 'stressed' | 'tired' | 'sad' | 'neutral' | 'good'
 export interface GenerateLetterData {
   emotionId: EmotionId
   verseBody: string
+  modernText?: string
   reference: string
   userInput?: string
   userName: string

@@ -75,7 +75,7 @@ Third paragraph: Invite them to receive this fully. Joy is something to let land
     }
 }
 function getInputSection(safeInput, emotionLabel) {
-    if (safeInput === null || safeInput === void 0 ? void 0 : safeInput.trim()) {
+    if (safeInput?.trim()) {
         return `This is what they wrote:\n"${safeInput}"\n\nThe first paragraph must address this directly — not echoing their words back verbatim, but making it unmistakably clear you heard exactly what they said. Their specific situation shapes the entire letter.`;
     }
     return `They didn't write anything. Lead from their emotion: ${emotionLabel}. Name what it actually feels like from the inside. Don't describe it — inhabit it.`;
@@ -120,9 +120,8 @@ function getToneGuidance(hourOfDay) {
         return 'They are reading this at night — the day is behind them. Write with the warmth of a day\'s end, speak to rest and laying it down.';
     return '';
 }
-function buildPrompt({ emotionId, verseBody, reference, userInput, userName, hourOfDay, faithBackground, primaryIntent, lifeStage, }) {
-    var _a;
-    const emotionLabel = (_a = EMOTION_LABELS[emotionId]) !== null && _a !== void 0 ? _a : 'uncertain';
+function buildPrompt({ emotionId, verseBody, modernText, reference, userInput, userName, hourOfDay, faithBackground, primaryIntent, lifeStage, }) {
+    const emotionLabel = EMOTION_LABELS[emotionId] ?? 'uncertain';
     const safeInput = userInput ? sanitizeUserText(userInput) : undefined;
     const safeUserName = sanitizeUserText(userName);
     const lifeStageCtx = getLifeStageContext(lifeStage);
@@ -155,7 +154,11 @@ They are feeling ${emotionLabel} right now.
 ${emotionGoals}
 
 The verse they received today:
-"${verseBody}" — ${reference}${toneCtx ? `\n${toneCtx}` : ''}
+
+VERSE (King James Version):
+"${verseBody}" — ${reference}${modernText ? `\n\nPlain-language rendering:\n"${modernText}"` : ''}
+
+Engage with the verse's specific imagery and meaning. Your letter should feel contemporary — write in the language of the plain-language rendering, not the archaic KJV phrasing.${toneCtx ? `\n${toneCtx}` : ''}
 
 When this verse surfaces, engage with its specific words and imagery — not just the fact that a verse exists. The reader should recognize which verse this is from the way you use it.
 

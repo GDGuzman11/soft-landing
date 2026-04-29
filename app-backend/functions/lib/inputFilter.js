@@ -128,9 +128,8 @@ const INJECTION_KEYWORDS = [
  * Handles the "encode your payload to evade regex filters" attack.
  */
 function containsEncodedInjection(text) {
-    var _a;
     const base64Regex = /[A-Za-z0-9+/]{16,}={0,2}/g;
-    const matches = (_a = text.match(base64Regex)) !== null && _a !== void 0 ? _a : [];
+    const matches = text.match(base64Regex) ?? [];
     for (const match of matches) {
         const decoded = (0, textNormalizer_1.tryDecodeBase64)(match);
         if (decoded && INJECTION_KEYWORDS.some((kw) => decoded.includes(kw)))

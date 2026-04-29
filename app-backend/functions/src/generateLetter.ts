@@ -19,6 +19,9 @@ function validateInputs(data: GenerateLetterData): void {
   if (data.verseBody.length > 1000) {
     throw new HttpsError('invalid-argument', 'verseBody too long')
   }
+  if (data.modernText !== undefined && (typeof data.modernText !== 'string' || data.modernText.length > 1000)) {
+    throw new HttpsError('invalid-argument', 'Invalid modernText')
+  }
   if (!data.emotionId || !VALID_EMOTIONS.includes(data.emotionId)) {
     throw new HttpsError('invalid-argument', 'Valid emotionId is required')
   }
@@ -55,7 +58,7 @@ export const generateLetter = onCall(
     const data = request.data as GenerateLetterData
     validateInputs(data)
 
-    const { emotionId, verseBody, reference, userInput, userName, hourOfDay, faithBackground, primaryIntent, lifeStage } = data
+    const { emotionId, verseBody, modernText, reference, userInput, userName, hourOfDay, faithBackground, primaryIntent, lifeStage } = data
 
     console.log('[generateLetter] params', {
       emotionId,
@@ -102,6 +105,7 @@ export const generateLetter = onCall(
       const prompt = buildPrompt({
         emotionId,
         verseBody,
+        modernText: modernText?.trim() || undefined,
         reference,
         userInput: userInput?.trim() || undefined,
         userName: userName?.trim() || 'friend',

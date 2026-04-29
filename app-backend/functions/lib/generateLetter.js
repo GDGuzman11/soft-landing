@@ -22,6 +22,9 @@ function validateInputs(data) {
     if (data.verseBody.length > 1000) {
         throw new https_1.HttpsError('invalid-argument', 'verseBody too long');
     }
+    if (data.modernText !== undefined && (typeof data.modernText !== 'string' || data.modernText.length > 1000)) {
+        throw new https_1.HttpsError('invalid-argument', 'Invalid modernText');
+    }
     if (!data.emotionId || !VALID_EMOTIONS.includes(data.emotionId)) {
         throw new https_1.HttpsError('invalid-argument', 'Valid emotionId is required');
     }
@@ -48,24 +51,23 @@ function validateInputs(data) {
     }
 }
 exports.generateLetter = (0, https_1.onCall)({ region: 'us-central1', invoker: 'public', secrets: ['ANTHROPIC_API_KEY'] }, async (request) => {
-    var _a, _b, _c;
     if (!request.auth) {
         throw new https_1.HttpsError('unauthenticated', 'Sign in to write a letter.');
     }
     const data = request.data;
     validateInputs(data);
-    const { emotionId, verseBody, reference, userInput, userName, hourOfDay, faithBackground, primaryIntent, lifeStage } = data;
+    const { emotionId, verseBody, modernText, reference, userInput, userName, hourOfDay, faithBackground, primaryIntent, lifeStage } = data;
     console.log('[generateLetter] params', {
         emotionId,
         reference,
-        verseLength: verseBody === null || verseBody === void 0 ? void 0 : verseBody.length,
+        verseLength: verseBody?.length,
         hasUserInput: !!userInput,
-        userInputLength: (_a = userInput === null || userInput === void 0 ? void 0 : userInput.length) !== null && _a !== void 0 ? _a : 0,
-        faithBackground: faithBackground !== null && faithBackground !== void 0 ? faithBackground : 'null',
-        primaryIntent: primaryIntent !== null && primaryIntent !== void 0 ? primaryIntent : 'null',
-        lifeStage: lifeStage !== null && lifeStage !== void 0 ? lifeStage : 'null',
-        hourOfDay: hourOfDay !== null && hourOfDay !== void 0 ? hourOfDay : 'null',
-        uid: ((_c = (_b = request.auth) === null || _b === void 0 ? void 0 : _b.uid) === null || _c === void 0 ? void 0 : _c.slice(0, 8)) + '…',
+        userInputLength: userInput?.length ?? 0,
+        faithBackground: faithBackground ?? 'null',
+        primaryIntent: primaryIntent ?? 'null',
+        lifeStage: lifeStage ?? 'null',
+        hourOfDay: hourOfDay ?? 'null',
+        uid: request.auth?.uid?.slice(0, 8) + '…',
     });
     // Block malicious input before it reaches the AI
     if (userInput) {
@@ -95,9 +97,10 @@ exports.generateLetter = (0, https_1.onCall)({ region: 'us-central1', invoker: '
         const prompt = (0, prompt_1.buildPrompt)({
             emotionId,
             verseBody,
+            modernText: modernText?.trim() || undefined,
             reference,
-            userInput: (userInput === null || userInput === void 0 ? void 0 : userInput.trim()) || undefined,
-            userName: (userName === null || userName === void 0 ? void 0 : userName.trim()) || 'friend',
+            userInput: userInput?.trim() || undefined,
+            userName: userName?.trim() || 'friend',
             hourOfDay,
             faithBackground: faithBackground,
             primaryIntent: primaryIntent,

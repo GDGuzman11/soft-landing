@@ -70,8 +70,7 @@ You are in a good place right now. Let yourself be in it fully. Let the lightnes
     ],
 };
 function getRandomMockLetter(emotionId) {
-    var _a;
-    const letters = (_a = MOCK_LETTERS[emotionId]) !== null && _a !== void 0 ? _a : MOCK_LETTERS.neutral;
+    const letters = MOCK_LETTERS[emotionId] ?? MOCK_LETTERS.neutral;
     return letters[Math.floor(Math.random() * letters.length)];
 }
 //# sourceMappingURL=mockLetters.js.map
