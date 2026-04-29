@@ -19,6 +19,7 @@ type Props = {
   onRetry?: () => void
   verseBody?: string
   verseReference?: string
+  verseModernText?: string
 }
 
 function splitAtFirstParagraph(letter: string): { before: string; after: string } {
@@ -124,10 +125,12 @@ function BodySection({
 function PullQuote({
   verseBody,
   verseReference,
+  modernText,
   visible,
 }: {
   verseBody: string
   verseReference: string
+  modernText?: string
   visible: boolean
 }) {
   const washOpacity = useSharedValue(0)
@@ -217,6 +220,38 @@ function PullQuote({
         {verseReference}
       </Animated.Text>
 
+      {modernText ? (
+        <>
+          <Animated.View
+            style={[
+              {
+                height: 0.5,
+                backgroundColor: '#C4B59A',
+                marginHorizontal: 20,
+                marginTop: 14,
+                alignSelf: 'stretch',
+              },
+              refStyle,
+            ]}
+          />
+          <Animated.Text
+            style={[
+              {
+                fontFamily: 'DMSans_400Regular',
+                fontSize: 13,
+                color: '#A09080',
+                textAlign: 'center',
+                lineHeight: 20,
+                marginTop: 10,
+              },
+              refStyle,
+            ]}
+          >
+            {modernText}
+          </Animated.Text>
+        </>
+      ) : null}
+
       {/* Bottom hairline */}
       <Animated.View
         style={[
@@ -272,6 +307,7 @@ export default function LetterCard({
   error,
   verseBody,
   verseReference,
+  verseModernText,
 }: Props) {
   const translateY = useSharedValue(30)
   const opacity = useSharedValue(0)
@@ -457,6 +493,7 @@ export default function LetterCard({
             <PullQuote
               verseBody={verseBody!}
               verseReference={verseReference!}
+              modernText={verseModernText}
               visible={pullQuoteVisible}
             />
           )}

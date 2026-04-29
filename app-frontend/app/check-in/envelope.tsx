@@ -235,6 +235,7 @@ export default function EnvelopeScreen() {
         emotionId: emotionId,
         messageBody: result.message.body,
         messageReference: result.message.reference ?? '',
+        messageModernText: result.message.modernText ?? '',
         checkInId: result.event.id,
         messageId: result.message.id,
       },

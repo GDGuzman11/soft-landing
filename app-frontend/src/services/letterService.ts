@@ -6,6 +6,7 @@ type LetterPayload = {
   emotionId: EmotionId
   verseBody: string
   reference: string
+  modernText?: string
   userInput?: string
   userName: string
   hourOfDay?: number

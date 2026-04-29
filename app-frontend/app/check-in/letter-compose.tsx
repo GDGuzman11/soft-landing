@@ -10,25 +10,19 @@ import {
 } from 'react-native'
 import { router, useLocalSearchParams } from 'expo-router'
 import { useEffect, useState } from 'react'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 import { getSavedMessages, getSettings, updateSavedMessage, setFirstLetterUsed } from '@/storage/storage'
 import { generateLetter } from '@/services/letterService'
 import { getCurrentUser } from '@/services/auth'
 import LetterCard from '@/components/LetterCard'
 import type { SavedMessage, Message, AppSettings, EmotionId } from '@/types'
-import catalog from '@/messages/catalog.json'
-
-const messages = catalog as Message[]
-
-function getVerse(messageId: string): { body: string; reference: string } {
-  const msg = messages.find((m) => m.id === messageId)
-  return { body: msg?.body ?? '…', reference: msg?.reference ?? '' }
-}
 
 export default function LetterComposeScreen() {
   const { savedMessageId } = useLocalSearchParams<{ savedMessageId: string }>()
 
   const [savedMessage, setSavedMessage] = useState<SavedMessage | null>(null)
   const [settings, setSettings] = useState<AppSettings | null>(null)
+  const [verseData, setVerseData] = useState<{ body: string; reference: string; modernText?: string } | null>(null)
   const [userInput, setUserInput] = useState('')
   const [letter, setLetter] = useState<string | null>(null)
   const [letterLoading, setLetterLoading] = useState(false)
@@ -38,15 +32,34 @@ export default function LetterComposeScreen() {
 
   useEffect(() => {
     if (!savedMessageId) return
-    Promise.all([getSavedMessages(), getSettings()]).then(([all, s]) => {
-      setSavedMessage(all.find((m) => m.id === savedMessageId) ?? null)
+    Promise.all([getSavedMessages(), getSettings()]).then(async ([all, s]) => {
+      const sm = all.find((m) => m.id === savedMessageId) ?? null
+      setSavedMessage(sm)
       setSettings(s)
+
+      if (sm) {
+        const emotionId = sm.emotionId ?? 'neutral'
+        const cached = await AsyncStorage.getItem(`@soft_landing/verse_pool/${emotionId}`)
+        if (cached) {
+          const pool: { fetchedAt: string; verses: Message[] } = JSON.parse(cached)
+          const msg = pool.verses.find((v) => v.id === sm.messageId)
+          setVerseData({
+            body: msg?.body ?? '…',
+            reference: msg?.reference ?? '',
+            modernText: msg?.modernText,
+          })
+        } else {
+          setVerseData({ body: '…', reference: '', modernText: undefined })
+        }
+      }
     })
   }, [savedMessageId])
 
-  if (!savedMessage || !settings) return null
+  if (!savedMessage || !settings || !verseData) return null
 
-  const { body, reference } = getVerse(savedMessage.messageId)
+  const body = verseData.body
+  const reference = verseData.reference
+  const modernText = verseData.modernText
   const emotionId = (savedMessage.emotionId ?? 'neutral') as EmotionId
   const userName = settings.name?.trim() || 'friend'
   const isPremium = settings.subscription.tier === 'premium'
@@ -69,6 +82,7 @@ export default function LetterComposeScreen() {
       emotionId,
       verseBody: body,
       reference,
+      modernText: modernText || undefined,
       userInput: userInput.trim() || undefined,
       userName,
       hourOfDay: new Date().getHours(),
@@ -339,6 +353,7 @@ export default function LetterComposeScreen() {
               onRetry={handleSend}
               verseBody={body}
               verseReference={reference}
+              verseModernText={modernText}
             />
 
             {hasLetter && (
