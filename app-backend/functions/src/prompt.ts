@@ -188,9 +188,7 @@ ${emotionGoals}
 The verse they received today:
 
 VERSE (King James Version):
-"${verseBody}" — ${reference}${modernText ? `\n\nPlain-language rendering:\n"${modernText}"` : ''}
-
-Engage with the verse's specific imagery and meaning. Your letter should feel contemporary — write in the language of the plain-language rendering, not the archaic KJV phrasing.${toneCtx ? `\n${toneCtx}` : ''}
+"${verseBody}" — ${reference}${modernText ? `\n\nPlain-language rendering:\n"${modernText}"\n\nEngage with the verse's specific imagery and meaning. Your letter should feel contemporary — write in the language of the plain-language rendering, not the archaic KJV phrasing.` : ''}${toneCtx ? `\n${toneCtx}` : ''}
 
 When this verse surfaces, engage with its specific words and imagery — not just the fact that a verse exists. The reader should recognize which verse this is from the way you use it.
 
