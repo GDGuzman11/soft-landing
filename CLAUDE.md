@@ -67,22 +67,26 @@ One agent's work per commit. Reference a bug ID in the body when relevant (e.g. 
 - **Interaction model:** vertical card stack for the emotion picker (deliberate, not a rushed grid), Reanimated envelope flight, single tap to open
 
 ## Active context
-*Session 2026-04-25 — V1.4.0. AI letter generation now fully working end-to-end with Claude Sonnet 4.6. Root cause fixed: ANTHROPIC_API_KEY was in Secret Manager but not declared in onCall() options — every call was hitting the mock fallback silently. Prompt rewritten with 4-layer personalization (questionnaire → emotion → verse → user input). Letters auto-save after generation. Next steps: (1) set up RevenueCat with App Store Connect products (API keys in .env), (2) submit to TestFlight via `eas build --profile preview --platform ios`.*
+*Session 2026-04-29 — V1.5.0. NIV copyright risk eliminated: full KJV + WEB verse catalog live in Firestore (31,102 verses total, 250 curated — 50 per emotion). Verse selector rewired from local catalog.json to Firestore with 24h AsyncStorage cache and stale fallback. Cards randomize KJV or WEB per swipe (not both on the same card). AI letter prompts fully rewritten — more conversational, presence-focused, with calibrated humor and Gen Z phrasing for neutral/good. Em dash ban enforced at both system and user prompt levels. All 5 emotion pipeline paths verified (no mock fallback). letterService unit tests added (7 passing). Next steps: (1) set up RevenueCat with App Store Connect products (API keys in .env), (2) submit to TestFlight via `eas build --profile preview --platform ios`.*
 
 ## Current build state
 - All screens functional: welcome → (how it works / register / sign-in) → onboarding → onboarding-profile → faith-intro → home → emotions → envelope → message (swipe flow) → session-summary → letter-compose → history
-- 150 NIV Bible verses, 30 per emotion, free/premium split (15 each)
+- **250 KJV + WEB curated verses** (50 per emotion, 25 free / 25 premium) served from Firestore; 31,102 full-Bible verses imported
+- Verse selector: Firestore `where('emotionTags', 'array-contains', emotionId)` with 24h AsyncStorage cache; anti-repetition 48hr penalty window
+- Randomized translation per card: each swipe independently shows KJV or WEB (50/50), not both at once
+- Firestore security rules: `/verses/{verseId}` read requires auth, write blocked
 - Firebase Auth: email/password + Google Sign-In, AsyncStorage persistence, email verification
 - "How It Works" screen: scrollable editorial guide (4 labelled sections) for new visitors
 - Onboarding profile: 3-question Candlelight design — faith background, intent, life stage
 - AI letter generation: Firebase Cloud Function → Claude Sonnet 4.6; ANTHROPIC_API_KEY via Firebase Secret Manager (secrets: ['ANTHROPIC_API_KEY'] declared in onCall options)
 - 4-layer prompt personalization: questionnaire answers set tone, emotion builds arc, verse provides anchor, user input shapes first paragraph
+- Emotion letter prompts: conversational, presence-focused; humor calibrated per emotion (none for sad); Gen Z phrasing for neutral/good
+- Em dash prohibited in letters at both system prompt and user prompt levels
 - Letters auto-saved immediately after generation (no manual Save tap required)
 - Candle wax seal envelope: sealed card with wax seal component, pulse on tap
 - Swipe gesture flow: right = save + next verse, left = skip + next verse (continuous)
 - AsyncStorage v2.1.2 (Expo Go compatible)
 - NativeWind v4 with babel.config.js preset config
-- Weighted selection with anti-repetition
 - Native share sheet on message reveal + history
 - Free tier: 10 check-ins/day
 - RevenueCat integration: wired in types and constants, SDK init pending (needs API keys in .env)

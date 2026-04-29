@@ -5,6 +5,35 @@ All notable changes to Soft Landing will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.5.0] — 2026-04-29
+
+### Added
+- **Full KJV + WEB Bible in Firestore**: 31,102 verses imported across both translations. 250 curated verses (50 per emotion, 25 free / 25 premium) tagged with `emotionTags[]` and `emotionMeta` per doc. Script: `scripts/import-bible-to-firestore.js`.
+- **Firestore verse selector** (`src/messages/selector.ts`): Rewired from local `catalog.json` to Firestore `where('emotionTags', 'array-contains', emotionId)`. 24h AsyncStorage cache per emotion (`@soft_landing/verse_pool/${emotionId}`), stale-cache fallback on network failure, weighted selection with 48hr anti-repetition penalty window.
+- **Randomized translation per card**: Each swipe independently picks KJV or WEB (50/50 coin flip). `envelope.tsx` and `message.tsx` both use `Math.random() < 0.5` against `msg.modernText` presence. Users see variety across swipes without both translations on the same card.
+- **letterService unit tests** (`app-frontend/src/services/__tests__/letterService.test.ts`): 7 Vitest tests covering happy path, blocked, crisis, rate-limited, generic error, and emotionId passthrough — all passing.
+- **Firestore security rules**: `/verses/{verseId}` requires authenticated read; writes blocked globally.
+
+### Changed
+- **NIV → KJV + WEB** (copyright remediation): NIV (Biblica, copyrighted) removed entirely. All verses now KJV (public domain, 1611) with optional WEB (World English Bible, public domain) modern-language paraphrase in `modernText` field. Legal exposure eliminated before App Store submission.
+- **AI letter prompts rewritten** (`prompt.ts` — `getEmotionParagraphGoals()`): All 5 emotion instruction sets replaced with conversational, presence-focused equivalents. Key shifts:
+  - Language is inhabited, not observed — model is told to be in the moment with the user
+  - Calibrated humor permitted for stressed/tired/neutral/good; explicitly absent for sad
+  - Gen Z casual phrasing invited for neutral ("just one of those days") and good
+  - Verse instruction strengthened: "surface naturally... like it found them, not like it was given"
+  - Anti-resolution language made more explicit (tired/sad: "do not move toward resolution")
+- **Em dash ban reinforced**: Prohibition added to `buildSystemPrompt()` (system level) in addition to the existing user-prompt rule. Now enforced at both layers.
+- **`Message.modernText`**: Changed from `required string` to `optional string` in `types/index.ts` to accommodate verses without a WEB paraphrase.
+
+### Fixed
+- **History and Session Summary showing "…"**: Both screens used catalog.json ID lookup; after the Firestore migration, old IDs (e.g. `sad-001`) didn't match new IDs (e.g. `psalms_34_18`). Fixed with `lookupVerse()` helper reading from the AsyncStorage verse pool cache.
+- **Dashboard TypeScript error**: `dashboard/index.tsx` imported from catalog.json which was removed. Replaced with `CURATED_PER_EMOTION = 50` constant; removed dead verse preview block.
+
+### Security
+- Firestore rules updated: verse reads gated behind Firebase Auth — unauthenticated clients cannot access the verse corpus.
+
+---
+
 ## [1.4.1] — 2026-04-26
 
 ### Added
