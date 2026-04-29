@@ -1,7 +1,8 @@
 import { View, Text, ScrollView, Pressable } from 'react-native'
 import { useState } from 'react'
 import { EMOTIONS } from '@/constants/emotions'
-import catalog from '@/messages/catalog.json'
+
+const CURATED_PER_EMOTION = 50
 
 const PHASES = [
   { label: 'Phase 0 — Foundation', done: true },
@@ -12,7 +13,7 @@ const PHASES = [
 ]
 
 const FEATURES = [
-  { label: 'NIV Bible verses (150 total, 30 per emotion)', done: true },
+  { label: 'KJV+WEB Bible verses (31,102 in Firestore, 250 curated)', done: true },
   { label: 'Scripture reference on message screen', done: true },
   { label: 'Enhanced envelope (wax seal, fold lines)', done: true },
   { label: 'Faith intro landing page', done: true },
@@ -27,11 +28,6 @@ export default function DashboardScreen() {
   if (!__DEV__) return null
 
   const [selectedEmotion, setSelectedEmotion] = useState<string | null>(null)
-  const [expandedVerse, setExpandedVerse] = useState<string | null>(null)
-
-  const versesForEmotion = selectedEmotion
-    ? catalog.filter((m: any) => m.emotionId === selectedEmotion)
-    : []
 
   return (
     <ScrollView className="flex-1 bg-background" contentContainerStyle={{ padding: 24 }}>
@@ -114,58 +110,11 @@ export default function DashboardScreen() {
             <View className="w-3 h-3 rounded-full mr-3" style={{ backgroundColor: emotion.color }} />
             <Text style={{ fontFamily: 'DMSans_400Regular', flex: 1 }}>{emotion.label}</Text>
             <Text className="text-text-secondary" style={{ fontFamily: 'DMSans_400Regular', fontSize: 12 }}>
-              {catalog.filter((m: any) => m.emotionId === emotion.id).length} verses
+              {CURATED_PER_EMOTION} verses
             </Text>
           </Pressable>
         ))}
       </View>
-
-      {/* ── Verse Preview (appears when emotion selected) ── */}
-      {selectedEmotion && versesForEmotion.length > 0 && (
-        <>
-          <Text
-            className="text-text-secondary text-xs mb-2 uppercase"
-            style={{ fontFamily: 'DMSans_500Medium', letterSpacing: 1 }}
-          >
-            {EMOTIONS.find(e => e.id === selectedEmotion)?.label} Verses
-          </Text>
-          <View className="bg-surface rounded-2xl p-4 border border-border mb-6">
-            {versesForEmotion.map((verse: any) => (
-              <Pressable
-                key={verse.id}
-                onPress={() => setExpandedVerse(expandedVerse === verse.id ? null : verse.id)}
-                className="py-3 border-b border-border"
-                style={{ borderBottomWidth: verse.id === versesForEmotion[versesForEmotion.length - 1].id ? 0 : 1 }}
-              >
-                <Text
-                  style={{ fontFamily: 'DMSans_500Medium', fontSize: 13, color: '#C4956A', marginBottom: 4 }}
-                >
-                  {verse.reference}
-                </Text>
-                <Text
-                  className="text-text-primary"
-                  style={{
-                    fontFamily: 'Lora_400Regular',
-                    fontSize: 14,
-                    lineHeight: 22,
-                  }}
-                  numberOfLines={expandedVerse === verse.id ? undefined : 2}
-                >
-                  {verse.body}
-                </Text>
-                {expandedVerse !== verse.id && (
-                  <Text
-                    className="text-text-secondary"
-                    style={{ fontFamily: 'DMSans_400Regular', fontSize: 12, marginTop: 4 }}
-                  >
-                    Tap to expand · weight {verse.weight}
-                  </Text>
-                )}
-              </Pressable>
-            ))}
-          </View>
-        </>
-      )}
 
       {/* ── User Flow ── */}
       <Text

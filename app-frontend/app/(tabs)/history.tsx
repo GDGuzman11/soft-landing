@@ -1,13 +1,11 @@
 import { View, Text, FlatList, Pressable, Share } from 'react-native'
 import { useCallback, useState } from 'react'
 import { useFocusEffect, router, useLocalSearchParams } from 'expo-router'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 import { getSavedMessages, deleteSavedMessage, getSettings } from '@/storage/storage'
 import type { SavedMessage, Message, EmotionId, AppSettings } from '@/types'
-import catalog from '@/messages/catalog.json'
 import { EMOTIONS } from '@/constants/emotions'
 import TourTooltip from '@/components/TourTooltip'
-
-const messages = catalog as Message[]
 
 const EMOTION_COLORS: Record<EmotionId, string> = {
   stressed: '#E8A598',
@@ -17,22 +15,54 @@ const EMOTION_COLORS: Record<EmotionId, string> = {
   good: '#A8C5A0',
 }
 
-function getMessage(messageId: string): { body: string; reference?: string } {
-  const msg = messages.find((m) => m.id === messageId)
-  return { body: msg?.body ?? '…', reference: msg?.reference }
+interface ResolvedSavedMessage {
+  saved: SavedMessage
+  body: string
+  reference: string
+}
+
+async function lookupVerse(
+  messageId: string,
+  emotionId: string
+): Promise<{ body: string; reference: string }> {
+  try {
+    const cached = await AsyncStorage.getItem(`@soft_landing/verse_pool/${emotionId}`)
+    if (cached) {
+      const pool: { fetchedAt: string; verses: Message[] } = JSON.parse(cached)
+      const msg = pool.verses.find((v) => v.id === messageId)
+      if (msg) return { body: msg.body, reference: msg.reference ?? '' }
+    }
+  } catch {}
+  return { body: '', reference: '' }
 }
 
 export default function HistoryScreen() {
   const { tourStep } = useLocalSearchParams<{ tourStep?: string }>()
-  const [saved, setSaved] = useState<SavedMessage[]>([])
+  const [resolved, setResolved] = useState<ResolvedSavedMessage[]>([])
   const [expandedLetter, setExpandedLetter] = useState<string | null>(null)
   const [showTooltip, setShowTooltip] = useState(tourStep === '4')
   const [settings, setSettings] = useState<AppSettings | null>(null)
 
   useFocusEffect(
     useCallback(() => {
-      getSavedMessages().then(setSaved)
-      getSettings().then(setSettings)
+      let cancelled = false
+      ;(async () => {
+        const [all, s] = await Promise.all([getSavedMessages(), getSettings()])
+        if (cancelled) return
+        setSettings(s)
+        const withVerses = await Promise.all(
+          all.map(async (saved) => {
+            const emotionId = saved.emotionId ?? 'neutral'
+            const { body, reference } = await lookupVerse(saved.messageId, emotionId)
+            return { saved, body, reference }
+          })
+        )
+        if (cancelled) return
+        setResolved(withVerses)
+      })()
+      return () => {
+        cancelled = true
+      }
     }, [])
   )
 
@@ -40,11 +70,10 @@ export default function HistoryScreen() {
 
   async function handleDelete(id: string) {
     await deleteSavedMessage(id)
-    setSaved((prev) => prev.filter((m) => m.id !== id))
+    setResolved((prev) => prev.filter((r) => r.saved.id !== id))
   }
 
-  async function handleShare(messageId: string, letter?: string) {
-    const { body, reference } = getMessage(messageId)
+  async function handleShare(body: string, reference: string, letter?: string) {
     const ref = reference ? ` — ${reference}` : ''
     const letterPart = letter ? `\n\n${letter}\n\nWith you in this.` : ''
     try {
@@ -56,7 +85,7 @@ export default function HistoryScreen() {
     }
   }
 
-  if (saved.length === 0) {
+  if (resolved.length === 0) {
     return (
       <View className="flex-1 bg-background items-center justify-center px-8">
         <Text style={{ fontSize: 32, marginBottom: 16 }}>✉</Text>
@@ -82,11 +111,12 @@ export default function HistoryScreen() {
       </View>
 
       <FlatList
-        data={saved}
-        keyExtractor={(item) => item.id}
+        data={resolved}
+        keyExtractor={(r) => r.saved.id}
         contentContainerStyle={{ paddingHorizontal: 24, paddingBottom: 32, gap: 16 }}
-        renderItem={({ item }) => {
-          const { body, reference } = getMessage(item.messageId)
+        renderItem={({ item: r }) => {
+          const item = r.saved
+          const { body, reference } = r
           const emotionColor = item.emotionId ? EMOTION_COLORS[item.emotionId] : undefined
           const isLetterExpanded = expandedLetter === item.id
 
@@ -141,12 +171,14 @@ export default function HistoryScreen() {
                 </Text>
               </View>
 
-              <Text
-                className="text-text-primary leading-7 mb-1"
-                style={{ fontFamily: 'Lora_400Regular', fontSize: 16, marginBottom: 10 }}
-              >
-                {body}
-              </Text>
+              {body ? (
+                <Text
+                  className="text-text-primary leading-7 mb-1"
+                  style={{ fontFamily: 'Lora_400Regular', fontSize: 16, marginBottom: 10 }}
+                >
+                  {body}
+                </Text>
+              ) : null}
 
               {/* Letter section */}
               {item.letter ? (
@@ -255,7 +287,7 @@ export default function HistoryScreen() {
               <View className="flex-row items-center justify-end">
                 <View style={{ flexDirection: 'row', gap: 16, alignItems: 'center' }}>
                   <Pressable
-                    onPress={() => handleShare(item.messageId, item.letter)}
+                    onPress={() => handleShare(body, reference, item.letter)}
                     hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
                     className="active:opacity-60"
                   >

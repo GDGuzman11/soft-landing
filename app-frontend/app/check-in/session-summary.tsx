@@ -1,20 +1,34 @@
 import { View, Text, Pressable, ScrollView } from 'react-native'
 import { router, useLocalSearchParams } from 'expo-router'
 import { useEffect, useState } from 'react'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 import { getSavedMessages } from '@/storage/storage'
 import type { SavedMessage, Message } from '@/types'
-import catalog from '@/messages/catalog.json'
 
-const messages = catalog as Message[]
+interface ResolvedSavedMessage {
+  saved: SavedMessage
+  body: string
+  reference: string
+}
 
-function getVerse(messageId: string): { body: string; reference?: string } {
-  const msg = messages.find((m) => m.id === messageId)
-  return { body: msg?.body ?? '…', reference: msg?.reference }
+async function lookupVerse(
+  messageId: string,
+  emotionId: string
+): Promise<{ body: string; reference: string }> {
+  try {
+    const cached = await AsyncStorage.getItem(`@soft_landing/verse_pool/${emotionId}`)
+    if (cached) {
+      const pool: { fetchedAt: string; verses: Message[] } = JSON.parse(cached)
+      const msg = pool.verses.find((v) => v.id === messageId)
+      if (msg) return { body: msg.body, reference: msg.reference ?? '' }
+    }
+  } catch {}
+  return { body: '', reference: '' }
 }
 
 export default function SessionSummaryScreen() {
   const { ids } = useLocalSearchParams<{ ids: string }>()
-  const [saved, setSaved] = useState<SavedMessage[]>([])
+  const [resolved, setResolved] = useState<ResolvedSavedMessage[]>([])
   const [loaded, setLoaded] = useState(false)
 
   useEffect(() => {
@@ -23,19 +37,27 @@ export default function SessionSummaryScreen() {
       return
     }
     const idList = ids.split(',').filter(Boolean)
-    getSavedMessages().then((all) => {
-      setSaved(all.filter((m) => idList.includes(m.id)))
+    getSavedMessages().then(async (all) => {
+      const matches = all.filter((m) => idList.includes(m.id))
+      const withVerses = await Promise.all(
+        matches.map(async (saved) => {
+          const emotionId = saved.emotionId ?? 'neutral'
+          const { body, reference } = await lookupVerse(saved.messageId, emotionId)
+          return { saved, body, reference }
+        })
+      )
+      setResolved(withVerses)
       setLoaded(true)
     })
   }, [ids])
 
   useEffect(() => {
-    if (loaded && saved.length === 0) {
+    if (loaded && resolved.length === 0) {
       router.replace('/(tabs)')
     }
-  }, [loaded, saved])
+  }, [loaded, resolved])
 
-  if (!loaded || saved.length === 0) return null
+  if (!loaded || resolved.length === 0) return null
 
   return (
     <View style={{ flex: 1, backgroundColor: '#FAF8F5' }}>
@@ -54,8 +76,7 @@ export default function SessionSummaryScreen() {
           Today's verses
         </Text>
 
-        {saved.map((item) => {
-          const { body, reference } = getVerse(item.messageId)
+        {resolved.map(({ saved: item, body, reference }) => {
           return (
             <View
               key={item.id}
@@ -85,18 +106,20 @@ export default function SessionSummaryScreen() {
                 </Text>
               ) : null}
 
-              <Text
-                style={{
-                  fontFamily: 'Lora_400Regular',
-                  fontSize: 15,
-                  color: '#3D2F2A',
-                  lineHeight: 24,
-                  marginBottom: 16,
-                }}
-                numberOfLines={3}
-              >
-                {body}
-              </Text>
+              {body ? (
+                <Text
+                  style={{
+                    fontFamily: 'Lora_400Regular',
+                    fontSize: 15,
+                    color: '#3D2F2A',
+                    lineHeight: 24,
+                    marginBottom: 16,
+                  }}
+                  numberOfLines={3}
+                >
+                  {body}
+                </Text>
+              ) : null}
 
               <View style={{ alignItems: 'flex-end' }}>
                 <Pressable
