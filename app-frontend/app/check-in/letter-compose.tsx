@@ -353,7 +353,6 @@ export default function LetterComposeScreen() {
               onRetry={handleSend}
               verseBody={body}
               verseReference={reference}
-              verseModernText={modernText}
             />
 
             {hasLetter && (

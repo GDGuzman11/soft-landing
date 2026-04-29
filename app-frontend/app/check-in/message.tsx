@@ -21,18 +21,16 @@ const SWIPE_THRESHOLD = 110
 interface VerseData {
   body: string
   reference: string
-  modernText?: string
   checkInId: string
   messageId: string
 }
 
 export default function MessageScreen() {
-  const { emotionId, messageBody, messageReference, messageModernText, checkInId, messageId } =
+  const { emotionId, messageBody, messageReference, checkInId, messageId } =
     useLocalSearchParams<{
       emotionId: string
       messageBody: string
       messageReference: string
-      messageModernText: string
       checkInId: string
       messageId: string
     }>()
@@ -40,7 +38,6 @@ export default function MessageScreen() {
   const [verse, setVerse] = useState<VerseData>({
     body: messageBody,
     reference: messageReference,
-    modernText: messageModernText || undefined,
     checkInId,
     messageId,
   })
@@ -85,12 +82,13 @@ export default function MessageScreen() {
     saveOpacity.value = 0
     discardOpacity.value = 0
 
+    const msg = result.message
+    const useModern = !!msg.modernText && Math.random() < 0.5
     setVerse({
-      body: result.message.body,
-      reference: result.message.reference ?? '',
-      modernText: result.message.modernText || undefined,
+      body: useModern ? msg.modernText! : msg.body,
+      reference: msg.reference ?? '',
       checkInId: result.event.id,
-      messageId: result.message.id,
+      messageId: msg.id,
     })
     setVerseIsSaved(false)
     setTransitioning(false)
@@ -314,31 +312,6 @@ export default function MessageScreen() {
             >
               {verse.reference}
             </Text>
-          ) : null}
-
-          {verse.modernText ? (
-            <>
-              <View
-                style={{
-                  height: 0.5,
-                  backgroundColor: '#C4956A',
-                  opacity: 0.4,
-                  marginVertical: 12,
-                  alignSelf: 'stretch',
-                }}
-              />
-              <Text
-                style={{
-                  fontFamily: 'DMSans_400Regular',
-                  fontSize: 15,
-                  color: '#A09080',
-                  lineHeight: 24,
-                  textAlign: 'center',
-                }}
-              >
-                {verse.modernText}
-              </Text>
-            </>
           ) : null}
 
           {/* Swipe hint */}

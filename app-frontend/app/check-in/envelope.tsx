@@ -229,15 +229,16 @@ export default function EnvelopeScreen() {
 
   function navigateToMessage() {
     if (!result) return
+    const msg = result.message
+    const useModern = !!msg.modernText && Math.random() < 0.5
     router.push({
       pathname: '/check-in/message',
       params: {
         emotionId: emotionId,
-        messageBody: result.message.body,
-        messageReference: result.message.reference ?? '',
-        messageModernText: result.message.modernText ?? '',
+        messageBody: useModern ? msg.modernText! : msg.body,
+        messageReference: msg.reference ?? '',
         checkInId: result.event.id,
-        messageId: result.message.id,
+        messageId: msg.id,
       },
     })
   }

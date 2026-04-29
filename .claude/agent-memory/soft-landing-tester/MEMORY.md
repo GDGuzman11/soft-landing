@@ -1,0 +1,3 @@
+- [Vitest setup quirks](reference_vitest_setup.md) — vitest.config.ts include globs and pre-loaded mocks in vitest.setup.ts
+- [Firestore mocking](feedback_firestore_mocking.md) — mock ../services/firebase to avoid initializeApp at import time; getDocs returns object with forEach, not array
+- [Deterministic Math.random](feedback_deterministic_random.md) — sweep pattern for non-flaky weighted-selection ratio assertions
