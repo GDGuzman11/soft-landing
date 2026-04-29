@@ -1,0 +1,11 @@
+{
+  "name": "soft-landing-scripts",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "import-bible": "node import-bible-to-firestore.js"
+  },
+  "dependencies": {
+    "firebase-admin": "^12.0.0"
+  }
+}

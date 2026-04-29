@@ -44,6 +44,7 @@ coverage/
 
 # EAS / store credentials (never commit these)
 google-service-account.json
+scripts/service-account-key.json
 GoogleService-Info.plist
 google-services.json
 *.p8
