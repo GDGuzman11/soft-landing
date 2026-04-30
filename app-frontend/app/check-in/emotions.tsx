@@ -156,10 +156,11 @@ export default function EmotionsScreen() {
 
   return (
     <View style={{ flex: 1, backgroundColor: '#FAF8F5' }} accessibilityLabel="Emotion picker">
-      {/* Preload all emotion images into the native cache to eliminate swap lag */}
-      <View style={{ position: 'absolute', width: 0, height: 0, opacity: 0 }} pointerEvents="none">
+      {/* Pre-render all images at full card size off-screen so the GPU decodes
+          them at display resolution before the user reaches them. */}
+      <View style={{ position: 'absolute', left: -9999, top: 0 }} pointerEvents="none">
         {Object.values(EMOTION_IMAGES).map((src, i) => (
-          <Image key={i} source={src} style={{ width: 1, height: 1 }} />
+          <Image key={i} source={src} style={{ width: CARD_W, height: CARD_H }} resizeMode="cover" />
         ))}
       </View>
 
