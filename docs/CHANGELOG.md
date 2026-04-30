@@ -5,6 +5,20 @@ All notable changes to Soft Landing will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.6.0] — 2026-04-30
+
+### Changed
+- **Emotion picker — full redesign** (`app/check-in/emotions.tsx`): Replaced vertical snap-scroll card list with a single-card swipe experience. One card is visible at a time; the card follows the user's finger and flies off screen at 70pt threshold or 500px/s velocity. `advance()` instantly swaps `activeIndex`, the new card image fades in over 300ms while the frame (border + pulsing glow shadow) stays continuously visible. Image order: Good → Neutral → Tired → Sad → Stressed. Each card shows a full-bleed biblical illustration (`happy1`, `neutral1`, `tired1`, `sad3`, `stressed1`) behind a 3pt warm-brown (`#7A5030`) border at 26pt radius. Pulsing amber glow shadow (`withRepeat + withSequence`) and shimmer ✦ glyph restart via `cancelAnimation` on every card change.
+- **Emotion picker — image pre-loading**: A hidden `View` renders a 1×1 `Image` for each of the 5 emotion photos at mount time, forcing all images into the native decoder cache before the user swipes. Eliminates per-swap decode lag.
+- **Emotion picker — Go Home button**: Centered `Pressable` below the pagination dots, calls `router.back()`. Muted warm-gray label (`#A09080`) so it doesn't compete with the emotion cards.
+- **Home screen — ambient background images**: `boy.png` (top-left, `screenWidth × 1.0`) and `girl.png` (bottom-right, `screenWidth × 0.82`) render as `Animated.Image` at `zIndex: 0` behind all content. Both fade from 0 → 0.35 opacity via `withDelay(300, withTiming(0.35, { duration: 2000 }))` on every tab focus (`useFocusEffect`). Content views are `zIndex: 1`.
+- **Home screen — stamp icon**: Replaced `icon.png` (cream background) with `icon-nobackground.png` (transparent) so the stamp floats naturally over the background.
+- **Widgets tab — icon**: Tab bar icon changed from `⊞` to `❖` to match app ornamental theme.
+- **Widgets tab — section dividers**: `SectionDivider` component added between Small, Medium, and Large sections — two amber hairlines with a centred ✦ glyph, opacity 0.3/0.6.
+- **History tab — empty state icon**: `✉` envelope emoji replaced with `✦` amber glyph (`#C4956A`, 36pt, 0.6 opacity) for visual consistency with the app's ornamental language.
+
+---
+
 ## [1.5.0] — 2026-04-29
 
 ### Added

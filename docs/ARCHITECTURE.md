@@ -50,7 +50,7 @@ Soft Landing is a hybrid React Native app: local-first for all user data, with a
 | `/(tabs)` | `app/(tabs)/index.tsx` | Home — greeting, check-in button, streak/history hint |
 | `/(tabs)/history` | `app/(tabs)/history.tsx` | Saved verses + letters |
 | `/(tabs)/settings` | `app/(tabs)/settings.tsx` | Name, subscription, notifications, sign out |
-| `/check-in/emotions` | `app/check-in/emotions.tsx` | Emotion picker — 5 full-width cards |
+| `/check-in/emotions` | `app/check-in/emotions.tsx` | Emotion picker — single full-bleed card, swipe to cycle, tap to select |
 | `/check-in/envelope` | `app/check-in/envelope.tsx` | Sealed card with wax seal, spring fly-in, tap to open |
 | `/check-in/message` | `app/check-in/message.tsx` | Verse reveal + swipe flow (right=save, left=skip) |
 | `/check-in/session-summary` | `app/check-in/session-summary.tsx` | Post-session — shows saved verses, entry to letter compose |

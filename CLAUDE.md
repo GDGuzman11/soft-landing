@@ -64,10 +64,10 @@ One agent's work per commit. Reference a bug ID in the body when relevant (e.g. 
   - `sad` — soft slate blue `#7A95B0`
   - `neutral` — warm sand `#C4B59A`
   - `good` — gentle sage `#9CB59A`
-- **Interaction model:** vertical card stack for the emotion picker (deliberate, not a rushed grid), Reanimated envelope flight, single tap to open
+- **Interaction model:** single-card swipe for the emotion picker (one card visible, card follows finger, flies off at threshold), Reanimated envelope flight, single tap to open
 
 ## Active context
-*Session 2026-04-29 — V1.5.0. NIV copyright risk eliminated: full KJV + WEB verse catalog live in Firestore (31,102 verses total, 250 curated — 50 per emotion). Verse selector rewired from local catalog.json to Firestore with 24h AsyncStorage cache and stale fallback. Cards randomize KJV or WEB per swipe (not both on the same card). AI letter prompts fully rewritten — more conversational, presence-focused, with calibrated humor and Gen Z phrasing for neutral/good. Em dash ban enforced at both system and user prompt levels. All 5 emotion pipeline paths verified (no mock fallback). letterService unit tests added (7 passing). Next steps: (1) set up RevenueCat with App Store Connect products (API keys in .env), (2) submit to TestFlight via `eas build --profile preview --platform ios`.*
+*Session 2026-04-30 — V1.6.0. UI polish pass: emotion picker redesigned as a single-card swipe experience with full-bleed biblical illustration photos. Home screen ambient background images (boy/girl) fade in on every tab focus. Widgets tab has themed dividers; History tab uses ✦ glyph. Next steps: (1) set up RevenueCat with App Store Connect products (API keys in .env), (2) submit to TestFlight via `eas build --profile preview --platform ios`.*
 
 ## Current build state
 - All screens functional: welcome → (how it works / register / sign-in) → onboarding → onboarding-profile → faith-intro → home → emotions → envelope → message (swipe flow) → session-summary → letter-compose → history
@@ -85,6 +85,10 @@ One agent's work per commit. Reference a bug ID in the body when relevant (e.g. 
 - Letters auto-saved immediately after generation (no manual Save tap required)
 - Candle wax seal envelope: sealed card with wax seal component, pulse on tap
 - Swipe gesture flow: right = save + next verse, left = skip + next verse (continuous)
+- **Emotion picker:** single-card swipe — one full-bleed biblical illustration card visible at a time; card follows finger, flies off at 70pt threshold; new card image fades in (300ms); all images pre-loaded on mount to eliminate decode lag; pulsing amber glow shadow; Lora italic emotion label + shimmer ✦; warm brown frame (3pt border, 26pt radius); "Go Home" button centered below dots; order: Good → Neutral → Tired → Sad → Stressed
+- **Home screen:** ambient boy (top-left) + girl (bottom-right) background images at 35% opacity, fade in via `withDelay + withTiming` on every tab focus (`useFocusEffect`); icon stamp uses transparent-background version; content layers at `zIndex: 1`
+- **Widgets tab:** icon changed to ❖; themed double-line dividers (amber hairline + ✦ centre glyph) between Small / Medium / Large sections
+- **History tab (empty state):** ✦ amber glyph replaces ✉ envelope icon
 - AsyncStorage v2.1.2 (Expo Go compatible)
 - NativeWind v4 with babel.config.js preset config
 - Native share sheet on message reveal + history

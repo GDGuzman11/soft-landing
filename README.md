@@ -12,8 +12,8 @@ Built with React Native + Expo, TypeScript strict, NativeWind, React Native Rean
 4. **Onboarding** — 2-slide intro shown once after first registration
 5. **Onboarding profile** — 3-question profile (faith background, intent, life stage); Design A "Candlelight" aesthetic
 6. **Faith intro** — Amber cross + "Find rest in His Word." shown once after onboarding
-7. **Home** — Time-based greeting with user's name, single Check In button
-8. **Emotion picker** — Five full-width cards: Stressed, Tired, Sad, Neutral, Good
+7. **Home** — Time-based greeting with user's name, single Check In button. Ambient boy/girl background images fade in softly on every visit
+8. **Emotion picker** — Single full-bleed card with biblical illustration photo; swipe left/right to cycle emotions (Good → Neutral → Tired → Sad → Stressed), tap to select. Pulsing amber glow, warm brown frame, shimmer ✦ beside the emotion label
 9. **Envelope** — Candle wax-sealed card floats in, tap to open
 10. **Verse** — NIV Bible verse in Lora serif; swipe right to save, left to skip. New verse loads immediately
 11. **History** — All saved verses with scripture reference, AI letter, and Share button
@@ -103,19 +103,21 @@ pnpm exec expo start --web
 
 Open `http://localhost:8081/dashboard` (dev/web only).
 
-## Current build state (v1.4.0)
+## Current build state (v1.6.0)
 
 - Full auth flow: register, sign in (email + Google), email verification, guest mode
 - Firebase Auth with AsyncStorage persistence — users stay signed in across restarts
-- 150 NIV Bible verses, 30 per emotion, free/premium split (15 each)
+- **250 KJV + WEB curated verses** (50 per emotion, 25 free / 25 premium) served from Firestore; 31,102 full-Bible verses imported
 - "How It Works" editorial guide for new visitors: scrollable, four labelled sections, fixed Begin → button
 - Onboarding profile (3 questions, Design A Candlelight): saves faith background, intent, life stage
 - **AI letter generation fully working**: Firebase Cloud Function → Claude Sonnet 4.6; first letter free, then premium
   - `ANTHROPIC_API_KEY` stored in Firebase Secret Manager and correctly declared in `onCall()` options
   - 4-layer personalization: questionnaire answers → emotion arc → verse anchor → user's typed input
-  - User input positioned first in prompt for maximum Claude weighting
-  - Verse engagement rule: Claude engages specific words/imagery, not just "a verse arrived"
   - Letters auto-saved immediately after generation — no manual Save tap required
+- **Emotion picker redesigned**: single-card swipe with full-bleed biblical illustrations; all 5 images pre-loaded on mount for zero decode lag; image fades in on each card change; "Go Home" escape below dots
+- **Home screen**: ambient background illustrations (boy top-left, girl bottom-right) fade in on every tab visit via `useFocusEffect`; transparent stamp icon
+- **Widgets tab**: themed ❖ icon + double-line amber dividers between Small / Medium / Large sections
+- **History tab**: ✦ glyph in empty state
 - Crisis input filtering and Firestore security rules deployed to backend
 - All screens functional end-to-end in Expo Go
 - EAS projectId: `2d79e638-f797-42ff-86b3-94f5c20fa6ff`

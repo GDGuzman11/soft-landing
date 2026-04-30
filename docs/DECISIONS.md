@@ -90,10 +90,22 @@ A running log of load-bearing technical decisions, with rationale and what we ga
 
 ## ADR-008: Vertical card stack for emotion picker
 **Date:** 2026-04-17
-**Status:** Accepted
+**Status:** Superseded by ADR-009
 
 **Decision.** The emotion picker is a vertical stack of full-width cards (one per emotion), not a 2-column or 3-column grid.
 
 **Rationale.** Picking how you feel is the entire interaction. A grid of small tiles encourages a hurried, almost gamified tap. A vertical stack with breathing room between cards slows the user down — they read each label, feel which one matches, and choose deliberately. The deliberate pace is the product.
 
 **Tradeoffs.** Requires a scroll on smaller devices (5 emotions ~= one screen on most phones). We prefer the slight scroll over a cramped grid; if real usage shows the scroll is friction, we will revisit.
+
+---
+
+## ADR-009: Single-card swipe for emotion picker (replaces ADR-008)
+**Date:** 2026-04-30
+**Status:** Accepted
+
+**Decision.** Replace the vertical card list with one full-bleed card that fills most of the screen. The user swipes left or right to cycle emotions; tapping the card selects it.
+
+**Rationale.** The vertical list had a noticeable render lag (multi-card stack, multiple simultaneous `withRepeat` animations) and the stacked design felt visually noisy. One card at a time is calmer and more intentional — still deliberate, but now immersive. The full-bleed biblical illustration gives each emotion a distinct visual identity that words and colour alone couldn't. Performance gains from rendering a single card and pre-loading all 5 images on mount make swapping instantaneous.
+
+**Tradeoffs.** The user can't see all 5 options at a glance (they must swipe). Pagination dots and the emotion label above the card address discoverability. The tradeoff is accepted: the tactile engagement of swiping through images reinforces the reflective mood the app is trying to create.
