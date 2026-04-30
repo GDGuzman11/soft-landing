@@ -100,8 +100,8 @@ export default function HomeScreen() {
           position: 'absolute',
           top: 0,
           left: -Dimensions.get('window').width * 0.1,
-          width: Dimensions.get('window').width * 1.2,
-          height: Dimensions.get('window').width * 1.2,
+          width: Dimensions.get('window').width * 1.0,
+          height: Dimensions.get('window').width * 1.0,
           zIndex: 0,
         }, peopleStyle]}
         resizeMode="contain"
@@ -113,8 +113,8 @@ export default function HomeScreen() {
           position: 'absolute',
           bottom: 0,
           right: -Dimensions.get('window').width * 0.08,
-          width: Dimensions.get('window').width * 1.0,
-          height: Dimensions.get('window').width * 1.0,
+          width: Dimensions.get('window').width * 0.82,
+          height: Dimensions.get('window').width * 0.82,
           zIndex: 0,
         }, peopleStyle]}
         resizeMode="contain"
