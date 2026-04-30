@@ -117,7 +117,7 @@ export default function HomeScreen() {
         accessibilityRole="header"
       >
         <Image
-          source={require('@/assets/images/icon-nobackground.png')}
+          source={require('../../assets/images/icon-nobackground.png')}
           style={{
             width: 80,
             height: 80,
