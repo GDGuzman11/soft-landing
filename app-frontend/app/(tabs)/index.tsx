@@ -126,9 +126,11 @@ export default function HomeScreen() {
         style={[{
           position: 'absolute',
           bottom: 0,
-          right: -Dimensions.get('window').width * 0.08,
+          left: 0,
+          right: 0,
           width: Dimensions.get('window').width * 0.82,
           height: Dimensions.get('window').width * 0.82,
+          alignSelf: 'center',
         }, jesusStyle]}
         resizeMode="contain"
         pointerEvents="none"
