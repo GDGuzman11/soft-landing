@@ -1,4 +1,4 @@
-import { View, Text, Pressable, ScrollView, Dimensions } from 'react-native'
+import { View, Text, Pressable, ScrollView, Dimensions, ImageBackground } from 'react-native'
 import { router } from 'expo-router'
 import * as Haptics from 'expo-haptics'
 import { EMOTIONS } from '@/constants/emotions'
@@ -14,6 +14,10 @@ import { useEffect } from 'react'
 
 const { width: screenWidth, height: screenHeight } = Dimensions.get('window')
 const CARD_HEIGHT = screenHeight * 0.5
+
+const EMOTION_IMAGES: Partial<Record<string, any>> = {
+  sad: require('../../assets/images/sad3.png'),
+}
 
 const TAGLINES: Record<string, string> = {
   stressed: 'Carrying too much right now',
@@ -122,23 +126,19 @@ export default function EmotionsScreen() {
           const glyphColor = darken(emotion.color, 55)
           const watermarkColor = darken(emotion.color, 30)
 
-          return (
-            <Pressable
-              key={emotion.id}
-              onPress={() => handleSelect(emotion.id)}
-              accessibilityRole="button"
-              accessibilityLabel={`I'm feeling ${emotion.label}`}
-              style={({ pressed }) => ({
-                width: screenWidth,
-                height: CARD_HEIGHT,
-                backgroundColor: emotion.color,
-                alignItems: 'center',
-                justifyContent: 'center',
-                opacity: pressed ? 0.9 : 1,
-                transform: [{ scale: pressed ? 0.98 : 1 }],
-                overflow: 'hidden',
-              })}
-            >
+          const image = EMOTION_IMAGES[emotion.id]
+          const cardContent = (
+            <>
+              {/* Emotion color overlay (always present; on image cards it tints for readability) */}
+              <View
+                style={{
+                  ...(!image ? { backgroundColor: emotion.color } : { backgroundColor: emotion.color }),
+                  position: 'absolute',
+                  top: 0, left: 0, right: 0, bottom: 0,
+                  opacity: image ? 0.55 : 1,
+                }}
+              />
+
               {/* Watermark ✦ */}
               <Text
                 style={{
@@ -150,19 +150,18 @@ export default function EmotionsScreen() {
                   right: -20,
                   bottom: -20,
                 }}
-                pointerEvents="none"
               >
                 {'✦'}
               </Text>
 
               {/* Label row */}
               <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 12 }}>
-                <ShimmeringGlyph color={glyphColor} />
+                <ShimmeringGlyph color={image ? '#FFFFFF' : glyphColor} />
                 <Text
                   style={{
                     fontFamily: 'DMSans_500Medium',
                     fontSize: 32,
-                    color: '#1A1A1A',
+                    color: image ? '#FFFFFF' : '#1A1A1A',
                     textAlign: 'center',
                   }}
                 >
@@ -175,14 +174,55 @@ export default function EmotionsScreen() {
                 style={{
                   fontFamily: 'Lora_400Regular_Italic',
                   fontSize: 16,
-                  color: glyphColor,
-                  opacity: 0.8,
+                  color: image ? '#FFFFFF' : glyphColor,
+                  opacity: 0.85,
                   textAlign: 'center',
                   letterSpacing: 0.2,
                 }}
               >
                 {TAGLINES[emotion.id]}
               </Text>
+            </>
+          )
+
+          const cardStyle = {
+            width: screenWidth,
+            height: CARD_HEIGHT,
+            alignItems: 'center' as const,
+            justifyContent: 'center' as const,
+            overflow: 'hidden' as const,
+          }
+
+          const pressStyle = ({ pressed }: { pressed: boolean }) => ({
+            opacity: pressed ? 0.9 : 1,
+            transform: [{ scale: pressed ? 0.98 : 1 }],
+          })
+
+          return image ? (
+            <Pressable
+              key={emotion.id}
+              onPress={() => handleSelect(emotion.id)}
+              accessibilityRole="button"
+              accessibilityLabel={`I'm feeling ${emotion.label}`}
+              style={pressStyle}
+            >
+              <ImageBackground
+                source={image}
+                style={cardStyle}
+                resizeMode="cover"
+              >
+                {cardContent}
+              </ImageBackground>
+            </Pressable>
+          ) : (
+            <Pressable
+              key={emotion.id}
+              onPress={() => handleSelect(emotion.id)}
+              accessibilityRole="button"
+              accessibilityLabel={`I'm feeling ${emotion.label}`}
+              style={({ pressed }) => ({ ...cardStyle, ...pressStyle({ pressed }) })}
+            >
+              {cardContent}
             </Pressable>
           )
         })}
