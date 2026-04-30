@@ -358,7 +358,7 @@ export default function EnvelopeScreen() {
             {/* ── Hint text ── */}
             <Animated.View style={[{
               position: 'absolute',
-              bottom: 38,
+              top: 72,
               left: 0,
               right: 0,
               alignItems: 'center',
@@ -371,7 +371,7 @@ export default function EnvelopeScreen() {
                   letterSpacing: 0.3,
                 }}
               >
-                {loading ? 'Preparing your verse…' : 'Tap to open'}
+                {loading ? 'Preparing your verse…' : "no rush. it's yours."}
               </Text>
             </Animated.View>
           </View>
