@@ -18,6 +18,10 @@ import Animated, {
   withSpring,
 } from 'react-native-reanimated'
 import WidgetPreview from '@/components/widgets/WidgetPreview'
+import SoftOpen from '@/components/widgets/Small/SoftOpen'
+import CarriedVerse from '@/components/widgets/Small/CarriedVerse'
+import DoorOpen from '@/components/widgets/Small/DoorOpen'
+import LineThatStayed from '@/components/widgets/Small/LineThatStayed'
 
 // ---- Design tokens used locally ----------------------------------------
 const COLORS = {
@@ -261,6 +265,12 @@ type WidgetSectionProps = {
   onCardTap: (index: number) => void
   comingSoon?: boolean
   itemNames: readonly string[]
+  /**
+   * Optional per-item renderer. Keyed by item id. When a renderer is
+   * provided for an item, its return value replaces the placeholder card
+   * inside the WidgetPreview wrapper.
+   */
+  itemRenderers?: Readonly<Record<string, () => React.ReactNode>>
 }
 
 function WidgetSection({
@@ -274,6 +284,7 @@ function WidgetSection({
   onCardTap,
   comingSoon = false,
   itemNames,
+  itemRenderers,
 }: WidgetSectionProps) {
   const screenWidth = Dimensions.get('window').width
   const sideInset = Math.max(0, (screenWidth - cardWidth) / 2)
@@ -330,9 +341,13 @@ function WidgetSection({
               height={cardHeight}
               isActive={i === activeIndex}
             >
-              <View style={styles.placeholderCard}>
-                <Text style={styles.placeholderText}>{itemNames[i] ?? item.id}</Text>
-              </View>
+              {itemRenderers?.[item.id] ? (
+                itemRenderers[item.id]()
+              ) : (
+                <View style={styles.placeholderCard}>
+                  <Text style={styles.placeholderText}>{itemNames[i] ?? item.id}</Text>
+                </View>
+              )}
             </WidgetPreview>
           </Pressable>
         ))}
@@ -396,6 +411,31 @@ export default function WidgetGalleryScreen() {
       }
     : null
 
+  // Per-item renderers for the SMALL section. Only ids listed here render
+  // a real widget; everything else falls back to the placeholder card.
+  const smallRenderers: Readonly<Record<string, () => React.ReactNode>> = useMemo(
+    () => ({
+      'soft-open': () => <SoftOpen name="you" streak={3} />,
+      'carried-verse': () => (
+        <CarriedVerse
+          reference="Psalm 34:18"
+          body="The Lord is close to the broken-hearted and saves those who are crushed in spirit."
+          emotionId="sad"
+          savedAt="2026-04-17T08:00:00Z"
+          hasLetter={false}
+        />
+      ),
+      'door-open': () => <DoorOpen checkedInToday={false} />,
+      'line-that-stayed': () => (
+        <LineThatStayed
+          line="Even on a good day I forget to rest in this. That's what I needed to hear."
+          source="From your letter · Apr 24"
+        />
+      ),
+    }),
+    [],
+  )
+
   const handleSmallTap = (i: number) => {
     const w = SMALL_WIDGETS[i]
     if (w) console.log('[widgets] tapped small:', w.id)
@@ -441,6 +481,7 @@ export default function WidgetGalleryScreen() {
           onActiveChange={setSmallActive}
           infoPanelContent={smallInfo}
           onCardTap={handleSmallTap}
+          itemRenderers={smallRenderers}
         />
 
         <WidgetSection
