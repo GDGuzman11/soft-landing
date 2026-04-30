@@ -111,7 +111,6 @@ export default function HomeScreen() {
           zIndex: 0,
         }, peopleStyle]}
         resizeMode="contain"
-        pointerEvents="none"
       />
       <Animated.Image
         source={require('../../assets/images/girl.png')}
@@ -124,7 +123,6 @@ export default function HomeScreen() {
           zIndex: 0,
         }, peopleStyle]}
         resizeMode="contain"
-        pointerEvents="none"
       />
       <Animated.View
         style={[{ alignItems: 'center', marginBottom: savedCount > 0 ? 16 : 64, zIndex: 1 }, greetingStyle]}
