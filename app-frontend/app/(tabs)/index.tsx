@@ -1,4 +1,4 @@
-import { View, Text, Pressable, Image } from 'react-native'
+import { View, Text, Pressable, Image, Dimensions } from 'react-native'
 import { router, useLocalSearchParams } from 'expo-router'
 import { useEffect, useRef, useState } from 'react'
 import { getSettings, saveSettings, getSavedMessages } from '@/storage/storage'
@@ -95,9 +95,9 @@ export default function HomeScreen() {
         style={{
           position: 'absolute',
           bottom: 0,
-          right: -40,
-          width: 520,
-          height: 520,
+          right: -Dimensions.get('window').width * 0.08,
+          width: Dimensions.get('window').width * 0.82,
+          height: Dimensions.get('window').width * 0.82,
           opacity: 0.35,
         }}
         resizeMode="contain"
