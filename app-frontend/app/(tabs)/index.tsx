@@ -100,8 +100,9 @@ export default function HomeScreen() {
           position: 'absolute',
           top: 0,
           left: -Dimensions.get('window').width * 0.1,
-          width: Dimensions.get('window').width * 1.0,
-          height: Dimensions.get('window').width * 1.0,
+          width: Dimensions.get('window').width * 1.2,
+          height: Dimensions.get('window').width * 1.2,
+          zIndex: 0,
         }, peopleStyle]}
         resizeMode="contain"
         pointerEvents="none"
@@ -112,14 +113,15 @@ export default function HomeScreen() {
           position: 'absolute',
           bottom: 0,
           right: -Dimensions.get('window').width * 0.08,
-          width: Dimensions.get('window').width * 0.82,
-          height: Dimensions.get('window').width * 0.82,
+          width: Dimensions.get('window').width * 1.0,
+          height: Dimensions.get('window').width * 1.0,
+          zIndex: 0,
         }, peopleStyle]}
         resizeMode="contain"
         pointerEvents="none"
       />
-<Animated.View
-        style={[{ alignItems: 'center', marginBottom: savedCount > 0 ? 16 : 64 }, greetingStyle]}
+      <Animated.View
+        style={[{ alignItems: 'center', marginBottom: savedCount > 0 ? 16 : 64, zIndex: 1 }, greetingStyle]}
         accessibilityRole="header"
       >
         <Image
@@ -174,7 +176,7 @@ export default function HomeScreen() {
         </Text>
       )}
 
-      <Animated.View style={buttonStyle}>
+      <Animated.View style={[buttonStyle, { zIndex: 1 }]}>
         <Pressable
           onPress={handleCheckIn}
           className="bg-accent px-10 py-4 rounded-full"
