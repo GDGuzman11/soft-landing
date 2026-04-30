@@ -302,6 +302,26 @@ export default function SettingsScreen() {
         </Pressable>
       </View>
 
+      {/* Widget Gallery */}
+      <View className="mx-6 mt-6 rounded-2xl overflow-hidden border border-border bg-surface">
+        <Pressable
+          className="px-5 py-4"
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+          }}
+          onPress={() => router.push('/widgets')}
+          accessibilityRole="button"
+          accessibilityLabel="Widget Gallery"
+        >
+          <Text style={{ fontFamily: 'DMSans_400Regular', fontSize: 15, color: '#3D2F2A' }}>
+            Widget Gallery
+          </Text>
+          <Text style={{ fontFamily: 'DMSans_400Regular', fontSize: 18, color: '#C4956A' }}>›</Text>
+        </Pressable>
+      </View>
+
       {/* Legal */}
       <View className="mx-6 mt-6 rounded-2xl overflow-hidden border border-border bg-surface">
         <Text
