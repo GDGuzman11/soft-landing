@@ -251,16 +251,18 @@ export default function EmotionsScreen() {
       </View>
 
       {/* Go Home */}
-      <Pressable
-        onPress={() => router.back()}
-        style={({ pressed }) => ({ alignSelf: 'center', marginTop: 24, opacity: pressed ? 0.5 : 1 })}
-        accessibilityRole="button"
-        accessibilityLabel="Go home"
-      >
-        <Text style={{ fontFamily: 'DMSans_400Regular', fontSize: 13, color: '#A09080', letterSpacing: 0.5 }}>
-          Go Home
-        </Text>
-      </Pressable>
+      <View style={{ width: '100%', alignItems: 'center', marginTop: 24 }}>
+        <Pressable
+          onPress={() => router.back()}
+          style={({ pressed }) => ({ opacity: pressed ? 0.5 : 1 })}
+          accessibilityRole="button"
+          accessibilityLabel="Go home"
+        >
+          <Text style={{ fontFamily: 'DMSans_400Regular', fontSize: 13, color: '#A09080', letterSpacing: 0.5 }}>
+            Go Home
+          </Text>
+        </Pressable>
+      </View>
     </View>
   )
 }
