@@ -16,7 +16,8 @@ export interface CheckInResult {
 }
 
 export async function canCheckIn(): Promise<boolean> {
-  return true // TODO: re-enable before launch — was: quota check below
+  // BUG-014: re-enable quota check before App Store submission
+  return true
   try {
     const settings = await getSettings()
     if (settings.subscription.tier === 'premium') return true

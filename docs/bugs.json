@@ -378,6 +378,40 @@
       ],
       "resolution": "Added password.length < 6 check before submission with clear error message",
       "resolvedAt": "2026-04-20"
+    },
+    {
+      "id": "BUG-026",
+      "discovered": "2026-04-30",
+      "discoveredBy": "security",
+      "severity": "high",
+      "status": "open",
+      "area": "security",
+      "description": "Local-only entitlement gate is bypassable on jailbroken/rooted devices. Premium tier is read from AsyncStorage settings.subscription.tier with no server-side or RevenueCat SDK re-verification at the gate. A tampered AsyncStorage value unlocks paid features (AI letters, premium verses, unlimited check-ins) without a real subscription. purchases.ts does not yet subscribe to Purchases.addCustomerInfoUpdateListener, and entitlement state is never reconciled against RevenueCat at app start or before each gated action.",
+      "file": "app-frontend/src/services/purchases.ts",
+      "reproductionSteps": [
+        "On a jailbroken device or via a debug build, edit AsyncStorage to set settings.subscription.tier = 'premium'",
+        "Reopen the app — premium content unlocks despite no purchase",
+        "RevenueCat customerInfo is never re-checked before granting access"
+      ],
+      "resolution": null,
+      "resolvedAt": null
+    },
+    {
+      "id": "BUG-027",
+      "discovered": "2026-04-30",
+      "discoveredBy": "security",
+      "severity": "medium",
+      "status": "open",
+      "area": "security",
+      "description": "Sensitive fields are stored unencrypted in AsyncStorage. AsyncStorage is plaintext on disk (NSUserDefaults / SharedPreferences) and is readable by anyone with device access (jailbroken iOS, rooted Android, or a forensic backup). Fields currently persisted include user display name, email-derived data, saved letter contents (which can contain personal disclosures from journaling), faith background, primary intent, and life stage. These should move to expo-secure-store or be encrypted at rest with a key derived from the user's auth session.",
+      "file": "app-frontend/src/storage/storage.ts",
+      "reproductionSteps": [
+        "Run the app on a simulator or rooted device",
+        "Locate the AsyncStorage backing file (NSUserDefaults plist on iOS, RKStorage on Android)",
+        "Open the file — all profile data and saved letters are readable in plaintext"
+      ],
+      "resolution": null,
+      "resolvedAt": null
     }
   ]
 }

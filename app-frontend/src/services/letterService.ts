@@ -22,6 +22,19 @@ type LetterResult = {
   rateLimited?: boolean
 }
 
+/**
+ * Calls the `generateLetter` Cloud Function and returns a normalized result.
+ *
+ * Contract: ALWAYS resolves with { letter, showCrisisPrompt } shape.
+ * - `letter`: the generated string, or `null` if generation failed/blocked
+ * - `showCrisisPrompt`: boolean — true when crisis keywords were detected
+ *   server-side and the caller must route the user to crisis resources
+ *   instead of rendering the letter
+ * - `blocked` / `rateLimited`: optional flags to distinguish failure modes
+ *
+ * This function never throws. All errors are flattened into a result object
+ * so callers can render UI without try/catch.
+ */
 export async function generateLetter(payload: LetterPayload): Promise<LetterResult> {
   try {
     const functions = getFunctions(app, 'us-central1')
