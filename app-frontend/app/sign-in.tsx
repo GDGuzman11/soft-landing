@@ -86,8 +86,8 @@ export default function SignInScreen() {
         await stampReturningUser()
         router.replace('/(tabs)')
       }
-    } catch (e: any) {
-      const code = e?.code ?? ''
+    } catch (e: unknown) {
+      const code = (e as { code?: string })?.code ?? ''
       setError(mapFirebaseError(code))
       setLoading(false)
     }
@@ -280,8 +280,8 @@ export default function SignInScreen() {
                 await signInWithApple()
                 await stampReturningUser()
                 router.replace('/(tabs)')
-              } catch (e: any) {
-                if (e?.code !== 'ERR_REQUEST_CANCELED') {
+              } catch (e: unknown) {
+                if ((e as { code?: string })?.code !== 'ERR_REQUEST_CANCELED') {
                   setError('Apple sign-in failed. Please try again.')
                 }
                 setLoading(false)

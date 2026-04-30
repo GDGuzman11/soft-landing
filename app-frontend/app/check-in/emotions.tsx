@@ -26,7 +26,7 @@ const ORDERED_EMOTIONS = EMOTION_ORDER
   .map((id) => EMOTIONS.find((e) => e.id === id)!)
   .filter(Boolean)
 
-const EMOTION_IMAGES: Record<string, any> = {
+const EMOTION_IMAGES: Record<string, number> = {
   stressed: require('../../assets/images/stressed1.png'),
   tired:    require('../../assets/images/tired1.png'),
   sad:      require('../../assets/images/sad3.png'),
@@ -158,7 +158,7 @@ export default function EmotionsScreen() {
     <View style={{ flex: 1, backgroundColor: '#FAF8F5' }} accessibilityLabel="Emotion picker">
       {/* Preload all emotion images into the native cache to eliminate swap lag */}
       <View style={{ position: 'absolute', width: 0, height: 0, opacity: 0 }} pointerEvents="none">
-        {(Object.values(EMOTION_IMAGES) as any[]).map((src, i) => (
+        {Object.values(EMOTION_IMAGES).map((src, i) => (
           <Image key={i} source={src} style={{ width: 1, height: 1 }} />
         ))}
       </View>

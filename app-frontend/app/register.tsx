@@ -79,9 +79,8 @@ export default function RegisterScreen() {
       await signUpWithEmail(fullName, email.trim(), password)
       await sendVerificationEmail()
       router.replace('/verify-email')
-    } catch (e: any) {
-      if (__DEV__) console.error('[register] sign-up error:', e?.code, e?.message)
-      const code = e?.code ?? ''
+    } catch (e: unknown) {
+      const code = (e as { code?: string })?.code ?? ''
       setError(mapFirebaseError(code))
       setLoading(false)
     }
@@ -371,8 +370,8 @@ export default function RegisterScreen() {
               try {
                 await signInWithApple()
                 router.replace('/onboarding-disclaimer')
-              } catch (e: any) {
-                if (e?.code !== 'ERR_REQUEST_CANCELED') {
+              } catch (e: unknown) {
+                if ((e as { code?: string })?.code !== 'ERR_REQUEST_CANCELED') {
                   setError('Apple sign-in failed. Please try again.')
                 }
                 setLoading(false)

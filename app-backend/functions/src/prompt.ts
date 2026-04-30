@@ -1,4 +1,4 @@
-// prompt.ts v1.4 — added optional WEB modernText alongside KJV verseBody for contemporary phrasing
+// prompt.ts v1.5 — removed debug log from buildPrompt
 import type { EmotionId } from './types'
 
 const EMOTION_LABELS: Record<EmotionId, string> = {
@@ -171,16 +171,6 @@ export function buildPrompt({
   const inputSection = getInputSection(safeInput, emotionLabel)
   const emotionGoals = getEmotionParagraphGoals(emotionId)
   const openingAngle = getOpeningAngle()
-
-  console.log('[buildPrompt] context blocks', {
-    hasLifeStage: !!lifeStageCtx,
-    hasFaith: !!faithCtx,
-    hasIntent: !!intentCtx,
-    hasTone: !!toneCtx,
-    hasUserInput: !!safeInput,
-    openingAngleIndex: OPENING_ANGLES.indexOf(openingAngle),
-    emotionId,
-  })
 
   // Layer 1: Questionnaire answers — sets tone and voice (permanent, answered once at registration)
   const toneBlock = [faithCtx, lifeStageCtx, intentCtx].filter(Boolean).join('\n')

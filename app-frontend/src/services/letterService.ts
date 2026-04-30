@@ -28,9 +28,8 @@ export async function generateLetter(payload: LetterPayload): Promise<LetterResu
     const fn = httpsCallable<LetterPayload, LetterResult>(functions, 'generateLetter')
     const result = await fn(payload)
     return result.data
-  } catch (err: any) {
-    if (__DEV__) console.error('[letterService] generateLetter failed:', err)
-    if (err?.code === 'functions/resource-exhausted') {
+  } catch (err: unknown) {
+    if ((err as { code?: string })?.code === 'functions/resource-exhausted') {
       return { letter: null, showCrisisPrompt: false, rateLimited: true }
     }
     return { letter: null, showCrisisPrompt: false }
