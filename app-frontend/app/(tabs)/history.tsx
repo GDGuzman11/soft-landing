@@ -4,7 +4,6 @@ import { useFocusEffect, router, useLocalSearchParams } from 'expo-router'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { getSavedMessages, deleteSavedMessage, getSettings } from '@/storage/storage'
 import type { SavedMessage, Message, EmotionId, AppSettings } from '@/types'
-import { EMOTIONS } from '@/constants/emotions'
 import TourTooltip from '@/components/TourTooltip'
 
 const EMOTION_COLORS: Record<EmotionId, string> = {

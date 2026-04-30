@@ -69,14 +69,14 @@ export default function RootLayout() {
       <Stack.Screen name="register" options={{ animation: 'fade' }} />
       <Stack.Screen name="verify-email" options={{ animation: 'fade' }} />
       <Stack.Screen name="faith-intro" options={{ animation: 'fade' }} />
-      <Stack.Screen name="onboarding-profile" options={{ headerShown: false, animation: 'fade' }} />
-      <Stack.Screen name="onboarding-disclaimer" options={{ headerShown: false, animation: 'fade' }} />
-      <Stack.Screen name="tour" options={{ headerShown: false, animation: 'fade' }} />
-      <Stack.Screen name="check-in/session-summary" options={{ headerShown: false, animation: 'fade' }} />
-      <Stack.Screen name="check-in/letter-compose" options={{ headerShown: false, animation: 'fade' }} />
-      <Stack.Screen name="dashboard/index" options={{ headerShown: false }} />
-      <Stack.Screen name="settings" options={{ headerShown: false }} />
-      <Stack.Screen name="widgets" options={{ headerShown: false }} />
+      <Stack.Screen name="onboarding-profile" options={{ animation: 'fade' }} />
+      <Stack.Screen name="onboarding-disclaimer" options={{ animation: 'fade' }} />
+      <Stack.Screen name="tour" options={{ animation: 'fade' }} />
+      <Stack.Screen name="check-in/session-summary" options={{ animation: 'fade' }} />
+      <Stack.Screen name="check-in/letter-compose" options={{ animation: 'fade' }} />
+      <Stack.Screen name="dashboard/index" />
+      <Stack.Screen name="settings" />
+      <Stack.Screen name="widgets" />
     </Stack>
     </GestureHandlerRootView>
   )
