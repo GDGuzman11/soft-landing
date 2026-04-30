@@ -96,8 +96,8 @@ export default function HomeScreen() {
           position: 'absolute',
           top: 0,
           left: -Dimensions.get('window').width * 0.08,
-          width: Dimensions.get('window').width * 0.55,
-          height: Dimensions.get('window').width * 0.55,
+          width: Dimensions.get('window').width * 0.82,
+          height: Dimensions.get('window').width * 0.82,
           opacity: 0.35,
         }}
         resizeMode="contain"
@@ -109,8 +109,8 @@ export default function HomeScreen() {
           position: 'absolute',
           top: 0,
           right: -Dimensions.get('window').width * 0.08,
-          width: Dimensions.get('window').width * 0.55,
-          height: Dimensions.get('window').width * 0.55,
+          width: Dimensions.get('window').width * 0.82,
+          height: Dimensions.get('window').width * 0.82,
           opacity: 0.35,
         }}
         resizeMode="contain"
