@@ -31,7 +31,6 @@ export default function HomeScreen() {
   const greetingY = useSharedValue(12)
   const buttonOpacity = useSharedValue(0)
   const buttonY = useSharedValue(16)
-  const jesusOpacity = useSharedValue(0)
   const peopleOpacity = useSharedValue(0)
 
   useEffect(() => {
@@ -64,8 +63,7 @@ export default function HomeScreen() {
         .catch(() => {})
     }
 
-    jesusOpacity.value = withDelay(300, withTiming(0.35, { duration: 2000 }))
-    peopleOpacity.value = withDelay(2800, withTiming(0.35, { duration: 2000 }))
+    peopleOpacity.value = withDelay(300, withTiming(0.35, { duration: 2000 }))
     greetingOpacity.value = withTiming(1, { duration: 600 })
     greetingY.value = withTiming(0, { duration: 600 })
     buttonOpacity.value = withDelay(300, withTiming(1, { duration: 500 }))
@@ -84,7 +82,6 @@ export default function HomeScreen() {
     transform: [{ translateY: buttonY.value }],
   }))
 
-  const jesusStyle = useAnimatedStyle(() => ({ opacity: jesusOpacity.value }))
   const peopleStyle = useAnimatedStyle(() => ({ opacity: peopleOpacity.value }))
 
   function handleCheckIn() {
@@ -113,25 +110,11 @@ export default function HomeScreen() {
         source={require('../../assets/images/girl.png')}
         style={[{
           position: 'absolute',
-          top: 0,
+          bottom: 0,
           right: -Dimensions.get('window').width * 0.08,
           width: Dimensions.get('window').width * 0.82,
           height: Dimensions.get('window').width * 0.82,
         }, peopleStyle]}
-        resizeMode="contain"
-        pointerEvents="none"
-      />
-      <Animated.Image
-        source={require('../../assets/images/jesus.png')}
-        style={[{
-          position: 'absolute',
-          bottom: 0,
-          left: 0,
-          right: 0,
-          width: Dimensions.get('window').width * 0.82,
-          height: Dimensions.get('window').width * 0.82,
-          alignSelf: 'center',
-        }, jesusStyle]}
         resizeMode="contain"
         pointerEvents="none"
       />
