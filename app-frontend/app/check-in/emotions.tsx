@@ -333,7 +333,7 @@ export default function EmotionsScreen() {
             return (
               <GestureDetector
                 key={`front-${activeIndex}`}
-                gesture={Gesture.Simultaneous(panGesture, tapGesture)}
+                gesture={Gesture.Exclusive(panGesture, tapGesture)}
               >
                 <Animated.View
                   style={[
