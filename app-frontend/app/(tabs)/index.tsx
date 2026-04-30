@@ -64,8 +64,8 @@ export default function HomeScreen() {
         .catch(() => {})
     }
 
-    jesusOpacity.value = withTiming(0.35, { duration: 2500 })
-    peopleOpacity.value = withDelay(2000, withTiming(0.35, { duration: 2000 }))
+    jesusOpacity.value = withDelay(300, withTiming(0.35, { duration: 2000 }))
+    peopleOpacity.value = withDelay(2800, withTiming(0.35, { duration: 2000 }))
     greetingOpacity.value = withTiming(1, { duration: 600 })
     greetingY.value = withTiming(0, { duration: 600 })
     buttonOpacity.value = withDelay(300, withTiming(1, { duration: 500 }))
