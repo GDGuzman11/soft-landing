@@ -95,9 +95,9 @@ export default function HomeScreen() {
         style={{
           position: 'absolute',
           bottom: 0,
-          right: -20,
-          width: 360,
-          height: 360,
+          right: -40,
+          width: 520,
+          height: 520,
           opacity: 0.35,
         }}
         resizeMode="contain"
