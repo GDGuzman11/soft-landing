@@ -90,29 +90,7 @@ export default function HomeScreen() {
       className="flex-1 bg-background items-center justify-center px-8"
       accessibilityLabel="Home screen"
     >
-      {/* Corner frame decorations */}
-      {(['tl', 'tr', 'bl', 'br'] as const).map((corner) => (
-        <View
-          key={corner}
-          pointerEvents="none"
-          style={{
-            position: 'absolute',
-            width: 28,
-            height: 28,
-            top: corner.startsWith('t') ? 52 : undefined,
-            bottom: corner.startsWith('b') ? 36 : undefined,
-            left: corner.endsWith('l') ? 24 : undefined,
-            right: corner.endsWith('r') ? 24 : undefined,
-            borderColor: 'rgba(196, 149, 106, 0.35)',
-            borderTopWidth: corner.startsWith('t') ? 1 : 0,
-            borderBottomWidth: corner.startsWith('b') ? 1 : 0,
-            borderLeftWidth: corner.endsWith('l') ? 1 : 0,
-            borderRightWidth: corner.endsWith('r') ? 1 : 0,
-          }}
-        />
-      ))}
-
-      <Animated.View
+<Animated.View
         style={[{ alignItems: 'center', marginBottom: savedCount > 0 ? 16 : 64 }, greetingStyle]}
         accessibilityRole="header"
       >
