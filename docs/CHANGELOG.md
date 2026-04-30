@@ -5,6 +5,17 @@ All notable changes to Soft Landing will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.7.0] — 2026-04-30
+
+### Changed
+- **Emotion picker — new illustration set**: Replaced 5 original emotion photos with new `nano*.jpg` illustrations (`nanohappy`, `nanoneutral`, `nanotired`, `nanosad`, `nanostressed`).
+- **Emotion picker — image loading placeholder**: Swipe now shows a warm parchment placeholder (`#EDE6D9`) with a gently breathing ✦ glyph (in the emotion's brand color) while the next image decodes. The emotion label, shimmer ✦, and tagline are hidden during loading and fade in together with the image via `onLoad` callback. `key={emotion?.id}` on `ImageBackground` forces a clean remount on every swipe so `onLoad` always fires for the correct image.
+- **Emotion picker — off-screen preloader**: Hidden preloader now renders all 5 images at full card dimensions (`CARD_W × CARD_H`) at `left: -9999` instead of the previous 1×1 pixel / 0×0 container approach. This forces the GPU to decode textures at display resolution before the user's first swipe.
+- **Pre-launch to-do list** (`docs/TODO.md`): Full master checklist added covering App Store and Google Play submission requirements, security posture, Firebase tasks, legal screens, and a 29-step ordered dependency chain.
+
+### Fixed
+- Off-screen image preloader was rendering inside a `0×0` clipped container — children were being clipped entirely on Android (default `overflow: hidden`). Fixed by positioning at `left: -9999` with no size constraint on the container.
+
 ## [1.6.0] — 2026-04-30
 
 ### Changed
