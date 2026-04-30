@@ -195,7 +195,6 @@ export default function EnvelopeScreen() {
       )
     )
 
-    hintOpacity.value = withDelay(1000, withTiming(1, { duration: 600 }))
   }, [])
 
   useFocusEffect(
@@ -205,6 +204,7 @@ export default function EnvelopeScreen() {
       sealScale.value = 1
       hintOpacity.value = 0
       setOpening(false)
+      hintOpacity.value = withDelay(1000, withTiming(1, { duration: 600 }))
     }, [])
   )
 
