@@ -1,4 +1,4 @@
-import { View, Text, Dimensions, ImageBackground, Image, Pressable } from 'react-native'
+import { View, Text, Dimensions, ImageBackground, Image, Pressable, StyleSheet } from 'react-native'
 import { router } from 'expo-router'
 import * as Haptics from 'expo-haptics'
 import { EMOTIONS } from '@/constants/emotions'
@@ -14,7 +14,8 @@ import Animated, {
   cancelAnimation,
 } from 'react-native-reanimated'
 import { Gesture, GestureDetector } from 'react-native-gesture-handler'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
+import { useState } from 'react'
 
 const { width: screenWidth, height: screenHeight } = Dimensions.get('window')
 const CARD_W          = screenWidth * 0.82
@@ -62,9 +63,14 @@ export default function EmotionsScreen() {
   const [activeIndex, setActiveIndex] = useState(0)
   const total = ORDERED_EMOTIONS.length
 
-  // Card pan + image fade
-  const panX         = useSharedValue(0)
-  const imageOpacity = useSharedValue(1)
+  // Card pan
+  const panX = useSharedValue(0)
+
+  // Image reveal — starts at 1 so first card shows immediately
+  const imageRevealOpacity = useSharedValue(1)
+
+  // Placeholder pulse — breathes while image is decoding
+  const placeholderPulse = useSharedValue(1)
 
   // Pulsing glow (shadow)
   const pulseGlow = useSharedValue(0)
@@ -98,13 +104,30 @@ export default function EmotionsScreen() {
     )
   }, [activeIndex, pulseGlow, shimmer])
 
+  function handleImageLoad() {
+    cancelAnimation(placeholderPulse)
+    placeholderPulse.value = 1
+    imageRevealOpacity.value = withTiming(1, { duration: 350 })
+  }
+
   function advance(dir: 'left' | 'right') {
     setActiveIndex((i) =>
       dir === 'left' ? (i + 1) % total : (i - 1 + total) % total,
     )
-    panX.value         = 0
-    imageOpacity.value = 0
-    imageOpacity.value = withTiming(1, { duration: 300 })
+    panX.value = 0
+
+    // Hide image and label immediately, start placeholder pulse
+    imageRevealOpacity.value = 0
+    cancelAnimation(placeholderPulse)
+    placeholderPulse.value = 0.5
+    placeholderPulse.value = withRepeat(
+      withSequence(
+        withTiming(1,   { duration: 700 }),
+        withTiming(0.4, { duration: 700 }),
+      ),
+      -1,
+      false,
+    )
   }
 
   async function handleSelect() {
@@ -145,7 +168,11 @@ export default function EmotionsScreen() {
     shadowOpacity: pulseGlow.value,
   }))
 
-  const imageStyle = useAnimatedStyle(() => ({ opacity: imageOpacity.value }))
+  const imageRevealStyle = useAnimatedStyle(() => ({ opacity: imageRevealOpacity.value }))
+
+  const labelStyle = useAnimatedStyle(() => ({ opacity: imageRevealOpacity.value }))
+
+  const placeholderStyle = useAnimatedStyle(() => ({ opacity: placeholderPulse.value }))
 
   const shimmerStyle = useAnimatedStyle(() => ({
     opacity:   shimmer.value,
@@ -177,8 +204,8 @@ export default function EmotionsScreen() {
         </Text>
       </View>
 
-      {/* Emotion label + shimmer jewel */}
-      <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginBottom: 16, minHeight: 36 }}>
+      {/* Emotion label + shimmer jewel — hidden until image loads */}
+      <Animated.View style={[{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginBottom: 16, minHeight: 36 }, labelStyle]}>
         <Animated.Text
           style={[
             {
@@ -198,7 +225,7 @@ export default function EmotionsScreen() {
         <Text style={{ fontFamily: 'Lora_400Regular_Italic', fontSize: 26, color: '#3D2F2A' }}>
           {emotion?.label ?? ''}
         </Text>
-      </View>
+      </Animated.View>
 
       {/* Single card */}
       <View style={{ alignItems: 'center' }}>
@@ -218,31 +245,45 @@ export default function EmotionsScreen() {
             ]}
           >
             <View style={{ flex: 1, borderRadius: 26, borderWidth: 3, borderColor: '#7A5030', overflow: 'hidden' }}>
-              <Animated.View style={[{ flex: 1 }, imageStyle]}>
+
+              {/* Placeholder — warm parchment base with pulsing ✦, visible while image decodes */}
+              <View style={[StyleSheet.absoluteFillObject, { backgroundColor: '#EDE6D9' }]}>
+                <Animated.View style={[StyleSheet.absoluteFillObject, { alignItems: 'center', justifyContent: 'center' }, placeholderStyle]}>
+                  <Text style={{ fontFamily: 'DMSans_500Medium', fontSize: 32, color: emotion?.color ?? '#C4956A' }}>
+                    {'✦'}
+                  </Text>
+                </Animated.View>
+              </View>
+
+              {/* Image — fades in once onLoad fires */}
+              <Animated.View style={[{ flex: 1 }, imageRevealStyle]}>
                 <ImageBackground
+                  key={emotion?.id}
                   source={EMOTION_IMAGES[emotion?.id ?? 'good']}
                   style={{ flex: 1 }}
                   resizeMode="cover"
+                  onLoad={handleImageLoad}
                 />
               </Animated.View>
+
             </View>
           </Animated.View>
         </GestureDetector>
       </View>
 
-      {/* Tagline */}
-      <Text
-        style={{
-          fontFamily: 'Lora_400Regular_Italic',
-          fontSize: 14,
-          color: '#9A8F82',
-          textAlign: 'center',
-          marginTop: 18,
-          paddingHorizontal: 32,
-        }}
-      >
-        {TAGLINES[emotion?.id ?? ''] ?? ''}
-      </Text>
+      {/* Tagline — hidden until image loads */}
+      <Animated.View style={[{ marginTop: 18, paddingHorizontal: 32 }, labelStyle]}>
+        <Text
+          style={{
+            fontFamily: 'Lora_400Regular_Italic',
+            fontSize: 14,
+            color: '#9A8F82',
+            textAlign: 'center',
+          }}
+        >
+          {TAGLINES[emotion?.id ?? ''] ?? ''}
+        </Text>
+      </Animated.View>
 
       {/* Pagination dots */}
       <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginTop: 20 }}>
