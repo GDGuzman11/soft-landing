@@ -88,7 +88,7 @@ export default function HistoryScreen() {
   if (resolved.length === 0) {
     return (
       <View className="flex-1 bg-background items-center justify-center px-8">
-        <Text style={{ fontSize: 32, marginBottom: 16 }}>✉</Text>
+        <Text style={{ fontFamily: 'DMSans_400Regular', fontSize: 36, color: '#C4956A', marginBottom: 16, opacity: 0.6 }}>✦</Text>
         <Text
           className="text-text-secondary text-base text-center"
           style={{ fontFamily: 'DMSans_400Regular' }}
