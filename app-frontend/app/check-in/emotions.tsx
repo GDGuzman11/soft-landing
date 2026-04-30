@@ -3,6 +3,14 @@ import { router } from 'expo-router'
 import * as Haptics from 'expo-haptics'
 import { EMOTIONS } from '@/constants/emotions'
 import { canCheckIn } from '@/services/checkIn'
+import Animated, {
+  useSharedValue,
+  useAnimatedStyle,
+  withRepeat,
+  withSequence,
+  withTiming,
+} from 'react-native-reanimated'
+import { useEffect } from 'react'
 
 const TAGLINES: Record<string, string> = {
   stressed: 'Carrying too much right now',
@@ -10,6 +18,42 @@ const TAGLINES: Record<string, string> = {
   sad: 'Heart feeling heavy',
   neutral: 'Just getting through it',
   good: 'Feeling grateful today',
+}
+
+function ShimmeringGlyph({ color }: { color: string }) {
+  const glow = useSharedValue(0.5)
+
+  useEffect(() => {
+    glow.value = withRepeat(
+      withSequence(
+        withTiming(1, { duration: 900 }),
+        withTiming(0.35, { duration: 900 }),
+      ),
+      -1,
+      false,
+    )
+  }, [glow])
+
+  const animatedStyle = useAnimatedStyle(() => ({
+    opacity: glow.value,
+    transform: [{ scale: 0.85 + glow.value * 0.2 }],
+    textShadowColor: color,
+    textShadowRadius: glow.value * 8,
+    textShadowOffset: { width: 0, height: 0 },
+  }))
+
+  return (
+    <Animated.Text
+      style={[{
+        fontFamily: 'DMSans_500Medium',
+        fontSize: 16,
+        color,
+        marginRight: 8,
+      }, animatedStyle]}
+    >
+      {'✦'}
+    </Animated.Text>
+  )
 }
 
 function darken(hex: string, amount = 40): string {
@@ -89,43 +133,22 @@ export default function EmotionsScreen() {
                 justifyContent: 'center' as const,
               })}
             >
-              {({ pressed }) => (
+              {() => (
                 <>
-                  {/* Decorative glyph with glow on press */}
-                  <View
-                    style={{
-                      marginBottom: 6,
-                      shadowColor: '#FFFFFF',
-                      shadowOffset: { width: 0, height: 0 },
-                      shadowOpacity: pressed ? 0.95 : 0,
-                      shadowRadius: pressed ? 14 : 0,
-                      elevation: pressed ? 10 : 0,
-                    }}
-                  >
+                  {/* Label row with shimmering glyph beside it */}
+                  <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginBottom: 5 }}>
+                    <ShimmeringGlyph color={glyphColor} />
                     <Text
                       style={{
                         fontFamily: 'DMSans_500Medium',
-                        fontSize: 22,
-                        color: glyphColor,
-                        letterSpacing: 4,
+                        fontSize: 18,
+                        color: '#1A1A1A',
+                        textAlign: 'center',
                       }}
                     >
-                      ✦
+                      {emotion.label}
                     </Text>
                   </View>
-
-                  {/* Emotion label */}
-                  <Text
-                    style={{
-                      fontFamily: 'DMSans_500Medium',
-                      fontSize: 18,
-                      color: '#1A1A1A',
-                      textAlign: 'center',
-                      marginBottom: 5,
-                    }}
-                  >
-                    {emotion.label}
-                  </Text>
 
                   {/* Tagline */}
                   <Text
