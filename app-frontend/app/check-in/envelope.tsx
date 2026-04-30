@@ -10,6 +10,7 @@ import Animated, {
   withTiming,
   withDelay,
   runOnJS,
+  cancelAnimation,
 } from 'react-native-reanimated'
 import * as Haptics from 'expo-haptics'
 import { performCheckIn } from '@/services/checkIn'
@@ -171,6 +172,7 @@ export default function EnvelopeScreen() {
   const bobY = useSharedValue(0)
   const hintOpacity = useSharedValue(0)
   const sealScale = useSharedValue(1)
+  const sealHeartbeat = useSharedValue(1)
   const screenOpacity = useSharedValue(1)
 
   useEffect(() => {
@@ -205,6 +207,24 @@ export default function EnvelopeScreen() {
       hintOpacity.value = 0
       setOpening(false)
       hintOpacity.value = withDelay(1000, withTiming(1, { duration: 600 }))
+
+      // Heartbeat: lub-dub × 1, then rest ~1.8s, repeat
+      cancelAnimation(sealHeartbeat)
+      sealHeartbeat.value = 1
+      sealHeartbeat.value = withDelay(
+        800,
+        withRepeat(
+          withSequence(
+            withTiming(1.09, { duration: 130 }),  // lub up
+            withTiming(1.0,  { duration: 110 }),  // lub down
+            withTiming(1.06, { duration: 110 }),  // dub up
+            withTiming(1.0,  { duration: 100 }),  // dub down
+            withTiming(1.0,  { duration: 1800 }), // rest
+          ),
+          -1,
+          false,
+        )
+      )
     }, [])
   )
 
@@ -216,7 +236,7 @@ export default function EnvelopeScreen() {
   }))
 
   const sealStyle = useAnimatedStyle(() => ({
-    transform: [{ scale: sealScale.value }],
+    transform: [{ scale: sealScale.value * sealHeartbeat.value }],
   }))
 
   const hintStyle = useAnimatedStyle(() => ({
@@ -249,6 +269,7 @@ export default function EnvelopeScreen() {
 
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium)
 
+    cancelAnimation(sealHeartbeat)
     hintOpacity.value = withTiming(0, { duration: 150 })
     bobY.value = withTiming(0, { duration: 150 })
 
