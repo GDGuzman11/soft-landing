@@ -281,6 +281,14 @@ export default function EnvelopeScreen() {
 
   return (
     <View className="flex-1 bg-background items-center justify-center">
+      <View style={{ alignItems: 'center' }}>
+        {/* Hint — above the envelope */}
+        <Animated.View style={[{ marginBottom: 20 }, hintStyle]}>
+          <Text style={{ fontFamily: 'DMSans_400Regular', fontSize: 14, color: '#5A4A3F', letterSpacing: 0.3 }}>
+            {loading ? 'Preparing your verse…' : "no rush. it's yours."}
+          </Text>
+        </Animated.View>
+
       <Pressable onPress={handleOpen} disabled={loading || opening}>
         <Animated.View style={cardStyle}>
           <View style={{
@@ -355,28 +363,10 @@ export default function EnvelopeScreen() {
               <WaxSeal loading={loading} />
             </Animated.View>
 
-            {/* ── Hint text ── */}
-            <Animated.View style={[{
-              position: 'absolute',
-              top: 72,
-              left: 0,
-              right: 0,
-              alignItems: 'center',
-            }, hintStyle]}>
-              <Text
-                style={{
-                  fontFamily: 'DMSans_400Regular',
-                  fontSize: 13,
-                  color: '#A09080',
-                  letterSpacing: 0.3,
-                }}
-              >
-                {loading ? 'Preparing your verse…' : "no rush. it's yours."}
-              </Text>
-            </Animated.View>
           </View>
         </Animated.View>
       </Pressable>
+      </View>
 
       {/* Screen fade overlay */}
       <Animated.View
