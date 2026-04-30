@@ -1,4 +1,4 @@
-import { View, Text, Dimensions, ImageBackground, Image } from 'react-native'
+import { View, Text, Dimensions, ImageBackground, Image, Pressable } from 'react-native'
 import { router } from 'expo-router'
 import * as Haptics from 'expo-haptics'
 import { EMOTIONS } from '@/constants/emotions'
@@ -162,6 +162,23 @@ export default function EmotionsScreen() {
           <Image key={i} source={src} style={{ width: 1, height: 1 }} />
         ))}
       </View>
+
+      {/* Back button */}
+      <Pressable
+        onPress={() => router.back()}
+        hitSlop={{ top: 12, bottom: 12, left: 12, right: 12 }}
+        style={({ pressed }) => ({
+          position: 'absolute',
+          top: 56,
+          left: 24,
+          zIndex: 10,
+          opacity: pressed ? 0.5 : 1,
+        })}
+        accessibilityRole="button"
+        accessibilityLabel="Go back"
+      >
+        <Text style={{ fontFamily: 'DMSans_400Regular', fontSize: 22, color: '#C4956A' }}>←</Text>
+      </Pressable>
 
       {/* Header */}
       <View style={{ paddingHorizontal: 24, paddingTop: 64, paddingBottom: 16, alignItems: 'center' }}>
