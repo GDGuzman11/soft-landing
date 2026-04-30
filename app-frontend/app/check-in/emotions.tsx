@@ -1,4 +1,4 @@
-import { View, Text, Dimensions, ImageBackground } from 'react-native'
+import { View, Text, Dimensions, ImageBackground, Image } from 'react-native'
 import { router } from 'expo-router'
 import * as Haptics from 'expo-haptics'
 import { EMOTIONS } from '@/constants/emotions'
@@ -62,9 +62,9 @@ export default function EmotionsScreen() {
   const [activeIndex, setActiveIndex] = useState(0)
   const total = ORDERED_EMOTIONS.length
 
-  // Card pan + entrance
-  const panX        = useSharedValue(0)
-  const cardOpacity = useSharedValue(1)
+  // Card pan + image fade
+  const panX         = useSharedValue(0)
+  const imageOpacity = useSharedValue(1)
 
   // Pulsing glow (shadow)
   const pulseGlow = useSharedValue(0)
@@ -102,9 +102,9 @@ export default function EmotionsScreen() {
     setActiveIndex((i) =>
       dir === 'left' ? (i + 1) % total : (i - 1 + total) % total,
     )
-    panX.value        = 0
-    cardOpacity.value = 0
-    cardOpacity.value = withTiming(1, { duration: 220 })
+    panX.value         = 0
+    imageOpacity.value = 0
+    imageOpacity.value = withTiming(1, { duration: 300 })
   }
 
   async function handleSelect() {
@@ -141,10 +141,11 @@ export default function EmotionsScreen() {
   const tapGesture = Gesture.Tap().onEnd(() => { runOnJS(handleSelect)() })
 
   const cardStyle = useAnimatedStyle(() => ({
-    transform:    [{ translateX: panX.value }],
-    opacity:      cardOpacity.value,
+    transform:     [{ translateX: panX.value }],
     shadowOpacity: pulseGlow.value,
   }))
+
+  const imageStyle = useAnimatedStyle(() => ({ opacity: imageOpacity.value }))
 
   const shimmerStyle = useAnimatedStyle(() => ({
     opacity:   shimmer.value,
@@ -155,6 +156,13 @@ export default function EmotionsScreen() {
 
   return (
     <View style={{ flex: 1, backgroundColor: '#FAF8F5' }} accessibilityLabel="Emotion picker">
+      {/* Preload all emotion images into the native cache to eliminate swap lag */}
+      <View style={{ position: 'absolute', width: 0, height: 0, opacity: 0 }} pointerEvents="none">
+        {(Object.values(EMOTION_IMAGES) as any[]).map((src, i) => (
+          <Image key={i} source={src} style={{ width: 1, height: 1 }} />
+        ))}
+      </View>
+
       {/* Header */}
       <View style={{ paddingHorizontal: 24, paddingTop: 64, paddingBottom: 16, alignItems: 'center' }}>
         <Text
@@ -209,11 +217,13 @@ export default function EmotionsScreen() {
             ]}
           >
             <View style={{ flex: 1, borderRadius: 26, borderWidth: 3, borderColor: '#7A5030', overflow: 'hidden' }}>
-              <ImageBackground
-                source={EMOTION_IMAGES[emotion?.id ?? 'good']}
-                style={{ flex: 1 }}
-                resizeMode="cover"
-              />
+              <Animated.View style={[{ flex: 1 }, imageStyle]}>
+                <ImageBackground
+                  source={EMOTION_IMAGES[emotion?.id ?? 'good']}
+                  style={{ flex: 1 }}
+                  resizeMode="cover"
+                />
+              </Animated.View>
             </View>
           </Animated.View>
         </GestureDetector>
