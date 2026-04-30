@@ -91,6 +91,32 @@ export default function HomeScreen() {
       accessibilityLabel="Home screen"
     >
       <Image
+        source={require('../../assets/images/boy.png')}
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: -Dimensions.get('window').width * 0.08,
+          width: Dimensions.get('window').width * 0.55,
+          height: Dimensions.get('window').width * 0.55,
+          opacity: 0.35,
+        }}
+        resizeMode="contain"
+        pointerEvents="none"
+      />
+      <Image
+        source={require('../../assets/images/girl.png')}
+        style={{
+          position: 'absolute',
+          top: 0,
+          right: -Dimensions.get('window').width * 0.08,
+          width: Dimensions.get('window').width * 0.55,
+          height: Dimensions.get('window').width * 0.55,
+          opacity: 0.35,
+        }}
+        resizeMode="contain"
+        pointerEvents="none"
+      />
+      <Image
         source={require('../../assets/images/jesus.png')}
         style={{
           position: 'absolute',
