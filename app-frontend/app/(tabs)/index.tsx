@@ -31,6 +31,8 @@ export default function HomeScreen() {
   const greetingY = useSharedValue(12)
   const buttonOpacity = useSharedValue(0)
   const buttonY = useSharedValue(16)
+  const jesusOpacity = useSharedValue(0)
+  const peopleOpacity = useSharedValue(0)
 
   useEffect(() => {
     if (!navigationChecked.current) {
@@ -62,6 +64,8 @@ export default function HomeScreen() {
         .catch(() => {})
     }
 
+    jesusOpacity.value = withTiming(0.35, { duration: 1200 })
+    peopleOpacity.value = withDelay(800, withTiming(0.35, { duration: 1000 }))
     greetingOpacity.value = withTiming(1, { duration: 600 })
     greetingY.value = withTiming(0, { duration: 600 })
     buttonOpacity.value = withDelay(300, withTiming(1, { duration: 500 }))
@@ -80,6 +84,9 @@ export default function HomeScreen() {
     transform: [{ translateY: buttonY.value }],
   }))
 
+  const jesusStyle = useAnimatedStyle(() => ({ opacity: jesusOpacity.value }))
+  const peopleStyle = useAnimatedStyle(() => ({ opacity: peopleOpacity.value }))
+
   function handleCheckIn() {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)
     router.push('/check-in/emotions')
@@ -90,42 +97,39 @@ export default function HomeScreen() {
       className="flex-1 bg-background items-center justify-center px-8"
       accessibilityLabel="Home screen"
     >
-      <Image
+      <Animated.Image
         source={require('../../assets/images/boy.png')}
-        style={{
+        style={[{
           position: 'absolute',
           top: 0,
           left: -Dimensions.get('window').width * 0.1,
           width: Dimensions.get('window').width * 1.0,
           height: Dimensions.get('window').width * 1.0,
-          opacity: 0.35,
-        }}
+        }, peopleStyle]}
         resizeMode="contain"
         pointerEvents="none"
       />
-      <Image
+      <Animated.Image
         source={require('../../assets/images/girl.png')}
-        style={{
+        style={[{
           position: 'absolute',
           top: 0,
           right: -Dimensions.get('window').width * 0.08,
           width: Dimensions.get('window').width * 0.82,
           height: Dimensions.get('window').width * 0.82,
-          opacity: 0.35,
-        }}
+        }, peopleStyle]}
         resizeMode="contain"
         pointerEvents="none"
       />
-      <Image
+      <Animated.Image
         source={require('../../assets/images/jesus.png')}
-        style={{
+        style={[{
           position: 'absolute',
           bottom: 0,
           right: -Dimensions.get('window').width * 0.08,
           width: Dimensions.get('window').width * 0.82,
           height: Dimensions.get('window').width * 0.82,
-          opacity: 0.35,
-        }}
+        }, jesusStyle]}
         resizeMode="contain"
         pointerEvents="none"
       />
