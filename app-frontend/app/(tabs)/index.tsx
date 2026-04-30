@@ -1,6 +1,6 @@
 import { View, Text, Pressable, Image, Dimensions } from 'react-native'
-import { router, useLocalSearchParams } from 'expo-router'
-import { useEffect, useRef, useState } from 'react'
+import { router, useLocalSearchParams, useFocusEffect } from 'expo-router'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { getSettings, saveSettings, getSavedMessages } from '@/storage/storage'
 import type { AppSettings } from '@/types'
 import { getCurrentUser } from '@/services/auth'
@@ -63,7 +63,6 @@ export default function HomeScreen() {
         .catch(() => {})
     }
 
-    peopleOpacity.value = withDelay(300, withTiming(0.35, { duration: 2000 }))
     greetingOpacity.value = withTiming(1, { duration: 600 })
     greetingY.value = withTiming(0, { duration: 600 })
     buttonOpacity.value = withDelay(300, withTiming(1, { duration: 500 }))
@@ -83,6 +82,13 @@ export default function HomeScreen() {
   }))
 
   const peopleStyle = useAnimatedStyle(() => ({ opacity: peopleOpacity.value }))
+
+  useFocusEffect(
+    useCallback(() => {
+      peopleOpacity.value = 0
+      peopleOpacity.value = withDelay(300, withTiming(0.35, { duration: 2000 }))
+    }, [peopleOpacity])
+  )
 
   function handleCheckIn() {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)
