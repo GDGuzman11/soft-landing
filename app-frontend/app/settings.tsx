@@ -10,9 +10,20 @@ const DEFAULT_REMINDER_TIME = '08:00'
 
 export default function SettingsScreen() {
   const [settings, setSettings] = useState<AppSettings | null>(null)
+  const [loadError, setLoadError] = useState<boolean>(false)
 
   useEffect(() => {
-    getSettings().then(setSettings)
+    let cancelled = false
+    getSettings()
+      .then((s) => {
+        if (!cancelled) setSettings(s)
+      })
+      .catch(() => {
+        if (!cancelled) setLoadError(true)
+      })
+    return () => {
+      cancelled = true
+    }
   }, [])
 
   async function toggle(key: 'haptics') {
@@ -66,76 +77,87 @@ export default function SettingsScreen() {
     }
   }
 
-  const isPremium = settings?.subscription.tier === 'premium'
-  const reminderTime = settings?.notifications.times[0] ?? DEFAULT_REMINDER_TIME
-  const notificationsEnabled = settings?.notifications.enabled ?? false
-
   function formatTime(time: string) {
     const [hourStr, minuteStr] = time.split(':')
     const hour = parseInt(hourStr, 10)
-    const minute = parseInt(minuteStr, 10)
     const ampm = hour >= 12 ? 'PM' : 'AM'
     const h = hour % 12 || 12
     return `${h}:${minuteStr.padStart(2, '0')} ${ampm}`
   }
 
-  return (
-    <ScrollView className="flex-1 bg-background" contentContainerStyle={{ paddingBottom: 48 }}>
-      <View className="px-6 pt-14 pb-4">
-        <Text
-          className="text-text-primary text-2xl"
-          style={{ fontFamily: 'DMSans_500Medium' }}
-        >
-          Settings
+  // Loading state
+  if (!settings && !loadError) {
+    return (
+      <View
+        className="flex-1 items-center justify-center"
+        style={{ backgroundColor: '#FAF8F5' }}
+      >
+        <Text style={{ fontFamily: 'DMSans_400Regular', color: '#9A8F82' }}>
+          Loading…
         </Text>
       </View>
+    )
+  }
 
-      {/* Subscription */}
-      <View className="mx-6 mb-6 rounded-2xl overflow-hidden border border-border">
-        <View className="px-5 py-4 bg-surface">
-          {settings?.name?.trim() ? (
-            <Text
-              style={{ fontFamily: 'DMSans_500Medium', fontSize: 16, color: '#3D2F2A', marginBottom: 12 }}
-            >
-              {settings.name.trim()}
-            </Text>
-          ) : null}
-          <Text
-            className="text-text-secondary text-xs uppercase mb-3"
-            style={{ fontFamily: 'DMSans_500Medium', letterSpacing: 1 }}
-          >
-            Subscription
-          </Text>
-          <View className="flex-row items-center justify-between">
-            <View>
-              <Text
-                className="text-text-primary text-base"
-                style={{ fontFamily: 'DMSans_500Medium' }}
-              >
-                {isPremium ? 'Premium' : 'Free'}
-              </Text>
-              <Text
-                className="text-text-secondary text-sm mt-0.5"
-                style={{ fontFamily: 'DMSans_400Regular' }}
-              >
-                {isPremium ? 'Unlimited check-ins' : '10 check-ins per day'}
-              </Text>
-            </View>
-            {!isPremium && (
-              <Pressable
-                onPress={() => router.push('/paywall')}
-                className="bg-accent px-4 py-2 rounded-full active:opacity-80"
-              >
-                <Text
-                  className="text-white text-sm"
-                  style={{ fontFamily: 'DMSans_500Medium' }}
-                >
-                  Upgrade
-                </Text>
-              </Pressable>
-            )}
-          </View>
-        </View>
+  // Error state
+  if (loadError || !settings) {
+    return (
+      <View
+        className="flex-1 items-center justify-center px-8"
+        style={{ backgroundColor: '#FAF8F5' }}
+      >
+        <Text
+          style={{
+            fontFamily: 'DMSans_500Medium',
+            fontSize: 18,
+            color: '#3D2F2A',
+            marginBottom: 8,
+          }}
+        >
+          Couldn't load settings
+        </Text>
+        <Pressable
+          onPress={() => router.back()}
+          style={{
+            backgroundColor: '#C4956A',
+            paddingHorizontal: 24,
+            paddingVertical: 10,
+            borderRadius: 999,
+            marginTop: 8,
+          }}
+        >
+          <Text style={{ fontFamily: 'DMSans_500Medium', color: '#FFFFFF' }}>Go back</Text>
+        </Pressable>
+      </View>
+    )
+  }
+
+  const reminderTime = settings.notifications.times[0] ?? DEFAULT_REMINDER_TIME
+  const notificationsEnabled = settings.notifications.enabled
+
+  return (
+    <ScrollView
+      className="flex-1"
+      style={{ backgroundColor: '#FAF8F5' }}
+      contentContainerStyle={{ paddingBottom: 48 }}
+    >
+      {/* Header */}
+      <View
+        className="px-6 pt-14 pb-4"
+        style={{ flexDirection: 'row', alignItems: 'center' }}
+      >
+        <Pressable
+          onPress={() => router.back()}
+          accessibilityRole="button"
+          accessibilityLabel="Go back"
+          hitSlop={12}
+          style={{ marginRight: 16 }}
+        >
+          <Text style={{ fontSize: 28, color: '#3D2F2A', fontFamily: 'DMSans_400Regular' }}>‹</Text>
+        </Pressable>
+        <Text style={{ fontFamily: 'DMSans_500Medium', fontSize: 22, color: '#3D2F2A' }}>
+          Settings
+        </Text>
       </View>
 
       {/* Preferences */}
@@ -163,7 +185,7 @@ export default function SettingsScreen() {
             </Text>
           </View>
           <Switch
-            value={settings?.haptics ?? true}
+            value={settings.haptics ?? true}
             onValueChange={() => toggle('haptics')}
             trackColor={{ false: '#E8E3DC', true: '#C4956A' }}
             thumbColor="#FFFFFF"
@@ -216,9 +238,7 @@ export default function SettingsScreen() {
           <Text
             style={{ fontFamily: 'DMSans_400Regular', fontSize: 12, color: '#A09080', lineHeight: 18 }}
           >
-            Scripture taken from the Holy Bible, New International Version®, NIV®{'\n'}
-            Copyright © 1973, 1978, 1984, 2011 by Biblica, Inc.™{'\n'}
-            Used by permission. All rights reserved worldwide.
+            Scripture is taken from the King James Version (KJV), which is in the public domain, and the World English Bible (WEB), also in the public domain.
           </Text>
         </View>
 
@@ -244,6 +264,93 @@ export default function SettingsScreen() {
         </View>
       </View>
 
+      {/* Account */}
+      <View className="mx-6 mt-6 rounded-2xl overflow-hidden border border-border bg-surface">
+        <Text
+          className="text-text-secondary text-xs uppercase px-5 pt-4 pb-3"
+          style={{ fontFamily: 'DMSans_500Medium', letterSpacing: 1 }}
+        >
+          Account
+        </Text>
+
+        <Pressable
+          className="px-5 py-4 border-t border-border"
+          onPress={() => {
+            Alert.alert(
+              'Delete account?',
+              'This will permanently erase all your data and cannot be undone.',
+              [
+                { text: 'Cancel', style: 'cancel' },
+                {
+                  text: 'Delete permanently',
+                  style: 'destructive',
+                  onPress: async () => {
+                    await clearAllData()
+                    await signOutUser()
+                    router.replace('/welcome')
+                  },
+                },
+              ]
+            )
+          }}
+          accessibilityRole="button"
+          accessibilityLabel="Delete account"
+        >
+          <Text style={{ fontFamily: 'DMSans_400Regular', fontSize: 14, color: '#E8A598' }}>
+            Delete account
+          </Text>
+        </Pressable>
+      </View>
+
+      {/* Legal */}
+      <View className="mx-6 mt-6 rounded-2xl overflow-hidden border border-border bg-surface">
+        <Text
+          className="text-text-secondary text-xs uppercase px-5 pt-4 pb-3"
+          style={{ fontFamily: 'DMSans_500Medium', letterSpacing: 1 }}
+        >
+          Legal
+        </Text>
+
+        <Pressable
+          className="px-5 py-4 border-t border-border"
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+          }}
+          onPress={() =>
+            Alert.alert('Coming soon', 'Terms of use will be available before launch.')
+          }
+          accessibilityRole="button"
+          accessibilityLabel="Terms of Use"
+        >
+          <Text style={{ fontFamily: 'DMSans_400Regular', fontSize: 15, color: '#3D2F2A' }}>
+            Terms of Use
+          </Text>
+          <Text style={{ fontFamily: 'DMSans_400Regular', fontSize: 18, color: '#C4956A' }}>›</Text>
+        </Pressable>
+
+        <Pressable
+          className="px-5 py-4 border-t border-border"
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+          }}
+          onPress={() =>
+            Alert.alert('Coming soon', 'Privacy policy will be available before launch.')
+          }
+          accessibilityRole="button"
+          accessibilityLabel="Privacy Policy"
+        >
+          <Text style={{ fontFamily: 'DMSans_400Regular', fontSize: 15, color: '#3D2F2A' }}>
+            Privacy Policy
+          </Text>
+          <Text style={{ fontFamily: 'DMSans_400Regular', fontSize: 18, color: '#C4956A' }}>›</Text>
+        </Pressable>
+      </View>
+
+      {/* Start over */}
       <Pressable
         onPress={() => {
           Alert.alert(
@@ -278,13 +385,6 @@ export default function SettingsScreen() {
           Start over
         </Text>
       </Pressable>
-
-      <Text
-        className="text-text-secondary text-xs text-center mt-2"
-        style={{ fontFamily: 'DMSans_400Regular' }}
-      >
-        Soft Landing v1.1.0
-      </Text>
     </ScrollView>
   )
 }
