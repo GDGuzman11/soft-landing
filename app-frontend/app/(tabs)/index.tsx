@@ -117,13 +117,12 @@ export default function HomeScreen() {
         accessibilityRole="header"
       >
         <Image
-          source={require('@/assets/images/icon.png')}
+          source={require('@/assets/images/icon-nobackground.png')}
           style={{
             width: 80,
             height: 80,
             marginBottom: 20,
             alignSelf: 'center',
-            backgroundColor: '#FAF8F5',
           }}
           resizeMode="contain"
         />
