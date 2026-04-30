@@ -626,6 +626,8 @@ export default function WidgetsTabScreen() {
           itemRenderers={smallRenderers}
         />
 
+        <View style={styles.sectionDivider} />
+
         <WidgetSection
           label="MEDIUM"
           cardWidth={329}
@@ -637,6 +639,8 @@ export default function WidgetsTabScreen() {
           infoPanelContent={mediumInfo}
           onCardTap={handleMediumTap}
         />
+
+        <View style={styles.sectionDivider} />
 
         <WidgetSection
           label="LARGE"
@@ -758,6 +762,12 @@ const styles = StyleSheet.create({
     fontFamily: 'DMSans_500Medium',
     fontSize: 14,
     color: '#FFFFFF',
+  },
+  sectionDivider: {
+    marginHorizontal: 24,
+    marginBottom: 40,
+    height: 1,
+    backgroundColor: '#E8E3DC',
   },
   comingSoonBox: {
     marginHorizontal: 24,

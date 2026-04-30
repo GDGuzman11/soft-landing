@@ -47,7 +47,7 @@ export default function TabLayout() {
         name="widgets"
         options={{
           title: 'Widgets',
-          tabBarIcon: ({ focused }) => <TabIcon symbol="⊞" focused={focused} />,
+          tabBarIcon: ({ focused }) => <TabIcon symbol="❖" focused={focused} />,
         }}
       />
       <Tabs.Screen
