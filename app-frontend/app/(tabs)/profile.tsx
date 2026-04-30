@@ -64,6 +64,12 @@ function lifeStageLabel(value: AppSettings['lifeStage']): string {
 
 type LoadState = 'loading' | 'ready' | 'error'
 
+const PRIMARY_BUTTON_TEXT_STYLE = {
+  fontFamily: 'DMSans_500Medium',
+  fontSize: 14,
+  color: '#FFFFFF',
+} as const
+
 interface SectionLabelProps {
   children: string
 }
@@ -237,7 +243,7 @@ export default function ProfileScreen() {
             borderRadius: 999,
           }}
         >
-          <Text style={{ fontFamily: 'DMSans_500Medium', fontSize: 14, color: '#FFFFFF' }}>
+          <Text style={PRIMARY_BUTTON_TEXT_STYLE}>
             Try again
           </Text>
         </Pressable>
@@ -365,7 +371,7 @@ export default function ProfileScreen() {
                 accessibilityLabel="Upgrade to premium"
               >
                 <Text
-                  style={{ fontFamily: 'DMSans_500Medium', fontSize: 14, color: '#FFFFFF' }}
+                  style={PRIMARY_BUTTON_TEXT_STYLE}
                 >
                   Upgrade →
                 </Text>

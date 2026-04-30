@@ -18,6 +18,27 @@ import type { EmotionId } from '@/types'
 
 const SWIPE_THRESHOLD = 110
 
+const INDICATOR_BASE = {
+  position: 'absolute' as const,
+  top: '45%' as const,
+  paddingHorizontal: 16,
+  paddingVertical: 10,
+  borderRadius: 20,
+  zIndex: 5,
+}
+
+const INDICATOR_TEXT_STYLE = {
+  fontFamily: 'DMSans_500Medium',
+  fontSize: 14,
+  color: '#FFFFFF',
+} as const
+
+const ACTION_HIT_SLOP = { top: 12, bottom: 12, left: 12, right: 12 } as const
+
+function actionPressableStyle({ pressed }: { pressed: boolean }) {
+  return { opacity: pressed ? 0.5 : 1, padding: 12 }
+}
+
 interface VerseData {
   body: string
   reference: string
@@ -233,20 +254,12 @@ export default function MessageScreen() {
       {/* Save indicator — appears on right when swiping right */}
       <Animated.View
         style={[
-          {
-            position: 'absolute',
-            right: 24,
-            top: '45%',
-            backgroundColor: '#9CB59A',
-            paddingHorizontal: 16,
-            paddingVertical: 10,
-            borderRadius: 20,
-            zIndex: 5,
-          },
+          INDICATOR_BASE,
+          { right: 24, backgroundColor: '#9CB59A' },
           saveIndicatorStyle,
         ]}
       >
-        <Text style={{ fontFamily: 'DMSans_500Medium', fontSize: 14, color: '#FFFFFF' }}>
+        <Text style={INDICATOR_TEXT_STYLE}>
           ★  Save
         </Text>
       </Animated.View>
@@ -254,20 +267,12 @@ export default function MessageScreen() {
       {/* Discard indicator — appears on left when swiping left */}
       <Animated.View
         style={[
-          {
-            position: 'absolute',
-            left: 24,
-            top: '45%',
-            backgroundColor: '#B0BEC5',
-            paddingHorizontal: 16,
-            paddingVertical: 10,
-            borderRadius: 20,
-            zIndex: 5,
-          },
+          INDICATOR_BASE,
+          { left: 24, backgroundColor: '#B0BEC5' },
           discardIndicatorStyle,
         ]}
       >
-        <Text style={{ fontFamily: 'DMSans_500Medium', fontSize: 14, color: '#FFFFFF' }}>
+        <Text style={INDICATOR_TEXT_STYLE}>
           ✕  Skip
         </Text>
       </Animated.View>
@@ -346,8 +351,8 @@ export default function MessageScreen() {
           onPress={handleSaveButton}
           accessibilityRole="button"
           accessibilityLabel={verseIsSaved ? 'Verse saved' : 'Save verse'}
-          hitSlop={{ top: 12, bottom: 12, left: 12, right: 12 }}
-          style={({ pressed }) => ({ opacity: pressed ? 0.5 : 1, padding: 12 })}
+          hitSlop={ACTION_HIT_SLOP}
+          style={actionPressableStyle}
         >
           <Text style={{ fontSize: 26, opacity: verseIsSaved ? 1 : 0.4 }}>
             {verseIsSaved ? '★' : '☆'}
@@ -359,8 +364,8 @@ export default function MessageScreen() {
           onPress={handleShare}
           accessibilityRole="button"
           accessibilityLabel="Share verse"
-          hitSlop={{ top: 12, bottom: 12, left: 12, right: 12 }}
-          style={({ pressed }) => ({ opacity: pressed ? 0.5 : 1, padding: 12 })}
+          hitSlop={ACTION_HIT_SLOP}
+          style={actionPressableStyle}
         >
           <Text className="text-text-secondary" style={{ fontSize: 22 }}>↑</Text>
         </Pressable>
@@ -372,8 +377,8 @@ export default function MessageScreen() {
           }}
           accessibilityRole="button"
           accessibilityLabel="Go home"
-          hitSlop={{ top: 12, bottom: 12, left: 12, right: 12 }}
-          style={({ pressed }) => ({ opacity: pressed ? 0.5 : 1, padding: 12 })}
+          hitSlop={ACTION_HIT_SLOP}
+          style={actionPressableStyle}
         >
           <Text
             className="text-text-secondary"

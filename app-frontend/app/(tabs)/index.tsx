@@ -14,6 +14,8 @@ import Animated, {
 } from 'react-native-reanimated'
 import * as Haptics from 'expo-haptics'
 
+const SCREEN_WIDTH = Dimensions.get('window').width
+
 function getGreetingBase(): string {
   const hour = new Date().getHours()
   if (hour < 12) return 'Good morning,'
@@ -105,9 +107,9 @@ export default function HomeScreen() {
         style={[{
           position: 'absolute',
           top: 0,
-          left: -Dimensions.get('window').width * 0.1,
-          width: Dimensions.get('window').width * 1.0,
-          height: Dimensions.get('window').width * 1.0,
+          left: -SCREEN_WIDTH * 0.1,
+          width: SCREEN_WIDTH * 1.0,
+          height: SCREEN_WIDTH * 1.0,
           zIndex: 0,
         }, peopleStyle]}
         resizeMode="contain"
@@ -117,9 +119,9 @@ export default function HomeScreen() {
         style={[{
           position: 'absolute',
           bottom: 0,
-          right: -Dimensions.get('window').width * 0.08,
-          width: Dimensions.get('window').width * 0.82,
-          height: Dimensions.get('window').width * 0.82,
+          right: -SCREEN_WIDTH * 0.08,
+          width: SCREEN_WIDTH * 0.82,
+          height: SCREEN_WIDTH * 0.82,
           zIndex: 0,
         }, peopleStyle]}
         resizeMode="contain"

@@ -2,6 +2,14 @@ import { View, Text, Pressable, ScrollView } from 'react-native'
 import { router } from 'expo-router'
 import { getSettings, saveSettings } from '@/storage/storage'
 
+const PARAGRAPH_BASE = {
+  fontFamily: 'DMSans_400Regular',
+  fontSize: 15,
+  color: '#5A4A40',
+  lineHeight: 24,
+  textAlign: 'center',
+} as const
+
 export default function OnboardingDisclaimerScreen() {
   async function handleAccept() {
     try {
@@ -35,43 +43,16 @@ export default function OnboardingDisclaimerScreen() {
           A note before you begin.
         </Text>
 
-        <Text
-          style={{
-            fontFamily: 'DMSans_400Regular',
-            fontSize: 15,
-            color: '#5A4A40',
-            lineHeight: 24,
-            marginBottom: 20,
-            textAlign: 'center',
-          }}
-        >
+        <Text style={[PARAGRAPH_BASE, { marginBottom: 20 }]}>
           Soft Landing offers spiritual encouragement through Bible verses and AI-written
           reflections.
         </Text>
 
-        <Text
-          style={{
-            fontFamily: 'DMSans_400Regular',
-            fontSize: 15,
-            color: '#5A4A40',
-            lineHeight: 24,
-            marginBottom: 20,
-            textAlign: 'center',
-          }}
-        >
+        <Text style={[PARAGRAPH_BASE, { marginBottom: 20 }]}>
           It is not a mental health service and does not provide professional advice of any kind.
         </Text>
 
-        <Text
-          style={{
-            fontFamily: 'DMSans_400Regular',
-            fontSize: 15,
-            color: '#5A4A40',
-            lineHeight: 24,
-            marginBottom: 40,
-            textAlign: 'center',
-          }}
-        >
+        <Text style={[PARAGRAPH_BASE, { marginBottom: 40 }]}>
           If you are in crisis or need mental health support, please reach out to a qualified
           professional or call 988.
         </Text>

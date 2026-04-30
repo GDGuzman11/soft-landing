@@ -8,6 +8,10 @@ import type { AppSettings } from '@/types'
 
 const DEFAULT_REMINDER_TIME = '08:00'
 
+const SECTION_LABEL_STYLE = { fontFamily: 'DMSans_500Medium', letterSpacing: 1 } as const
+const LEGAL_ROW_LABEL_STYLE = { fontFamily: 'DMSans_400Regular', fontSize: 15, color: '#3D2F2A' } as const
+const CHEVRON_STYLE = { fontFamily: 'DMSans_400Regular', fontSize: 18, color: '#C4956A' } as const
+
 export default function SettingsScreen() {
   const [settings, setSettings] = useState<AppSettings | null>(null)
   const [loadError, setLoadError] = useState<boolean>(false)
@@ -164,7 +168,7 @@ export default function SettingsScreen() {
       <View className="mx-6 rounded-2xl overflow-hidden border border-border bg-surface">
         <Text
           className="text-text-secondary text-xs uppercase px-5 pt-4 pb-3"
-          style={{ fontFamily: 'DMSans_500Medium', letterSpacing: 1 }}
+          style={SECTION_LABEL_STYLE}
         >
           Preferences
         </Text>
@@ -224,7 +228,7 @@ export default function SettingsScreen() {
       <View className="mx-6 mt-6 rounded-2xl overflow-hidden border border-border bg-surface">
         <Text
           className="text-text-secondary text-xs uppercase px-5 pt-4 pb-3"
-          style={{ fontFamily: 'DMSans_500Medium', letterSpacing: 1 }}
+          style={SECTION_LABEL_STYLE}
         >
           About
         </Text>
@@ -268,7 +272,7 @@ export default function SettingsScreen() {
       <View className="mx-6 mt-6 rounded-2xl overflow-hidden border border-border bg-surface">
         <Text
           className="text-text-secondary text-xs uppercase px-5 pt-4 pb-3"
-          style={{ fontFamily: 'DMSans_500Medium', letterSpacing: 1 }}
+          style={SECTION_LABEL_STYLE}
         >
           Account
         </Text>
@@ -306,7 +310,7 @@ export default function SettingsScreen() {
       <View className="mx-6 mt-6 rounded-2xl overflow-hidden border border-border bg-surface">
         <Text
           className="text-text-secondary text-xs uppercase px-5 pt-4 pb-3"
-          style={{ fontFamily: 'DMSans_500Medium', letterSpacing: 1 }}
+          style={SECTION_LABEL_STYLE}
         >
           Legal
         </Text>
@@ -324,10 +328,10 @@ export default function SettingsScreen() {
           accessibilityRole="button"
           accessibilityLabel="Terms of Use"
         >
-          <Text style={{ fontFamily: 'DMSans_400Regular', fontSize: 15, color: '#3D2F2A' }}>
+          <Text style={LEGAL_ROW_LABEL_STYLE}>
             Terms of Use
           </Text>
-          <Text style={{ fontFamily: 'DMSans_400Regular', fontSize: 18, color: '#C4956A' }}>›</Text>
+          <Text style={CHEVRON_STYLE}>›</Text>
         </Pressable>
 
         <Pressable
@@ -343,10 +347,10 @@ export default function SettingsScreen() {
           accessibilityRole="button"
           accessibilityLabel="Privacy Policy"
         >
-          <Text style={{ fontFamily: 'DMSans_400Regular', fontSize: 15, color: '#3D2F2A' }}>
+          <Text style={LEGAL_ROW_LABEL_STYLE}>
             Privacy Policy
           </Text>
-          <Text style={{ fontFamily: 'DMSans_400Regular', fontSize: 18, color: '#C4956A' }}>›</Text>
+          <Text style={CHEVRON_STYLE}>›</Text>
         </Pressable>
       </View>
 

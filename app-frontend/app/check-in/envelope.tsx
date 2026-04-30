@@ -36,6 +36,15 @@ const BLOBS = [
 const SEAL_CENTER = 50
 const BLOB_RADIUS = 37
 
+const FOLD_CREASE_BASE = {
+  position: 'absolute' as const,
+  width: 1,
+  height: FOLD_Y * 1.35,
+  backgroundColor: '#D8CFBF',
+  opacity: 0.7,
+  top: 0,
+}
+
 function WaxSeal({ loading }: { loading: boolean }) {
   return (
     <View style={{ width: 100, height: 100, position: 'relative' }}>
@@ -351,28 +360,10 @@ export default function EnvelopeScreen() {
             }} />
 
             {/* ── Left diagonal fold crease on flap ── */}
-            <View style={{
-              position: 'absolute',
-              width: 1,
-              height: FOLD_Y * 1.35,
-              backgroundColor: '#D8CFBF',
-              opacity: 0.7,
-              top: 0,
-              left: 0,
-              transform: [{ rotate: '33deg' }],
-            }} />
+            <View style={[FOLD_CREASE_BASE, { left: 0, transform: [{ rotate: '33deg' }] }]} />
 
             {/* ── Right diagonal fold crease on flap ── */}
-            <View style={{
-              position: 'absolute',
-              width: 1,
-              height: FOLD_Y * 1.35,
-              backgroundColor: '#D8CFBF',
-              opacity: 0.7,
-              top: 0,
-              right: 0,
-              transform: [{ rotate: '-33deg' }],
-            }} />
+            <View style={[FOLD_CREASE_BASE, { right: 0, transform: [{ rotate: '-33deg' }] }]} />
 
             {/* ── Wax seal — centered over fold line ── */}
             <Animated.View style={[{

@@ -17,6 +17,12 @@ import { getCurrentUser } from '@/services/auth'
 import LetterCard from '@/components/LetterCard'
 import type { SavedMessage, Message, AppSettings, EmotionId } from '@/types'
 
+const MUTED_LINK_TEXT_STYLE = {
+  fontFamily: 'DMSans_400Regular',
+  fontSize: 14,
+  color: '#A09080',
+} as const
+
 export default function LetterComposeScreen() {
   const { savedMessageId } = useLocalSearchParams<{ savedMessageId: string }>()
 
@@ -169,7 +175,7 @@ export default function LetterComposeScreen() {
           accessibilityRole="button"
           accessibilityLabel="Go back"
         >
-          <Text style={{ fontFamily: 'DMSans_400Regular', fontSize: 14, color: '#A09080' }}>
+          <Text style={MUTED_LINK_TEXT_STYLE}>
             ← Back
           </Text>
         </Pressable>
@@ -416,7 +422,7 @@ export default function LetterComposeScreen() {
                 style={{ alignItems: 'center', marginTop: 20 }}
               >
                 <Text
-                  style={{ fontFamily: 'DMSans_400Regular', fontSize: 14, color: '#A09080' }}
+                  style={MUTED_LINK_TEXT_STYLE}
                 >
                   Done — go home
                 </Text>
