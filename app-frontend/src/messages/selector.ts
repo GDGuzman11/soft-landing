@@ -8,6 +8,9 @@ const RECENT_PENALTY_HOURS = 48
 const RECENT_PENALTY_FACTOR = 0.2
 const CACHE_TTL_MS = 24 * 60 * 60 * 1000
 
+/** Prefix for per-emotion verse pool cache keys. Namespaced under `@soft_landing/`. */
+const VERSE_POOL_KEY_PREFIX = '@soft_landing/verse_pool/' as const
+
 const INTENT_TAG_MAP: Record<string, string[]> = {
   peace:    ['comfort', 'rest', 'presence'],
   strength: ['perseverance', 'strength', 'courage'],
@@ -35,7 +38,7 @@ interface CachedPool {
 
 /** Cache key for an emotion's verse pool. Namespaced under `@soft_landing/`. */
 function cacheKey(emotionId: EmotionId): string {
-  return `@soft_landing/verse_pool/${emotionId}`
+  return `${VERSE_POOL_KEY_PREFIX}${emotionId}`
 }
 
 /** Filter a fully-fetched pool down to the tier the user is allowed to see. */
@@ -122,7 +125,7 @@ async function fetchVersePool(emotionId: EmotionId, tier: Tier): Promise<Message
 }
 
 function effectiveWeight(message: Message, now: Date, intentTags: string[]): number {
-  const tagBoost = intentTags.some((tag) => message.tags?.includes(tag)) ? 1.5 : 1
+  const tagBoost = intentTags.some((tag) => message.tags.includes(tag)) ? 1.5 : 1
 
   if (!message.lastUsed) return message.weight * tagBoost
 

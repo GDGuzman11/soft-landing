@@ -50,7 +50,11 @@ async function get<T>(key: string, fallback: T): Promise<T> {
 }
 
 async function set<T>(key: string, value: T): Promise<void> {
-  await AsyncStorage.setItem(key, JSON.stringify(value))
+  try {
+    await AsyncStorage.setItem(key, JSON.stringify(value))
+  } catch {
+    // non-fatal — write failures are swallowed to avoid crashing UI flows
+  }
 }
 
 export async function getSettings(): Promise<AppSettings> {
@@ -141,20 +145,6 @@ export async function updateMessageMetadata(messageId: string): Promise<void> {
 
 export async function clearAllData(): Promise<void> {
   await AsyncStorage.multiRemove([KEYS.SETTINGS, KEYS.CHECK_INS, KEYS.SAVED_MESSAGES, KEYS.MESSAGE_METADATA])
-}
-
-export async function setGuestMode(isGuest: boolean): Promise<void> {
-  const settings = await getSettings()
-  await saveSettings({ ...settings, isGuest })
-}
-
-export async function getFirstLetterUsed(): Promise<boolean> {
-  try {
-    const settings = await getSettings()
-    return settings.firstLetterUsed ?? false
-  } catch {
-    return false
-  }
 }
 
 export async function setFirstLetterUsed(value: boolean): Promise<void> {
