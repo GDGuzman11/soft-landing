@@ -90,6 +90,19 @@ export default function HomeScreen() {
       className="flex-1 bg-background items-center justify-center px-8"
       accessibilityLabel="Home screen"
     >
+      <Image
+        source={require('../../assets/images/jesus.png')}
+        style={{
+          position: 'absolute',
+          bottom: 0,
+          right: 0,
+          width: 220,
+          height: 220,
+          opacity: 0.12,
+        }}
+        resizeMode="contain"
+        pointerEvents="none"
+      />
 <Animated.View
         style={[{ alignItems: 'center', marginBottom: savedCount > 0 ? 16 : 64 }, greetingStyle]}
         accessibilityRole="header"
