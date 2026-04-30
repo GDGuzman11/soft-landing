@@ -1,9 +1,13 @@
-import { View, Text, ScrollView, Pressable, Alert, ActivityIndicator } from 'react-native'
+import { View, Text, ScrollView, Pressable, Alert, ActivityIndicator, Image } from 'react-native'
 import { router, useFocusEffect } from 'expo-router'
 import { useCallback, useState } from 'react'
+import * as ImagePicker from 'expo-image-picker'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 import { getSettings, getCheckIns, getSavedMessages } from '@/storage/storage'
 import { getCurrentUser, signOutUser } from '@/services/auth'
 import type { AppSettings, AuthUser, CheckInEvent, SavedMessage } from '@/types'
+
+const PHOTO_KEY = '@soft_landing/profile_photo_uri'
 
 function calcStreak(checkIns: CheckInEvent[]): number {
   if (checkIns.length === 0) return 0
@@ -114,6 +118,7 @@ export default function ProfileScreen() {
   const [checkIns, setCheckIns] = useState<CheckInEvent[]>([])
   const [savedMessages, setSavedMessages] = useState<SavedMessage[]>([])
   const [user, setUser] = useState<AuthUser | null>(null)
+  const [photoUri, setPhotoUri] = useState<string | null>(null)
   const [loadState, setLoadState] = useState<LoadState>('loading')
 
   useFocusEffect(
@@ -122,10 +127,11 @@ export default function ProfileScreen() {
       setLoadState('loading')
       ;(async () => {
         try {
-          const [s, c, m] = await Promise.all([
+          const [s, c, m, storedPhoto] = await Promise.all([
             getSettings(),
             getCheckIns(),
             getSavedMessages(),
+            AsyncStorage.getItem(PHOTO_KEY),
           ])
           const u = getCurrentUser()
           if (cancelled) return
@@ -133,6 +139,7 @@ export default function ProfileScreen() {
           setCheckIns(c)
           setSavedMessages(m)
           setUser(u)
+          setPhotoUri(storedPhoto)
           setLoadState('ready')
         } catch {
           if (cancelled) return
@@ -144,6 +151,25 @@ export default function ProfileScreen() {
       }
     }, [])
   )
+
+  async function handlePickPhoto() {
+    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync()
+    if (status !== 'granted') {
+      Alert.alert('Permission needed', 'Allow photo access in Settings to add a profile picture.')
+      return
+    }
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [1, 1],
+      quality: 0.8,
+    })
+    if (!result.canceled && result.assets[0]) {
+      const uri = result.assets[0].uri
+      await AsyncStorage.setItem(PHOTO_KEY, uri)
+      setPhotoUri(uri)
+    }
+  }
 
   if (loadState === 'loading') {
     return (
@@ -239,22 +265,65 @@ export default function ProfileScreen() {
       </View>
 
       {/* Identity Card */}
-      <View className="mx-6 mt-4 bg-surface rounded-2xl border border-border" style={{ padding: 20 }}>
-        <Text style={{ fontFamily: 'DMSans_500Medium', fontSize: 18, color: '#3D2F2A' }}>
-          {displayName}
-        </Text>
-        {user?.email ? (
-          <Text
-            style={{
-              fontFamily: 'DMSans_400Regular',
-              fontSize: 13,
-              color: '#9A8F82',
-              marginTop: 4,
-            }}
-          >
-            {user.email}
+      <View
+        className="mx-6 mt-4 bg-surface rounded-2xl border border-border"
+        style={{ padding: 20, flexDirection: 'row', alignItems: 'center' }}
+      >
+        <View style={{ flex: 1 }}>
+          <Text style={{ fontFamily: 'DMSans_500Medium', fontSize: 18, color: '#3D2F2A' }}>
+            {displayName}
           </Text>
-        ) : null}
+          {user?.email ? (
+            <Text
+              style={{
+                fontFamily: 'DMSans_400Regular',
+                fontSize: 13,
+                color: '#9A8F82',
+                marginTop: 4,
+              }}
+            >
+              {user.email}
+            </Text>
+          ) : null}
+        </View>
+        <Pressable
+          onPress={handlePickPhoto}
+          accessibilityRole="button"
+          accessibilityLabel={photoUri ? 'Change profile photo' : 'Add profile photo'}
+          style={{ marginLeft: 16 }}
+        >
+          {photoUri ? (
+            <Image
+              source={{ uri: photoUri }}
+              style={{ width: 64, height: 64, borderRadius: 32 }}
+            />
+          ) : (
+            <View
+              style={{
+                width: 64,
+                height: 64,
+                borderRadius: 32,
+                backgroundColor: '#F5EBD8',
+                borderWidth: 1.5,
+                borderColor: '#E8DFD0',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+            >
+              <Text
+                style={{
+                  fontFamily: 'DMSans_400Regular',
+                  fontSize: 11,
+                  color: '#C4956A',
+                  textAlign: 'center',
+                  lineHeight: 14,
+                }}
+              >
+                {'Add\nPhoto'}
+              </Text>
+            </View>
+          )}
+        </Pressable>
       </View>
 
       {/* Faith Section */}
