@@ -27,11 +27,11 @@ const ORDERED_EMOTIONS = EMOTION_ORDER
   .filter(Boolean)
 
 const EMOTION_IMAGES: Record<string, number> = {
-  stressed: require('../../assets/images/stressed1.png'),
-  tired:    require('../../assets/images/tired1.png'),
-  sad:      require('../../assets/images/sad3.png'),
-  neutral:  require('../../assets/images/neutral1.png'),
-  good:     require('../../assets/images/happy1.png'),
+  stressed: require('../../assets/images/nanostressed.jpg'),
+  tired:    require('../../assets/images/nanotired.jpg'),
+  sad:      require('../../assets/images/nanosad.jpg'),
+  neutral:  require('../../assets/images/nanoneutral.jpg'),
+  good:     require('../../assets/images/nanohappy.jpg'),
 }
 
 const TAGLINES: Record<string, string> = {
