@@ -185,6 +185,23 @@ const MEDIUM_WIDGETS: readonly WidgetMeta[] = [
   },
 ] as const
 
+// ---- Section divider --------------------------------------------------
+function SectionDivider() {
+  return (
+    <View style={{ paddingHorizontal: 24, marginBottom: 40, gap: 8 }}>
+      {[0, 1].map((i) => (
+        <View key={i} style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
+          <View style={{ flex: 1, height: 1, backgroundColor: COLORS.amber, opacity: 0.3 }} />
+          <Text style={{ fontFamily: 'DMSans_400Regular', fontSize: 9, color: COLORS.amber, opacity: 0.6 }}>
+            {'✦'}
+          </Text>
+          <View style={{ flex: 1, height: 1, backgroundColor: COLORS.amber, opacity: 0.3 }} />
+        </View>
+      ))}
+    </View>
+  )
+}
+
 // ---- Pagination dot ---------------------------------------------------
 function PaginationDot({ isActive }: { isActive: boolean }) {
   const opacity = useSharedValue(isActive ? 1 : 0.4)
@@ -626,7 +643,7 @@ export default function WidgetsTabScreen() {
           itemRenderers={smallRenderers}
         />
 
-        <View style={styles.sectionDivider} />
+        <SectionDivider />
 
         <WidgetSection
           label="MEDIUM"
@@ -640,7 +657,7 @@ export default function WidgetsTabScreen() {
           onCardTap={handleMediumTap}
         />
 
-        <View style={styles.sectionDivider} />
+        <SectionDivider />
 
         <WidgetSection
           label="LARGE"
@@ -763,13 +780,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#FFFFFF',
   },
-  sectionDivider: {
-    marginHorizontal: 24,
-    marginBottom: 40,
-    height: 1,
-    backgroundColor: '#E8E3DC',
-  },
-  comingSoonBox: {
+comingSoonBox: {
     marginHorizontal: 24,
     paddingVertical: 56,
     alignItems: 'center',
