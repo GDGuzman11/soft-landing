@@ -57,18 +57,6 @@ exports.generateLetter = (0, https_1.onCall)({ region: 'us-central1', invoker: '
     const data = request.data;
     validateInputs(data);
     const { emotionId, verseBody, modernText, reference, userInput, userName, hourOfDay, faithBackground, primaryIntent, lifeStage } = data;
-    console.log('[generateLetter] params', {
-        emotionId,
-        reference,
-        verseLength: verseBody?.length,
-        hasUserInput: !!userInput,
-        userInputLength: userInput?.length ?? 0,
-        faithBackground: faithBackground ?? 'null',
-        primaryIntent: primaryIntent ?? 'null',
-        lifeStage: lifeStage ?? 'null',
-        hourOfDay: hourOfDay ?? 'null',
-        uid: request.auth?.uid?.slice(0, 8) + '…',
-    });
     // Block malicious input before it reaches the AI
     if (userInput) {
         const filterResult = (0, inputFilter_1.filterUserInput)(userInput);
@@ -102,14 +90,9 @@ exports.generateLetter = (0, https_1.onCall)({ region: 'us-central1', invoker: '
             userInput: userInput?.trim() || undefined,
             userName: userName?.trim() || 'friend',
             hourOfDay,
-            faithBackground: faithBackground,
-            primaryIntent: primaryIntent,
-            lifeStage: lifeStage,
-        });
-        console.log('[generateLetter] prompt fingerprint', {
-            openingAngle: prompt.user.slice(prompt.user.indexOf('\n\n') + 2, prompt.user.indexOf('\n\n') + 2 + 80).replace(/\n/g, ' '),
-            userMessageLength: prompt.user.length,
-            systemMessageLength: prompt.system.length,
+            faithBackground,
+            primaryIntent,
+            lifeStage,
         });
         const response = await client.messages.create({
             model: 'claude-sonnet-4-6',
@@ -122,13 +105,6 @@ exports.generateLetter = (0, https_1.onCall)({ region: 'us-central1', invoker: '
         if (letterContent.type !== 'text') {
             throw new https_1.HttpsError('internal', 'Unexpected response format');
         }
-        console.log('[generateLetter] claude response', {
-            stopReason: response.stop_reason,
-            inputTokens: response.usage.input_tokens,
-            outputTokens: response.usage.output_tokens,
-            letterLength: letterContent.text.length,
-            letterFirstLine: letterContent.text.slice(0, 80).replace(/\n/g, ' '),
-        });
         return { letter: letterContent.text, showCrisisPrompt: false };
     }
     catch (err) {

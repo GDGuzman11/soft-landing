@@ -142,15 +142,6 @@ function buildPrompt({ emotionId, verseBody, modernText, reference, userInput, u
     const inputSection = getInputSection(safeInput, emotionLabel);
     const emotionGoals = getEmotionParagraphGoals(emotionId);
     const openingAngle = getOpeningAngle();
-    console.log('[buildPrompt] context blocks', {
-        hasLifeStage: !!lifeStageCtx,
-        hasFaith: !!faithCtx,
-        hasIntent: !!intentCtx,
-        hasTone: !!toneCtx,
-        hasUserInput: !!safeInput,
-        openingAngleIndex: OPENING_ANGLES.indexOf(openingAngle),
-        emotionId,
-    });
     // Layer 1: Questionnaire answers — sets tone and voice (permanent, answered once at registration)
     const toneBlock = [faithCtx, lifeStageCtx, intentCtx].filter(Boolean).join('\n');
     // Layer 2: Emotion — defines the letter's arc and paragraph structure
