@@ -1,7 +1,8 @@
-import { View, Text, FlatList, Pressable, Share } from 'react-native'
-import { useCallback, useState } from 'react'
+import { View, Text, FlatList, Pressable, Share, Alert, Animated } from 'react-native'
+import { useCallback, useRef, useState } from 'react'
 import { useFocusEffect, router, useLocalSearchParams } from 'expo-router'
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import * as Haptics from 'expo-haptics'
 import { getSavedMessages, deleteSavedMessage, getSettings } from '@/storage/storage'
 import type { SavedMessage, Message, EmotionId, AppSettings } from '@/types'
 import TourTooltip from '@/components/TourTooltip'
@@ -43,6 +44,14 @@ export default function HistoryScreen() {
   const [expandedLetter, setExpandedLetter] = useState<string | null>(null)
   const [showTooltip, setShowTooltip] = useState(tourStep === '4')
   const [settings, setSettings] = useState<AppSettings | null>(null)
+  const animRefs = useRef<Map<string, Animated.Value>>(new Map())
+
+  function getAnim(id: string): Animated.Value {
+    if (!animRefs.current.has(id)) {
+      animRefs.current.set(id, new Animated.Value(0))
+    }
+    return animRefs.current.get(id)!
+  }
 
   useFocusEffect(
     useCallback(() => {
