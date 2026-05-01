@@ -78,7 +78,7 @@ export default function RegisterScreen() {
 
   return (
     <KeyboardAvoidingView
-      style={{ flex: 1, backgroundColor: '#FAF8F5' }}
+      style={{ flex: 1, backgroundColor: colors.bg }}
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
     >
       <ScrollView
@@ -91,7 +91,7 @@ export default function RegisterScreen() {
           accessibilityRole="button"
           accessibilityLabel="Go back"
         >
-          <Text style={{ fontFamily: 'DMSans_400Regular', fontSize: 28, color: '#A09080', lineHeight: 28 }}>
+          <Text style={{ fontFamily: 'DMSans_400Regular', fontSize: 28, color: colors.inkMuted, lineHeight: 28 }}>
             ‹
           </Text>
         </Pressable>
@@ -100,7 +100,7 @@ export default function RegisterScreen() {
           style={{
             fontFamily: 'Lora_400Regular_Italic',
             fontSize: 30,
-            color: '#1A1A1A',
+            color: colors.inkPrimary,
             marginBottom: 8,
           }}
         >
@@ -110,7 +110,7 @@ export default function RegisterScreen() {
           style={{
             fontFamily: 'DMSans_400Regular',
             fontSize: 14,
-            color: '#A09080',
+            color: colors.inkMuted,
             marginBottom: 40,
             letterSpacing: 0.3,
           }}
@@ -123,42 +123,42 @@ export default function RegisterScreen() {
             value={firstName}
             onChangeText={setFirstName}
             placeholder="First name"
-            placeholderTextColor="#C4B59A"
+            placeholderTextColor={colors.inkSubtle}
             autoCapitalize="words"
             autoCorrect={false}
             editable={!loading}
             style={{
               flex: 1,
               borderWidth: 1,
-              borderColor: '#E8E3DC',
+              borderColor: colors.cardBorder,
               borderRadius: 16,
               paddingHorizontal: 20,
               paddingVertical: 14,
               fontFamily: 'DMSans_400Regular',
               fontSize: 16,
-              backgroundColor: '#FFFFFF',
-              color: '#1A1A1A',
+              backgroundColor: colors.surface,
+              color: colors.inkPrimary,
             }}
           />
           <TextInput
             value={lastName}
             onChangeText={setLastName}
             placeholder="Last name"
-            placeholderTextColor="#C4B59A"
+            placeholderTextColor={colors.inkSubtle}
             autoCapitalize="words"
             autoCorrect={false}
             editable={!loading}
             style={{
               flex: 1,
               borderWidth: 1,
-              borderColor: '#E8E3DC',
+              borderColor: colors.cardBorder,
               borderRadius: 16,
               paddingHorizontal: 20,
               paddingVertical: 14,
               fontFamily: 'DMSans_400Regular',
               fontSize: 16,
-              backgroundColor: '#FFFFFF',
-              color: '#1A1A1A',
+              backgroundColor: colors.surface,
+              color: colors.inkPrimary,
             }}
           />
         </View>
@@ -167,7 +167,7 @@ export default function RegisterScreen() {
           value={email}
           onChangeText={setEmail}
           placeholder="Email"
-          placeholderTextColor="#C4B59A"
+          placeholderTextColor={colors.inkSubtle}
           keyboardType="email-address"
           autoCapitalize="none"
           autoCorrect={false}
@@ -175,14 +175,14 @@ export default function RegisterScreen() {
           style={{
             width: '100%',
             borderWidth: 1,
-            borderColor: '#E8E3DC',
+            borderColor: colors.cardBorder,
             borderRadius: 16,
             paddingHorizontal: 20,
             paddingVertical: 14,
             fontFamily: 'DMSans_400Regular',
             fontSize: 16,
-            backgroundColor: '#FFFFFF',
-            color: '#1A1A1A',
+            backgroundColor: colors.surface,
+            color: colors.inkPrimary,
             marginBottom: 12,
           }}
         />
@@ -191,7 +191,7 @@ export default function RegisterScreen() {
           value={password}
           onChangeText={setPassword}
           placeholder="Password"
-          placeholderTextColor="#C4B59A"
+          placeholderTextColor={colors.inkSubtle}
           secureTextEntry
           editable={!loading}
           onSubmitEditing={handleCreateAccount}
@@ -199,14 +199,14 @@ export default function RegisterScreen() {
           style={{
             width: '100%',
             borderWidth: 1,
-            borderColor: '#E8E3DC',
+            borderColor: colors.cardBorder,
             borderRadius: 16,
             paddingHorizontal: 20,
             paddingVertical: 14,
             fontFamily: 'DMSans_400Regular',
             fontSize: 16,
-            backgroundColor: '#FFFFFF',
-            color: '#1A1A1A',
+            backgroundColor: colors.surface,
+            color: colors.inkPrimary,
             marginBottom: 4,
           }}
         />
@@ -214,7 +214,7 @@ export default function RegisterScreen() {
           style={{
             fontFamily: 'DMSans_400Regular',
             fontSize: 12,
-            color: '#A09080',
+            color: colors.inkMuted,
             marginBottom: 28,
             marginLeft: 4,
             letterSpacing: 0.2,
@@ -238,8 +238,8 @@ export default function RegisterScreen() {
                 height: 22,
                 borderRadius: 5,
                 borderWidth: 1.5,
-                borderColor: tosAccepted ? '#C4956A' : '#C4B59A',
-                backgroundColor: tosAccepted ? '#C4956A' : 'transparent',
+                borderColor: tosAccepted ? colors.amber : colors.inkSubtle,
+                backgroundColor: tosAccepted ? colors.amber : 'transparent',
                 alignItems: 'center',
                 justifyContent: 'center',
                 marginTop: 1,

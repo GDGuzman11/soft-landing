@@ -79,7 +79,7 @@ export default function TourTooltip({ text, rows, buttonLabel = 'Got it →', on
             bottom: 0,
             left: 0,
             right: 0,
-            backgroundColor: '#F5F0E8',
+            backgroundColor: colors.inputRow,
             borderTopLeftRadius: 20,
             borderTopRightRadius: 20,
             paddingHorizontal: 28,
@@ -96,7 +96,7 @@ export default function TourTooltip({ text, rows, buttonLabel = 'Got it →', on
             width: 36,
             height: 4,
             borderRadius: 2,
-            backgroundColor: '#D9D0C4',
+            backgroundColor: colors.cardBorder,
             marginBottom: 20,
           }}
         />
@@ -105,7 +105,7 @@ export default function TourTooltip({ text, rows, buttonLabel = 'Got it →', on
         <Text
           style={{
             fontSize: 13,
-            color: '#C4956A',
+            color: colors.amber,
             marginBottom: 12,
             opacity: 0.8,
           }}
@@ -119,7 +119,7 @@ export default function TourTooltip({ text, rows, buttonLabel = 'Got it →', on
             style={{
               fontFamily: 'Lora_400Regular_Italic',
               fontSize: 17,
-              color: '#3D2F2A',
+              color: colors.inkPrimary,
               textAlign: 'center',
               lineHeight: 26,
               marginBottom: 24,
@@ -148,7 +148,7 @@ export default function TourTooltip({ text, rows, buttonLabel = 'Got it →', on
                     width: 40,
                     height: 40,
                     borderRadius: 12,
-                    backgroundColor: '#EDE8E0',
+                    backgroundColor: colors.headerBg,
                     alignItems: 'center',
                     justifyContent: 'center',
                   }}
@@ -157,7 +157,7 @@ export default function TourTooltip({ text, rows, buttonLabel = 'Got it →', on
                     style={{
                       fontFamily: 'DMSans_400Regular',
                       fontSize: 20,
-                      color: '#3D2F2A',
+                      color: colors.inkPrimary,
                     }}
                   >
                     {row.symbol}
@@ -167,7 +167,7 @@ export default function TourTooltip({ text, rows, buttonLabel = 'Got it →', on
                   style={{
                     fontFamily: 'Lora_400Regular_Italic',
                     fontSize: 15,
-                    color: '#3D2F2A',
+                    color: colors.inkPrimary,
                     lineHeight: 22,
                     flex: 1,
                   }}
@@ -185,7 +185,7 @@ export default function TourTooltip({ text, rows, buttonLabel = 'Got it →', on
           accessibilityRole="button"
           accessibilityLabel={buttonLabel}
           style={({ pressed }) => ({
-            backgroundColor: '#C4956A',
+            backgroundColor: colors.amber,
             borderRadius: 24,
             paddingHorizontal: 32,
             paddingVertical: 12,

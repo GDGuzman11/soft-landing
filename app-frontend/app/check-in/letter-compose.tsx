@@ -239,7 +239,7 @@ export default function LetterComposeScreen() {
               style={{
                 fontFamily: 'DMSans_500Medium',
                 fontSize: 13,
-                color: '#A09080',
+                color: colors.inkMuted,
                 marginBottom: 8,
               }}
             >
@@ -248,7 +248,7 @@ export default function LetterComposeScreen() {
 
             <View
               style={{
-                backgroundColor: '#FFFFFF',
+                backgroundColor: colors.surface,
                 borderRadius: 12,
                 padding: 16,
                 marginBottom: 8,
@@ -265,11 +265,11 @@ export default function LetterComposeScreen() {
                 value={userInput}
                 onChangeText={(t) => setUserInput(t.slice(0, 500))}
                 placeholder="Tell God what's on your mind…"
-                placeholderTextColor="#C4B59A"
+                placeholderTextColor={colors.inkSubtle}
                 style={{
                   fontFamily: 'Lora_400Regular',
                   fontSize: 15,
-                  color: '#3D2F2A',
+                  color: colors.inkPrimary,
                   lineHeight: 24,
                   flex: 1,
                   textAlignVertical: 'top',
@@ -280,7 +280,7 @@ export default function LetterComposeScreen() {
                 style={{
                   fontFamily: 'DMSans_400Regular',
                   fontSize: 11,
-                  color: '#C4B59A',
+                  color: colors.inkSubtle,
                   textAlign: 'right',
                   marginTop: 8,
                 }}
@@ -293,7 +293,7 @@ export default function LetterComposeScreen() {
               style={{
                 fontFamily: 'DMSans_400Regular',
                 fontSize: 11,
-                color: '#C4B59A',
+                color: colors.inkSubtle,
                 marginBottom: 20,
               }}
             >
@@ -302,16 +302,16 @@ export default function LetterComposeScreen() {
 
             <Pressable
               onPress={handleSend}
-              disabled={letterLoading}
+              disabled={generating || letterLoading}
               accessibilityRole="button"
               accessibilityLabel={sendLabel}
               className="active:opacity-80"
               style={{
-                backgroundColor: '#C4956A',
+                backgroundColor: colors.amber,
                 borderRadius: 28,
                 paddingVertical: 14,
                 alignItems: 'center',
-                opacity: letterLoading ? 0.7 : 1,
+                opacity: generating ? 0.6 : letterLoading ? 0.7 : 1,
               }}
             >
               <Text
@@ -327,19 +327,19 @@ export default function LetterComposeScreen() {
         {showCrisisPrompt && (
           <View
             style={{
-              backgroundColor: '#FFF8F0',
+              backgroundColor: colors.inputRow,
               borderRadius: 12,
               padding: 20,
               marginTop: 20,
               borderLeftWidth: 3,
-              borderLeftColor: '#C4956A',
+              borderLeftColor: colors.amber,
             }}
           >
             <Text
               style={{
                 fontFamily: 'Lora_400Regular_Italic',
                 fontSize: 16,
-                color: '#3D2F2A',
+                color: colors.inkPrimary,
                 lineHeight: 24,
                 marginBottom: 12,
               }}
@@ -350,7 +350,7 @@ export default function LetterComposeScreen() {
               style={{
                 fontFamily: 'DMSans_400Regular',
                 fontSize: 14,
-                color: '#5A4A40',
+                color: colors.inkPrimary,
                 lineHeight: 22,
               }}
             >
@@ -389,7 +389,7 @@ export default function LetterComposeScreen() {
                   accessibilityLabel={letterSaved ? 'Letter saved' : 'Save letter'}
                   className="active:opacity-80"
                   style={{
-                    backgroundColor: letterSaved ? '#9CB59A' : '#C4956A',
+                    backgroundColor: letterSaved ? '#9CB59A' : colors.amber,
                     borderRadius: 24,
                     paddingHorizontal: 22,
                     paddingVertical: 11,
@@ -409,14 +409,14 @@ export default function LetterComposeScreen() {
                   className="active:opacity-60"
                   style={{
                     borderWidth: 1,
-                    borderColor: '#C4956A',
+                    borderColor: colors.amber,
                     borderRadius: 24,
                     paddingHorizontal: 22,
                     paddingVertical: 11,
                   }}
                 >
                   <Text
-                    style={{ fontFamily: 'DMSans_500Medium', fontSize: 14, color: '#C4956A' }}
+                    style={{ fontFamily: 'DMSans_500Medium', fontSize: 14, color: colors.amber }}
                   >
                     Share ↑
                   </Text>
@@ -433,7 +433,7 @@ export default function LetterComposeScreen() {
                 style={{ alignItems: 'center', marginTop: 20 }}
               >
                 <Text
-                  style={MUTED_LINK_TEXT_STYLE}
+                  style={mutedLinkTextStyle}
                 >
                   Done — go home
                 </Text>
@@ -449,7 +449,7 @@ export default function LetterComposeScreen() {
                 style={{ alignItems: 'center', marginTop: 12 }}
               >
                 <Text
-                  style={{ fontFamily: 'DMSans_400Regular', fontSize: 14, color: '#C4956A' }}
+                  style={{ fontFamily: 'DMSans_400Regular', fontSize: 14, color: colors.amber }}
                 >
                   Try again →
                 </Text>
