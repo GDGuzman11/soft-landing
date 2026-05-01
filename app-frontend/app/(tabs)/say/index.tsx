@@ -1,5 +1,5 @@
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { Pressable, SafeAreaView, StyleSheet, Text, View } from 'react-native'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
+import { Pressable, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native'
 import { router } from 'expo-router'
 import {
   collection,
@@ -14,25 +14,24 @@ import {
 import { getFunctions, httpsCallable } from 'firebase/functions'
 import { getAuth } from 'firebase/auth'
 import Animated, {
+  Easing,
   useAnimatedStyle,
   useSharedValue,
   withDelay,
   withTiming,
 } from 'react-native-reanimated'
 import app, { db } from '@/services/firebase'
-import { getSettings } from '@/storage/storage'
 
-// ---- Design tokens ----------------------------------------------------
+// ---- Design tokens --------------------------------------------------------
 const COLORS = {
   bg: '#FAF8F5',
   amber: '#C4956A',
   inkPrimary: '#3D2F2A',
   inkMuted: '#9A8F82',
   inkSubtle: '#C4B59A',
-  amberHairline: 'rgba(196,149,106,0.2)',
 } as const
 
-// ---- Voice data -------------------------------------------------------
+// ---- Voice data -----------------------------------------------------------
 type VoiceId = 'kind' | 'still' | 'steady' | 'wise'
 
 type Voice = {
@@ -41,7 +40,8 @@ type Voice = {
   descriptor: string
   glyph: string
   glyphColor: string
-  tint: string
+  bg: string
+  border: string
   premium: boolean
   offer: string
 }
@@ -53,400 +53,338 @@ const VOICES: readonly Voice[] = [
     descriptor: 'warm, close, unhurried',
     glyph: '◐',
     glyphColor: '#C4956A',
-    tint: '#FBF6EE',
+    bg: '#FAF6F0',
+    border: 'rgba(196,149,106,0.22)',
     premium: false,
-    offer: 'tell me about your day.',
+    offer: 'come sit. tell me about your day.',
   },
   {
     id: 'still',
     name: 'Still',
-    descriptor: 'quiet, present, unhurried',
+    descriptor: 'quiet presence, no need to fill the room',
     glyph: '◯',
     glyphColor: '#9A8F82',
-    tint: '#F1F2F0',
+    bg: '#F6F4F0',
+    border: 'rgba(154,143,130,0.22)',
     premium: true,
-    offer: 'sit with me a minute?',
+    offer: "i'm here. no need to fill the room.",
   },
   {
     id: 'steady',
     name: 'Steady',
-    descriptor: 'grounded, present, unwavering',
+    descriptor: 'grounded, unwavering — here for the heavy days',
     glyph: '◑',
-    glyphColor: '#C4956A',
-    tint: '#F4EDE0',
+    glyphColor: '#7D5D4B',
+    bg: '#F4F0EA',
+    border: 'rgba(125,93,75,0.22)',
     premium: true,
-    offer: "i'm here. start anywhere.",
+    offer: "whatever it is, we'll hold it together.",
   },
   {
     id: 'wise',
     name: 'Wise',
-    descriptor: 'older voice, longer view',
+    descriptor: 'older voice, longer view, longer patience',
     glyph: '◕',
-    glyphColor: '#6B5E56',
-    tint: '#EFE8DA',
+    glyphColor: '#6C5944',
+    bg: '#F2EEE6',
+    border: 'rgba(108,89,68,0.22)',
     premium: true,
-    offer: 'what are you turning over?',
+    offer: "start anywhere. i've got time.",
   },
 ] as const
 
-// ---- Types ------------------------------------------------------------
-type LastMessage = {
-  content: string
-  createdAt: Timestamp
-}
+// ---- Types ----------------------------------------------------------------
+type LastMessage = { content: string; createdAt: Timestamp }
+type SayStateData = Partial<Record<VoiceId, { hasUnread?: boolean }>>
 
-type VoiceState = {
-  hasUnread: boolean
-}
-
-type SayStateData = Partial<Record<VoiceId, VoiceState>>
-
-// ---- Helpers ----------------------------------------------------------
-function formatTimestamp(date: Date): string {
-  const now = new Date()
-  const diffMs = now.getTime() - date.getTime()
-  const diffMins = Math.floor(diffMs / 60000)
-  if (diffMins < 60) return `${diffMins}m`
-  const diffHours = Math.floor(diffMins / 60)
-  if (diffHours < 24) return `${diffHours}h`
-  const diffDays = Math.floor(diffHours / 24)
-  if (diffDays === 1) return 'yesterday'
-  if (diffDays < 7) return `${diffDays}d`
-  return `${Math.floor(diffDays / 7)}w`
-}
-
-function getGreeting(date: Date): string {
-  const hour = date.getHours()
-  if (hour >= 5 && hour <= 10) return "good morning. who's with you today?"
-  if (hour >= 11 && hour <= 16) return "hey. what's the day asking of you?"
-  if (hour >= 17 && hour <= 20) return 'long day? pick a door.'
+// ---- Helpers --------------------------------------------------------------
+function getGreeting(): string {
+  const h = new Date().getHours()
+  if (h >= 5 && h < 11) return "good morning. who's with you today?"
+  if (h >= 11 && h < 17) return "hey. what's the day asking of you?"
+  if (h >= 17 && h < 21) return 'long day? pick a door.'
   return "still up. it's okay. someone's here."
 }
 
-// ---- Cloud Function ---------------------------------------------------
-type ReachOutPayload = { userTimezoneOffset: number }
-type ReachOutResult = { delivered?: boolean }
-
-async function callMaybeDeliverReachOut(payload: ReachOutPayload): Promise<ReachOutResult> {
-  const functions = getFunctions(app, 'us-central1')
-  const fn = httpsCallable<ReachOutPayload, ReachOutResult>(functions, 'maybeDeliverReachOut')
-  const result = await fn(payload)
-  return result.data
+async function callMaybeDeliverReachOut(tzOffset: number): Promise<void> {
+  const fn = httpsCallable(getFunctions(app, 'us-central1'), 'maybeDeliverReachOut')
+  await fn({ userTimezoneOffset: tzOffset })
 }
 
-// ---- Voice card -------------------------------------------------------
+// ---- VoiceCard ------------------------------------------------------------
+const CARD_DELAYS = [120, 220, 320, 420] as const
+
 type VoiceCardProps = {
   voice: Voice
   index: number
   lastMessage: LastMessage | null
   hasUnread: boolean
-  isPremium: boolean
   onPress: () => void
 }
 
-function VoiceCard({ voice, index, lastMessage, hasUnread, isPremium, onPress }: VoiceCardProps) {
+function VoiceCard({ voice, index, lastMessage, hasUnread, onPress }: VoiceCardProps) {
   const opacity = useSharedValue(0)
-  const translateY = useSharedValue(4)
+  const translateY = useSharedValue(12)
+  const scale = useSharedValue(1)
 
   useEffect(() => {
-    const delay = (VOICES.length - 1 - index) * 80
-    opacity.value = withDelay(delay, withTiming(1, { duration: 300 }))
-    translateY.value = withDelay(delay, withTiming(0, { duration: 300 }))
+    const delay = CARD_DELAYS[index] ?? 120
+    const cfg = { duration: 550, easing: Easing.out(Easing.cubic) }
+    opacity.value = withDelay(delay, withTiming(1, cfg))
+    translateY.value = withDelay(delay, withTiming(0, cfg))
   }, [opacity, translateY, index])
 
-  const animatedStyle = useAnimatedStyle(() => ({
+  const animStyle = useAnimatedStyle(() => ({
     opacity: opacity.value,
-    transform: [{ translateY: translateY.value }],
+    transform: [{ translateY: translateY.value }, { scale: scale.value }],
   }))
 
-  const showLockGlyph = voice.premium && !isPremium
+  const onPressIn = useCallback(() => {
+    scale.value = withTiming(0.98, { duration: 180 })
+  }, [scale])
+
+  const onPressOut = useCallback(() => {
+    scale.value = withTiming(1, { duration: 180 })
+  }, [scale])
+
+  const isOffer = !lastMessage
   const previewText = lastMessage?.content ?? voice.offer
-  const previewStyle = lastMessage ? styles.cardPreview : styles.cardPreviewOffer
-  const timestampText = lastMessage ? formatTimestamp(lastMessage.createdAt.toDate()) : null
 
   return (
-    <Animated.View style={[styles.cardWrapper, animatedStyle]}>
+    <Animated.View style={[styles.cardWrapper, animStyle]}>
       <Pressable
         onPress={onPress}
+        onPressIn={onPressIn}
+        onPressOut={onPressOut}
         accessibilityRole="button"
-        accessibilityLabel={`${voice.name}, ${voice.descriptor}${
-          showLockGlyph ? ', premium' : ''
-        }${hasUnread ? ', has new message' : ''}`}
-        style={({ pressed }) => [
-          styles.card,
-          { backgroundColor: voice.tint, opacity: pressed ? 0.85 : 1 },
-        ]}
+        accessibilityLabel={`${voice.name}. ${voice.descriptor}${hasUnread ? '. new message' : ''}`}
       >
-        <View style={styles.cardLeft}>
-          <View style={styles.cardHeaderRow}>
-            <Text style={[styles.cardGlyph, { color: voice.glyphColor }]}>{voice.glyph}</Text>
-            <Text style={styles.cardName}>{voice.name}</Text>
+        <View style={[styles.card, { backgroundColor: voice.bg, borderColor: voice.border }]}>
+          {/* Row 1: glyph + name (left) · premium ✦ + unread dot (right) */}
+          <View style={styles.topRow}>
+            <View style={styles.nameRow}>
+              <Text style={[styles.glyph, { color: voice.glyphColor }]}>{voice.glyph}</Text>
+              <Text style={styles.name}>{voice.name}</Text>
+            </View>
+            <View style={styles.topRowRight}>
+              {voice.premium ? <Text style={styles.premiumMark}>{'✦'}</Text> : null}
+              {hasUnread ? <View style={styles.unreadDot} /> : null}
+            </View>
           </View>
-          <Text style={styles.cardDescriptor}>{voice.descriptor}</Text>
-          <Text style={previewStyle} numberOfLines={1} ellipsizeMode="tail">
+          {/* Row 2: descriptor */}
+          <Text style={styles.descriptor}>{voice.descriptor}</Text>
+          {/* Row 3: last message preview or opening offer */}
+          <Text
+            style={[styles.preview, isOffer && styles.previewOffer]}
+            numberOfLines={2}
+            ellipsizeMode="tail"
+          >
             {previewText}
           </Text>
-        </View>
-        <View style={styles.cardRight}>
-          {timestampText ? <Text style={styles.cardTimestamp}>{timestampText}</Text> : null}
-          {showLockGlyph ? <Text style={styles.cardLock}>{'✦'}</Text> : null}
-          {hasUnread ? <View style={styles.cardUnreadDot} /> : null}
         </View>
       </Pressable>
     </Animated.View>
   )
 }
 
-// ---- Main screen ------------------------------------------------------
+// ---- Main screen ----------------------------------------------------------
 export default function SayLobbyScreen() {
   const [authReady, setAuthReady] = useState(false)
-  const [isPremium, setIsPremium] = useState(false)
   const [lastMessages, setLastMessages] = useState<Partial<Record<VoiceId, LastMessage>>>({})
   const [unreadState, setUnreadState] = useState<SayStateData>({})
   const [loading, setLoading] = useState(true)
-  const [errored, setErrored] = useState(false)
-  const greetingRef = useRef<string>(getGreeting(new Date()))
 
-  // ---- Auth check ----------------------------------------------------
+  const headerOpacity = useSharedValue(0)
+  const greeting = useRef(getGreeting()).current
+
+  const headerStyle = useAnimatedStyle(() => ({ opacity: headerOpacity.value }))
+
+  // Header fade in on mount
   useEffect(() => {
-    const user = getAuth().currentUser
-    if (!user) {
+    headerOpacity.value = withTiming(1, { duration: 700, easing: Easing.out(Easing.quad) })
+  }, [headerOpacity])
+
+  // Auth gate
+  useEffect(() => {
+    if (!getAuth().currentUser) {
       router.replace('/sign-in')
       return
     }
     setAuthReady(true)
   }, [])
 
-  // ---- Load subscription + last messages + reach-out -----------------
+  // Load last messages + fire reach-out
   useEffect(() => {
     if (!authReady) return
     const user = getAuth().currentUser
     if (!user) return
-
     let cancelled = false
 
     async function load() {
+      const uid = user!.uid
       try {
-        const settings = await getSettings().catch(() => null)
-        if (cancelled) return
-        setIsPremium(settings?.subscription.tier === 'premium')
-
-        // Load last message for each voice
-        const uid = user!.uid
         const results = await Promise.all(
-          VOICES.map(async (voice) => {
+          VOICES.map(async (v) => {
             try {
-              const messagesRef = collection(db, 'say', uid, voice.id)
-              const q = query(messagesRef, orderBy('createdAt', 'desc'), limit(1))
-              const snap = await getDocs(q)
-              if (snap.empty) return [voice.id, null] as const
-              const docData = snap.docs[0].data() as {
-                content?: unknown
-                createdAt?: unknown
-              }
-              const content = typeof docData.content === 'string' ? docData.content : ''
-              if (!(docData.createdAt instanceof Timestamp)) return [voice.id, null] as const
-              const lm: LastMessage = { content, createdAt: docData.createdAt }
-              return [voice.id, lm] as const
+              const snap = await getDocs(
+                query(collection(db, 'say', uid, v.id), orderBy('createdAt', 'desc'), limit(1)),
+              )
+              if (snap.empty) return [v.id, null] as const
+              const d = snap.docs[0].data() as { content?: unknown; createdAt?: unknown }
+              const content = typeof d.content === 'string' ? d.content : ''
+              if (!(d.createdAt instanceof Timestamp)) return [v.id, null] as const
+              return [v.id, { content, createdAt: d.createdAt }] as const
             } catch {
-              return [voice.id, null] as const
+              return [v.id, null] as const
             }
           }),
         )
         if (cancelled) return
         const next: Partial<Record<VoiceId, LastMessage>> = {}
         for (const [id, lm] of results) {
-          if (lm) next[id] = lm
+          if (lm) next[id as VoiceId] = lm
         }
         setLastMessages(next)
-
-        // Fire reach-out check (non-blocking; ignore errors)
-        try {
-          const tzOffset = -new Date().getTimezoneOffset() / 60
-          await callMaybeDeliverReachOut({ userTimezoneOffset: tzOffset })
-        } catch {
-          // non-fatal
-        }
-      } catch {
-        if (!cancelled) setErrored(true)
+        callMaybeDeliverReachOut(-new Date().getTimezoneOffset() / 60).catch(() => {})
       } finally {
         if (!cancelled) setLoading(false)
       }
     }
 
     void load()
-
     return () => {
       cancelled = true
     }
   }, [authReady])
 
-  // ---- Real-time unread subscription ---------------------------------
+  // Realtime unread state
   useEffect(() => {
     if (!authReady) return
     const user = getAuth().currentUser
     if (!user) return
-
-    const stateRef = doc(db, 'sayState', user.uid)
-    const unsub = onSnapshot(
-      stateRef,
-      (snap) => {
-        if (!snap.exists()) {
-          setUnreadState({})
-          return
-        }
-        const data = snap.data() as SayStateData
-        setUnreadState(data ?? {})
-      },
-      () => {
-        // non-fatal; default to no unreads
-      },
+    return onSnapshot(
+      doc(db, 'sayState', user.uid),
+      (snap) => setUnreadState(snap.exists() ? (snap.data() as SayStateData) : {}),
+      () => {},
     )
-
-    return () => unsub()
   }, [authReady])
 
-  // ---- Handlers ------------------------------------------------------
-  const handleVoicePress = useCallback(
-    (voice: Voice) => {
-      // TODO: re-enable premium gate before launch
-      // if (voice.premium && !isPremium) {
-      //   router.push('/paywall')
-      //   return
-      // }
-      router.push({ pathname: '/say/[personaId]', params: { personaId: voice.id } })
-    },
-    [isPremium],
-  )
+  const handlePress = useCallback((voice: Voice) => {
+    // TODO: re-enable premium gate before launch
+    router.push({ pathname: '/say/[personaId]', params: { personaId: voice.id } })
+  }, [])
 
-  const greeting = useMemo(() => greetingRef.current, [])
-
-  // UI states:
-  // - Loading: render greeting + cards (cards animate in regardless; previews show offers).
-  //   The parchment IS the loading aesthetic — no spinner.
-  // - Error: surface inline error message above cards. Cards still tappable (Kind always works).
-  // - Empty: when no thread history exists, each card shows its opening offer (handled in VoiceCard).
   return (
-    <SafeAreaView style={styles.safeArea}>
-      <View style={styles.container}>
-        <Text style={styles.greeting}>{greeting}</Text>
-        {errored ? (
-          <Text style={styles.errorText}>
-            {"couldn't load your threads. they're still there — try again in a moment."}
-          </Text>
-        ) : null}
-        <View style={styles.cardsList}>
-          {VOICES.map((voice, index) => (
+    <SafeAreaView style={styles.safe}>
+      <ScrollView
+        contentContainerStyle={styles.scroll}
+        showsVerticalScrollIndicator={false}
+      >
+        <Animated.View style={[styles.header, headerStyle]}>
+          <Text style={styles.greeting}>{greeting}</Text>
+        </Animated.View>
+
+        <View style={styles.stack}>
+          {VOICES.map((voice, i) => (
             <VoiceCard
               key={voice.id}
               voice={voice}
-              index={index}
-              lastMessage={loading ? null : lastMessages[voice.id] ?? null}
+              index={i}
+              lastMessage={loading ? null : (lastMessages[voice.id] ?? null)}
               hasUnread={unreadState[voice.id]?.hasUnread ?? false}
-              isPremium={isPremium}
-              onPress={() => handleVoicePress(voice)}
+              onPress={() => handlePress(voice)}
             />
           ))}
         </View>
-      </View>
+      </ScrollView>
     </SafeAreaView>
   )
 }
 
-// ---- Styles -----------------------------------------------------------
+// ---- Styles ---------------------------------------------------------------
 const styles = StyleSheet.create({
-  safeArea: {
+  safe: {
     flex: 1,
     backgroundColor: COLORS.bg,
   },
-  container: {
-    flex: 1,
-    paddingHorizontal: 16,
-    paddingTop: 16,
+  scroll: {
+    paddingHorizontal: 20,
+    paddingTop: 32,
+    paddingBottom: 64,
+  },
+  header: {
+    marginBottom: 40,
   },
   greeting: {
     fontFamily: 'Lora_400Regular_Italic',
-    fontSize: 16,
-    color: COLORS.inkMuted,
-    marginBottom: 20,
-    paddingHorizontal: 4,
+    fontSize: 24,
+    color: COLORS.inkPrimary,
+    lineHeight: 34,
   },
-  errorText: {
-    fontFamily: 'DMSans_400Regular',
-    fontSize: 13,
-    color: COLORS.inkMuted,
-    marginBottom: 12,
-    paddingHorizontal: 4,
+  stack: {
+    gap: 16,
   },
-  cardsList: {
-    gap: 12,
-  },
+  // ---- Card ----
   cardWrapper: {
     width: '100%',
   },
   card: {
+    borderRadius: 20,
+    borderWidth: 1,
+    padding: 22,
+    minHeight: 132,
+    width: '100%',
+  },
+  topRow: {
     flexDirection: 'row',
-    minHeight: 88,
-    borderRadius: 12,
-    paddingHorizontal: 16,
-    paddingVertical: 14,
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 8,
   },
-  cardLeft: {
-    flex: 1,
-    paddingRight: 12,
-  },
-  cardHeaderRow: {
+  nameRow: {
     flexDirection: 'row',
     alignItems: 'center',
+    gap: 10,
   },
-  cardGlyph: {
-    fontFamily: 'DMSans_500Medium',
-    fontSize: 24,
-    marginRight: 10,
-    lineHeight: 28,
+  glyph: {
+    fontFamily: 'DMSans_400Regular',
+    fontSize: 22,
+    lineHeight: 26,
   },
-  cardName: {
+  name: {
     fontFamily: 'DMSans_500Medium',
     fontSize: 17,
     color: COLORS.inkPrimary,
   },
-  cardDescriptor: {
-    fontFamily: 'DMSans_400Regular',
-    fontSize: 12,
-    color: COLORS.inkMuted,
-    marginTop: 4,
-  },
-  cardPreview: {
-    fontFamily: 'Lora_400Regular_Italic',
-    fontSize: 14,
-    color: COLORS.inkMuted,
-    marginTop: 6,
-  },
-  cardPreviewOffer: {
-    fontFamily: 'Lora_400Regular_Italic',
-    fontSize: 14,
-    color: COLORS.inkSubtle,
-    marginTop: 6,
-  },
-  cardRight: {
-    alignItems: 'flex-end',
-    justifyContent: 'flex-start',
+  topRowRight: {
+    flexDirection: 'row',
+    alignItems: 'center',
     gap: 6,
   },
-  cardTimestamp: {
+  premiumMark: {
     fontFamily: 'DMSans_400Regular',
-    fontSize: 11,
-    color: COLORS.inkMuted,
-  },
-  cardLock: {
-    fontFamily: 'DMSans_400Regular',
-    fontSize: 11,
+    fontSize: 13,
     color: COLORS.amber,
   },
-  cardUnreadDot: {
+  unreadDot: {
     width: 6,
     height: 6,
     borderRadius: 3,
     backgroundColor: COLORS.amber,
+  },
+  descriptor: {
+    fontFamily: 'DMSans_400Regular',
+    fontSize: 13,
+    color: COLORS.inkMuted,
+    marginBottom: 10,
+  },
+  preview: {
+    fontFamily: 'Lora_400Regular_Italic',
+    fontSize: 15,
+    color: COLORS.inkMuted,
+    lineHeight: 22,
+  },
+  previewOffer: {
+    color: COLORS.inkSubtle,
   },
 })

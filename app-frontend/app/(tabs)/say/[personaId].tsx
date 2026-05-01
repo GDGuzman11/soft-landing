@@ -35,39 +35,35 @@ import Animated, {
 } from 'react-native-reanimated'
 import app, { db } from '@/services/firebase'
 
-// ---- Design tokens ----------------------------------------------------
+// ---- Design tokens --------------------------------------------------------
 const COLORS = {
   bg: '#FAF8F5',
   amber: '#C4956A',
   inkPrimary: '#3D2F2A',
   inkMuted: '#9A8F82',
   inkSubtle: '#C4B59A',
-  amberTint: 'rgba(196,149,106,0.05)',
-  amberHairline: 'rgba(196,149,106,0.2)',
+  hairline: 'rgba(196,149,106,0.18)',
+  userBubble: '#C4956A',
+  userBubbleText: '#FFFFFF',
 } as const
 
 const SIX_HOURS_MS = 6 * 60 * 60 * 1000
 
-// ---- Voice metadata ---------------------------------------------------
+// ---- Voice metadata -------------------------------------------------------
 type VoiceId = 'kind' | 'still' | 'steady' | 'wise'
 
-const VOICE_META: Record<VoiceId, { name: string; glyph: string; glyphColor: string }> = {
-  kind: { name: 'Kind', glyph: '◐', glyphColor: '#C4956A' },
-  still: { name: 'Still', glyph: '◯', glyphColor: '#9A8F82' },
-  steady: { name: 'Steady', glyph: '◑', glyphColor: '#C4956A' },
-  wise: { name: 'Wise', glyph: '◕', glyphColor: '#6B5E56' },
+const VOICE_META: Record<VoiceId, { name: string; glyph: string; glyphColor: string; bg: string; border: string }> = {
+  kind:   { name: 'Kind',   glyph: '◐', glyphColor: '#C4956A', bg: '#FAF6F0', border: 'rgba(196,149,106,0.22)' },
+  still:  { name: 'Still',  glyph: '◯', glyphColor: '#9A8F82', bg: '#F6F4F0', border: 'rgba(154,143,130,0.22)' },
+  steady: { name: 'Steady', glyph: '◑', glyphColor: '#7D5D4B', bg: '#F4F0EA', border: 'rgba(125,93,75,0.22)' },
+  wise:   { name: 'Wise',   glyph: '◕', glyphColor: '#6C5944', bg: '#F2EEE6', border: 'rgba(108,89,68,0.22)' },
 }
 
-function isVoiceId(value: unknown): value is VoiceId {
-  return value === 'kind' || value === 'still' || value === 'steady' || value === 'wise'
+function isVoiceId(v: unknown): v is VoiceId {
+  return v === 'kind' || v === 'still' || v === 'steady' || v === 'wise'
 }
 
-// ---- Storage keys -----------------------------------------------------
-const STORAGE_KEYS = {
-  consent: 'say_consent_shown',
-} as const
-
-// ---- Message + thread item types --------------------------------------
+// ---- Types ----------------------------------------------------------------
 type SayMessage = {
   id: string
   role: 'user' | 'assistant' | 'reachOut'
@@ -77,18 +73,16 @@ type SayMessage = {
 }
 
 type ThreadItem =
-  | { kind: 'message'; message: SayMessage; marginTop: number }
+  | { kind: 'message'; message: SayMessage; isLastInGroup: boolean }
   | { kind: 'date-divider'; id: string; label: string }
-  | { kind: 'thinking'; id: string }
+  | { kind: 'typing'; id: string }
   | { kind: 'error'; id: string }
 
-// ---- Helpers ----------------------------------------------------------
+// ---- Helpers --------------------------------------------------------------
 function isSameCalendarDay(a: Date, b: Date): boolean {
-  return (
-    a.getFullYear() === b.getFullYear() &&
+  return a.getFullYear() === b.getFullYear() &&
     a.getMonth() === b.getMonth() &&
     a.getDate() === b.getDate()
-  )
 }
 
 function formatDateLabel(date: Date): string {
@@ -97,154 +91,153 @@ function formatDateLabel(date: Date): string {
   const yesterday = new Date(now)
   yesterday.setDate(now.getDate() - 1)
   if (isSameCalendarDay(date, yesterday)) return 'Yesterday'
-  const diffDays = Math.floor((now.getTime() - date.getTime()) / (24 * 60 * 60 * 1000))
+  const diffDays = Math.floor((now.getTime() - date.getTime()) / 86400000)
   if (diffDays < 7) return date.toLocaleDateString(undefined, { weekday: 'long' })
   return date.toLocaleDateString(undefined, { month: 'long', day: 'numeric' })
 }
 
-function shouldInsertDivider(prev: SayMessage, curr: SayMessage): boolean {
-  const prevDate = prev.createdAt.toDate()
-  const currDate = curr.createdAt.toDate()
-  if (!isSameCalendarDay(prevDate, currDate)) return true
-  return Math.abs(currDate.getTime() - prevDate.getTime()) > SIX_HOURS_MS
-}
-
-function isAssistantLike(role: SayMessage['role']): boolean {
+function isAI(role: SayMessage['role']): boolean {
   return role === 'assistant' || role === 'reachOut'
 }
 
-function computeMarginTop(prev: SayMessage | null, curr: SayMessage): number {
-  if (!prev) return 0
-  const prevAssistant = isAssistantLike(prev.role)
-  const currAssistant = isAssistantLike(curr.role)
-  if (prevAssistant === currAssistant) return 16
-  // user → assistant
-  if (!prevAssistant && currAssistant) return 20
-  // assistant → user
-  return 40
-}
-
-/**
- * Build the FlatList data array. Returns items in REVERSE chronological order
- * because the FlatList is `inverted`. `reachOut` rows are treated like assistant
- * rows for layout.
- *
- * Input `messages` is expected in chronological (oldest → newest) order.
- */
 function buildThreadItems(
   messages: readonly SayMessage[],
-  thinking: boolean,
+  typing: boolean,
   errored: boolean,
 ): ThreadItem[] {
   const chrono: ThreadItem[] = []
-
   let prev: SayMessage | null = null
-  for (const m of messages) {
-    if (prev && shouldInsertDivider(prev, m)) {
-      chrono.push({
-        kind: 'date-divider',
-        id: `date-${m.id}`,
-        label: formatDateLabel(m.createdAt.toDate()),
-      })
+
+  for (let i = 0; i < messages.length; i++) {
+    const m = messages[i]!
+    const next = messages[i + 1]
+
+    // Date divider
+    if (prev) {
+      const prevDate = prev.createdAt.toDate()
+      const currDate = m.createdAt.toDate()
+      if (!isSameCalendarDay(prevDate, currDate) ||
+          Math.abs(currDate.getTime() - prevDate.getTime()) > SIX_HOURS_MS) {
+        chrono.push({ kind: 'date-divider', id: `date-${m.id}`, label: formatDateLabel(currDate) })
+      }
     }
-    chrono.push({ kind: 'message', message: m, marginTop: computeMarginTop(prev, m) })
+
+    // isLastInGroup: next msg is different sender, or this is the last msg
+    const isLastInGroup = !next || isAI(next.role) !== isAI(m.role)
+    chrono.push({ kind: 'message', message: m, isLastInGroup })
     prev = m
   }
 
-  if (thinking) chrono.push({ kind: 'thinking', id: 'thinking' })
+  if (typing) chrono.push({ kind: 'typing', id: 'typing' })
   if (errored) chrono.push({ kind: 'error', id: 'error' })
 
   return chrono.reverse()
 }
 
-// ---- ThinkingGlyph ----------------------------------------------------
-function ThinkingGlyph({ reduceMotion }: { reduceMotion: boolean }) {
-  const opacity = useSharedValue(reduceMotion ? 1 : 0.55)
-  const scale = useSharedValue(1)
+// ---- Typing indicator — three bouncing dots -------------------------------
+function TypingDot({ delay, reduceMotion }: { delay: number; reduceMotion: boolean }) {
+  const y = useSharedValue(0)
+  const opacity = useSharedValue(0.4)
 
   useEffect(() => {
-    if (reduceMotion) {
-      opacity.value = 1
-      scale.value = 1
-      return () => {
-        // no animation to cancel
-      }
-    }
-    opacity.value = withDelay(
-      400,
+    if (reduceMotion) return
+    y.value = withDelay(
+      delay,
       withRepeat(
-        withSequence(withTiming(1, { duration: 1200 }), withTiming(0.55, { duration: 1200 })),
+        withSequence(withTiming(-5, { duration: 300 }), withTiming(0, { duration: 300 })),
         -1,
         false,
       ),
     )
-    scale.value = withDelay(
-      400,
+    opacity.value = withDelay(
+      delay,
       withRepeat(
-        withSequence(withTiming(1.08, { duration: 1200 }), withTiming(1, { duration: 1200 })),
+        withSequence(withTiming(1, { duration: 300 }), withTiming(0.4, { duration: 300 })),
         -1,
         false,
       ),
     )
     return () => {
+      cancelAnimation(y)
       cancelAnimation(opacity)
-      cancelAnimation(scale)
     }
-  }, [opacity, scale, reduceMotion])
+  }, [y, opacity, delay, reduceMotion])
 
-  const animatedStyle = useAnimatedStyle(() => ({
+  const style = useAnimatedStyle(() => ({
+    transform: [{ translateY: y.value }],
     opacity: opacity.value,
-    transform: [{ scale: scale.value }],
   }))
 
+  return <Animated.View style={[styles.typingDot, style]} />
+}
+
+function TypingIndicator({ voiceId, reduceMotion }: { voiceId: VoiceId; reduceMotion: boolean }) {
+  const meta = VOICE_META[voiceId]
   return (
-    <View style={styles.thinkingRow}>
-      <Animated.Text style={[styles.thinkingGlyph, animatedStyle]}>{'✦'}</Animated.Text>
-      <Text style={styles.thinkingDots}>{'…'}</Text>
+    <View style={[styles.aiBubbleRow, styles.typingRow]}>
+      <Text style={[styles.voiceAvatar, { color: meta.glyphColor }]}>{meta.glyph}</Text>
+      <View style={[styles.aiBubble, styles.typingBubble, { backgroundColor: meta.bg, borderColor: meta.border }]}>
+        <TypingDot delay={0} reduceMotion={reduceMotion} />
+        <TypingDot delay={150} reduceMotion={reduceMotion} />
+        <TypingDot delay={300} reduceMotion={reduceMotion} />
+      </View>
     </View>
   )
 }
 
-// ---- Date divider -----------------------------------------------------
+// ---- Date divider ---------------------------------------------------------
 function DateDivider({ label }: { label: string }) {
   return <Text style={styles.dateDivider}>{`· · · ${label} · · ·`}</Text>
 }
 
-// ---- User message (naked on parchment) --------------------------------
-function UserMessage({ content, marginTop }: { content: string; marginTop: number }) {
+// ---- User bubble (right-aligned) ------------------------------------------
+function UserBubble({ content, isLastInGroup }: { content: string; isLastInGroup: boolean }) {
   return (
-    <View style={[styles.userRow, { marginTop }]}>
-      <Text style={styles.userText}>{content}</Text>
+    <View style={styles.userBubbleWrapper}>
+      <View style={[styles.userBubble, isLastInGroup && styles.userBubbleTail]}>
+        <Text style={styles.userBubbleText}>{content}</Text>
+      </View>
     </View>
   )
 }
 
-// ---- Assistant message (amber-tinted card) ----------------------------
-function AssistantMessage({
+// ---- AI bubble (left-aligned) ---------------------------------------------
+function AIBubble({
   content,
   reference,
-  marginTop,
+  voiceId,
+  isLastInGroup,
 }: {
   content: string
   reference?: string
-  marginTop: number
+  voiceId: VoiceId
+  isLastInGroup: boolean
 }) {
+  const meta = VOICE_META[voiceId]
   return (
-    <View style={[styles.assistantCard, { marginTop }]}>
-      <Text style={styles.assistantGlyph}>{'✦'}</Text>
-      <View style={{ flex: 1 }}>
-        <Text style={styles.assistantText}>{content}</Text>
+    <View style={styles.aiBubbleRow}>
+      {isLastInGroup ? (
+        <Text style={[styles.voiceAvatar, { color: meta.glyphColor }]}>{meta.glyph}</Text>
+      ) : (
+        <View style={styles.voiceAvatarGap} />
+      )}
+      <View style={[
+        styles.aiBubble,
+        isLastInGroup && styles.aiBubbleTail,
+        { backgroundColor: meta.bg, borderColor: meta.border },
+      ]}>
+        <Text style={styles.aiBubbleText}>{content}</Text>
         {reference ? <Text style={styles.referenceText}>{reference}</Text> : null}
       </View>
     </View>
   )
 }
 
-// ---- Inline error row -------------------------------------------------
+// ---- Inline error ---------------------------------------------------------
 function ErrorRow({ onRetry }: { onRetry: () => void }) {
   return (
     <View style={styles.errorRow}>
-      <Text style={styles.errorText}>{`Something didn't reach me. Want to send it again? `}</Text>
+      <Text style={styles.errorText}>{"didn't reach me. "}</Text>
       <Pressable onPress={onRetry} accessibilityRole="button" accessibilityLabel="Try again">
         <Text style={styles.errorRetry}>{'Try again'}</Text>
       </Pressable>
@@ -252,18 +245,18 @@ function ErrorRow({ onRetry }: { onRetry: () => void }) {
   )
 }
 
-// ---- Empty state ------------------------------------------------------
-function EmptyState({
-  consentVisible,
-  onConsentDismiss,
-}: {
+// ---- Empty state ----------------------------------------------------------
+function EmptyState({ meta, consentVisible, onConsentDismiss }: {
+  meta: (typeof VOICE_META)[VoiceId]
   consentVisible: boolean
   onConsentDismiss: () => void
 }) {
   return (
     <View style={styles.emptyContainer}>
-      <Text style={styles.emptyGlyph}>{'✦'}</Text>
-      <View style={{ height: 16 }} />
+      <Text style={[styles.emptyGlyph, { color: meta.glyphColor }]}>{meta.glyph}</Text>
+      <View style={{ height: 12 }} />
+      <Text style={styles.emptyName}>{meta.name}</Text>
+      <View style={{ height: 20 }} />
       {consentVisible ? (
         <>
           <Text style={styles.consentText}>
@@ -273,23 +266,19 @@ function EmptyState({
             onPress={onConsentDismiss}
             accessibilityRole="button"
             accessibilityLabel="Got it"
-            style={({ pressed }) => ({ opacity: pressed ? 0.6 : 1, marginTop: 12 })}
+            style={({ pressed }) => ({ opacity: pressed ? 0.6 : 1, marginTop: 14 })}
           >
-            <Text style={styles.consentButton}>{'✦  Got it'}</Text>
+            <Text style={styles.consentButton}>{'got it ✦'}</Text>
           </Pressable>
-          <View style={{ height: 24 }} />
         </>
       ) : null}
-      <Text style={styles.emptyHeadline}>{'This is a quiet space.'}</Text>
-      <View style={{ height: 8 }} />
-      <Text style={styles.emptySubhead}>{'Say anything — or nothing.'}</Text>
     </View>
   )
 }
 
-// ---- Cloud Function call ----------------------------------------------
-type SayResponsePayload = { message: string; personaId: VoiceId }
-type SayResponseResult = {
+// ---- Cloud Function -------------------------------------------------------
+type SayPayload = { message: string; personaId: VoiceId }
+type SayResult = {
   response?: string
   blocked?: boolean
   showCrisisPrompt?: boolean
@@ -297,90 +286,67 @@ type SayResponseResult = {
   rateLimitType?: 'daily' | 'burst'
 }
 
-async function callGenerateSayResponse(payload: SayResponsePayload): Promise<SayResponseResult> {
-  const functions = getFunctions(app, 'us-central1')
-  const fn = httpsCallable<SayResponsePayload, SayResponseResult>(functions, 'generateSayResponse')
-  const result = await fn(payload)
-  return result.data
+async function callGenerateSayResponse(payload: SayPayload): Promise<SayResult> {
+  const fn = httpsCallable<SayPayload, SayResult>(getFunctions(app, 'us-central1'), 'generateSayResponse')
+  return (await fn(payload)).data
 }
 
-// ---- Main screen ------------------------------------------------------
+// ---- Main screen ----------------------------------------------------------
 export default function SayThreadScreen() {
   const params = useLocalSearchParams<{ personaId?: string | string[] }>()
-  const rawPersonaId = Array.isArray(params.personaId) ? params.personaId[0] : params.personaId
-  const personaId: VoiceId = isVoiceId(rawPersonaId) ? rawPersonaId : 'kind'
+  const raw = Array.isArray(params.personaId) ? params.personaId[0] : params.personaId
+  const personaId: VoiceId = isVoiceId(raw) ? raw : 'kind'
   const meta = VOICE_META[personaId]
 
   const [messages, setMessages] = useState<SayMessage[]>([])
   const [draft, setDraft] = useState('')
-  const [isSending, setIsSending] = useState(false)
+  const [isTyping, setIsTyping] = useState(false)
   const [errored, setErrored] = useState(false)
   const [consentVisible, setConsentVisible] = useState(false)
   const [snapshotReceived, setSnapshotReceived] = useState(false)
   const [authReady, setAuthReady] = useState(false)
   const [reduceMotion, setReduceMotion] = useState(false)
 
-  const lastSendPayloadRef = useRef<SayResponsePayload | null>(null)
+  const lastPayloadRef = useRef<SayPayload | null>(null)
 
-  // ---- Reduce motion -------------------------------------------------
+  // Reduce motion
   useEffect(() => {
     let cancelled = false
     AccessibilityInfo.isReduceMotionEnabled()
-      .then((enabled) => {
-        if (!cancelled) setReduceMotion(enabled)
-      })
-      .catch(() => {
-        // non-fatal
-      })
-    return () => {
-      cancelled = true
-    }
+      .then((v) => { if (!cancelled) setReduceMotion(v) })
+      .catch(() => {})
+    return () => { cancelled = true }
   }, [])
 
-  // ---- Auth check + consent load -------------------------------------
+  // Auth + consent
   useEffect(() => {
     let cancelled = false
-    const user = getAuth().currentUser
-    if (!user) {
-      router.replace('/sign-in')
-      return
-    }
+    if (!getAuth().currentUser) { router.replace('/sign-in'); return }
     setAuthReady(true)
-
-    AsyncStorage.getItem(STORAGE_KEYS.consent)
-      .then((storedConsent) => {
-        if (cancelled) return
-        setConsentVisible(storedConsent !== 'true')
-      })
-      .catch(() => {
-        // non-fatal
-      })
-
-    return () => {
-      cancelled = true
-    }
+    AsyncStorage.getItem('say_consent_shown')
+      .then((v) => { if (!cancelled) setConsentVisible(v !== 'true') })
+      .catch(() => {})
+    return () => { cancelled = true }
   }, [])
 
-  // ---- Firestore subscription ----------------------------------------
+  // Firestore subscription
   useEffect(() => {
     if (!authReady) return
     const user = getAuth().currentUser
     if (!user) return
 
-    const messagesRef = collection(db, 'say', user.uid, personaId)
-    const q = query(messagesRef, orderBy('createdAt', 'desc'), limit(50))
+    const q = query(
+      collection(db, 'say', user.uid, personaId),
+      orderBy('createdAt', 'desc'),
+      limit(50),
+    )
 
-    const unsub = onSnapshot(
+    return onSnapshot(
       q,
       (snap) => {
         const docs: SayMessage[] = []
         snap.forEach((d) => {
-          const data = d.data() as {
-            role?: unknown
-            content?: unknown
-            reference?: unknown
-            createdAt?: unknown
-          }
+          const data = d.data() as { role?: unknown; content?: unknown; reference?: unknown; createdAt?: unknown }
           let role: SayMessage['role'] = 'user'
           if (data.role === 'assistant') role = 'assistant'
           else if (data.role === 'reachOut') role = 'reachOut'
@@ -393,148 +359,108 @@ export default function SayThreadScreen() {
         setMessages(docs)
         setSnapshotReceived(true)
       },
-      () => {
-        setSnapshotReceived(true)
-        setErrored(true)
-      },
+      () => { setSnapshotReceived(true); setErrored(true) },
     )
-
-    return () => unsub()
-    // NOTE: do NOT write to /sayState/{uid} from the client — Firestore rules
-    // block client writes; the backend owns that document. The unread dot
-    // clears server-side via the reach-out delivery flow.
   }, [authReady, personaId])
 
-  // ---- Send handler --------------------------------------------------
+  // Send
   const handleSend = useCallback(async () => {
     const trimmed = draft.trim()
-    if (!trimmed || isSending) return
+    if (!trimmed || isTyping) return
     setErrored(false)
-    setIsSending(true)
+    setIsTyping(true)
     setDraft('')
-    const payload: SayResponsePayload = { message: trimmed, personaId }
-    lastSendPayloadRef.current = payload
+    const payload: SayPayload = { message: trimmed, personaId }
+    lastPayloadRef.current = payload
 
     try {
       const result = await callGenerateSayResponse(payload)
-      if (result.blocked || result.rateLimited) {
-        setErrored(true)
-      } else if (result.showCrisisPrompt) {
-        router.push('/check-in/message' as never)
-      }
+      if (result.blocked || result.rateLimited) setErrored(true)
+      else if (result.showCrisisPrompt) router.push('/check-in/message' as never)
     } catch {
       setErrored(true)
     } finally {
-      setIsSending(false)
+      setIsTyping(false)
     }
-  }, [draft, isSending, personaId])
+  }, [draft, isTyping, personaId])
 
   const handleRetry = useCallback(async () => {
-    const last = lastSendPayloadRef.current
-    if (!last || isSending) return
+    const last = lastPayloadRef.current
+    if (!last || isTyping) return
     setErrored(false)
-    setIsSending(true)
+    setIsTyping(true)
     try {
       const result = await callGenerateSayResponse(last)
       if (result.blocked || result.rateLimited) setErrored(true)
     } catch {
       setErrored(true)
     } finally {
-      setIsSending(false)
+      setIsTyping(false)
     }
-  }, [isSending])
+  }, [isTyping])
 
-  // ---- Consent dismiss -----------------------------------------------
-  const handleConsentDismiss = useCallback(() => {
-    setConsentVisible(false)
-    AsyncStorage.setItem(STORAGE_KEYS.consent, 'true').catch(() => {
-      // non-fatal
-    })
-  }, [])
-
-  // ---- Build thread items --------------------------------------------
   const threadItems = useMemo(
-    () => buildThreadItems(messages, isSending, errored),
-    [messages, isSending, errored],
+    () => buildThreadItems(messages, isTyping, errored),
+    [messages, isTyping, errored],
   )
-
-  const draftLength = draft.length
-  const showCharCounter = draftLength >= 1800
-  const sendDisabled = draft.trim().length === 0 || isSending
 
   const renderItem: ListRenderItem<ThreadItem> = useCallback(
     ({ item }) => {
       switch (item.kind) {
         case 'message': {
-          const msg = item.message
-          if (msg.role === 'user') {
-            return <UserMessage content={msg.content} marginTop={item.marginTop} />
-          }
-          return (
-            <AssistantMessage
-              content={msg.content}
-              reference={msg.reference}
-              marginTop={item.marginTop}
-            />
-          )
+          const { message: m, isLastInGroup } = item
+          if (m.role === 'user') return <UserBubble content={m.content} isLastInGroup={isLastInGroup} />
+          return <AIBubble content={m.content} reference={m.reference} voiceId={personaId} isLastInGroup={isLastInGroup} />
         }
-        case 'date-divider':
-          return <DateDivider label={item.label} />
-        case 'thinking':
-          return <ThinkingGlyph reduceMotion={reduceMotion} />
-        case 'error':
-          return <ErrorRow onRetry={handleRetry} />
+        case 'date-divider': return <DateDivider label={item.label} />
+        case 'typing': return <TypingIndicator voiceId={personaId} reduceMotion={reduceMotion} />
+        case 'error': return <ErrorRow onRetry={handleRetry} />
       }
     },
-    [reduceMotion, handleRetry],
+    [personaId, reduceMotion, handleRetry],
   )
 
   const keyExtractor = useCallback((item: ThreadItem) => {
     switch (item.kind) {
-      case 'message':
-        return `msg-${item.message.id}`
-      case 'date-divider':
-        return `date-${item.id}`
-      case 'thinking':
-        return 'thinking'
-      case 'error':
-        return 'error'
+      case 'message': return `msg-${item.message.id}`
+      case 'date-divider': return `date-${item.id}`
+      case 'typing': return 'typing'
+      case 'error': return 'error'
     }
   }, [])
 
-  // UI states explicit:
-  // - Loading: pre-snapshot — render the empty state silently (no spinner; the parchment IS the loading aesthetic).
-  // - Error: inline ErrorRow at the bottom of the thread (rendered via threadItems).
-  // - Empty: when snapshot has arrived AND no messages — render EmptyState (with optional consent notice).
-  const showEmptyState = snapshotReceived && messages.length === 0
+  const sendDisabled = draft.trim().length === 0 || isTyping
+  const showCharCounter = draft.length >= 1800
+  const showEmpty = snapshotReceived && messages.length === 0
 
   return (
-    <SafeAreaView style={styles.safeArea}>
+    <SafeAreaView style={styles.safe}>
       {/* Header */}
-      <View style={styles.headerRow}>
-        <Pressable
-          onPress={() => router.back()}
-          accessibilityRole="button"
-          accessibilityLabel="Back"
-          hitSlop={8}
-        >
+      <View style={styles.header}>
+        <Pressable onPress={() => router.back()} accessibilityRole="button" accessibilityLabel="Back" hitSlop={10}>
           <Text style={styles.backArrow}>{'←'}</Text>
         </Pressable>
-        <View style={styles.headerVoice}>
+        <View style={styles.headerCenter}>
           <Text style={[styles.headerGlyph, { color: meta.glyphColor }]}>{meta.glyph}</Text>
           <Text style={styles.headerName}>{meta.name}</Text>
         </View>
-        <View style={{ width: 32 }} />
+        <View style={{ width: 36 }} />
       </View>
 
       <KeyboardAvoidingView
         style={{ flex: 1 }}
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 0}
       >
-        {showEmptyState ? (
+        {showEmpty ? (
           <View style={{ flex: 1 }}>
-            <EmptyState consentVisible={consentVisible} onConsentDismiss={handleConsentDismiss} />
+            <EmptyState
+              meta={meta}
+              consentVisible={consentVisible}
+              onConsentDismiss={() => {
+                setConsentVisible(false)
+                AsyncStorage.setItem('say_consent_shown', 'true').catch(() => {})
+              }}
+            />
           </View>
         ) : (
           <FlatList
@@ -551,32 +477,34 @@ export default function SayThreadScreen() {
         {/* Input bar */}
         <View style={styles.inputBar}>
           {showCharCounter ? (
-            <Text style={styles.charCounter}>{`${2000 - draftLength}`}</Text>
+            <Text style={styles.charCounter}>{`${2000 - draft.length}`}</Text>
           ) : null}
           <View style={styles.inputRow}>
             <TextInput
               value={draft}
               onChangeText={setDraft}
-              placeholder="Say something…"
+              placeholder="say something…"
               placeholderTextColor={COLORS.inkSubtle}
               multiline
               maxLength={2000}
               style={styles.input}
               accessibilityLabel="Say message input"
+              onSubmitEditing={handleSend}
+              blurOnSubmit={false}
             />
             <Pressable
               onPress={handleSend}
               disabled={sendDisabled}
               accessibilityRole="button"
               accessibilityLabel="Send"
-              accessibilityState={{ disabled: sendDisabled }}
-              hitSlop={8}
-              style={({ pressed }) => ({
-                opacity: sendDisabled ? 0.3 : pressed ? 0.6 : 1,
-                paddingHorizontal: 6,
-              })}
+              hitSlop={6}
+              style={({ pressed }) => [
+                styles.sendButton,
+                sendDisabled && styles.sendButtonDisabled,
+                pressed && !sendDisabled && { opacity: 0.75 },
+              ]}
             >
-              <Text style={styles.sendButton}>{'✦'}</Text>
+              <Text style={styles.sendButtonText}>{'↑'}</Text>
             </Pressable>
           </View>
         </View>
@@ -585,33 +513,36 @@ export default function SayThreadScreen() {
   )
 }
 
-// ---- Styles -----------------------------------------------------------
+// ---- Styles ---------------------------------------------------------------
 const styles = StyleSheet.create({
-  safeArea: {
+  safe: {
     flex: 1,
     backgroundColor: COLORS.bg,
   },
-  headerRow: {
+  // ---- Header ----
+  header: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingHorizontal: 20,
-    paddingTop: 16,
-    paddingBottom: 8,
+    paddingHorizontal: 16,
+    paddingTop: 14,
+    paddingBottom: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: COLORS.hairline,
   },
   backArrow: {
     fontFamily: 'DMSans_400Regular',
     fontSize: 22,
     color: COLORS.inkPrimary,
-    width: 32,
+    width: 36,
   },
-  headerVoice: {
+  headerCenter: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 8,
   },
   headerGlyph: {
-    fontFamily: 'DMSans_500Medium',
+    fontFamily: 'DMSans_400Regular',
     fontSize: 20,
   },
   headerName: {
@@ -619,78 +550,69 @@ const styles = StyleSheet.create({
     fontSize: 20,
     color: COLORS.inkPrimary,
   },
+  // ---- Thread ----
   listContent: {
-    paddingTop: 12,
-    paddingBottom: 8,
+    paddingVertical: 16,
+    paddingHorizontal: 12,
   },
-  // ---- Empty state ----
-  emptyContainer: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingHorizontal: 32,
+  // ---- User bubble ----
+  userBubbleWrapper: {
+    alignItems: 'flex-end',
+    marginTop: 3,
+    paddingLeft: 60,
   },
-  emptyGlyph: {
-    fontFamily: 'DMSans_500Medium',
-    fontSize: 32,
-    color: COLORS.amber,
+  userBubble: {
+    backgroundColor: COLORS.userBubble,
+    borderRadius: 18,
+    borderBottomRightRadius: 18,
+    paddingHorizontal: 14,
+    paddingVertical: 10,
+    maxWidth: '78%',
   },
-  emptyHeadline: {
-    fontFamily: 'Lora_400Regular_Italic',
+  userBubbleTail: {
+    borderBottomRightRadius: 5,
+  },
+  userBubbleText: {
+    fontFamily: 'DMSans_400Regular',
+    fontSize: 16,
+    color: COLORS.userBubbleText,
+    lineHeight: 22,
+  },
+  // ---- AI bubble ----
+  aiBubbleRow: {
+    flexDirection: 'row',
+    alignItems: 'flex-end',
+    marginTop: 3,
+    paddingRight: 60,
+  },
+  voiceAvatar: {
+    fontFamily: 'DMSans_400Regular',
     fontSize: 18,
-    color: COLORS.inkPrimary,
+    width: 28,
+    marginRight: 6,
     textAlign: 'center',
+    marginBottom: 2,
   },
-  emptySubhead: {
-    fontFamily: 'DMSans_400Regular',
-    fontSize: 14,
-    color: COLORS.inkMuted,
-    textAlign: 'center',
+  voiceAvatarGap: {
+    width: 34,
   },
-  consentText: {
-    fontFamily: 'DMSans_400Regular',
-    fontSize: 12,
-    color: COLORS.inkMuted,
-    textAlign: 'center',
-    lineHeight: 18,
+  aiBubble: {
+    borderRadius: 18,
+    borderBottomLeftRadius: 18,
+    borderWidth: 1,
+    paddingHorizontal: 14,
+    paddingVertical: 10,
+    maxWidth: '85%',
+    flex: 1,
   },
-  consentButton: {
-    fontFamily: 'DMSans_400Regular',
-    fontSize: 13,
-    color: COLORS.amber,
+  aiBubbleTail: {
+    borderBottomLeftRadius: 5,
   },
-  // ---- Messages ----
-  userRow: {
-    paddingVertical: 4,
-    paddingHorizontal: 20,
-  },
-  userText: {
-    fontFamily: 'DMSans_400Regular',
+  aiBubbleText: {
+    fontFamily: 'Lora_400Regular_Italic',
     fontSize: 17,
     color: COLORS.inkPrimary,
-    textAlign: 'left',
-  },
-  assistantCard: {
-    flexDirection: 'row',
-    alignItems: 'flex-start',
-    marginHorizontal: 8,
-    borderRadius: 12,
-    backgroundColor: COLORS.amberTint,
-    paddingVertical: 14,
-    paddingHorizontal: 16,
-  },
-  assistantGlyph: {
-    fontFamily: 'DMSans_500Medium',
-    fontSize: 14,
-    color: COLORS.amber,
-    marginRight: 8,
-    lineHeight: 26,
-  },
-  assistantText: {
-    fontFamily: 'Lora_400Regular_Italic',
-    fontSize: 18,
-    color: COLORS.inkPrimary,
-    lineHeight: 26,
+    lineHeight: 25,
   },
   referenceText: {
     fontFamily: 'DMSans_400Regular',
@@ -699,41 +621,40 @@ const styles = StyleSheet.create({
     fontStyle: 'italic',
     marginTop: 6,
   },
-  // ---- Dividers ----
+  // ---- Typing indicator ----
+  typingRow: {
+    marginTop: 8,
+  },
+  typingBubble: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 5,
+    paddingHorizontal: 16,
+    paddingVertical: 14,
+    alignSelf: 'flex-start',
+    flex: 0,
+    maxWidth: 72,
+  },
+  typingDot: {
+    width: 7,
+    height: 7,
+    borderRadius: 4,
+    backgroundColor: COLORS.inkMuted,
+  },
+  // ---- Date divider ----
   dateDivider: {
     fontFamily: 'DMSans_400Regular',
     fontSize: 11,
     color: COLORS.inkMuted,
     textAlign: 'center',
-    marginVertical: 16,
-  },
-  // ---- Thinking ----
-  thinkingRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingHorizontal: 24,
-    paddingVertical: 8,
-    marginTop: 20,
-  },
-  thinkingGlyph: {
-    fontFamily: 'DMSans_500Medium',
-    fontSize: 18,
-    color: COLORS.amber,
-    marginRight: 10,
-  },
-  thinkingDots: {
-    fontFamily: 'Lora_400Regular_Italic',
-    fontSize: 18,
-    color: COLORS.inkMuted,
+    marginVertical: 14,
   },
   // ---- Error ----
   errorRow: {
     flexDirection: 'row',
-    flexWrap: 'wrap',
     alignItems: 'center',
-    paddingHorizontal: 20,
-    paddingVertical: 12,
-    marginTop: 20,
+    justifyContent: 'center',
+    paddingVertical: 10,
   },
   errorText: {
     fontFamily: 'DMSans_400Regular',
@@ -745,17 +666,58 @@ const styles = StyleSheet.create({
     fontSize: 13,
     color: COLORS.amber,
   },
+  // ---- Empty state ----
+  emptyContainer: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: 40,
+  },
+  emptyGlyph: {
+    fontFamily: 'DMSans_400Regular',
+    fontSize: 36,
+  },
+  emptyName: {
+    fontFamily: 'Lora_400Regular_Italic',
+    fontSize: 22,
+    color: COLORS.inkPrimary,
+  },
+  consentText: {
+    fontFamily: 'DMSans_400Regular',
+    fontSize: 13,
+    color: COLORS.inkMuted,
+    textAlign: 'center',
+    lineHeight: 20,
+  },
+  consentButton: {
+    fontFamily: 'DMSans_400Regular',
+    fontSize: 14,
+    color: COLORS.amber,
+  },
   // ---- Input bar ----
   inputBar: {
-    backgroundColor: COLORS.bg,
-    borderTopColor: COLORS.amberHairline,
+    paddingHorizontal: 12,
+    paddingTop: 10,
+    paddingBottom: Platform.OS === 'ios' ? 16 : 10,
     borderTopWidth: 1,
-    paddingHorizontal: 16,
-    paddingVertical: 10,
+    borderTopColor: COLORS.hairline,
+    backgroundColor: COLORS.bg,
+  },
+  charCounter: {
+    fontFamily: 'DMSans_400Regular',
+    fontSize: 11,
+    color: COLORS.inkMuted,
+    textAlign: 'right',
+    marginBottom: 4,
   },
   inputRow: {
     flexDirection: 'row',
     alignItems: 'flex-end',
+    backgroundColor: '#F2EBE1',
+    borderRadius: 24,
+    paddingLeft: 16,
+    paddingRight: 5,
+    paddingVertical: 5,
   },
   input: {
     flex: 1,
@@ -764,18 +726,23 @@ const styles = StyleSheet.create({
     color: COLORS.inkPrimary,
     maxHeight: 120,
     paddingVertical: 6,
-    paddingHorizontal: 4,
   },
   sendButton: {
-    fontFamily: 'DMSans_500Medium',
-    fontSize: 22,
-    color: COLORS.amber,
+    width: 34,
+    height: 34,
+    borderRadius: 17,
+    backgroundColor: COLORS.amber,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginLeft: 6,
   },
-  charCounter: {
-    fontFamily: 'DMSans_400Regular',
-    fontSize: 11,
-    color: COLORS.inkMuted,
-    textAlign: 'right',
-    marginBottom: 4,
+  sendButtonDisabled: {
+    backgroundColor: 'rgba(196,149,106,0.3)',
+  },
+  sendButtonText: {
+    fontFamily: 'DMSans_700Bold',
+    fontSize: 18,
+    color: '#FFFFFF',
+    lineHeight: 22,
   },
 })
