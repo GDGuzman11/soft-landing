@@ -961,8 +961,7 @@ const styles = StyleSheet.create({
     marginLeft: 6,
   },
   sendButtonIcon: {
-    width: 20,
-    height: 20,
-    tintColor: '#FFFFFF',
+    width: 26,
+    height: 26,
   },
 })
