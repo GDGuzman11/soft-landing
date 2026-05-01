@@ -210,6 +210,8 @@ already built.
   Project Settings → Cloud Messaging → iOS app → upload the `.p8` or `.p12`
   APNs key. Required for remote push notifications.
 
+- [ ] **Upload APNs key to EAS** — run `eas credentials`, select iOS → your app → upload/generate APNs Authentication Key (`.p8`). Required for Expo Push Notifications to deliver on real iOS devices. Without this, `getExpoPushTokenAsync()` succeeds but notifications never arrive.
+
 - [ ] **Enable Apple Sign-In in Firebase Authentication** — Firebase Console →
   Authentication → Sign-in method → Apple. Provide the Team ID and Service ID.
 
