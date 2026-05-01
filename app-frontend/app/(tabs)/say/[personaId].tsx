@@ -75,11 +75,13 @@ type SayMessage = {
   createdAt: Timestamp
 }
 
+type ErrorKind = 'failed' | 'rate_burst' | 'rate_daily' | 'blocked'
+
 type ThreadItem =
   | { kind: 'message'; message: SayMessage; isLastInGroup: boolean }
   | { kind: 'date-divider'; id: string; label: string }
   | { kind: 'typing'; id: string }
-  | { kind: 'error'; id: string }
+  | { kind: 'error'; id: string; errorKind: ErrorKind }
 
 // ---- Helpers --------------------------------------------------------------
 function isSameCalendarDay(a: Date, b: Date): boolean {
@@ -106,7 +108,7 @@ function isAI(role: SayMessage['role']): boolean {
 function buildThreadItems(
   messages: readonly SayMessage[],
   typing: boolean,
-  errored: boolean,
+  errorKind: ErrorKind | null,
 ): ThreadItem[] {
   const chrono: ThreadItem[] = []
   let prev: SayMessage | null = null
@@ -130,7 +132,7 @@ function buildThreadItems(
   }
 
   if (typing) chrono.push({ kind: 'typing', id: 'typing' })
-  if (errored) chrono.push({ kind: 'error', id: 'error' })
+  if (errorKind) chrono.push({ kind: 'error', id: 'error', errorKind })
 
   return chrono.reverse()
 }
@@ -254,7 +256,28 @@ function AIBubble({
 }
 
 // ---- Inline error ---------------------------------------------------------
-function ErrorRow({ onRetry }: { onRetry: () => void }) {
+function ErrorRow({ errorKind, onRetry }: { errorKind: ErrorKind; onRetry: () => void }) {
+  if (errorKind === 'rate_burst') {
+    return (
+      <View style={styles.errorRow}>
+        <Text style={styles.errorText}>{'slow down a bit — try again in a moment'}</Text>
+      </View>
+    )
+  }
+  if (errorKind === 'rate_daily') {
+    return (
+      <View style={styles.errorRow}>
+        <Text style={styles.errorText}>{"you've reached today's limit — come back tomorrow"}</Text>
+      </View>
+    )
+  }
+  if (errorKind === 'blocked') {
+    return (
+      <View style={styles.errorRow}>
+        <Text style={styles.errorText}>{"that message couldn't be sent"}</Text>
+      </View>
+    )
+  }
   return (
     <View style={styles.errorRow}>
       <Text style={styles.errorText}>{"didn't reach me. "}</Text>
@@ -325,7 +348,7 @@ export default function SayThreadScreen() {
   const [messages, setMessages] = useState<SayMessage[]>([])
   const [draft, setDraft] = useState('')
   const [isTyping, setIsTyping] = useState(false)
-  const [errored, setErrored] = useState(false)
+  const [errorKind, setErrorKind] = useState<ErrorKind | null>(null)
   const [consentVisible, setConsentVisible] = useState(false)
   const [snapshotReceived, setSnapshotReceived] = useState(false)
   const [authReady, setAuthReady] = useState(false)
@@ -424,7 +447,7 @@ export default function SayThreadScreen() {
   const handleSend = useCallback(async () => {
     const trimmed = draft.trim()
     if (!trimmed || isTyping) return
-    setErrored(false)
+    setErrorKind(null)
     setIsTyping(true)
     setDraft('')
     const payload: SayPayload = { message: trimmed, personaId }
@@ -432,11 +455,17 @@ export default function SayThreadScreen() {
 
     try {
       const result = await callGenerateSayResponse(payload)
-      if (result.blocked || result.rateLimited) setErrored(true)
-      else if (result.showCrisisPrompt) router.push('/check-in/message' as never)
-      else await fetchMessages()
+      if (result.rateLimited) {
+        setErrorKind(result.rateLimitType === 'daily' ? 'rate_daily' : 'rate_burst')
+      } else if (result.blocked) {
+        setErrorKind('blocked')
+      } else if (result.showCrisisPrompt) {
+        router.push('/check-in/message' as never)
+      } else {
+        await fetchMessages()
+      }
     } catch {
-      setErrored(true)
+      setErrorKind('failed')
     } finally {
       setIsTyping(false)
     }
@@ -445,14 +474,19 @@ export default function SayThreadScreen() {
   const handleRetry = useCallback(async () => {
     const last = lastPayloadRef.current
     if (!last || isTyping) return
-    setErrored(false)
+    setErrorKind(null)
     setIsTyping(true)
     try {
       const result = await callGenerateSayResponse(last)
-      if (result.blocked || result.rateLimited) setErrored(true)
-      else await fetchMessages()
+      if (result.rateLimited) {
+        setErrorKind(result.rateLimitType === 'daily' ? 'rate_daily' : 'rate_burst')
+      } else if (result.blocked) {
+        setErrorKind('blocked')
+      } else {
+        await fetchMessages()
+      }
     } catch {
-      setErrored(true)
+      setErrorKind('failed')
     } finally {
       setIsTyping(false)
     }
@@ -528,9 +562,9 @@ export default function SayThreadScreen() {
     () => buildThreadItems(
       isSearching ? visibleMessages : messages,
       isTyping && !searchMode,
-      errored && !searchMode,
+      searchMode ? null : errorKind,
     ),
-    [messages, visibleMessages, isTyping, errored, searchMode, isSearching],
+    [messages, visibleMessages, isTyping, errorKind, searchMode, isSearching],
   )
 
   const renderItem: ListRenderItem<ThreadItem> = useCallback(
@@ -558,7 +592,7 @@ export default function SayThreadScreen() {
         }
         case 'date-divider': return <DateDivider label={item.label} />
         case 'typing': return <TypingIndicator voiceId={personaId} reduceMotion={reduceMotion} bg={vBg} border={vBorder} />
-        case 'error': return <ErrorRow onRetry={handleRetry} />
+        case 'error': return <ErrorRow errorKind={item.errorKind} onRetry={handleRetry} />
       }
     },
     [personaId, reduceMotion, handleRetry, isSearching, searchQuery],
