@@ -15,6 +15,7 @@ import {
 import { router, useLocalSearchParams } from 'expo-router'
 import {
   collection,
+  getDocs,
   limit,
   onSnapshot,
   orderBy,
@@ -309,6 +310,33 @@ export default function SayThreadScreen() {
 
   const lastPayloadRef = useRef<SayPayload | null>(null)
 
+  // Manual fetch — fallback for Expo Go where onSnapshot WebSocket is unreliable
+  const fetchMessages = useCallback(async () => {
+    const user = getAuth().currentUser
+    if (!user) return
+    try {
+      const snap = await getDocs(
+        query(collection(db, 'say', user.uid, personaId), orderBy('createdAt', 'desc'), limit(50)),
+      )
+      const docs: SayMessage[] = []
+      snap.forEach((d) => {
+        const data = d.data() as { role?: unknown; content?: unknown; reference?: unknown; createdAt?: unknown }
+        let role: SayMessage['role'] = 'user'
+        if (data.role === 'assistant') role = 'assistant'
+        else if (data.role === 'reachOut') role = 'reachOut'
+        const content = typeof data.content === 'string' ? data.content : ''
+        const reference = typeof data.reference === 'string' ? data.reference : undefined
+        if (!(data.createdAt instanceof Timestamp)) return
+        docs.push({ id: d.id, role, content, reference, createdAt: data.createdAt })
+      })
+      docs.reverse()
+      setMessages(docs)
+      setSnapshotReceived(true)
+    } catch {
+      // silent — onSnapshot may still be working
+    }
+  }, [personaId])
+
   // Reduce motion
   useEffect(() => {
     let cancelled = false
@@ -329,11 +357,14 @@ export default function SayThreadScreen() {
     return () => { cancelled = true }
   }, [])
 
-  // Firestore subscription
+  // Initial load + Firestore subscription
   useEffect(() => {
     if (!authReady) return
     const user = getAuth().currentUser
     if (!user) return
+
+    // Eagerly fetch once so messages show even if onSnapshot WebSocket fails (Expo Go)
+    void fetchMessages()
 
     const q = query(
       collection(db, 'say', user.uid, personaId),
@@ -377,12 +408,13 @@ export default function SayThreadScreen() {
       const result = await callGenerateSayResponse(payload)
       if (result.blocked || result.rateLimited) setErrored(true)
       else if (result.showCrisisPrompt) router.push('/check-in/message' as never)
+      else await fetchMessages()
     } catch {
       setErrored(true)
     } finally {
       setIsTyping(false)
     }
-  }, [draft, isTyping, personaId])
+  }, [draft, isTyping, personaId, fetchMessages])
 
   const handleRetry = useCallback(async () => {
     const last = lastPayloadRef.current
@@ -392,12 +424,13 @@ export default function SayThreadScreen() {
     try {
       const result = await callGenerateSayResponse(last)
       if (result.blocked || result.rateLimited) setErrored(true)
+      else await fetchMessages()
     } catch {
       setErrored(true)
     } finally {
       setIsTyping(false)
     }
-  }, [isTyping])
+  }, [isTyping, fetchMessages])
 
   const threadItems = useMemo(
     () => buildThreadItems(messages, isTyping, errored),
