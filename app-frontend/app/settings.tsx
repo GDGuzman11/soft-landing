@@ -164,9 +164,9 @@ export default function SettingsScreen() {
     return (
       <View
         className="flex-1 items-center justify-center"
-        style={{ backgroundColor: '#FAF8F5' }}
+        style={{ backgroundColor: colors.bg }}
       >
-        <Text style={{ fontFamily: 'DMSans_400Regular', color: '#9A8F82' }}>
+        <Text style={{ fontFamily: 'DMSans_400Regular', color: colors.inkMuted }}>
           Loading…
         </Text>
       </View>
@@ -178,13 +178,13 @@ export default function SettingsScreen() {
     return (
       <View
         className="flex-1 items-center justify-center px-8"
-        style={{ backgroundColor: '#FAF8F5' }}
+        style={{ backgroundColor: colors.bg }}
       >
         <Text
           style={{
             fontFamily: 'DMSans_500Medium',
             fontSize: 18,
-            color: '#3D2F2A',
+            color: colors.inkPrimary,
             marginBottom: 8,
           }}
         >
@@ -193,7 +193,7 @@ export default function SettingsScreen() {
         <Pressable
           onPress={() => router.back()}
           style={{
-            backgroundColor: '#C4956A',
+            backgroundColor: colors.amber,
             paddingHorizontal: 24,
             paddingVertical: 10,
             borderRadius: 999,
@@ -212,7 +212,7 @@ export default function SettingsScreen() {
   return (
     <ScrollView
       className="flex-1"
-      style={{ backgroundColor: '#FAF8F5' }}
+      style={{ backgroundColor: colors.bg }}
       contentContainerStyle={{ paddingBottom: 48 }}
     >
       {/* Header */}
@@ -227,33 +227,39 @@ export default function SettingsScreen() {
           hitSlop={12}
           style={{ marginRight: 16 }}
         >
-          <Text style={{ fontSize: 28, color: '#3D2F2A', fontFamily: 'DMSans_400Regular' }}>‹</Text>
+          <Text style={{ fontSize: 28, color: colors.inkPrimary, fontFamily: 'DMSans_400Regular' }}>‹</Text>
         </Pressable>
-        <Text style={{ fontFamily: 'DMSans_500Medium', fontSize: 22, color: '#3D2F2A' }}>
+        <Text style={{ fontFamily: 'DMSans_500Medium', fontSize: 22, color: colors.inkPrimary }}>
           Settings
         </Text>
       </View>
 
       {/* Preferences */}
-      <View className="mx-6 rounded-2xl overflow-hidden border border-border bg-surface">
+      <View
+        className="mx-6 rounded-2xl overflow-hidden"
+        style={{ backgroundColor: colors.profileCard, borderWidth: 1, borderColor: colors.cardBorder }}
+      >
         <Text
-          className="text-text-secondary text-xs uppercase px-5 pt-4 pb-3"
-          style={SECTION_LABEL_STYLE}
+          className="text-xs uppercase px-5 pt-4 pb-3"
+          style={{ ...SECTION_LABEL_STYLE, color: colors.inkMuted }}
         >
           Preferences
         </Text>
 
-        <View className="flex-row items-center justify-between px-5 py-4 border-t border-border">
+        <View
+          className="flex-row items-center justify-between px-5 py-4"
+          style={{ borderTopWidth: 1, borderTopColor: colors.cardBorder }}
+        >
           <View>
             <Text
-              className="text-text-primary text-base"
-              style={{ fontFamily: 'DMSans_400Regular' }}
+              className="text-base"
+              style={{ fontFamily: 'DMSans_400Regular', color: colors.inkPrimary }}
             >
               Haptic feedback
             </Text>
             <Text
-              className="text-text-secondary text-sm mt-0.5"
-              style={{ fontFamily: 'DMSans_400Regular' }}
+              className="text-sm mt-0.5"
+              style={{ fontFamily: 'DMSans_400Regular', color: colors.inkMuted }}
             >
               Vibration on tap and save
             </Text>
@@ -261,23 +267,26 @@ export default function SettingsScreen() {
           <Switch
             value={settings.haptics ?? true}
             onValueChange={() => toggle('haptics')}
-            trackColor={{ false: '#E8E3DC', true: '#C4956A' }}
+            trackColor={{ false: colors.cardBorder, true: colors.amber }}
             thumbColor="#FFFFFF"
           />
         </View>
 
-        <View className="px-5 py-4 border-t border-border">
+        <View
+          className="px-5 py-4"
+          style={{ borderTopWidth: 1, borderTopColor: colors.cardBorder }}
+        >
           <View className="flex-row items-center justify-between">
             <View style={{ flex: 1, marginRight: 12 }}>
               <Text
-                className="text-text-primary text-base"
-                style={{ fontFamily: 'DMSans_400Regular' }}
+                className="text-base"
+                style={{ fontFamily: 'DMSans_400Regular', color: colors.inkPrimary }}
               >
                 Daily reminder
               </Text>
               <Text
-                className="text-text-secondary text-sm mt-0.5"
-                style={{ fontFamily: 'DMSans_400Regular' }}
+                className="text-sm mt-0.5"
+                style={{ fontFamily: 'DMSans_400Regular', color: colors.inkMuted }}
               >
                 {notificationsEnabled
                   ? `Reminder set for ${formatTime(reminderTime)}`
@@ -287,7 +296,7 @@ export default function SettingsScreen() {
             <Switch
               value={notificationsEnabled}
               onValueChange={toggleNotifications}
-              trackColor={{ false: '#E8E3DC', true: '#C4956A' }}
+              trackColor={{ false: colors.cardBorder, true: colors.amber }}
               thumbColor="#FFFFFF"
             />
           </View>
@@ -428,43 +437,55 @@ export default function SettingsScreen() {
       </View>
 
       {/* About & Credits */}
-      <View className="mx-6 mt-6 rounded-2xl overflow-hidden border border-border bg-surface">
+      <View
+        className="mx-6 mt-6 rounded-2xl overflow-hidden"
+        style={{ backgroundColor: colors.profileCard, borderWidth: 1, borderColor: colors.cardBorder }}
+      >
         <Text
-          className="text-text-secondary text-xs uppercase px-5 pt-4 pb-3"
-          style={SECTION_LABEL_STYLE}
+          className="text-xs uppercase px-5 pt-4 pb-3"
+          style={{ ...SECTION_LABEL_STYLE, color: colors.inkMuted }}
         >
           About
         </Text>
 
-        <View className="px-5 py-4 border-t border-border">
+        <View
+          className="px-5 py-4"
+          style={{ borderTopWidth: 1, borderTopColor: colors.cardBorder }}
+        >
           <Text
-            style={{ fontFamily: 'DMSans_500Medium', fontSize: 13, color: '#3D2F2A', marginBottom: 4 }}
+            style={{ fontFamily: 'DMSans_500Medium', fontSize: 13, color: colors.inkPrimary, marginBottom: 4 }}
           >
             Scripture
           </Text>
           <Text
-            style={{ fontFamily: 'DMSans_400Regular', fontSize: 12, color: '#A09080', lineHeight: 18 }}
+            style={{ fontFamily: 'DMSans_400Regular', fontSize: 12, color: colors.inkMuted, lineHeight: 18 }}
           >
             Scripture is taken from the King James Version (KJV), which is in the public domain, and the World English Bible (WEB), also in the public domain.
           </Text>
         </View>
 
-        <View className="px-5 py-4 border-t border-border">
+        <View
+          className="px-5 py-4"
+          style={{ borderTopWidth: 1, borderTopColor: colors.cardBorder }}
+        >
           <Text
-            style={{ fontFamily: 'DMSans_500Medium', fontSize: 13, color: '#3D2F2A', marginBottom: 4 }}
+            style={{ fontFamily: 'DMSans_500Medium', fontSize: 13, color: colors.inkPrimary, marginBottom: 4 }}
           >
             AI Letters
           </Text>
           <Text
-            style={{ fontFamily: 'DMSans_400Regular', fontSize: 12, color: '#A09080', lineHeight: 18 }}
+            style={{ fontFamily: 'DMSans_400Regular', fontSize: 12, color: colors.inkMuted, lineHeight: 18 }}
           >
             Letters are written by AI for spiritual encouragement only — not professional, medical, or mental health advice.
           </Text>
         </View>
 
-        <View className="px-5 py-4 border-t border-border">
+        <View
+          className="px-5 py-4"
+          style={{ borderTopWidth: 1, borderTopColor: colors.cardBorder }}
+        >
           <Text
-            style={{ fontFamily: 'DMSans_400Regular', fontSize: 12, color: '#A09080', lineHeight: 18 }}
+            style={{ fontFamily: 'DMSans_400Regular', fontSize: 12, color: colors.inkMuted, lineHeight: 18 }}
           >
             © 2026 Gabe & Jackie De Guzman. All rights reserved.
           </Text>
@@ -472,16 +493,20 @@ export default function SettingsScreen() {
       </View>
 
       {/* Account */}
-      <View className="mx-6 mt-6 rounded-2xl overflow-hidden border border-border bg-surface">
+      <View
+        className="mx-6 mt-6 rounded-2xl overflow-hidden"
+        style={{ backgroundColor: colors.profileCard, borderWidth: 1, borderColor: colors.cardBorder }}
+      >
         <Text
-          className="text-text-secondary text-xs uppercase px-5 pt-4 pb-3"
-          style={SECTION_LABEL_STYLE}
+          className="text-xs uppercase px-5 pt-4 pb-3"
+          style={{ ...SECTION_LABEL_STYLE, color: colors.inkMuted }}
         >
           Account
         </Text>
 
         <Pressable
-          className="px-5 py-4 border-t border-border"
+          className="px-5 py-4"
+          style={{ borderTopWidth: 1, borderTopColor: colors.cardBorder }}
           onPress={() => {
             Alert.alert(
               'Delete account?',
@@ -510,20 +535,25 @@ export default function SettingsScreen() {
       </View>
 
       {/* Legal */}
-      <View className="mx-6 mt-6 rounded-2xl overflow-hidden border border-border bg-surface">
+      <View
+        className="mx-6 mt-6 rounded-2xl overflow-hidden"
+        style={{ backgroundColor: colors.profileCard, borderWidth: 1, borderColor: colors.cardBorder }}
+      >
         <Text
-          className="text-text-secondary text-xs uppercase px-5 pt-4 pb-3"
-          style={SECTION_LABEL_STYLE}
+          className="text-xs uppercase px-5 pt-4 pb-3"
+          style={{ ...SECTION_LABEL_STYLE, color: colors.inkMuted }}
         >
           Legal
         </Text>
 
         <Pressable
-          className="px-5 py-4 border-t border-border"
+          className="px-5 py-4"
           style={{
             flexDirection: 'row',
             alignItems: 'center',
             justifyContent: 'space-between',
+            borderTopWidth: 1,
+            borderTopColor: colors.cardBorder,
           }}
           onPress={() =>
             Alert.alert('Coming soon', 'Terms of use will be available before launch.')
@@ -531,18 +561,20 @@ export default function SettingsScreen() {
           accessibilityRole="button"
           accessibilityLabel="Terms of Use"
         >
-          <Text style={LEGAL_ROW_LABEL_STYLE}>
+          <Text style={{ ...LEGAL_ROW_LABEL_STYLE, color: colors.inkPrimary }}>
             Terms of Use
           </Text>
-          <Text style={CHEVRON_STYLE}>›</Text>
+          <Text style={{ ...CHEVRON_STYLE, color: colors.amber }}>›</Text>
         </Pressable>
 
         <Pressable
-          className="px-5 py-4 border-t border-border"
+          className="px-5 py-4"
           style={{
             flexDirection: 'row',
             alignItems: 'center',
             justifyContent: 'space-between',
+            borderTopWidth: 1,
+            borderTopColor: colors.cardBorder,
           }}
           onPress={() =>
             Alert.alert('Coming soon', 'Privacy policy will be available before launch.')
@@ -550,10 +582,10 @@ export default function SettingsScreen() {
           accessibilityRole="button"
           accessibilityLabel="Privacy Policy"
         >
-          <Text style={LEGAL_ROW_LABEL_STYLE}>
+          <Text style={{ ...LEGAL_ROW_LABEL_STYLE, color: colors.inkPrimary }}>
             Privacy Policy
           </Text>
-          <Text style={CHEVRON_STYLE}>›</Text>
+          <Text style={{ ...CHEVRON_STYLE, color: colors.amber }}>›</Text>
         </Pressable>
       </View>
 
