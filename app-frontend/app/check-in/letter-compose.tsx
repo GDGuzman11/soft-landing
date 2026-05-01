@@ -69,16 +69,10 @@ export default function LetterComposeScreen() {
   const emotionId = (savedMessage.emotionId ?? 'neutral') as EmotionId
   const userName = settings.name?.trim() || 'friend'
   const isPremium = settings.subscription.tier === 'premium'
-  // TODO: re-enable after testing — original gate was `isPremium || !settings.firstLetterUsed`.
-  const canUseLetter = true
 
   async function handleSend() {
     if (!getCurrentUser()) {
       router.push('/sign-in')
-      return
-    }
-    if (!canUseLetter) {
-      router.push('/paywall')
       return
     }
     setLetterLoading(true)

@@ -68,18 +68,21 @@ export default function OnboardingScreen() {
   const current = SLIDES[slide]
 
   return (
-    <View className="flex-1 bg-background items-center justify-center px-8">
+    <View
+      className="flex-1 items-center justify-center px-8"
+      style={{ backgroundColor: colors.bg }}
+    >
       <Animated.View style={[{ alignItems: 'center', width: '100%' }, animStyle]}>
         <Text
-          className="text-text-primary text-3xl text-center mb-5"
-          style={{ fontFamily: 'Lora_400Regular_Italic', lineHeight: 42 }}
+          className="text-3xl text-center mb-5"
+          style={{ fontFamily: 'Lora_400Regular_Italic', lineHeight: 42, color: colors.inkPrimary }}
         >
           {current.title}
         </Text>
 
         <Text
-          className="text-text-secondary text-base text-center leading-7 mb-14"
-          style={{ fontFamily: 'DMSans_400Regular', maxWidth: 300 }}
+          className="text-base text-center leading-7 mb-14"
+          style={{ fontFamily: 'DMSans_400Regular', maxWidth: 300, color: colors.inkMuted }}
         >
           {current.body}
         </Text>
@@ -94,7 +97,7 @@ export default function OnboardingScreen() {
               width: i === slide ? 20 : 6,
               height: 6,
               borderRadius: 3,
-              backgroundColor: i === slide ? '#C4956A' : '#E8E3DC',
+              backgroundColor: i === slide ? colors.amber : colors.cardBorder,
             }}
           />
         ))}
@@ -102,9 +105,10 @@ export default function OnboardingScreen() {
 
       <Pressable
         onPress={handleCta}
-        className="bg-accent px-12 py-4 rounded-full active:opacity-80"
+        className="px-12 py-4 rounded-full active:opacity-80"
         style={{
-          shadowColor: '#C4956A',
+          backgroundColor: colors.amber,
+          shadowColor: colors.amber,
           shadowOffset: { width: 0, height: 4 },
           shadowOpacity: 0.3,
           shadowRadius: 12,

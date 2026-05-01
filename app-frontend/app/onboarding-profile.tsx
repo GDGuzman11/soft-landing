@@ -10,6 +10,7 @@ import Animated, {
 } from 'react-native-reanimated'
 import * as Haptics from 'expo-haptics'
 import { getSettings, saveSettings } from '@/storage/storage'
+import { useTheme } from '@/theme'
 import type { AppSettings } from '@/types'
 
 type FaithBackground = AppSettings['faithBackground']
@@ -54,6 +55,7 @@ type OptionCardProps = {
 }
 
 function OptionCard({ label, isSelected, onPress }: OptionCardProps) {
+  const { colors } = useTheme()
   const scale = useSharedValue(1)
   const shadowOpacityAnim = useSharedValue(0.04)
   const shadowRadiusAnim = useSharedValue(4)
@@ -93,14 +95,14 @@ function OptionCard({ label, isSelected, onPress }: OptionCardProps) {
       <Animated.View
         style={[
           {
-            backgroundColor: '#FDF9F4',
+            backgroundColor: colors.surface,
             borderRadius: 16,
             paddingVertical: 16,
             paddingHorizontal: 20,
             marginBottom: 12,
             borderWidth: isSelected ? 1.5 : 1,
-            borderColor: isSelected ? '#C4956A' : '#EDE8E0',
-            shadowColor: '#C4956A',
+            borderColor: isSelected ? colors.amber : colors.cardBorder,
+            shadowColor: colors.amber,
             shadowOffset: { width: 0, height: 2 },
             elevation: isSelected ? 6 : 1,
             flexDirection: 'row',
@@ -113,7 +115,7 @@ function OptionCard({ label, isSelected, onPress }: OptionCardProps) {
           style={[
             {
               fontSize: 7,
-              color: '#C4956A',
+              color: colors.amber,
               marginRight: 10,
               lineHeight: 22,
             },
@@ -126,7 +128,7 @@ function OptionCard({ label, isSelected, onPress }: OptionCardProps) {
           style={{
             fontFamily: 'Lora_400Regular',
             fontSize: 15,
-            color: '#1A1A1A',
+            color: colors.inkPrimary,
             lineHeight: 22,
             flex: 1,
           }}
@@ -139,6 +141,7 @@ function OptionCard({ label, isSelected, onPress }: OptionCardProps) {
 }
 
 export default function OnboardingProfileScreen() {
+  const { colors } = useTheme()
   const [slide, setSlide] = useState(0)
   const [faithBackground, setFaithBackground] = useState<FaithBackground>(null)
   const [primaryIntent, setPrimaryIntent] = useState<PrimaryIntent>(null)
@@ -206,7 +209,7 @@ export default function OnboardingProfileScreen() {
   const selectedValue = getSelectedValue()
 
   return (
-    <View style={{ flex: 1, backgroundColor: '#FAF8F5' }}>
+    <View style={{ flex: 1, backgroundColor: colors.bg }}>
       {/* ✦ progress ornaments — fixed at top */}
       <View
         style={{
@@ -226,7 +229,7 @@ export default function OnboardingProfileScreen() {
             key={i}
             style={{
               fontSize: 14,
-              color: i === slide ? '#C4956A' : '#D9D0C4',
+              color: i === slide ? colors.amber : colors.cardBorder,
             }}
           >
             ✦

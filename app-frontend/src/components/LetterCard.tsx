@@ -10,6 +10,7 @@ import Animated, {
   Easing,
 } from 'react-native-reanimated'
 import React, { useEffect, useState } from 'react'
+import { useTheme } from '@/theme'
 
 type Props = {
   letter: string | null

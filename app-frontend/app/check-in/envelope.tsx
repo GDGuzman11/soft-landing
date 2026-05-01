@@ -16,6 +16,7 @@ import * as Haptics from 'expo-haptics'
 import { performCheckIn } from '@/services/checkIn'
 import type { CheckInResult } from '@/services/checkIn'
 import type { EmotionId } from '@/types'
+import { useTheme } from '@/theme'
 
 const { width } = Dimensions.get('window')
 const CARD_WIDTH = width * 0.85
@@ -171,6 +172,7 @@ function WaxSeal({ loading }: { loading: boolean }) {
 // ─────────────────────────────────────────────────────────────────────────────
 
 export default function EnvelopeScreen() {
+  const { colors } = useTheme()
   const { emotionId } = useLocalSearchParams<{ emotionId: string }>()
   const [result, setResult] = useState<CheckInResult | null>(null)
   const [loading, setLoading] = useState(true)
@@ -299,11 +301,11 @@ export default function EnvelopeScreen() {
   if (!loading && !result) {
     return (
       <View className="flex-1 bg-background items-center justify-center px-8">
-        <Text style={{ fontFamily: 'DMSans_400Regular', fontSize: 15, color: '#A09080', textAlign: 'center', marginBottom: 24 }}>
+        <Text style={{ fontFamily: 'DMSans_400Regular', fontSize: 15, color: colors.inkMuted, textAlign: 'center', marginBottom: 24 }}>
           Something went wrong. Please try again.
         </Text>
         <Pressable onPress={() => router.replace('/(tabs)')} className="active:opacity-60">
-          <Text style={{ fontFamily: 'DMSans_500Medium', fontSize: 15, color: '#C4956A' }}>Go home</Text>
+          <Text style={{ fontFamily: 'DMSans_500Medium', fontSize: 15, color: colors.amber }}>Go home</Text>
         </Pressable>
       </View>
     )
@@ -314,7 +316,7 @@ export default function EnvelopeScreen() {
       <View style={{ alignItems: 'center' }}>
         {/* Hint — above the envelope */}
         <Animated.View style={[{ marginBottom: 20 }, hintStyle]}>
-          <Text style={{ fontFamily: 'DMSans_400Regular', fontSize: 14, color: '#5A4A3F', letterSpacing: 0.3 }}>
+          <Text style={{ fontFamily: 'DMSans_400Regular', fontSize: 14, color: colors.inkPrimary, letterSpacing: 0.3 }}>
             {loading ? 'Preparing your verse…' : "no rush. it's yours."}
           </Text>
         </Animated.View>
@@ -332,14 +334,14 @@ export default function EnvelopeScreen() {
             shadowRadius: 32,
             elevation: 14,
             borderWidth: 1,
-            borderColor: '#E2D9CC',
+            borderColor: colors.cardBorder,
           }}>
             {/* ── Flap area (top) ── */}
             <View style={{
               position: 'absolute',
               top: 0, left: 0, right: 0,
               height: FOLD_Y,
-              backgroundColor: '#EDE6D9',
+              backgroundColor: colors.headerBg,
             }} />
 
             {/* ── Body area (bottom) ── */}
@@ -347,7 +349,7 @@ export default function EnvelopeScreen() {
               position: 'absolute',
               top: FOLD_Y, left: 0, right: 0,
               bottom: 0,
-              backgroundColor: '#F5F0E8',
+              backgroundColor: colors.inputRow,
             }} />
 
             {/* ── Fold line ── */}
@@ -356,7 +358,7 @@ export default function EnvelopeScreen() {
               top: FOLD_Y,
               left: 0, right: 0,
               height: 1,
-              backgroundColor: '#D8CFBF',
+              backgroundColor: colors.hairline,
             }} />
 
             {/* ── Left diagonal fold crease on flap ── */}
@@ -386,7 +388,7 @@ export default function EnvelopeScreen() {
         style={[{
           position: 'absolute',
           top: 0, left: 0, right: 0, bottom: 0,
-          backgroundColor: '#FAF8F5',
+          backgroundColor: colors.bg,
         }, overlayStyle]}
       />
 
