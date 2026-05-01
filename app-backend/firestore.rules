@@ -12,6 +12,25 @@ service cloud.firestore {
       allow write: if false;
     }
 
+    // Say — persistent AI chat. Reads scoped to owner; writes happen server-side
+    // only (Cloud Function with Admin SDK). Owner may delete their own messages.
+    match /say/{userId}/messages/{messageId} {
+      allow read: if request.auth != null && request.auth.uid == userId;
+      allow write: if false;
+      allow delete: if request.auth != null && request.auth.uid == userId;
+    }
+
+    // Say usage / rate-limit doc — read-only for the owner, written by the function.
+    match /sayUsage/{uid} {
+      allow read: if request.auth != null && request.auth.uid == uid;
+      allow write: if false;
+    }
+
+    // GDPR / App Store deletion audit — admin-only, no client access.
+    match /deletionAudit/{eventId} {
+      allow read, write: if false;
+    }
+
     // Deny everything else
     match /{document=**} {
       allow read, write: if false;

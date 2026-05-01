@@ -76,7 +76,6 @@ export default function RootLayout() {
       <Stack.Screen name="check-in/letter-compose" options={{ animation: 'fade' }} />
       <Stack.Screen name="dashboard/index" />
       <Stack.Screen name="settings" />
-      <Stack.Screen name="widgets" />
     </Stack>
     </GestureHandlerRootView>
   )

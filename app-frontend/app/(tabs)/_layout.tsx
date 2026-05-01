@@ -44,10 +44,21 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="widgets"
+        name="say"
         options={{
-          title: 'Widgets',
-          tabBarIcon: ({ focused }) => <TabIcon symbol="❖" focused={focused} />,
+          title: 'Say',
+          tabBarIcon: ({ focused }) => (
+            <Text
+              style={{
+                fontFamily: 'Lora_400Regular_Italic',
+                fontSize: 22,
+                opacity: focused ? 1 : 0.4,
+                color: focused ? '#C4956A' : '#1A1A1A',
+              }}
+            >
+              {'"'}
+            </Text>
+          ),
         }}
       />
       <Tabs.Screen
