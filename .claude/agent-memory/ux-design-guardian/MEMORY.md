@@ -1,1 +1,2 @@
 - [iOS widget family system](design_widget_family_system.md) — shared visual rules, seal-state grammar, and typography contract for small widgets A–E
+- [Say tab design conventions](design_say_tab.md) — two-voice journal pattern, memory UX rules (Soft Recall / Echo Marker / What's Held), breathing-glyph thinking state
