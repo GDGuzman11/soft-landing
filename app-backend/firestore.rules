@@ -38,6 +38,11 @@ service cloud.firestore {
       allow read, write: if false;
     }
 
+    // Push notification tokens — owner can read/write their own; server reads for delivery.
+    match /pushTokens/{userId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+    }
+
     // GDPR / App Store deletion audit — admin-only, no client access.
     match /deletionAudit/{eventId} {
       allow read, write: if false;
