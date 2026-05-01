@@ -165,7 +165,7 @@ function VoiceCard({ voice, index, lastMessage, hasUnread, isPremium, onPress }:
   const timestampText = lastMessage ? formatTimestamp(lastMessage.createdAt.toDate()) : null
 
   return (
-    <Animated.View style={animatedStyle}>
+    <Animated.View style={[styles.cardWrapper, animatedStyle]}>
       <Pressable
         onPress={onPress}
         accessibilityRole="button"
@@ -309,10 +309,11 @@ export default function SayLobbyScreen() {
   // ---- Handlers ------------------------------------------------------
   const handleVoicePress = useCallback(
     (voice: Voice) => {
-      if (voice.premium && !isPremium) {
-        router.push('/paywall')
-        return
-      }
+      // TODO: re-enable premium gate before launch
+      // if (voice.premium && !isPremium) {
+      //   router.push('/paywall')
+      //   return
+      // }
       router.push({ pathname: '/say/[personaId]', params: { personaId: voice.id } })
     },
     [isPremium],
@@ -379,6 +380,9 @@ const styles = StyleSheet.create({
   },
   cardsList: {
     gap: 12,
+  },
+  cardWrapper: {
+    width: '100%',
   },
   card: {
     flexDirection: 'row',
