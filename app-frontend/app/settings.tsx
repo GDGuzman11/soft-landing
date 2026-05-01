@@ -2,9 +2,13 @@ import { View, Text, Switch, Pressable, ScrollView, Alert } from 'react-native'
 import { router } from 'expo-router'
 import { useEffect, useState } from 'react'
 import { getSettings, saveSettings, clearAllData } from '@/storage/storage'
-import { requestPermission, scheduleDaily, cancelAll } from '@/services/notifications'
+import { requestPermission, scheduleDaily, cancelAll, previewReachOut } from '@/services/notifications'
 import { signOutUser } from '@/services/auth'
 import type { AppSettings } from '@/types'
+import { db } from '@/services/firebase'
+import { doc, getDoc, setDoc, serverTimestamp } from 'firebase/firestore'
+import { getAuth } from 'firebase/auth'
+import { useTheme } from '@/theme'
 
 const DEFAULT_REMINDER_TIME = '08:00'
 
@@ -12,9 +16,29 @@ const SECTION_LABEL_STYLE = { fontFamily: 'DMSans_500Medium', letterSpacing: 1 }
 const LEGAL_ROW_LABEL_STYLE = { fontFamily: 'DMSans_400Regular', fontSize: 15, color: '#3D2F2A' } as const
 const CHEVRON_STYLE = { fontFamily: 'DMSans_400Regular', fontSize: 18, color: '#C4956A' } as const
 
+const VOICE_IDS = ['kind', 'still', 'steady', 'wise'] as const
+type VoiceId = (typeof VOICE_IDS)[number]
+
+const VOICE_LABELS: Record<VoiceId, string> = {
+  kind: 'Kind',
+  still: 'Still',
+  steady: 'Steady',
+  wise: 'Wise',
+}
+
+const PREVIEW_SAMPLES: Record<VoiceId, { name: string; message: string }> = {
+  kind: { name: 'Kind', message: "hey. just wanted to say — today doesn't need to be productive to count." },
+  still: { name: 'Still', message: "feet on the floor. one breath. that's the whole text." },
+  steady: { name: 'Steady', message: 'still here. still loved. boringly consistent, that part.' },
+  wise: { name: 'Wise', message: "even the river bends. that's not failure — that's the shape of getting through." },
+}
+
 export default function SettingsScreen() {
+  const { colors } = useTheme()
   const [settings, setSettings] = useState<AppSettings | null>(null)
   const [loadError, setLoadError] = useState<boolean>(false)
+  const [mutedVoices, setMutedVoices] = useState<VoiceId[]>([])
+  const [tokenDocLoaded, setTokenDocLoaded] = useState(false)
 
   useEffect(() => {
     let cancelled = false
@@ -25,10 +49,56 @@ export default function SettingsScreen() {
       .catch(() => {
         if (!cancelled) setLoadError(true)
       })
+
+    const user = getAuth().currentUser
+    if (user) {
+      getDoc(doc(db, 'pushTokens', user.uid))
+        .then((snap) => {
+          if (cancelled) return
+          if (snap.exists()) {
+            const data = snap.data() as { mutedVoices?: string[] }
+            const stored = data.mutedVoices ?? []
+            // Filter to known voices to keep state strongly typed
+            const filtered = stored.filter((v): v is VoiceId =>
+              (VOICE_IDS as readonly string[]).includes(v)
+            )
+            setMutedVoices(filtered)
+          }
+          setTokenDocLoaded(true)
+        })
+        .catch(() => {
+          if (!cancelled) setTokenDocLoaded(true)
+        })
+    } else {
+      setTokenDocLoaded(true)
+    }
+
     return () => {
       cancelled = true
     }
   }, [])
+
+  async function toggleVoiceMute(voiceId: VoiceId) {
+    const user = getAuth().currentUser
+    if (!user) return
+    const next = mutedVoices.includes(voiceId)
+      ? mutedVoices.filter((v) => v !== voiceId)
+      : [...mutedVoices, voiceId]
+    setMutedVoices(next)
+    await setDoc(
+      doc(db, 'pushTokens', user.uid),
+      { mutedVoices: next, updatedAt: serverTimestamp() },
+      { merge: true }
+    )
+  }
+
+  async function handlePreview() {
+    // Pick first non-muted voice, fallback to Kind
+    const voice = VOICE_IDS.find((v) => !mutedVoices.includes(v)) ?? 'kind'
+    const sample = PREVIEW_SAMPLES[voice]
+    Alert.alert('Lock your screen', 'The notification will arrive in 3 seconds.', [{ text: 'OK' }])
+    await previewReachOut(sample.name, sample.message)
+  }
 
   async function toggle(key: 'haptics') {
     if (!settings) return
@@ -221,6 +291,139 @@ export default function SettingsScreen() {
               thumbColor="#FFFFFF"
             />
           </View>
+        </View>
+      </View>
+
+      {/* Voice Reach-Outs */}
+      <View style={{ marginHorizontal: 24, marginTop: 24 }}>
+        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6, marginBottom: 8 }}>
+          <Text
+            style={{
+              fontFamily: 'DMSans_500Medium',
+              fontSize: 11,
+              color: colors.sectionLabel,
+              textTransform: 'uppercase',
+              letterSpacing: 1.6,
+            }}
+          >
+            Voice Reach-Outs
+          </Text>
+          <Text style={{ fontFamily: 'DMSans_400Regular', fontSize: 11, color: colors.amber }}>✦</Text>
+        </View>
+        <View
+          style={{
+            backgroundColor: colors.profileCard,
+            borderRadius: 16,
+            borderWidth: 1,
+            borderColor: colors.cardBorder,
+          }}
+        >
+          {/* Master enable row */}
+          <View
+            style={{
+              paddingHorizontal: 20,
+              paddingVertical: 14,
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+            }}
+          >
+            <View style={{ flex: 1, marginRight: 12 }}>
+              <Text style={{ fontFamily: 'DMSans_400Regular', fontSize: 15, color: colors.inkPrimary }}>
+                Voice messages
+              </Text>
+              <Text
+                style={{
+                  fontFamily: 'DMSans_400Regular',
+                  fontSize: 12,
+                  color: colors.inkMuted,
+                  marginTop: 2,
+                }}
+              >
+                Your voices check in — morning & evening
+              </Text>
+            </View>
+            <Switch
+              value={settings.notifications.enabled}
+              onValueChange={toggleNotifications}
+              trackColor={{ false: colors.cardBorder, true: colors.amber }}
+              thumbColor="#FFFFFF"
+              accessibilityLabel="Toggle voice reach-outs"
+            />
+          </View>
+
+          {/* Per-voice mute rows + preview — only when enabled and Firestore doc has settled */}
+          {settings.notifications.enabled && tokenDocLoaded && (
+            <>
+              {VOICE_IDS.map((voiceId) => {
+                const label = VOICE_LABELS[voiceId]
+                const isMuted = mutedVoices.includes(voiceId)
+                return (
+                  <View
+                    key={voiceId}
+                    style={{
+                      paddingHorizontal: 20,
+                      paddingVertical: 14,
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                      justifyContent: 'space-between',
+                      borderTopWidth: 1,
+                      borderTopColor: colors.cardBorder,
+                    }}
+                  >
+                    <Text style={{ fontFamily: 'DMSans_400Regular', fontSize: 15, color: colors.inkPrimary }}>
+                      {label}
+                    </Text>
+                    <Switch
+                      value={!isMuted}
+                      onValueChange={() => toggleVoiceMute(voiceId)}
+                      trackColor={{ false: colors.cardBorder, true: colors.amber }}
+                      thumbColor="#FFFFFF"
+                      accessibilityLabel={`Toggle ${label} messages`}
+                    />
+                  </View>
+                )
+              })}
+
+              {/* Preview row */}
+              <Pressable
+                onPress={handlePreview}
+                style={({ pressed }) => ({
+                  paddingHorizontal: 20,
+                  paddingVertical: 16,
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  borderTopWidth: 1,
+                  borderTopColor: colors.cardBorder,
+                  opacity: pressed ? 0.6 : 1,
+                })}
+                accessibilityRole="button"
+                accessibilityLabel="Preview a notification"
+              >
+                <Text style={{ fontFamily: 'DMSans_400Regular', fontSize: 15, color: colors.inkPrimary }}>
+                  Preview a notification
+                </Text>
+                <Text style={{ fontFamily: 'DMSans_400Regular', fontSize: 18, color: colors.amber }}>›</Text>
+              </Pressable>
+            </>
+          )}
+
+          {/* Loading placeholder while Firestore mute doc resolves */}
+          {settings.notifications.enabled && !tokenDocLoaded && (
+            <View
+              style={{
+                paddingHorizontal: 20,
+                paddingVertical: 14,
+                borderTopWidth: 1,
+                borderTopColor: colors.cardBorder,
+              }}
+            >
+              <Text style={{ fontFamily: 'DMSans_400Regular', fontSize: 14, color: colors.inkMuted }}>
+                Loading voices…
+              </Text>
+            </View>
+          )}
         </View>
       </View>
 
