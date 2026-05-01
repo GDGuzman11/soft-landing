@@ -695,12 +695,13 @@ export default function SayThreadScreen() {
                 disabled={sendDisabled}
                 accessibilityRole="button"
                 accessibilityLabel="Send"
-                hitSlop={6}
-                style={({ pressed }) => [
-                  styles.sendButton,
-                  { backgroundColor: sendDisabled ? colors.inkSubtle : colors.sendBtn },
-                  pressed && !sendDisabled && { opacity: 0.7 },
-                ]}
+                hitSlop={8}
+                style={({ pressed }) => ({
+                  marginLeft: 8,
+                  opacity: sendDisabled ? 0.25 : pressed ? 0.6 : 1,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                })}
               >
                 <Image source={STAMP} style={styles.sendButtonIcon} resizeMode="contain" />
               </Pressable>
@@ -952,16 +953,8 @@ const styles = StyleSheet.create({
     maxHeight: 120,
     paddingVertical: 6,
   },
-  sendButton: {
-    width: 34,
-    height: 34,
-    borderRadius: 17,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginLeft: 6,
-  },
   sendButtonIcon: {
-    width: 26,
-    height: 26,
+    width: 36,
+    height: 36,
   },
 })
