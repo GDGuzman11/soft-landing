@@ -5,6 +5,9 @@ import { useEffect, useState } from 'react'
 import 'react-native-reanimated'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import { initPurchases } from '@/services/purchases'
+import { registerPushToken } from '@/services/notifications'
+import { getSettings } from '@/storage/storage'
+import { getAuth } from 'firebase/auth'
 import { ThemeProvider, useTheme } from '@/theme'
 import {
   useFonts,
@@ -65,6 +68,16 @@ export default function RootLayout() {
 
   useEffect(() => {
     initPurchases()
+
+    // Register push token after a short delay to let auth settle
+    const t = setTimeout(() => {
+      if (getAuth().currentUser) {
+        getSettings()
+          .then((s) => registerPushToken(s.subscription.tier === 'premium'))
+          .catch(() => {})
+      }
+    }, 2000)
+    return () => clearTimeout(t)
   }, [])
 
   useEffect(() => {

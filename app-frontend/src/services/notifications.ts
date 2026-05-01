@@ -1,5 +1,8 @@
 import * as ExpoNotifications from 'expo-notifications'
 import { Platform } from 'react-native'
+import { getAuth } from 'firebase/auth'
+import { doc, setDoc, serverTimestamp } from 'firebase/firestore'
+import { db } from '@/services/firebase'
 
 ExpoNotifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -55,4 +58,40 @@ export async function scheduleDaily(time: string): Promise<void> {
 
 export async function cancelAll(): Promise<void> {
   await ExpoNotifications.cancelScheduledNotificationAsync(NOTIFICATION_ID)
+}
+
+export async function registerPushToken(isPremium: boolean): Promise<void> {
+  try {
+    const user = getAuth().currentUser
+    if (!user) return
+
+    // Request permission first
+    const { status } = await ExpoNotifications.requestPermissionsAsync()
+    if (status !== 'granted') return
+
+    // Get Expo push token (throws in Expo Go / simulator — that's fine)
+    const { data: token } = await ExpoNotifications.getExpoPushTokenAsync({
+      projectId: '2d79e638-f797-42ff-86b3-94f5c20fa6ff',
+    })
+
+    const timezoneOffset = -new Date().getTimezoneOffset() / 60
+
+    await setDoc(
+      doc(db, 'pushTokens', user.uid),
+      { token, isPremium, timezoneOffset, updatedAt: serverTimestamp() },
+      { merge: true }
+    )
+  } catch {
+    // Expo Go / simulator / permission denied — silent skip
+  }
+}
+
+export async function previewReachOut(voiceName: string, message: string): Promise<void> {
+  const { status } = await ExpoNotifications.requestPermissionsAsync()
+  if (status !== 'granted') return
+
+  await ExpoNotifications.scheduleNotificationAsync({
+    content: { title: voiceName, body: message, sound: true },
+    trigger: { type: ExpoNotifications.SchedulableTriggerInputTypes.TIME_INTERVAL, seconds: 3 },
+  })
 }
