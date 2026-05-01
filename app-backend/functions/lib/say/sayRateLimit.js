@@ -8,9 +8,9 @@ if ((0, app_1.getApps)().length === 0) {
     (0, app_1.initializeApp)();
 }
 // Limits — separate from letterUsage so frontend can show distinct copy.
-const FREE_DAILY_LIMIT = 20;
-const PREMIUM_DAILY_LIMIT = 200;
-const BURST_LIMIT = 5;
+const FREE_DAILY_LIMIT = 100;
+const PREMIUM_DAILY_LIMIT = 500;
+const BURST_LIMIT = 20;
 const BURST_WINDOW_MS = 60 * 1000; // 60 seconds
 /**
  * Returns the UTC midnight that begins the calendar day AFTER `now`.
@@ -83,7 +83,4 @@ exports.SAY_LIMITS = {
     BURST_LIMIT,
     BURST_WINDOW_MS,
 };
-// Quiet the unused-import warning if FieldValue ends up unused after edits;
-// it's exported here so future increments can swap to FieldValue.increment.
-void firestore_1.FieldValue;
 //# sourceMappingURL=sayRateLimit.js.map

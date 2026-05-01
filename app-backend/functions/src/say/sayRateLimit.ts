@@ -6,8 +6,8 @@ if (getApps().length === 0) {
 }
 
 // Limits — separate from letterUsage so frontend can show distinct copy.
-const FREE_DAILY_LIMIT = 20
-const PREMIUM_DAILY_LIMIT = 200
+const FREE_DAILY_LIMIT = 100
+const PREMIUM_DAILY_LIMIT = 500
 const BURST_LIMIT = 20
 const BURST_WINDOW_MS = 60 * 1000 // 60 seconds
 

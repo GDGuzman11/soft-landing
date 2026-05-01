@@ -73,13 +73,15 @@ exports.deleteUserData = (0, https_1.onCall)({ region: 'us-central1' }, async (r
         await deleteDocSafe(db.collection('sayState').doc(uid));
         // 5. /sayReachOutDelivery/{uid} — reach-out rate limit tracking
         await deleteDocSafe(db.collection('sayReachOutDelivery').doc(uid));
-        // 6. Compliance audit — admin-only collection (rules block all client access).
+        // 6. /pushTokens/{uid} — Expo push token + premium flag + muted-voices preferences
+        await deleteDocSafe(db.collection('pushTokens').doc(uid));
+        // 7. Compliance audit — admin-only collection (rules block all client access).
         await db.collection('deletionAudit').doc(uid).set({
             uid,
             deletedAt: firestore_1.FieldValue.serverTimestamp(),
             status: 'complete',
         });
-        // 7. Firebase Auth user — last so we don't orphan auth against partial state.
+        // 8. Firebase Auth user — last so we don't orphan auth against partial state.
         try {
             await (0, auth_1.getAuth)().deleteUser(uid);
         }
