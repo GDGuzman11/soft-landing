@@ -7,6 +7,7 @@ import {
   KeyboardAvoidingView,
   Platform,
   Share,
+  ActivityIndicator,
 } from 'react-native'
 import { router, useLocalSearchParams } from 'expo-router'
 import { useEffect, useState } from 'react'
@@ -15,16 +16,18 @@ import { getSavedMessages, getSettings, updateSavedMessage, setFirstLetterUsed }
 import { generateLetter } from '@/services/letterService'
 import { getCurrentUser } from '@/services/auth'
 import LetterCard from '@/components/LetterCard'
+import { useTheme } from '@/theme'
 import type { SavedMessage, Message, AppSettings, EmotionId } from '@/types'
 
-const MUTED_LINK_TEXT_STYLE = {
-  fontFamily: 'DMSans_400Regular',
-  fontSize: 14,
-  color: '#A09080',
-} as const
-
 export default function LetterComposeScreen() {
+  const { colors } = useTheme()
   const { savedMessageId } = useLocalSearchParams<{ savedMessageId: string }>()
+
+  const mutedLinkTextStyle = {
+    fontFamily: 'DMSans_400Regular',
+    fontSize: 14,
+    color: colors.inkMuted,
+  } as const
 
   const [savedMessage, setSavedMessage] = useState<SavedMessage | null>(null)
   const [settings, setSettings] = useState<AppSettings | null>(null)
@@ -35,6 +38,7 @@ export default function LetterComposeScreen() {
   const [letterError, setLetterError] = useState<'network' | 'blocked' | 'rateLimited' | null>(null)
   const [showCrisisPrompt, setShowCrisisPrompt] = useState(false)
   const [letterSaved, setLetterSaved] = useState(false)
+  const [generating, setGenerating] = useState(false)
 
   useEffect(() => {
     if (!savedMessageId) return
@@ -61,7 +65,13 @@ export default function LetterComposeScreen() {
     })
   }, [savedMessageId])
 
-  if (!savedMessage || !settings || !verseData) return null
+  if (!savedMessage || !settings || !verseData) {
+    return (
+      <View style={{ flex: 1, backgroundColor: colors.bg, alignItems: 'center', justifyContent: 'center' }}>
+        <ActivityIndicator color={colors.amber} />
+      </View>
+    )
+  }
 
   const body = verseData.body
   const reference = verseData.reference
@@ -76,55 +86,61 @@ export default function LetterComposeScreen() {
       return
     }
     setLetterLoading(true)
+    setGenerating(true)
     setLetterError(null)
     setShowCrisisPrompt(false)
 
-    const result = await generateLetter({
-      emotionId,
-      verseBody: body,
-      reference,
-      modernText: modernText || undefined,
-      userInput: userInput.trim() || undefined,
-      userName,
-      hourOfDay: new Date().getHours(),
-      faithBackground: settings?.faithBackground ?? null,
-      primaryIntent: settings?.primaryIntent ?? null,
-      lifeStage: settings?.lifeStage ?? null,
-    })
+    try {
+      const result = await generateLetter({
+        emotionId,
+        verseBody: body,
+        reference,
+        modernText: modernText || undefined,
+        userInput: userInput.trim() || undefined,
+        userName,
+        hourOfDay: new Date().getHours(),
+        faithBackground: settings?.faithBackground ?? null,
+        primaryIntent: settings?.primaryIntent ?? null,
+        lifeStage: settings?.lifeStage ?? null,
+      })
 
-    setLetterLoading(false)
+      setLetterLoading(false)
 
-    if (result.showCrisisPrompt) {
-      setShowCrisisPrompt(true)
-      return
+      if (result.showCrisisPrompt) {
+        setShowCrisisPrompt(true)
+        return
+      }
+
+      if (result.blocked) {
+        setLetterError('blocked')
+        return
+      }
+
+      if (result.rateLimited) {
+        setLetterError('rateLimited')
+        return
+      }
+
+      if (!result.letter) {
+        setLetterError('network')
+        return
+      }
+
+      if (!isPremium) {
+        await setFirstLetterUsed(true)
+        setSettings((prev) => (prev ? { ...prev, firstLetterUsed: true } : prev))
+      }
+
+      setLetter(result.letter)
+      await updateSavedMessage(savedMessageId, {
+        letter: result.letter,
+        note: userInput.trim() || undefined,
+      })
+      setLetterSaved(true)
+    } finally {
+      setLetterLoading(false)
+      setGenerating(false)
     }
-
-    if (result.blocked) {
-      setLetterError('blocked')
-      return
-    }
-
-    if (result.rateLimited) {
-      setLetterError('rateLimited')
-      return
-    }
-
-    if (!result.letter) {
-      setLetterError('network')
-      return
-    }
-
-    if (!isPremium) {
-      await setFirstLetterUsed(true)
-      setSettings((prev) => (prev ? { ...prev, firstLetterUsed: true } : prev))
-    }
-
-    setLetter(result.letter)
-    await updateSavedMessage(savedMessageId, {
-      letter: result.letter,
-      note: userInput.trim() || undefined,
-    })
-    setLetterSaved(true)
   }
 
   async function handleSaveLetter() {
@@ -148,7 +164,8 @@ export default function LetterComposeScreen() {
   }
 
   const hasLetter = letter !== null
-  const sendLabel = userInput.trim() ? 'Send' : 'Write me a letter'
+  const baseSendLabel = userInput.trim() ? 'Send' : 'Write me a letter'
+  const sendLabel = generating ? 'Writing your letter...' : baseSendLabel
 
   return (
     <KeyboardAvoidingView
@@ -156,7 +173,7 @@ export default function LetterComposeScreen() {
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
     >
       <ScrollView
-        style={{ flex: 1, backgroundColor: '#FAF8F5' }}
+        style={{ flex: 1, backgroundColor: colors.bg }}
         contentContainerStyle={{ paddingHorizontal: 24, paddingTop: 56, paddingBottom: 48 }}
         keyboardShouldPersistTaps="handled"
       >
@@ -169,7 +186,7 @@ export default function LetterComposeScreen() {
           accessibilityRole="button"
           accessibilityLabel="Go back"
         >
-          <Text style={MUTED_LINK_TEXT_STYLE}>
+          <Text style={mutedLinkTextStyle}>
             ← Back
           </Text>
         </Pressable>
@@ -177,7 +194,7 @@ export default function LetterComposeScreen() {
         {/* Verse */}
         <View
           style={{
-            backgroundColor: '#FFFFFF',
+            backgroundColor: colors.surface,
             borderRadius: 16,
             padding: 20,
             marginBottom: 28,
@@ -193,7 +210,7 @@ export default function LetterComposeScreen() {
               style={{
                 fontFamily: 'DMSans_500Medium',
                 fontSize: 13,
-                color: '#C4956A',
+                color: colors.amber,
                 letterSpacing: 0.3,
                 marginBottom: 8,
                 textAlign: 'center',
@@ -206,7 +223,7 @@ export default function LetterComposeScreen() {
             style={{
               fontFamily: 'Lora_400Regular',
               fontSize: 17,
-              color: '#3D2F2A',
+              color: colors.inkPrimary,
               lineHeight: 26,
               textAlign: 'center',
             }}

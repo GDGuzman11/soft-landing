@@ -252,7 +252,7 @@ export default function OnboardingProfileScreen() {
           <Text
             style={{
               fontSize: 18,
-              color: '#C4956A',
+              color: colors.amber,
               textAlign: 'center',
               marginBottom: 16,
               opacity: 0.7,
@@ -266,7 +266,7 @@ export default function OnboardingProfileScreen() {
             style={{
               fontFamily: 'Lora_400Regular_Italic',
               fontSize: 24,
-              color: '#1A1A1A',
+              color: colors.inkPrimary,
               textAlign: 'center',
               marginBottom: 16,
               lineHeight: 34,
@@ -280,7 +280,7 @@ export default function OnboardingProfileScreen() {
             style={{
               width: 40,
               height: 1,
-              backgroundColor: '#C4956A',
+              backgroundColor: colors.amber,
               opacity: 0.4,
               alignSelf: 'center',
               marginBottom: 32,
@@ -308,7 +308,7 @@ export default function OnboardingProfileScreen() {
               style={{
                 fontFamily: 'Lora_400Regular_Italic',
                 fontSize: 13,
-                color: '#A09080',
+                color: colors.inkMuted,
               }}
             >
               I'd rather not say

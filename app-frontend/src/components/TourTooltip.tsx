@@ -6,6 +6,7 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated'
 import { useEffect } from 'react'
+import { useTheme } from '@/theme'
 
 type SymbolRow = { symbol: string; label: string }
 
@@ -17,6 +18,7 @@ type Props = {
 }
 
 export default function TourTooltip({ text, rows, buttonLabel = 'Got it →', onDismiss }: Props) {
+  const { colors } = useTheme()
   const translateY = useSharedValue(100)
   const opacity = useSharedValue(0)
   const overlayOpacity = useSharedValue(0)

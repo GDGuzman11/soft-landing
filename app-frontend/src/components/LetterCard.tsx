@@ -44,6 +44,7 @@ function parseHighlightSegments(text: string): { text: string; highlight: boolea
 }
 
 function ResonantLine({ text, animationReady }: { text: string; animationReady: boolean }) {
+  const { colors } = useTheme()
   const ruleOpacity = useSharedValue(0)
 
   useEffect(() => {
@@ -60,12 +61,12 @@ function ResonantLine({ text, animationReady }: { text: string; animationReady: 
     <View style={{ paddingLeft: 16, marginVertical: 8 }}>
       <Animated.View
         style={[
-          { position: 'absolute', left: 0, top: 0, bottom: 0, width: 2, backgroundColor: '#C4956A' },
+          { position: 'absolute', left: 0, top: 0, bottom: 0, width: 2, backgroundColor: colors.amber },
           ruleStyle,
         ]}
       />
       <Text
-        style={{ fontFamily: 'Lora_400Regular', fontSize: 17, color: '#1A1A1A', lineHeight: 26, letterSpacing: 0.15 }}
+        style={{ fontFamily: 'Lora_400Regular', fontSize: 17, color: colors.inkPrimary, lineHeight: 26, letterSpacing: 0.15 }}
       >
         {text}
       </Text>
@@ -86,6 +87,7 @@ function BodySection({
   typingDone: boolean
   cursorNode: React.ReactNode
 }) {
+  const { colors } = useTheme()
   if (typingDone) {
     const segments = parseHighlightSegments(originalText)
     if (segments.some((s) => s.highlight)) {
@@ -97,7 +99,7 @@ function BodySection({
             ) : seg.text ? (
               <Text
                 key={i}
-                style={{ fontFamily: 'Lora_400Regular', fontSize: 17, color: '#1A1A1A', lineHeight: 26 }}
+                style={{ fontFamily: 'Lora_400Regular', fontSize: 17, color: colors.inkPrimary, lineHeight: 26 }}
               >
                 {seg.text}
               </Text>
@@ -107,14 +109,14 @@ function BodySection({
       )
     }
     return (
-      <Text style={{ fontFamily: 'Lora_400Regular', fontSize: 17, color: '#1A1A1A', lineHeight: 26 }}>
+      <Text style={{ fontFamily: 'Lora_400Regular', fontSize: 17, color: colors.inkPrimary, lineHeight: 26 }}>
         {originalText.replace(/\[\[|\]\]/g, '')}
       </Text>
     )
   }
   return (
     <View style={{ flexDirection: 'row', flexWrap: 'wrap', alignItems: 'flex-end' }}>
-      <Text style={{ fontFamily: 'Lora_400Regular', fontSize: 17, color: '#1A1A1A', lineHeight: 26 }}>
+      <Text style={{ fontFamily: 'Lora_400Regular', fontSize: 17, color: colors.inkPrimary, lineHeight: 26 }}>
         {displayedText}
       </Text>
       {showCursor && cursorNode}
@@ -131,6 +133,7 @@ function PullQuote({
   verseReference: string
   visible: boolean
 }) {
+  const { colors } = useTheme()
   const washOpacity = useSharedValue(0)
   const topScale = useSharedValue(0.4)
   const bottomScale = useSharedValue(0.4)
@@ -165,7 +168,7 @@ function PullQuote({
     <Animated.View
       style={[
         {
-          backgroundColor: '#FBF6ED',
+          backgroundColor: colors.inputRow,
           paddingHorizontal: 20,
           paddingTop: 20,
           paddingBottom: 16,
@@ -179,7 +182,7 @@ function PullQuote({
       {/* Top hairline */}
       <Animated.View
         style={[
-          { height: 1, backgroundColor: '#C4956A', opacity: 0.6, marginHorizontal: 40, marginBottom: 20 },
+          { height: 1, backgroundColor: colors.amber, opacity: 0.6, marginHorizontal: 40, marginBottom: 20 },
           topHairStyle,
         ]}
       />
@@ -190,7 +193,7 @@ function PullQuote({
           {
             fontFamily: 'Lora_400Regular_Italic',
             fontSize: 19,
-            color: '#1A1A1A',
+            color: colors.inkPrimary,
             lineHeight: 30,
             textAlign: 'center',
           },
@@ -206,7 +209,7 @@ function PullQuote({
           {
             fontFamily: 'DMSans_500Medium',
             fontSize: 11,
-            color: '#C4956A',
+            color: colors.amber,
             letterSpacing: 2,
             textAlign: 'center',
             textTransform: 'uppercase',
@@ -221,7 +224,7 @@ function PullQuote({
       {/* Bottom hairline */}
       <Animated.View
         style={[
-          { height: 1, backgroundColor: '#C4956A', opacity: 0.6, marginHorizontal: 40, marginTop: 20 },
+          { height: 1, backgroundColor: colors.amber, opacity: 0.6, marginHorizontal: 40, marginTop: 20 },
           bottomHairStyle,
         ]}
       />
@@ -230,6 +233,7 @@ function PullQuote({
 }
 
 function LoadingDots() {
+  const { colors } = useTheme()
   const dot1 = useSharedValue(0.3)
   const dot2 = useSharedValue(0.3)
   const dot3 = useSharedValue(0.3)
@@ -259,7 +263,7 @@ function LoadingDots() {
       {[s1, s2, s3].map((style, i) => (
         <Animated.View
           key={i}
-          style={[{ width: 8, height: 8, borderRadius: 4, backgroundColor: '#C4956A' }, style]}
+          style={[{ width: 8, height: 8, borderRadius: 4, backgroundColor: colors.amber }, style]}
         />
       ))}
     </View>
@@ -274,6 +278,7 @@ export default function LetterCard({
   verseBody,
   verseReference,
 }: Props) {
+  const { colors } = useTheme()
   const translateY = useSharedValue(30)
   const opacity = useSharedValue(0)
   const cursorOpacity = useSharedValue(1)
@@ -391,7 +396,7 @@ export default function LetterCard({
 
   const cursorNode = (
     <Animated.Text
-      style={[{ fontFamily: 'Lora_400Regular', fontSize: 17, color: '#C4956A', lineHeight: 26 }, cursorStyle]}
+      style={[{ fontFamily: 'Lora_400Regular', fontSize: 17, color: colors.amber, lineHeight: 26 }, cursorStyle]}
     >
       |
     </Animated.Text>
@@ -400,7 +405,7 @@ export default function LetterCard({
   const errorStyle = {
     fontFamily: 'Lora_400Regular' as const,
     fontSize: 15,
-    color: '#9A8F82',
+    color: colors.inkMuted,
     textAlign: 'center' as const,
     paddingVertical: 16,
   }
@@ -409,7 +414,7 @@ export default function LetterCard({
     <Animated.View
       style={[
         {
-          backgroundColor: '#F5F0E8',
+          backgroundColor: colors.inputRow,
           borderRadius: 12,
           padding: 24,
           shadowColor: '#000',
@@ -439,7 +444,7 @@ export default function LetterCard({
       ) : letter ? (
         <>
           <Text
-            style={{ fontFamily: 'Lora_400Regular_Italic', fontSize: 15, color: '#C4956A', marginBottom: 14 }}
+            style={{ fontFamily: 'Lora_400Regular_Italic', fontSize: 15, color: colors.amber, marginBottom: 14 }}
           >
             Dear {name},
           </Text>
@@ -474,7 +479,7 @@ export default function LetterCard({
           )}
 
           <Text
-            style={{ fontFamily: 'Lora_400Regular_Italic', fontSize: 14, color: '#9A8F82', marginTop: 14 }}
+            style={{ fontFamily: 'Lora_400Regular_Italic', fontSize: 14, color: colors.inkMuted, marginTop: 14 }}
           >
             With you in this.
           </Text>

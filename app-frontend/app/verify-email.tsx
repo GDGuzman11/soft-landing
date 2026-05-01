@@ -2,10 +2,12 @@ import { View, Text, Pressable, ActivityIndicator } from 'react-native'
 import { router } from 'expo-router'
 import { useState, useEffect } from 'react'
 import { sendVerificationEmail, reloadAndCheckVerified, signOutUser, getCurrentUser } from '@/services/auth'
+import { useTheme } from '@/theme'
 
 const RESEND_COOLDOWN = 30
 
 export default function VerifyEmailScreen() {
+  const { colors } = useTheme()
   const email = getCurrentUser()?.email ?? null
   const [checking, setChecking] = useState(false)
   const [resending, setResending] = useState(false)
@@ -56,7 +58,7 @@ export default function VerifyEmailScreen() {
   return (
     <View style={{
       flex: 1,
-      backgroundColor: '#FAF8F5',
+      backgroundColor: colors.bg,
       alignItems: 'center',
       justifyContent: 'center',
       paddingHorizontal: 32,
@@ -67,7 +69,7 @@ export default function VerifyEmailScreen() {
         height: 48,
         borderRadius: 8,
         borderWidth: 1.5,
-        borderColor: '#C4956A',
+        borderColor: colors.amber,
         marginBottom: 32,
         alignItems: 'center',
         justifyContent: 'center',
@@ -80,7 +82,7 @@ export default function VerifyEmailScreen() {
           borderTopWidth: 22,
           borderLeftColor: 'transparent',
           borderRightColor: 'transparent',
-          borderTopColor: '#C4956A',
+          borderTopColor: colors.amber,
           position: 'absolute',
           top: 0,
           opacity: 0.5,
@@ -90,7 +92,7 @@ export default function VerifyEmailScreen() {
       <Text style={{
         fontFamily: 'Lora_400Regular_Italic',
         fontSize: 28,
-        color: '#1A1A1A',
+        color: colors.inkPrimary,
         textAlign: 'center',
         marginBottom: 12,
         lineHeight: 38,
@@ -101,7 +103,7 @@ export default function VerifyEmailScreen() {
       <Text style={{
         fontFamily: 'DMSans_400Regular',
         fontSize: 14,
-        color: '#A09080',
+        color: colors.inkMuted,
         textAlign: 'center',
         lineHeight: 22,
         marginBottom: 8,
@@ -111,7 +113,7 @@ export default function VerifyEmailScreen() {
       <Text style={{
         fontFamily: 'DMSans_500Medium',
         fontSize: 14,
-        color: '#1A1A1A',
+        color: colors.inkPrimary,
         textAlign: 'center',
         marginBottom: 40,
       }}>
@@ -136,13 +138,13 @@ export default function VerifyEmailScreen() {
         disabled={checking}
         className="active:opacity-80"
         style={{
-          backgroundColor: '#C4956A',
+          backgroundColor: colors.amber,
           borderRadius: 9999,
           paddingVertical: 16,
           width: '100%',
           alignItems: 'center',
           marginBottom: 12,
-          shadowColor: '#C4956A',
+          shadowColor: colors.amber,
           shadowOffset: { width: 0, height: 4 },
           shadowOpacity: checking ? 0 : 0.3,
           shadowRadius: 12,
@@ -170,7 +172,7 @@ export default function VerifyEmailScreen() {
         <Text style={{
           fontFamily: 'DMSans_400Regular',
           fontSize: 14,
-          color: cooldown > 0 ? '#C4B59A' : '#C4956A',
+          color: cooldown > 0 ? colors.inkSubtle : colors.amber,
         }}>
           {resending
             ? 'Sending…'
@@ -190,7 +192,7 @@ export default function VerifyEmailScreen() {
         <Text style={{
           fontFamily: 'DMSans_400Regular',
           fontSize: 13,
-          color: '#C0A898',
+          color: colors.inkMuted,
         }}>
           Wrong email? Go back
         </Text>

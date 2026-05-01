@@ -16,6 +16,7 @@ import * as AuthSession from 'expo-auth-session/providers/google'
 import { signInWithEmail, signInWithGoogle, signInWithApple, sendVerificationEmail, resetPassword } from '@/services/auth'
 import { getSettings, saveSettings } from '@/storage/storage'
 import { mapFirebaseError } from '@/utils/firebaseErrors'
+import { useTheme } from '@/theme'
 
 WebBrowser.maybeCompleteAuthSession()
 
@@ -35,6 +36,7 @@ async function stampReturningUser() {
 }
 
 export default function SignInScreen() {
+  const { colors } = useTheme()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
@@ -83,7 +85,7 @@ export default function SignInScreen() {
 
   return (
     <KeyboardAvoidingView
-      style={{ flex: 1, backgroundColor: '#FAF8F5' }}
+      style={{ flex: 1, backgroundColor: colors.bg }}
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
     >
       <ScrollView
@@ -96,7 +98,7 @@ export default function SignInScreen() {
           accessibilityRole="button"
           accessibilityLabel="Go back"
         >
-          <Text style={{ fontFamily: 'DMSans_400Regular', fontSize: 28, color: '#A09080', lineHeight: 28 }}>
+          <Text style={{ fontFamily: 'DMSans_400Regular', fontSize: 28, color: colors.inkMuted, lineHeight: 28 }}>
             ‹
           </Text>
         </Pressable>
@@ -105,7 +107,7 @@ export default function SignInScreen() {
           style={{
             fontFamily: 'Lora_400Regular_Italic',
             fontSize: 30,
-            color: '#1A1A1A',
+            color: colors.inkPrimary,
             marginBottom: 8,
           }}
         >
@@ -115,7 +117,7 @@ export default function SignInScreen() {
           style={{
             fontFamily: 'DMSans_400Regular',
             fontSize: 14,
-            color: '#A09080',
+            color: colors.inkMuted,
             marginBottom: 40,
             letterSpacing: 0.3,
           }}
@@ -127,7 +129,7 @@ export default function SignInScreen() {
           value={email}
           onChangeText={setEmail}
           placeholder="Email"
-          placeholderTextColor="#C4B59A"
+          placeholderTextColor={colors.inkSubtle}
           keyboardType="email-address"
           autoCapitalize="none"
           autoCorrect={false}
@@ -135,14 +137,14 @@ export default function SignInScreen() {
           style={{
             width: '100%',
             borderWidth: 1,
-            borderColor: '#E8E3DC',
+            borderColor: colors.cardBorder,
             borderRadius: 16,
             paddingHorizontal: 20,
             paddingVertical: 14,
             fontFamily: 'DMSans_400Regular',
             fontSize: 16,
-            backgroundColor: '#FFFFFF',
-            color: '#1A1A1A',
+            backgroundColor: colors.surface,
+            color: colors.inkPrimary,
             marginBottom: 12,
           }}
         />
@@ -151,7 +153,7 @@ export default function SignInScreen() {
           value={password}
           onChangeText={setPassword}
           placeholder="Password"
-          placeholderTextColor="#C4B59A"
+          placeholderTextColor={colors.inkSubtle}
           secureTextEntry
           editable={!loading}
           onSubmitEditing={handleSignIn}
@@ -159,14 +161,14 @@ export default function SignInScreen() {
           style={{
             width: '100%',
             borderWidth: 1,
-            borderColor: '#E8E3DC',
+            borderColor: colors.cardBorder,
             borderRadius: 16,
             paddingHorizontal: 20,
             paddingVertical: 14,
             fontFamily: 'DMSans_400Regular',
             fontSize: 16,
-            backgroundColor: '#FFFFFF',
-            color: '#1A1A1A',
+            backgroundColor: colors.surface,
+            color: colors.inkPrimary,
             marginBottom: 8,
           }}
         />
@@ -188,7 +190,7 @@ export default function SignInScreen() {
           accessibilityRole="button"
           accessibilityLabel="Forgot password"
         >
-          <Text style={{ fontFamily: 'DMSans_400Regular', fontSize: 13, color: '#A09080' }}>
+          <Text style={{ fontFamily: 'DMSans_400Regular', fontSize: 13, color: colors.inkMuted }}>
             Forgot password?
           </Text>
         </Pressable>
@@ -212,12 +214,12 @@ export default function SignInScreen() {
           disabled={loading}
           className="active:opacity-80"
           style={{
-            backgroundColor: '#C4956A',
+            backgroundColor: colors.amber,
             borderRadius: 9999,
             paddingVertical: 16,
             alignItems: 'center',
             marginBottom: 12,
-            shadowColor: '#C4956A',
+            shadowColor: colors.amber,
             shadowOffset: { width: 0, height: 4 },
             shadowOpacity: loading ? 0 : 0.3,
             shadowRadius: 12,
@@ -241,19 +243,19 @@ export default function SignInScreen() {
           disabled={!request || loading}
           className="active:opacity-80"
           style={{
-            backgroundColor: '#FFFFFF',
+            backgroundColor: colors.surface,
             borderRadius: 9999,
             paddingVertical: 16,
             alignItems: 'center',
             marginBottom: 12,
             borderWidth: 1,
-            borderColor: '#E8E3DC',
+            borderColor: colors.cardBorder,
             opacity: !request || loading ? 0.5 : 1,
           }}
           accessibilityRole="button"
           accessibilityLabel="Sign in with Google"
         >
-          <Text style={{ fontFamily: 'DMSans_500Medium', fontSize: 16, color: '#1A1A1A' }}>
+          <Text style={{ fontFamily: 'DMSans_500Medium', fontSize: 16, color: colors.inkPrimary }}>
             <Text style={{ color: '#4285F4' }}>G</Text>  Sign in with Google
           </Text>
         </Pressable>
@@ -278,19 +280,19 @@ export default function SignInScreen() {
             disabled={loading}
             className="active:opacity-80"
             style={{
-              backgroundColor: '#FFFFFF',
+              backgroundColor: colors.surface,
               borderRadius: 9999,
               paddingVertical: 16,
               alignItems: 'center',
               marginBottom: 32,
               borderWidth: 1,
-              borderColor: '#E8E3DC',
+              borderColor: colors.cardBorder,
               opacity: loading ? 0.5 : 1,
             }}
             accessibilityRole="button"
             accessibilityLabel="Sign in with Apple"
           >
-            <Text style={{ fontFamily: 'DMSans_500Medium', fontSize: 16, color: '#1A1A1A' }}>
+            <Text style={{ fontFamily: 'DMSans_500Medium', fontSize: 16, color: colors.inkPrimary }}>
               Sign in with Apple
             </Text>
           </Pressable>
@@ -304,9 +306,9 @@ export default function SignInScreen() {
           accessibilityRole="button"
           accessibilityLabel="Create an account"
         >
-          <Text style={{ fontFamily: 'DMSans_400Regular', fontSize: 14, color: '#A09080' }}>
+          <Text style={{ fontFamily: 'DMSans_400Regular', fontSize: 14, color: colors.inkMuted }}>
             Don't have an account?{' '}
-            <Text style={{ color: '#C4956A', fontFamily: 'DMSans_500Medium' }}>Create one</Text>
+            <Text style={{ color: colors.amber, fontFamily: 'DMSans_500Medium' }}>Create one</Text>
           </Text>
         </Pressable>
       </ScrollView>

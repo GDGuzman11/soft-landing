@@ -15,6 +15,7 @@ import * as WebBrowser from 'expo-web-browser'
 import * as AuthSession from 'expo-auth-session/providers/google'
 import { signUpWithEmail, signInWithGoogle, signInWithApple, sendVerificationEmail } from '@/services/auth'
 import { mapFirebaseError } from '@/utils/firebaseErrors'
+import { useTheme } from '@/theme'
 
 WebBrowser.maybeCompleteAuthSession()
 
@@ -22,6 +23,7 @@ const TERMS_URL = 'https://gdguzman11.github.io/soft-landing/terms.html'
 const PRIVACY_URL = 'https://gdguzman11.github.io/soft-landing/privacy-policy.html'
 
 export default function RegisterScreen() {
+  const { colors } = useTheme()
   const [firstName, setFirstName] = useState('')
   const [lastName, setLastName] = useState('')
   const [email, setEmail] = useState('')
