@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react'
 import 'react-native-reanimated'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import { initPurchases } from '@/services/purchases'
+import { ThemeProvider, useTheme } from '@/theme'
 import {
   useFonts,
   DMSans_400Regular,
@@ -23,6 +24,33 @@ export const unstable_settings = {
 }
 
 SplashScreen.preventAutoHideAsync()
+
+function ThemedStack() {
+  const { colors } = useTheme()
+  return (
+    <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: colors.bg } }}>
+      <Stack.Screen name="welcome" options={{ animation: 'none' }} />
+      <Stack.Screen name="splash" options={{ animation: 'none' }} />
+      <Stack.Screen name="sign-in" options={{ animation: 'fade' }} />
+      <Stack.Screen name="(tabs)" />
+      <Stack.Screen name="check-in/emotions" options={{ animation: 'fade' }} />
+      <Stack.Screen name="check-in/envelope" options={{ animation: 'fade' }} />
+      <Stack.Screen name="check-in/message" options={{ animation: 'none' }} />
+      <Stack.Screen name="paywall" options={{ presentation: 'modal' }} />
+      <Stack.Screen name="onboarding" options={{ animation: 'fade' }} />
+      <Stack.Screen name="register" options={{ animation: 'fade' }} />
+      <Stack.Screen name="verify-email" options={{ animation: 'fade' }} />
+      <Stack.Screen name="faith-intro" options={{ animation: 'fade' }} />
+      <Stack.Screen name="onboarding-profile" options={{ animation: 'fade' }} />
+      <Stack.Screen name="onboarding-disclaimer" options={{ animation: 'fade' }} />
+      <Stack.Screen name="tour" options={{ animation: 'fade' }} />
+      <Stack.Screen name="check-in/session-summary" options={{ animation: 'fade' }} />
+      <Stack.Screen name="check-in/letter-compose" options={{ animation: 'fade' }} />
+      <Stack.Screen name="dashboard/index" />
+      <Stack.Screen name="settings" />
+    </Stack>
+  )
+}
 
 export default function RootLayout() {
   const [fontsLoaded, fontError] = useFonts({
@@ -56,27 +84,9 @@ export default function RootLayout() {
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
-    <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: '#FAF8F5' } }}>
-      <Stack.Screen name="welcome" options={{ animation: 'none' }} />
-      <Stack.Screen name="splash" options={{ animation: 'none' }} />
-      <Stack.Screen name="sign-in" options={{ animation: 'fade' }} />
-      <Stack.Screen name="(tabs)" />
-      <Stack.Screen name="check-in/emotions" options={{ animation: 'fade' }} />
-      <Stack.Screen name="check-in/envelope" options={{ animation: 'fade' }} />
-      <Stack.Screen name="check-in/message" options={{ animation: 'none' }} />
-      <Stack.Screen name="paywall" options={{ presentation: 'modal' }} />
-      <Stack.Screen name="onboarding" options={{ animation: 'fade' }} />
-      <Stack.Screen name="register" options={{ animation: 'fade' }} />
-      <Stack.Screen name="verify-email" options={{ animation: 'fade' }} />
-      <Stack.Screen name="faith-intro" options={{ animation: 'fade' }} />
-      <Stack.Screen name="onboarding-profile" options={{ animation: 'fade' }} />
-      <Stack.Screen name="onboarding-disclaimer" options={{ animation: 'fade' }} />
-      <Stack.Screen name="tour" options={{ animation: 'fade' }} />
-      <Stack.Screen name="check-in/session-summary" options={{ animation: 'fade' }} />
-      <Stack.Screen name="check-in/letter-compose" options={{ animation: 'fade' }} />
-      <Stack.Screen name="dashboard/index" />
-      <Stack.Screen name="settings" />
-    </Stack>
+      <ThemeProvider>
+        <ThemedStack />
+      </ThemeProvider>
     </GestureHandlerRootView>
   )
 }

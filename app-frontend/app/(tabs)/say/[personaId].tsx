@@ -3,6 +3,7 @@ import {
   AccessibilityInfo,
   Alert,
   FlatList,
+  Image,
   KeyboardAvoidingView,
   Platform,
   Pressable,
@@ -39,20 +40,9 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated'
 import app, { db } from '@/services/firebase'
+import { useTheme, VOICE_DARK } from '@/theme'
 
-// ---- Design tokens --------------------------------------------------------
-const COLORS = {
-  bg: '#FAF8F5',
-  headerBg: '#EDE6D9',
-  amber: '#C4956A',
-  sendBtn: '#3D2F2A',
-  inkPrimary: '#3D2F2A',
-  inkMuted: '#9A8F82',
-  inkSubtle: '#C4B59A',
-  hairline: 'rgba(61,47,42,0.12)',
-  userBubble: '#C4956A',
-  userBubbleText: '#FFFFFF',
-} as const
+const STAMP = require('../../../assets/images/icon-nobackground.png') as number
 
 const SIX_HOURS_MS = 6 * 60 * 60 * 1000
 
@@ -64,6 +54,12 @@ const VOICE_META: Record<VoiceId, { name: string; glyph: string; glyphColor: str
   still:  { name: 'Still',  glyph: '◯', glyphColor: '#9A8F82', bg: '#F6F4F0', border: 'rgba(154,143,130,0.22)' },
   steady: { name: 'Steady', glyph: '◑', glyphColor: '#7D5D4B', bg: '#F4F0EA', border: 'rgba(125,93,75,0.22)' },
   wise:   { name: 'Wise',   glyph: '◕', glyphColor: '#6C5944', bg: '#F2EEE6', border: 'rgba(108,89,68,0.22)' },
+}
+
+function voiceSurface(id: VoiceId, isDark: boolean) {
+  return isDark
+    ? { bg: VOICE_DARK[id]?.bg ?? VOICE_META[id].bg, border: VOICE_DARK[id]?.border ?? VOICE_META[id].border }
+    : { bg: VOICE_META[id].bg, border: VOICE_META[id].border }
 }
 
 function isVoiceId(v: unknown): v is VoiceId {
@@ -176,12 +172,12 @@ function TypingDot({ delay, reduceMotion }: { delay: number; reduceMotion: boole
   return <Animated.View style={[styles.typingDot, style]} />
 }
 
-function TypingIndicator({ voiceId, reduceMotion }: { voiceId: VoiceId; reduceMotion: boolean }) {
+function TypingIndicator({ voiceId, reduceMotion, bg, border }: { voiceId: VoiceId; reduceMotion: boolean; bg: string; border: string }) {
   const meta = VOICE_META[voiceId]
   return (
     <View style={[styles.aiBubbleRow, styles.typingRow]}>
       <Text style={[styles.voiceAvatar, { color: meta.glyphColor }]}>{meta.glyph}</Text>
-      <View style={[styles.aiBubble, styles.typingBubble, { backgroundColor: meta.bg, borderColor: meta.border }]}>
+      <View style={[styles.aiBubble, styles.typingBubble, { backgroundColor: bg, borderColor: border }]}>
         <TypingDot delay={0} reduceMotion={reduceMotion} />
         <TypingDot delay={150} reduceMotion={reduceMotion} />
         <TypingDot delay={300} reduceMotion={reduceMotion} />
@@ -221,12 +217,20 @@ function AIBubble({
   voiceId,
   isLastInGroup,
   highlight,
+  bg,
+  border,
+  inkPrimary,
+  inkSubtle,
 }: {
   content: string
   reference?: string
   voiceId: VoiceId
   isLastInGroup: boolean
   highlight: boolean
+  bg: string
+  border: string
+  inkPrimary: string
+  inkSubtle: string
 }) {
   const meta = VOICE_META[voiceId]
   return (
@@ -239,11 +243,11 @@ function AIBubble({
       <View style={[
         styles.aiBubble,
         isLastInGroup && styles.aiBubbleTail,
-        { backgroundColor: meta.bg, borderColor: meta.border },
+        { backgroundColor: bg, borderColor: border },
         highlight && styles.highlightBubble,
       ]}>
-        <Text style={styles.aiBubbleText}>{content}</Text>
-        {reference ? <Text style={styles.referenceText}>{reference}</Text> : null}
+        <Text style={[styles.aiBubbleText, { color: inkPrimary }]}>{content}</Text>
+        {reference ? <Text style={[styles.referenceText, { color: inkSubtle }]}>{reference}</Text> : null}
       </View>
     </View>
   )
@@ -262,20 +266,22 @@ function ErrorRow({ onRetry }: { onRetry: () => void }) {
 }
 
 // ---- Empty state ----------------------------------------------------------
-function EmptyState({ meta, consentVisible, onConsentDismiss }: {
+function EmptyState({ meta, consentVisible, onConsentDismiss, inkPrimary, inkMuted }: {
   meta: (typeof VOICE_META)[VoiceId]
   consentVisible: boolean
   onConsentDismiss: () => void
+  inkPrimary: string
+  inkMuted: string
 }) {
   return (
     <View style={styles.emptyContainer}>
       <Text style={[styles.emptyGlyph, { color: meta.glyphColor }]}>{meta.glyph}</Text>
       <View style={{ height: 12 }} />
-      <Text style={styles.emptyName}>{meta.name}</Text>
+      <Text style={[styles.emptyName, { color: inkPrimary }]}>{meta.name}</Text>
       <View style={{ height: 20 }} />
       {consentVisible ? (
         <>
-          <Text style={styles.consentText}>
+          <Text style={[styles.consentText, { color: inkMuted }]}>
             {'Your words are stored to help this space remember you. You can delete everything from Settings.'}
           </Text>
           <Pressable
@@ -309,10 +315,12 @@ async function callGenerateSayResponse(payload: SayPayload): Promise<SayResult> 
 
 // ---- Main screen ----------------------------------------------------------
 export default function SayThreadScreen() {
+  const { isDark, colors } = useTheme()
   const params = useLocalSearchParams<{ personaId?: string | string[] }>()
   const raw = Array.isArray(params.personaId) ? params.personaId[0] : params.personaId
   const personaId: VoiceId = isVoiceId(raw) ? raw : 'kind'
   const meta = VOICE_META[personaId]
+  const { bg: vBg, border: vBorder } = voiceSurface(personaId, isDark)
 
   const [messages, setMessages] = useState<SayMessage[]>([])
   const [draft, setDraft] = useState('')
@@ -541,11 +549,15 @@ export default function SayThreadScreen() {
               voiceId={personaId}
               isLastInGroup={isLastInGroup}
               highlight={highlight}
+              bg={vBg}
+              border={vBorder}
+              inkPrimary={colors.inkPrimary}
+              inkSubtle={colors.inkSubtle}
             />
           )
         }
         case 'date-divider': return <DateDivider label={item.label} />
-        case 'typing': return <TypingIndicator voiceId={personaId} reduceMotion={reduceMotion} />
+        case 'typing': return <TypingIndicator voiceId={personaId} reduceMotion={reduceMotion} bg={vBg} border={vBorder} />
         case 'error': return <ErrorRow onRetry={handleRetry} />
       }
     },
@@ -567,19 +579,19 @@ export default function SayThreadScreen() {
   const showSearchEmpty = isSearching && visibleMessages.length === 0
 
   return (
-    <SafeAreaView style={styles.safe}>
-      <StatusBar barStyle="dark-content" backgroundColor={COLORS.headerBg} />
+    <SafeAreaView style={[styles.safe, { backgroundColor: colors.headerBg }]}>
+      <StatusBar barStyle={isDark ? 'light-content' : 'dark-content'} backgroundColor={colors.headerBg} />
 
       {/* Header */}
       {searchMode ? (
-        <View style={styles.header}>
+        <View style={[styles.header, { backgroundColor: colors.headerBg, borderBottomColor: colors.hairline }]}>
           <TextInput
             ref={searchInputRef}
             value={searchQuery}
             onChangeText={setSearchQuery}
             placeholder="search messages…"
-            placeholderTextColor={COLORS.inkSubtle}
-            style={styles.searchInput}
+            placeholderTextColor={colors.inkSubtle}
+            style={[styles.searchInput, { color: colors.inkPrimary, backgroundColor: colors.searchBg }]}
             accessibilityLabel="Search messages"
             returnKeyType="search"
             autoCorrect={false}
@@ -591,17 +603,17 @@ export default function SayThreadScreen() {
             hitSlop={10}
             style={({ pressed }) => ({ opacity: pressed ? 0.6 : 1 })}
           >
-            <Text style={styles.cancelSearch}>{'Cancel'}</Text>
+            <Text style={[styles.cancelSearch, { color: colors.amber }]}>{'Cancel'}</Text>
           </Pressable>
         </View>
       ) : (
-        <View style={styles.header}>
+        <View style={[styles.header, { backgroundColor: colors.headerBg, borderBottomColor: colors.hairline }]}>
           <Pressable onPress={() => router.back()} accessibilityRole="button" accessibilityLabel="Back" hitSlop={10}>
-            <Text style={styles.backArrow}>{'←'}</Text>
+            <Image source={STAMP} style={styles.stampBack} resizeMode="contain" />
           </Pressable>
           <View style={styles.headerCenter}>
             <Text style={[styles.headerGlyph, { color: meta.glyphColor }]}>{meta.glyph}</Text>
-            <Text style={styles.headerName}>{meta.name}</Text>
+            <Text style={[styles.headerName, { color: colors.inkPrimary }]}>{meta.name}</Text>
           </View>
           <View style={styles.headerRight}>
             <Pressable
@@ -611,7 +623,7 @@ export default function SayThreadScreen() {
               hitSlop={8}
               style={({ pressed }) => ({ opacity: pressed ? 0.5 : 1 })}
             >
-              <Text style={styles.headerIcon}>{'⌕'}</Text>
+              <Text style={[styles.headerIcon, { color: colors.inkPrimary }]}>{'⌕'}</Text>
             </Pressable>
             <Pressable
               onPress={handleOverflow}
@@ -620,25 +632,27 @@ export default function SayThreadScreen() {
               hitSlop={8}
               style={({ pressed }) => ({ opacity: pressed ? 0.5 : 1 })}
             >
-              <Text style={styles.headerIcon}>{'···'}</Text>
+              <Text style={[styles.headerIcon, { color: colors.inkPrimary }]}>{'···'}</Text>
             </Pressable>
           </View>
         </View>
       )}
 
       <KeyboardAvoidingView
-        style={styles.body}
+        style={[styles.body, { backgroundColor: colors.bg }]}
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       >
         {showSearchEmpty ? (
           <View style={styles.emptyContainer}>
-            <Text style={styles.searchEmptyText}>{`no messages matching "${searchQuery.trim()}"`}</Text>
+            <Text style={[styles.searchEmptyText, { color: colors.inkMuted }]}>{`no messages matching "${searchQuery.trim()}"`}</Text>
           </View>
         ) : showEmpty ? (
           <View style={{ flex: 1 }}>
             <EmptyState
               meta={meta}
               consentVisible={consentVisible}
+              inkPrimary={colors.inkPrimary}
+              inkMuted={colors.inkMuted}
               onConsentDismiss={() => {
                 setConsentVisible(false)
                 AsyncStorage.setItem('say_consent_shown', 'true').catch(() => {})
@@ -659,19 +673,19 @@ export default function SayThreadScreen() {
 
         {/* Input bar — hidden while searching */}
         {!searchMode ? (
-          <View style={styles.inputBar}>
+          <View style={[styles.inputBar, { borderTopColor: colors.hairline, backgroundColor: colors.bg }]}>
             {showCharCounter ? (
-              <Text style={styles.charCounter}>{`${2000 - draft.length}`}</Text>
+              <Text style={[styles.charCounter, { color: colors.inkMuted }]}>{`${2000 - draft.length}`}</Text>
             ) : null}
-            <View style={styles.inputRow}>
+            <View style={[styles.inputRow, { backgroundColor: colors.inputRow }]}>
               <TextInput
                 value={draft}
                 onChangeText={setDraft}
                 placeholder="say something…"
-                placeholderTextColor={COLORS.inkSubtle}
+                placeholderTextColor={colors.inkSubtle}
                 multiline
                 maxLength={2000}
-                style={styles.input}
+                style={[styles.input, { color: colors.inkPrimary }]}
                 accessibilityLabel="Say message input"
                 onSubmitEditing={handleSend}
                 blurOnSubmit={false}
@@ -684,7 +698,7 @@ export default function SayThreadScreen() {
                 hitSlop={6}
                 style={({ pressed }) => [
                   styles.sendButton,
-                  sendDisabled && styles.sendButtonDisabled,
+                  { backgroundColor: sendDisabled ? colors.inkSubtle : colors.sendBtn },
                   pressed && !sendDisabled && { opacity: 0.7 },
                 ]}
               >
@@ -702,11 +716,9 @@ export default function SayThreadScreen() {
 const styles = StyleSheet.create({
   safe: {
     flex: 1,
-    backgroundColor: COLORS.headerBg,
   },
   body: {
     flex: 1,
-    backgroundColor: COLORS.bg,
   },
   // ---- Header ----
   header: {
@@ -716,15 +728,12 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingTop: 14,
     paddingBottom: 12,
-    backgroundColor: COLORS.headerBg,
     borderBottomWidth: 1,
-    borderBottomColor: COLORS.hairline,
   },
-  backArrow: {
-    fontFamily: 'DMSans_400Regular',
-    fontSize: 22,
-    color: COLORS.inkPrimary,
-    width: 36,
+  stampBack: {
+    width: 28,
+    height: 28,
+    opacity: 0.75,
   },
   headerCenter: {
     flexDirection: 'row',
@@ -738,7 +747,6 @@ const styles = StyleSheet.create({
   headerName: {
     fontFamily: 'Lora_400Regular_Italic',
     fontSize: 20,
-    color: COLORS.inkPrimary,
   },
   headerRight: {
     flexDirection: 'row',
@@ -750,15 +758,12 @@ const styles = StyleSheet.create({
   headerIcon: {
     fontFamily: 'DMSans_400Regular',
     fontSize: 20,
-    color: COLORS.inkPrimary,
   },
   // ---- Search header ----
   searchInput: {
     flex: 1,
     fontFamily: 'DMSans_400Regular',
     fontSize: 16,
-    color: COLORS.inkPrimary,
-    backgroundColor: 'rgba(61,47,42,0.08)',
     borderRadius: 10,
     paddingHorizontal: 12,
     paddingVertical: Platform.OS === 'ios' ? 8 : 6,
@@ -767,7 +772,6 @@ const styles = StyleSheet.create({
   cancelSearch: {
     fontFamily: 'DMSans_400Regular',
     fontSize: 15,
-    color: COLORS.amber,
   },
   // ---- Thread ----
   listContent: {
@@ -781,7 +785,7 @@ const styles = StyleSheet.create({
     paddingLeft: 60,
   },
   userBubble: {
-    backgroundColor: COLORS.userBubble,
+    backgroundColor: '#C4956A',
     borderRadius: 18,
     borderBottomRightRadius: 18,
     paddingHorizontal: 14,
@@ -794,7 +798,7 @@ const styles = StyleSheet.create({
   userBubbleText: {
     fontFamily: 'DMSans_400Regular',
     fontSize: 16,
-    color: COLORS.userBubbleText,
+    color: '#FFFFFF',
     lineHeight: 22,
   },
   // ---- AI bubble ----
@@ -830,20 +834,18 @@ const styles = StyleSheet.create({
   aiBubbleText: {
     fontFamily: 'Lora_400Regular_Italic',
     fontSize: 17,
-    color: COLORS.inkPrimary,
     lineHeight: 25,
   },
   referenceText: {
     fontFamily: 'DMSans_400Regular',
     fontSize: 10,
-    color: COLORS.inkSubtle,
     fontStyle: 'italic',
     marginTop: 6,
   },
   // ---- Search highlight ----
   highlightBubble: {
     borderWidth: 2,
-    borderColor: COLORS.amber,
+    borderColor: '#C4956A',
   },
   // ---- Typing indicator ----
   typingRow: {
@@ -863,13 +865,13 @@ const styles = StyleSheet.create({
     width: 7,
     height: 7,
     borderRadius: 4,
-    backgroundColor: COLORS.inkMuted,
+    backgroundColor: '#9A8F82',
   },
   // ---- Date divider ----
   dateDivider: {
     fontFamily: 'DMSans_400Regular',
     fontSize: 11,
-    color: COLORS.inkMuted,
+    color: '#9A8F82',
     textAlign: 'center',
     marginVertical: 14,
   },
@@ -883,12 +885,12 @@ const styles = StyleSheet.create({
   errorText: {
     fontFamily: 'DMSans_400Regular',
     fontSize: 13,
-    color: COLORS.inkMuted,
+    color: '#9A8F82',
   },
   errorRetry: {
     fontFamily: 'DMSans_500Medium',
     fontSize: 13,
-    color: COLORS.amber,
+    color: '#C4956A',
   },
   // ---- Empty state ----
   emptyContainer: {
@@ -904,24 +906,21 @@ const styles = StyleSheet.create({
   emptyName: {
     fontFamily: 'Lora_400Regular_Italic',
     fontSize: 22,
-    color: COLORS.inkPrimary,
   },
   consentText: {
     fontFamily: 'DMSans_400Regular',
     fontSize: 13,
-    color: COLORS.inkMuted,
     textAlign: 'center',
     lineHeight: 20,
   },
   consentButton: {
     fontFamily: 'DMSans_400Regular',
     fontSize: 14,
-    color: COLORS.amber,
+    color: '#C4956A',
   },
   searchEmptyText: {
     fontFamily: 'Lora_400Regular_Italic',
     fontSize: 15,
-    color: COLORS.inkMuted,
     textAlign: 'center',
   },
   // ---- Input bar ----
@@ -930,20 +929,16 @@ const styles = StyleSheet.create({
     paddingTop: 10,
     paddingBottom: Platform.OS === 'ios' ? 16 : 10,
     borderTopWidth: 1,
-    borderTopColor: COLORS.hairline,
-    backgroundColor: COLORS.bg,
   },
   charCounter: {
     fontFamily: 'DMSans_400Regular',
     fontSize: 11,
-    color: COLORS.inkMuted,
     textAlign: 'right',
     marginBottom: 4,
   },
   inputRow: {
     flexDirection: 'row',
     alignItems: 'flex-end',
-    backgroundColor: '#F2EBE1',
     borderRadius: 24,
     paddingLeft: 16,
     paddingRight: 5,
@@ -953,7 +948,6 @@ const styles = StyleSheet.create({
     flex: 1,
     fontFamily: 'DMSans_400Regular',
     fontSize: 16,
-    color: COLORS.inkPrimary,
     maxHeight: 120,
     paddingVertical: 6,
   },
@@ -961,13 +955,9 @@ const styles = StyleSheet.create({
     width: 34,
     height: 34,
     borderRadius: 17,
-    backgroundColor: COLORS.sendBtn,
     alignItems: 'center',
     justifyContent: 'center',
     marginLeft: 6,
-  },
-  sendButtonDisabled: {
-    backgroundColor: 'rgba(61,47,42,0.25)',
   },
   sendButtonText: {
     fontFamily: 'DMSans_700Bold',

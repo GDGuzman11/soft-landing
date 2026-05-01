@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { Pressable, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native'
-import { router } from 'expo-router'
+import { router, useFocusEffect } from 'expo-router'
 import {
   collection,
   doc,
@@ -21,15 +21,7 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated'
 import app, { db } from '@/services/firebase'
-
-// ---- Design tokens --------------------------------------------------------
-const COLORS = {
-  bg: '#FAF8F5',
-  amber: '#C4956A',
-  inkPrimary: '#3D2F2A',
-  inkMuted: '#9A8F82',
-  inkSubtle: '#C4B59A',
-} as const
+import { useTheme, VOICE_DARK } from '@/theme'
 
 // ---- Voice data -----------------------------------------------------------
 type VoiceId = 'kind' | 'still' | 'steady' | 'wise'
@@ -119,10 +111,15 @@ type VoiceCardProps = {
   index: number
   lastMessage: LastMessage | null
   hasUnread: boolean
+  isDark: boolean
+  inkPrimary: string
+  inkMuted: string
+  inkSubtle: string
+  amber: string
   onPress: () => void
 }
 
-function VoiceCard({ voice, index, lastMessage, hasUnread, onPress }: VoiceCardProps) {
+function VoiceCard({ voice, index, lastMessage, hasUnread, isDark, inkPrimary, inkMuted, inkSubtle, amber, onPress }: VoiceCardProps) {
   const opacity = useSharedValue(0)
   const translateY = useSharedValue(12)
   const scale = useSharedValue(1)
@@ -149,6 +146,8 @@ function VoiceCard({ voice, index, lastMessage, hasUnread, onPress }: VoiceCardP
 
   const isOffer = !lastMessage
   const previewText = lastMessage?.content ?? voice.offer
+  const cardBg = isDark ? (VOICE_DARK[voice.id]?.bg ?? voice.bg) : voice.bg
+  const cardBorder = isDark ? (VOICE_DARK[voice.id]?.border ?? voice.border) : voice.border
 
   return (
     <Animated.View style={[styles.cardWrapper, animStyle]}>
@@ -159,23 +158,20 @@ function VoiceCard({ voice, index, lastMessage, hasUnread, onPress }: VoiceCardP
         accessibilityRole="button"
         accessibilityLabel={`${voice.name}. ${voice.descriptor}${hasUnread ? '. new message' : ''}`}
       >
-        <View style={[styles.card, { backgroundColor: voice.bg, borderColor: voice.border }]}>
-          {/* Row 1: glyph + name (left) · premium ✦ + unread dot (right) */}
+        <View style={[styles.card, { backgroundColor: cardBg, borderColor: cardBorder }]}>
           <View style={styles.topRow}>
             <View style={styles.nameRow}>
               <Text style={[styles.glyph, { color: voice.glyphColor }]}>{voice.glyph}</Text>
-              <Text style={styles.name}>{voice.name}</Text>
+              <Text style={[styles.name, { color: inkPrimary }]}>{voice.name}</Text>
             </View>
             <View style={styles.topRowRight}>
-              {voice.premium ? <Text style={styles.premiumMark}>{'✦'}</Text> : null}
-              {hasUnread ? <View style={styles.unreadDot} /> : null}
+              {voice.premium ? <Text style={[styles.premiumMark, { color: amber }]}>{'✦'}</Text> : null}
+              {hasUnread ? <View style={[styles.unreadDot, { backgroundColor: amber }]} /> : null}
             </View>
           </View>
-          {/* Row 2: descriptor */}
-          <Text style={styles.descriptor}>{voice.descriptor}</Text>
-          {/* Row 3: last message preview or opening offer */}
+          <Text style={[styles.descriptor, { color: inkMuted }]}>{voice.descriptor}</Text>
           <Text
-            style={[styles.preview, isOffer && styles.previewOffer]}
+            style={[styles.preview, { color: inkMuted }, isOffer && { color: inkSubtle }]}
             numberOfLines={2}
             ellipsizeMode="tail"
           >
@@ -189,6 +185,7 @@ function VoiceCard({ voice, index, lastMessage, hasUnread, onPress }: VoiceCardP
 
 // ---- Main screen ----------------------------------------------------------
 export default function SayLobbyScreen() {
+  const { isDark, colors } = useTheme()
   const [authReady, setAuthReady] = useState(false)
   const [lastMessages, setLastMessages] = useState<Partial<Record<VoiceId, LastMessage>>>({})
   const [unreadState, setUnreadState] = useState<SayStateData>({})
@@ -213,48 +210,55 @@ export default function SayLobbyScreen() {
     setAuthReady(true)
   }, [])
 
-  // Load last messages + fire reach-out
+  // Load last messages on every focus (so cleared chats reflect immediately on return)
+  useFocusEffect(
+    useCallback(() => {
+      if (!authReady) return
+      const user = getAuth().currentUser
+      if (!user) return
+      let cancelled = false
+
+      async function load() {
+        const uid = user!.uid
+        try {
+          const results = await Promise.all(
+            VOICES.map(async (v) => {
+              try {
+                const snap = await getDocs(
+                  query(collection(db, 'say', uid, v.id), orderBy('createdAt', 'desc'), limit(1)),
+                )
+                if (snap.empty) return [v.id, null] as const
+                const d = snap.docs[0].data() as { content?: unknown; createdAt?: unknown }
+                const content = typeof d.content === 'string' ? d.content : ''
+                if (!(d.createdAt instanceof Timestamp)) return [v.id, null] as const
+                return [v.id, { content, createdAt: d.createdAt }] as const
+              } catch {
+                return [v.id, null] as const
+              }
+            }),
+          )
+          if (cancelled) return
+          const next: Partial<Record<VoiceId, LastMessage>> = {}
+          for (const [id, lm] of results) {
+            if (lm) next[id as VoiceId] = lm
+          }
+          setLastMessages(next)
+        } finally {
+          if (!cancelled) setLoading(false)
+        }
+      }
+
+      void load()
+      return () => {
+        cancelled = true
+      }
+    }, [authReady])
+  )
+
+  // Fire reach-out once on mount (not on every focus)
   useEffect(() => {
     if (!authReady) return
-    const user = getAuth().currentUser
-    if (!user) return
-    let cancelled = false
-
-    async function load() {
-      const uid = user!.uid
-      try {
-        const results = await Promise.all(
-          VOICES.map(async (v) => {
-            try {
-              const snap = await getDocs(
-                query(collection(db, 'say', uid, v.id), orderBy('createdAt', 'desc'), limit(1)),
-              )
-              if (snap.empty) return [v.id, null] as const
-              const d = snap.docs[0].data() as { content?: unknown; createdAt?: unknown }
-              const content = typeof d.content === 'string' ? d.content : ''
-              if (!(d.createdAt instanceof Timestamp)) return [v.id, null] as const
-              return [v.id, { content, createdAt: d.createdAt }] as const
-            } catch {
-              return [v.id, null] as const
-            }
-          }),
-        )
-        if (cancelled) return
-        const next: Partial<Record<VoiceId, LastMessage>> = {}
-        for (const [id, lm] of results) {
-          if (lm) next[id as VoiceId] = lm
-        }
-        setLastMessages(next)
-        callMaybeDeliverReachOut(-new Date().getTimezoneOffset() / 60).catch(() => {})
-      } finally {
-        if (!cancelled) setLoading(false)
-      }
-    }
-
-    void load()
-    return () => {
-      cancelled = true
-    }
+    callMaybeDeliverReachOut(-new Date().getTimezoneOffset() / 60).catch(() => {})
   }, [authReady])
 
   // Realtime unread state
@@ -275,13 +279,13 @@ export default function SayLobbyScreen() {
   }, [])
 
   return (
-    <SafeAreaView style={styles.safe}>
+    <SafeAreaView style={[styles.safe, { backgroundColor: colors.bg }]}>
       <ScrollView
         contentContainerStyle={styles.scroll}
         showsVerticalScrollIndicator={false}
       >
         <Animated.View style={[styles.header, headerStyle]}>
-          <Text style={styles.greeting}>{greeting}</Text>
+          <Text style={[styles.greeting, { color: colors.inkPrimary }]}>{greeting}</Text>
         </Animated.View>
 
         <View style={styles.stack}>
@@ -292,6 +296,11 @@ export default function SayLobbyScreen() {
               index={i}
               lastMessage={loading ? null : (lastMessages[voice.id] ?? null)}
               hasUnread={unreadState[voice.id]?.hasUnread ?? false}
+              isDark={isDark}
+              inkPrimary={colors.inkPrimary}
+              inkMuted={colors.inkMuted}
+              inkSubtle={colors.inkSubtle}
+              amber={colors.amber}
               onPress={() => handlePress(voice)}
             />
           ))}
@@ -305,7 +314,6 @@ export default function SayLobbyScreen() {
 const styles = StyleSheet.create({
   safe: {
     flex: 1,
-    backgroundColor: COLORS.bg,
   },
   scroll: {
     paddingHorizontal: 20,
@@ -318,13 +326,11 @@ const styles = StyleSheet.create({
   greeting: {
     fontFamily: 'Lora_400Regular_Italic',
     fontSize: 24,
-    color: COLORS.inkPrimary,
     lineHeight: 34,
   },
   stack: {
     gap: 16,
   },
-  // ---- Card ----
   cardWrapper: {
     width: '100%',
   },
@@ -354,7 +360,6 @@ const styles = StyleSheet.create({
   name: {
     fontFamily: 'DMSans_500Medium',
     fontSize: 17,
-    color: COLORS.inkPrimary,
   },
   topRowRight: {
     flexDirection: 'row',
@@ -364,27 +369,20 @@ const styles = StyleSheet.create({
   premiumMark: {
     fontFamily: 'DMSans_400Regular',
     fontSize: 13,
-    color: COLORS.amber,
   },
   unreadDot: {
     width: 6,
     height: 6,
     borderRadius: 3,
-    backgroundColor: COLORS.amber,
   },
   descriptor: {
     fontFamily: 'DMSans_400Regular',
     fontSize: 13,
-    color: COLORS.inkMuted,
     marginBottom: 10,
   },
   preview: {
     fontFamily: 'Lora_400Regular_Italic',
     fontSize: 15,
-    color: COLORS.inkMuted,
     lineHeight: 22,
-  },
-  previewOffer: {
-    color: COLORS.inkSubtle,
   },
 })

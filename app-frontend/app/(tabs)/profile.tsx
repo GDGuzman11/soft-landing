@@ -1,4 +1,4 @@
-import { View, Text, ScrollView, Pressable, Alert, ActivityIndicator, Image } from 'react-native'
+import { View, Text, ScrollView, Pressable, Alert, ActivityIndicator, Image, Switch } from 'react-native'
 import { router, useFocusEffect } from 'expo-router'
 import { useCallback, useState } from 'react'
 import * as ImagePicker from 'expo-image-picker'
@@ -6,6 +6,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import { getSettings, getCheckIns, getSavedMessages } from '@/storage/storage'
 import { getCurrentUser, signOutUser } from '@/services/auth'
 import type { AppSettings, AuthUser, CheckInEvent, SavedMessage } from '@/types'
+import { useTheme } from '@/theme'
 
 const PHOTO_KEY = '@soft_landing/profile_photo_uri'
 
@@ -74,13 +75,13 @@ interface SectionLabelProps {
   children: string
 }
 
-function SectionLabel({ children }: SectionLabelProps) {
+function SectionLabel({ children, color }: SectionLabelProps & { color: string }) {
   return (
     <Text
       style={{
         fontFamily: 'DMSans_500Medium',
         fontSize: 11,
-        color: '#9C8B7E',
+        color,
         textTransform: 'uppercase',
         letterSpacing: 1.6,
         marginBottom: 8,
@@ -95,24 +96,28 @@ interface InfoRowProps {
   label: string
   value: string
   isFirst?: boolean
+  labelColor: string
+  valueColor: string
+  borderColor: string
 }
 
-function InfoRow({ label, value, isFirst = false }: InfoRowProps) {
+function InfoRow({ label, value, isFirst = false, labelColor, valueColor, borderColor }: InfoRowProps) {
   return (
     <View
-      className={isFirst ? '' : 'border-t border-border'}
       style={{
         paddingHorizontal: 20,
         paddingVertical: 12,
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
+        borderTopWidth: isFirst ? 0 : 1,
+        borderTopColor: borderColor,
       }}
     >
-      <Text style={{ fontFamily: 'DMSans_400Regular', fontSize: 14, color: '#6B6B6B' }}>
+      <Text style={{ fontFamily: 'DMSans_400Regular', fontSize: 14, color: labelColor }}>
         {label}
       </Text>
-      <Text style={{ fontFamily: 'DMSans_400Regular', fontSize: 14, color: '#3D2F2A' }}>
+      <Text style={{ fontFamily: 'DMSans_400Regular', fontSize: 14, color: valueColor }}>
         {value}
       </Text>
     </View>
@@ -120,6 +125,7 @@ function InfoRow({ label, value, isFirst = false }: InfoRowProps) {
 }
 
 export default function ProfileScreen() {
+  const { isDark, colors, toggle: toggleTheme } = useTheme()
   const [settings, setSettings] = useState<AppSettings | null>(null)
   const [checkIns, setCheckIns] = useState<CheckInEvent[]>([])
   const [savedMessages, setSavedMessages] = useState<SavedMessage[]>([])
@@ -181,9 +187,9 @@ export default function ProfileScreen() {
     return (
       <View
         className="flex-1 items-center justify-center"
-        style={{ backgroundColor: '#FAF8F5' }}
+        style={{ backgroundColor: colors.bg }}
       >
-        <ActivityIndicator color="#C4956A" />
+        <ActivityIndicator color={colors.amber} />
       </View>
     )
   }
@@ -192,7 +198,7 @@ export default function ProfileScreen() {
     return (
       <View
         className="flex-1 items-center justify-center px-8"
-        style={{ backgroundColor: '#FAF8F5' }}
+        style={{ backgroundColor: colors.bg }}
       >
         <Text
           style={{
@@ -258,13 +264,13 @@ export default function ProfileScreen() {
   return (
     <ScrollView
       className="flex-1"
-      style={{ backgroundColor: '#FAF8F5' }}
+      style={{ backgroundColor: colors.bg }}
       contentContainerStyle={{ paddingBottom: 48 }}
     >
       {/* Header */}
       <View className="px-6 pt-14 pb-2">
         <Text
-          style={{ fontFamily: 'DMSans_500Medium', fontSize: 24, color: '#3D2F2A' }}
+          style={{ fontFamily: 'DMSans_500Medium', fontSize: 24, color: colors.inkPrimary }}
         >
           Profile
         </Text>
@@ -272,11 +278,11 @@ export default function ProfileScreen() {
 
       {/* Identity Card */}
       <View
-        className="mx-6 mt-4 bg-surface rounded-2xl border border-border"
-        style={{ padding: 20, flexDirection: 'row', alignItems: 'center' }}
+        className="mx-6 mt-4 rounded-2xl"
+        style={{ padding: 20, flexDirection: 'row', alignItems: 'center', backgroundColor: colors.profileCard, borderWidth: 1, borderColor: colors.cardBorder }}
       >
         <View style={{ flex: 1 }}>
-          <Text style={{ fontFamily: 'DMSans_500Medium', fontSize: 18, color: '#3D2F2A' }}>
+          <Text style={{ fontFamily: 'DMSans_500Medium', fontSize: 18, color: colors.inkPrimary }}>
             {displayName}
           </Text>
           {user?.email ? (
@@ -284,7 +290,7 @@ export default function ProfileScreen() {
               style={{
                 fontFamily: 'DMSans_400Regular',
                 fontSize: 13,
-                color: '#9A8F82',
+                color: colors.inkMuted,
                 marginTop: 4,
               }}
             >
@@ -334,50 +340,60 @@ export default function ProfileScreen() {
 
       {/* Faith Section */}
       <View className="mx-6 mt-5">
-        <SectionLabel>FAITH</SectionLabel>
-        <View className="bg-surface rounded-2xl border border-border">
-          <InfoRow label="Background" value={faithBackgroundLabel(settings.faithBackground)} isFirst />
-          <InfoRow label="Seeking" value={primaryIntentLabel(settings.primaryIntent)} />
-          <InfoRow label="Life Stage" value={lifeStageLabel(settings.lifeStage)} />
+        <SectionLabel color={colors.sectionLabel}>FAITH</SectionLabel>
+        <View style={{ backgroundColor: colors.profileCard, borderRadius: 16, borderWidth: 1, borderColor: colors.cardBorder }}>
+          <InfoRow label="Background" value={faithBackgroundLabel(settings.faithBackground)} isFirst labelColor={colors.inkMuted} valueColor={colors.inkPrimary} borderColor={colors.cardBorder} />
+          <InfoRow label="Seeking" value={primaryIntentLabel(settings.primaryIntent)} labelColor={colors.inkMuted} valueColor={colors.inkPrimary} borderColor={colors.cardBorder} />
+          <InfoRow label="Life Stage" value={lifeStageLabel(settings.lifeStage)} labelColor={colors.inkMuted} valueColor={colors.inkPrimary} borderColor={colors.cardBorder} />
         </View>
       </View>
 
       {/* Stats Section */}
       <View className="mx-6 mt-5">
-        <SectionLabel>STATS</SectionLabel>
-        <View className="bg-surface rounded-2xl border border-border">
-          <InfoRow label="Total check-ins" value={String(checkIns.length)} isFirst />
-          <InfoRow label="Streak" value={`${streak} day${streak !== 1 ? 's' : ''}`} />
-          <InfoRow label="Saved verses" value={String(savedMessages.length)} />
+        <SectionLabel color={colors.sectionLabel}>STATS</SectionLabel>
+        <View style={{ backgroundColor: colors.profileCard, borderRadius: 16, borderWidth: 1, borderColor: colors.cardBorder }}>
+          <InfoRow label="Total check-ins" value={String(checkIns.length)} isFirst labelColor={colors.inkMuted} valueColor={colors.inkPrimary} borderColor={colors.cardBorder} />
+          <InfoRow label="Streak" value={`${streak} day${streak !== 1 ? 's' : ''}`} labelColor={colors.inkMuted} valueColor={colors.inkPrimary} borderColor={colors.cardBorder} />
+          <InfoRow label="Saved verses" value={String(savedMessages.length)} labelColor={colors.inkMuted} valueColor={colors.inkPrimary} borderColor={colors.cardBorder} />
         </View>
       </View>
 
       {/* Subscription Section */}
       <View className="mx-6 mt-5">
-        <SectionLabel>SUBSCRIPTION</SectionLabel>
-        <View className="bg-surface rounded-2xl border border-border">
-          <InfoRow label="Plan" value={isPremium ? 'Premium' : 'Free'} isFirst />
+        <SectionLabel color={colors.sectionLabel}>SUBSCRIPTION</SectionLabel>
+        <View style={{ backgroundColor: colors.profileCard, borderRadius: 16, borderWidth: 1, borderColor: colors.cardBorder }}>
+          <InfoRow label="Plan" value={isPremium ? 'Premium' : 'Free'} isFirst labelColor={colors.inkMuted} valueColor={colors.inkPrimary} borderColor={colors.cardBorder} />
           {!isPremium && (
             <View style={{ paddingHorizontal: 20, paddingBottom: 16 }}>
               <Pressable
                 onPress={() => router.push('/paywall')}
-                style={{
-                  backgroundColor: '#C4956A',
-                  borderRadius: 999,
-                  paddingVertical: 12,
-                  alignItems: 'center',
-                }}
+                style={{ backgroundColor: colors.amber, borderRadius: 999, paddingVertical: 12, alignItems: 'center' }}
                 accessibilityRole="button"
                 accessibilityLabel="Upgrade to premium"
               >
-                <Text
-                  style={PRIMARY_BUTTON_TEXT_STYLE}
-                >
-                  Upgrade →
-                </Text>
+                <Text style={PRIMARY_BUTTON_TEXT_STYLE}>Upgrade →</Text>
               </Pressable>
             </View>
           )}
+        </View>
+      </View>
+
+      {/* Appearance Section */}
+      <View className="mx-6 mt-5">
+        <SectionLabel color={colors.sectionLabel}>APPEARANCE</SectionLabel>
+        <View style={{ backgroundColor: colors.profileCard, borderRadius: 16, borderWidth: 1, borderColor: colors.cardBorder }}>
+          <View style={{ paddingHorizontal: 20, paddingVertical: 14, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+            <Text style={{ fontFamily: 'DMSans_400Regular', fontSize: 14, color: colors.inkMuted }}>
+              Dark mode
+            </Text>
+            <Switch
+              value={isDark}
+              onValueChange={toggleTheme}
+              trackColor={{ false: colors.cardBorder, true: colors.amber }}
+              thumbColor={isDark ? '#FFFFFF' : '#FFFFFF'}
+              accessibilityLabel="Toggle dark mode"
+            />
+          </View>
         </View>
       </View>
 
@@ -385,21 +401,14 @@ export default function ProfileScreen() {
       <View className="mx-6 mt-5">
         <Pressable
           onPress={() => router.push('/settings')}
-          className="bg-surface rounded-2xl border border-border"
-          style={{
-            paddingHorizontal: 20,
-            paddingVertical: 16,
-            flexDirection: 'row',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-          }}
+          style={{ backgroundColor: colors.profileCard, borderRadius: 16, borderWidth: 1, borderColor: colors.cardBorder, paddingHorizontal: 20, paddingVertical: 16, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}
           accessibilityRole="button"
           accessibilityLabel="Open settings"
         >
-          <Text style={{ fontFamily: 'DMSans_400Regular', fontSize: 15, color: '#3D2F2A' }}>
+          <Text style={{ fontFamily: 'DMSans_400Regular', fontSize: 15, color: colors.inkPrimary }}>
             Settings
           </Text>
-          <Text style={{ fontFamily: 'DMSans_400Regular', fontSize: 18, color: '#C4956A' }}>
+          <Text style={{ fontFamily: 'DMSans_400Regular', fontSize: 18, color: colors.amber }}>
             ›
           </Text>
         </Pressable>
@@ -425,12 +434,7 @@ export default function ProfileScreen() {
         accessibilityLabel="Sign out"
       >
         <Text
-          style={{
-            fontFamily: 'DMSans_400Regular',
-            fontSize: 14,
-            color: '#C0A898',
-            textAlign: 'center',
-          }}
+          style={{ fontFamily: 'DMSans_400Regular', fontSize: 14, color: colors.inkSubtle, textAlign: 'center' }}
         >
           Sign out
         </Text>
@@ -438,13 +442,7 @@ export default function ProfileScreen() {
 
       {/* Version */}
       <Text
-        style={{
-          fontFamily: 'DMSans_400Regular',
-          fontSize: 11,
-          color: '#C4B59A',
-          textAlign: 'center',
-          marginTop: 4,
-        }}
+        style={{ fontFamily: 'DMSans_400Regular', fontSize: 11, color: colors.inkSubtle, textAlign: 'center', marginTop: 4 }}
       >
         Soft Landing v1.5.0
       </Text>
