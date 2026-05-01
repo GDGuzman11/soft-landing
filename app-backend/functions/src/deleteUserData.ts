@@ -60,11 +60,13 @@ export const deleteUserData = onCall(
     const db = getFirestore()
 
     try {
-      // 1. Delete all messages in /say/{uid}/messages/ (may exceed one batch).
-      const messagesRef: CollectionReference = db.collection('say').doc(uid).collection('messages')
-      await deleteQueryInBatches(messagesRef)
+      // 1. Delete all per-voice message subcollections (may exceed one batch each).
+      for (const voiceId of ['kind', 'still', 'steady', 'wise']) {
+        const voiceRef: CollectionReference = db.collection('say').doc(uid).collection(voiceId)
+        await deleteQueryInBatches(voiceRef)
+      }
 
-      // After messages are gone, drop the parent /say/{uid} doc itself if it exists.
+      // After voice collections, drop the parent /say/{uid} doc itself if it exists.
       await deleteDocSafe(db.collection('say').doc(uid))
 
       // 2. /letterUsage/{uid}
@@ -73,14 +75,20 @@ export const deleteUserData = onCall(
       // 3. /sayUsage/{uid}
       await deleteDocSafe(db.collection('sayUsage').doc(uid))
 
-      // 4. Compliance audit — admin-only collection (rules block all client access).
+      // 4. /sayState/{uid} — unread/delivery state per voice
+      await deleteDocSafe(db.collection('sayState').doc(uid))
+
+      // 5. /sayReachOutDelivery/{uid} — reach-out rate limit tracking
+      await deleteDocSafe(db.collection('sayReachOutDelivery').doc(uid))
+
+      // 6. Compliance audit — admin-only collection (rules block all client access).
       await db.collection('deletionAudit').doc(uid).set({
         uid,
         deletedAt: FieldValue.serverTimestamp(),
         status: 'complete',
       })
 
-      // 5. Firebase Auth user — last so we don't orphan auth against partial state.
+      // 7. Firebase Auth user — last so we don't orphan auth against partial state.
       try {
         await getAuth().deleteUser(uid)
       } catch (err) {

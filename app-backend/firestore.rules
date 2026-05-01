@@ -12,9 +12,9 @@ service cloud.firestore {
       allow write: if false;
     }
 
-    // Say — persistent AI chat. Reads scoped to owner; writes happen server-side
-    // only (Cloud Function with Admin SDK). Owner may delete their own messages.
-    match /say/{userId}/messages/{messageId} {
+    // Say — per-voice conversation threads. Reads scoped to owner; writes happen
+    // server-side only (Cloud Function with Admin SDK). Owner may delete their own messages.
+    match /say/{userId}/{personaId}/{messageId} {
       allow read: if request.auth != null && request.auth.uid == userId;
       allow write: if false;
       allow delete: if request.auth != null && request.auth.uid == userId;
@@ -24,6 +24,18 @@ service cloud.firestore {
     match /sayUsage/{uid} {
       allow read: if request.auth != null && request.auth.uid == uid;
       allow write: if false;
+    }
+
+    // Say unread / delivery state — single doc per user, map fields keyed by personaId.
+    // Server writes via Admin SDK; client reads its own doc.
+    match /sayState/{uid} {
+      allow read: if request.auth != null && request.auth.uid == uid;
+      allow write: if false;
+    }
+
+    // Reach-out rate limit tracking — server-only, no client access.
+    match /sayReachOutDelivery/{userId} {
+      allow read, write: if false;
     }
 
     // GDPR / App Store deletion audit — admin-only, no client access.

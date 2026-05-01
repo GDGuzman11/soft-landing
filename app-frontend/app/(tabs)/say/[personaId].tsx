@@ -3,7 +3,6 @@ import {
   AccessibilityInfo,
   FlatList,
   KeyboardAvoidingView,
-  Modal,
   Platform,
   Pressable,
   SafeAreaView,
@@ -13,7 +12,7 @@ import {
   View,
   type ListRenderItem,
 } from 'react-native'
-import { router } from 'expo-router'
+import { router, useLocalSearchParams } from 'expo-router'
 import {
   collection,
   limit,
@@ -32,11 +31,9 @@ import Animated, {
   withDelay,
   withRepeat,
   withSequence,
-  withSpring,
   withTiming,
 } from 'react-native-reanimated'
 import app, { db } from '@/services/firebase'
-import { getSettings } from '@/storage/storage'
 
 // ---- Design tokens ----------------------------------------------------
 const COLORS = {
@@ -45,55 +42,43 @@ const COLORS = {
   inkPrimary: '#3D2F2A',
   inkMuted: '#9A8F82',
   inkSubtle: '#C4B59A',
-  cardWarmBorder: '#E8E3DC',
   amberTint: 'rgba(196,149,106,0.05)',
-  amberTintActive: 'rgba(196,149,106,0.06)',
   amberHairline: 'rgba(196,149,106,0.2)',
-  modalBackdrop: 'rgba(61, 47, 42, 0.42)',
 } as const
 
 const SIX_HOURS_MS = 6 * 60 * 60 * 1000
 
-// ---- Persona data -----------------------------------------------------
-type PersonaId = 'kind' | 'still' | 'steady' | 'wise'
+// ---- Voice metadata ---------------------------------------------------
+type VoiceId = 'kind' | 'still' | 'steady' | 'wise'
 
-type Persona = {
-  id: PersonaId
-  name: string
-  descriptor: string
-  premium: boolean
+const VOICE_META: Record<VoiceId, { name: string; glyph: string; glyphColor: string }> = {
+  kind: { name: 'Kind', glyph: '◐', glyphColor: '#C4956A' },
+  still: { name: 'Still', glyph: '◯', glyphColor: '#9A8F82' },
+  steady: { name: 'Steady', glyph: '◑', glyphColor: '#C4956A' },
+  wise: { name: 'Wise', glyph: '◕', glyphColor: '#6B5E56' },
 }
 
-const PERSONAS: readonly Persona[] = [
-  { id: 'kind', name: 'Kind', descriptor: 'warm, close, unhurried — like someone who knows your weather', premium: false },
-  { id: 'still', name: 'Still', descriptor: 'a quiet that listens longer than it speaks', premium: true },
-  { id: 'steady', name: 'Steady', descriptor: 'grounded presence for the heavy days', premium: true },
-  { id: 'wise', name: 'Wise', descriptor: 'older voice, longer view — perspective without lecture', premium: true },
-] as const
-
-const PERSONA_BY_ID: Readonly<Record<PersonaId, Persona>> = PERSONAS.reduce(
-  (acc, p) => ({ ...acc, [p.id]: p }),
-  {} as Record<PersonaId, Persona>,
-)
+function isVoiceId(value: unknown): value is VoiceId {
+  return value === 'kind' || value === 'still' || value === 'steady' || value === 'wise'
+}
 
 // ---- Storage keys -----------------------------------------------------
 const STORAGE_KEYS = {
-  persona: 'say_persona_id',
   consent: 'say_consent_shown',
 } as const
 
 // ---- Message + thread item types --------------------------------------
 type SayMessage = {
   id: string
-  role: 'user' | 'assistant'
+  role: 'user' | 'assistant' | 'reachOut'
   content: string
+  reference?: string
   createdAt: Timestamp
 }
 
 type ThreadItem =
   | { kind: 'message'; message: SayMessage; marginTop: number }
   | { kind: 'date-divider'; id: string; label: string }
-  | { kind: 'persona-divider'; id: string; from: PersonaId; to: PersonaId }
   | { kind: 'thinking'; id: string }
   | { kind: 'error'; id: string }
 
@@ -112,7 +97,6 @@ function formatDateLabel(date: Date): string {
   const yesterday = new Date(now)
   yesterday.setDate(now.getDate() - 1)
   if (isSameCalendarDay(date, yesterday)) return 'Yesterday'
-  // Within last 6 days → weekday name; older → "April 30"
   const diffDays = Math.floor((now.getTime() - date.getTime()) / (24 * 60 * 60 * 1000))
   if (diffDays < 7) return date.toLocaleDateString(undefined, { weekday: 'long' })
   return date.toLocaleDateString(undefined, { month: 'long', day: 'numeric' })
@@ -125,36 +109,34 @@ function shouldInsertDivider(prev: SayMessage, curr: SayMessage): boolean {
   return Math.abs(currDate.getTime() - prevDate.getTime()) > SIX_HOURS_MS
 }
 
+function isAssistantLike(role: SayMessage['role']): boolean {
+  return role === 'assistant' || role === 'reachOut'
+}
+
 function computeMarginTop(prev: SayMessage | null, curr: SayMessage): number {
   if (!prev) return 0
-  if (prev.role === curr.role) return 16
+  const prevAssistant = isAssistantLike(prev.role)
+  const currAssistant = isAssistantLike(curr.role)
+  if (prevAssistant === currAssistant) return 16
   // user → assistant
-  if (prev.role === 'user' && curr.role === 'assistant') return 20
+  if (!prevAssistant && currAssistant) return 20
   // assistant → user
   return 40
 }
 
 /**
  * Build the FlatList data array. Returns items in REVERSE chronological order
- * because the FlatList is `inverted`. Persona dividers and thinking/error rows
- * are interleaved at the correct positions.
+ * because the FlatList is `inverted`. `reachOut` rows are treated like assistant
+ * rows for layout.
  *
  * Input `messages` is expected in chronological (oldest → newest) order.
  */
 function buildThreadItems(
   messages: readonly SayMessage[],
-  personaTransitions: readonly { afterMessageId: string | null; from: PersonaId; to: PersonaId; id: string }[],
   thinking: boolean,
   errored: boolean,
 ): ThreadItem[] {
-  // Build chronologically, then reverse at the end.
   const chrono: ThreadItem[] = []
-
-  // Transitions queued at the very start of the thread (afterMessageId === null).
-  const startTransitions = personaTransitions.filter((t) => t.afterMessageId === null)
-  for (const t of startTransitions) {
-    chrono.push({ kind: 'persona-divider', id: t.id, from: t.from, to: t.to })
-  }
 
   let prev: SayMessage | null = null
   for (const m of messages) {
@@ -166,10 +148,6 @@ function buildThreadItems(
       })
     }
     chrono.push({ kind: 'message', message: m, marginTop: computeMarginTop(prev, m) })
-    // Insert any persona transitions queued to appear AFTER this message
-    for (const t of personaTransitions.filter((tt) => tt.afterMessageId === m.id)) {
-      chrono.push({ kind: 'persona-divider', id: t.id, from: t.from, to: t.to })
-    }
     prev = m
   }
 
@@ -192,7 +170,6 @@ function ThinkingGlyph({ reduceMotion }: { reduceMotion: boolean }) {
         // no animation to cancel
       }
     }
-    // 400ms entry delay before breathing begins
     opacity.value = withDelay(
       400,
       withRepeat(
@@ -233,13 +210,6 @@ function DateDivider({ label }: { label: string }) {
   return <Text style={styles.dateDivider}>{`· · · ${label} · · ·`}</Text>
 }
 
-// ---- Persona divider --------------------------------------------------
-function PersonaDivider({ from, to }: { from: PersonaId; to: PersonaId }) {
-  const fromName = PERSONA_BY_ID[from]?.name ?? from
-  const toName = PERSONA_BY_ID[to]?.name ?? to
-  return <Text style={styles.dateDivider}>{`· · · ${fromName} → ${toName} · · ·`}</Text>
-}
-
 // ---- User message (naked on parchment) --------------------------------
 function UserMessage({ content, marginTop }: { content: string; marginTop: number }) {
   return (
@@ -250,11 +220,22 @@ function UserMessage({ content, marginTop }: { content: string; marginTop: numbe
 }
 
 // ---- Assistant message (amber-tinted card) ----------------------------
-function AssistantMessage({ content, marginTop }: { content: string; marginTop: number }) {
+function AssistantMessage({
+  content,
+  reference,
+  marginTop,
+}: {
+  content: string
+  reference?: string
+  marginTop: number
+}) {
   return (
     <View style={[styles.assistantCard, { marginTop }]}>
       <Text style={styles.assistantGlyph}>{'✦'}</Text>
-      <Text style={styles.assistantText}>{content}</Text>
+      <View style={{ flex: 1 }}>
+        <Text style={styles.assistantText}>{content}</Text>
+        {reference ? <Text style={styles.referenceText}>{reference}</Text> : null}
+      </View>
     </View>
   )
 }
@@ -279,7 +260,6 @@ function EmptyState({
   consentVisible: boolean
   onConsentDismiss: () => void
 }) {
-  // FlatList is inverted so its empty container is flipped — counter-rotate.
   return (
     <View style={styles.emptyContainer}>
       <Text style={styles.emptyGlyph}>{'✦'}</Text>
@@ -307,77 +287,8 @@ function EmptyState({
   )
 }
 
-// ---- Persona picker bottom sheet --------------------------------------
-function PersonaPickerModal({
-  visible,
-  selectedId,
-  isPremium,
-  onSelect,
-  onClose,
-}: {
-  visible: boolean
-  selectedId: PersonaId
-  isPremium: boolean
-  onSelect: (id: PersonaId) => void
-  onClose: () => void
-}) {
-  const translateY = useSharedValue(600)
-
-  useEffect(() => {
-    if (visible) {
-      translateY.value = withSpring(0, { stiffness: 80, damping: 16 })
-    } else {
-      translateY.value = withTiming(600, { duration: 250 })
-    }
-  }, [visible, translateY])
-
-  const sheetStyle = useAnimatedStyle(() => ({
-    transform: [{ translateY: translateY.value }],
-  }))
-
-  return (
-    <Modal visible={visible} transparent animationType="none" onRequestClose={onClose} statusBarTranslucent>
-      <Pressable
-        style={styles.modalBackdrop}
-        onPress={onClose}
-        accessibilityRole="button"
-        accessibilityLabel="Close persona picker"
-      />
-      <Animated.View style={[styles.modalSheet, sheetStyle]}>
-        <View style={styles.dragHandle} />
-        <Text style={styles.pickerTitle}>{'Your voice'}</Text>
-        <View style={{ gap: 8 }}>
-          {PERSONAS.map((p) => {
-            const isActive = p.id === selectedId
-            const isLocked = p.premium && !isPremium
-            return (
-              <Pressable
-                key={p.id}
-                onPress={() => onSelect(p.id)}
-                accessibilityRole="button"
-                accessibilityLabel={`${p.name} voice${isLocked ? ', locked' : ''}`}
-                style={({ pressed }) => [
-                  styles.personaCard,
-                  isActive && styles.personaCardActive,
-                  { opacity: pressed ? 0.85 : 1 },
-                ]}
-              >
-                <View style={{ flex: 1 }}>
-                  <Text style={styles.personaName}>{p.name}</Text>
-                  <Text style={styles.personaDescriptor}>{p.descriptor}</Text>
-                </View>
-                {isLocked ? <Text style={styles.personaLock}>{'✦'}</Text> : null}
-              </Pressable>
-            )
-          })}
-        </View>
-      </Animated.View>
-    </Modal>
-  )
-}
-
 // ---- Cloud Function call ----------------------------------------------
-type SayResponsePayload = { message: string; personaId: PersonaId }
+type SayResponsePayload = { message: string; personaId: VoiceId }
 type SayResponseResult = {
   response?: string
   blocked?: boolean
@@ -394,24 +305,18 @@ async function callGenerateSayResponse(payload: SayResponsePayload): Promise<Say
 }
 
 // ---- Main screen ------------------------------------------------------
-type PersonaTransition = {
-  id: string
-  afterMessageId: string | null
-  from: PersonaId
-  to: PersonaId
-}
+export default function SayThreadScreen() {
+  const params = useLocalSearchParams<{ personaId?: string | string[] }>()
+  const rawPersonaId = Array.isArray(params.personaId) ? params.personaId[0] : params.personaId
+  const personaId: VoiceId = isVoiceId(rawPersonaId) ? rawPersonaId : 'kind'
+  const meta = VOICE_META[personaId]
 
-export default function SayScreen() {
   const [messages, setMessages] = useState<SayMessage[]>([])
   const [draft, setDraft] = useState('')
-  const [selectedPersonaId, setSelectedPersonaId] = useState<PersonaId>('kind')
-  const [isPremium, setIsPremium] = useState(false)
   const [isSending, setIsSending] = useState(false)
   const [errored, setErrored] = useState(false)
   const [consentVisible, setConsentVisible] = useState(false)
-  const [pickerVisible, setPickerVisible] = useState(false)
   const [snapshotReceived, setSnapshotReceived] = useState(false)
-  const [personaTransitions, setPersonaTransitions] = useState<PersonaTransition[]>([])
   const [authReady, setAuthReady] = useState(false)
   const [reduceMotion, setReduceMotion] = useState(false)
 
@@ -425,14 +330,14 @@ export default function SayScreen() {
         if (!cancelled) setReduceMotion(enabled)
       })
       .catch(() => {
-        // non-fatal; default to motion enabled
+        // non-fatal
       })
     return () => {
       cancelled = true
     }
   }, [])
 
-  // ---- Auth check + persona/consent load -----------------------------
+  // ---- Auth check + consent load -------------------------------------
   useEffect(() => {
     let cancelled = false
     const user = getAuth().currentUser
@@ -442,21 +347,14 @@ export default function SayScreen() {
     }
     setAuthReady(true)
 
-    Promise.all([
-      AsyncStorage.getItem(STORAGE_KEYS.persona).catch(() => null),
-      AsyncStorage.getItem(STORAGE_KEYS.consent).catch(() => null),
-      getSettings().catch(() => null),
-    ]).then(([storedPersona, storedConsent, settings]) => {
-      if (cancelled) return
-      const personaId = (storedPersona as PersonaId | null) ?? 'kind'
-      const validPersonaId: PersonaId =
-        personaId === 'kind' || personaId === 'still' || personaId === 'steady' || personaId === 'wise'
-          ? personaId
-          : 'kind'
-      setSelectedPersonaId(validPersonaId)
-      setConsentVisible(storedConsent !== 'true')
-      setIsPremium(settings?.subscription.tier === 'premium')
-    })
+    AsyncStorage.getItem(STORAGE_KEYS.consent)
+      .then((storedConsent) => {
+        if (cancelled) return
+        setConsentVisible(storedConsent !== 'true')
+      })
+      .catch(() => {
+        // non-fatal
+      })
 
     return () => {
       cancelled = true
@@ -469,7 +367,7 @@ export default function SayScreen() {
     const user = getAuth().currentUser
     if (!user) return
 
-    const messagesRef = collection(db, 'say', user.uid, 'messages')
+    const messagesRef = collection(db, 'say', user.uid, personaId)
     const q = query(messagesRef, orderBy('createdAt', 'desc'), limit(50))
 
     const unsub = onSnapshot(
@@ -477,28 +375,35 @@ export default function SayScreen() {
       (snap) => {
         const docs: SayMessage[] = []
         snap.forEach((d) => {
-          const data = d.data() as { role?: unknown; content?: unknown; createdAt?: unknown }
-          const role = data.role === 'assistant' ? 'assistant' : 'user'
+          const data = d.data() as {
+            role?: unknown
+            content?: unknown
+            reference?: unknown
+            createdAt?: unknown
+          }
+          let role: SayMessage['role'] = 'user'
+          if (data.role === 'assistant') role = 'assistant'
+          else if (data.role === 'reachOut') role = 'reachOut'
           const content = typeof data.content === 'string' ? data.content : ''
-          // createdAt may be a server-pending FieldValue on initial local emit;
-          // skip messages without a resolved Timestamp.
+          const reference = typeof data.reference === 'string' ? data.reference : undefined
           if (!(data.createdAt instanceof Timestamp)) return
-          docs.push({ id: d.id, role, content, createdAt: data.createdAt })
+          docs.push({ id: d.id, role, content, reference, createdAt: data.createdAt })
         })
-        // Firestore returned desc by createdAt; we want chronological for buildThreadItems.
         docs.reverse()
         setMessages(docs)
         setSnapshotReceived(true)
       },
       () => {
-        // Listener errors: surface as inline error and mark snapshot received so empty state can render.
         setSnapshotReceived(true)
         setErrored(true)
       },
     )
 
     return () => unsub()
-  }, [authReady])
+    // NOTE: do NOT write to /sayState/{uid} from the client — Firestore rules
+    // block client writes; the backend owns that document. The unread dot
+    // clears server-side via the reach-out delivery flow.
+  }, [authReady, personaId])
 
   // ---- Send handler --------------------------------------------------
   const handleSend = useCallback(async () => {
@@ -507,7 +412,7 @@ export default function SayScreen() {
     setErrored(false)
     setIsSending(true)
     setDraft('')
-    const payload: SayResponsePayload = { message: trimmed, personaId: selectedPersonaId }
+    const payload: SayResponsePayload = { message: trimmed, personaId }
     lastSendPayloadRef.current = payload
 
     try {
@@ -515,17 +420,14 @@ export default function SayScreen() {
       if (result.blocked || result.rateLimited) {
         setErrored(true)
       } else if (result.showCrisisPrompt) {
-        // Crisis content detected — onSnapshot will have the user's message;
-        // route to the existing crisis resources screen.
         router.push('/check-in/message' as never)
       }
-      // On success (result.response set): onSnapshot will reconcile automatically.
     } catch {
       setErrored(true)
     } finally {
       setIsSending(false)
     }
-  }, [draft, isSending, selectedPersonaId])
+  }, [draft, isSending, personaId])
 
   const handleRetry = useCallback(async () => {
     const last = lastSendPayloadRef.current
@@ -542,40 +444,6 @@ export default function SayScreen() {
     }
   }, [isSending])
 
-  // ---- Persona change ------------------------------------------------
-  const handlePersonaSelect = useCallback(
-    (nextId: PersonaId) => {
-      const persona = PERSONA_BY_ID[nextId]
-      if (persona.premium && !isPremium) {
-        setPickerVisible(false)
-        router.push('/paywall')
-        return
-      }
-      if (nextId === selectedPersonaId) {
-        setPickerVisible(false)
-        return
-      }
-      const fromId = selectedPersonaId
-      // Anchor the divider after the most recent message currently in the thread.
-      // If the thread is empty, anchor at the start (afterMessageId: null).
-      const lastMessage = messages.length > 0 ? messages[messages.length - 1] : null
-      const anchorId = lastMessage ? lastMessage.id : null
-      const transition: PersonaTransition = {
-        id: `transition-${Date.now()}`,
-        afterMessageId: anchorId,
-        from: fromId,
-        to: nextId,
-      }
-      setPersonaTransitions((prev) => [...prev, transition])
-      setSelectedPersonaId(nextId)
-      AsyncStorage.setItem(STORAGE_KEYS.persona, nextId).catch(() => {
-        // non-fatal
-      })
-      setPickerVisible(false)
-    },
-    [selectedPersonaId, isPremium, messages],
-  )
-
   // ---- Consent dismiss -----------------------------------------------
   const handleConsentDismiss = useCallback(() => {
     setConsentVisible(false)
@@ -586,12 +454,10 @@ export default function SayScreen() {
 
   // ---- Build thread items --------------------------------------------
   const threadItems = useMemo(
-    () => buildThreadItems(messages, personaTransitions, isSending, errored),
-    [messages, personaTransitions, isSending, errored],
+    () => buildThreadItems(messages, isSending, errored),
+    [messages, isSending, errored],
   )
 
-  // ---- Render --------------------------------------------------------
-  const activePersonaName = PERSONA_BY_ID[selectedPersonaId]?.name ?? 'Kind'
   const draftLength = draft.length
   const showCharCounter = draftLength >= 1800
   const sendDisabled = draft.trim().length === 0 || isSending
@@ -599,16 +465,21 @@ export default function SayScreen() {
   const renderItem: ListRenderItem<ThreadItem> = useCallback(
     ({ item }) => {
       switch (item.kind) {
-        case 'message':
-          return item.message.role === 'user' ? (
-            <UserMessage content={item.message.content} marginTop={item.marginTop} />
-          ) : (
-            <AssistantMessage content={item.message.content} marginTop={item.marginTop} />
+        case 'message': {
+          const msg = item.message
+          if (msg.role === 'user') {
+            return <UserMessage content={msg.content} marginTop={item.marginTop} />
+          }
+          return (
+            <AssistantMessage
+              content={msg.content}
+              reference={msg.reference}
+              marginTop={item.marginTop}
+            />
           )
+        }
         case 'date-divider':
           return <DateDivider label={item.label} />
-        case 'persona-divider':
-          return <PersonaDivider from={item.from} to={item.to} />
         case 'thinking':
           return <ThinkingGlyph reduceMotion={reduceMotion} />
         case 'error':
@@ -624,8 +495,6 @@ export default function SayScreen() {
         return `msg-${item.message.id}`
       case 'date-divider':
         return `date-${item.id}`
-      case 'persona-divider':
-        return `persona-${item.id}`
       case 'thinking':
         return 'thinking'
       case 'error':
@@ -635,23 +504,27 @@ export default function SayScreen() {
 
   // UI states explicit:
   // - Loading: pre-snapshot — render the empty state silently (no spinner; the parchment IS the loading aesthetic).
-  // - Error:   inline ErrorRow at the bottom of the thread (rendered via threadItems).
-  // - Empty:   when snapshot has arrived AND no messages — render EmptyState (with optional consent notice).
+  // - Error: inline ErrorRow at the bottom of the thread (rendered via threadItems).
+  // - Empty: when snapshot has arrived AND no messages — render EmptyState (with optional consent notice).
   const showEmptyState = snapshotReceived && messages.length === 0
 
   return (
     <SafeAreaView style={styles.safeArea}>
       {/* Header */}
       <View style={styles.headerRow}>
-        <Text style={styles.headerTitle}>{'Say'}</Text>
         <Pressable
-          onPress={() => setPickerVisible(true)}
+          onPress={() => router.back()}
           accessibilityRole="button"
-          accessibilityLabel={`Voice: ${activePersonaName}. Tap to change.`}
-          style={({ pressed }) => ({ opacity: pressed ? 0.6 : 1 })}
+          accessibilityLabel="Back"
+          hitSlop={8}
         >
-          <Text style={styles.headerPersonaButton}>{activePersonaName}</Text>
+          <Text style={styles.backArrow}>{'←'}</Text>
         </Pressable>
+        <View style={styles.headerVoice}>
+          <Text style={[styles.headerGlyph, { color: meta.glyphColor }]}>{meta.glyph}</Text>
+          <Text style={styles.headerName}>{meta.name}</Text>
+        </View>
+        <View style={{ width: 32 }} />
       </View>
 
       <KeyboardAvoidingView
@@ -708,22 +581,11 @@ export default function SayScreen() {
           </View>
         </View>
       </KeyboardAvoidingView>
-
-      <PersonaPickerModal
-        visible={pickerVisible}
-        selectedId={selectedPersonaId}
-        isPremium={isPremium}
-        onSelect={handlePersonaSelect}
-        onClose={() => setPickerVisible(false)}
-      />
     </SafeAreaView>
   )
 }
 
 // ---- Styles -----------------------------------------------------------
-// StyleSheet used for typography + numeric tokens that don't map cleanly to
-// NativeWind defaults (custom hex colors, exact line-heights, font families).
-// Layout containers use the StyleSheet for cohesion with the existing screens.
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
@@ -737,15 +599,25 @@ const styles = StyleSheet.create({
     paddingTop: 16,
     paddingBottom: 8,
   },
-  headerTitle: {
-    fontFamily: 'Lora_400Regular_Italic',
-    fontSize: 24,
+  backArrow: {
+    fontFamily: 'DMSans_400Regular',
+    fontSize: 22,
     color: COLORS.inkPrimary,
+    width: 32,
   },
-  headerPersonaButton: {
+  headerVoice: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+  },
+  headerGlyph: {
     fontFamily: 'DMSans_500Medium',
-    fontSize: 13,
-    color: COLORS.amber,
+    fontSize: 20,
+  },
+  headerName: {
+    fontFamily: 'Lora_400Regular_Italic',
+    fontSize: 20,
+    color: COLORS.inkPrimary,
   },
   listContent: {
     paddingTop: 12,
@@ -815,11 +687,17 @@ const styles = StyleSheet.create({
     lineHeight: 26,
   },
   assistantText: {
-    flex: 1,
     fontFamily: 'Lora_400Regular_Italic',
     fontSize: 18,
     color: COLORS.inkPrimary,
     lineHeight: 26,
+  },
+  referenceText: {
+    fontFamily: 'DMSans_400Regular',
+    fontSize: 10,
+    color: COLORS.inkSubtle,
+    fontStyle: 'italic',
+    marginTop: 6,
   },
   // ---- Dividers ----
   dateDivider: {
@@ -899,76 +777,5 @@ const styles = StyleSheet.create({
     color: COLORS.inkMuted,
     textAlign: 'right',
     marginBottom: 4,
-  },
-  // ---- Persona picker modal ----
-  modalBackdrop: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    backgroundColor: COLORS.modalBackdrop,
-  },
-  modalSheet: {
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-    right: 0,
-    backgroundColor: COLORS.bg,
-    borderTopLeftRadius: 24,
-    borderTopRightRadius: 24,
-    padding: 20,
-    paddingBottom: 36,
-    shadowColor: '#3D2F2A',
-    shadowOffset: { width: 0, height: -4 },
-    shadowOpacity: 0.08,
-    shadowRadius: 16,
-    elevation: 8,
-  },
-  dragHandle: {
-    width: 36,
-    height: 4,
-    borderRadius: 2,
-    backgroundColor: '#D4CABE',
-    alignSelf: 'center',
-    marginBottom: 16,
-  },
-  pickerTitle: {
-    fontFamily: 'DMSans_500Medium',
-    fontSize: 16,
-    color: COLORS.inkPrimary,
-    marginBottom: 16,
-  },
-  personaCard: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    height: 72,
-    borderRadius: 14,
-    paddingHorizontal: 16,
-    backgroundColor: COLORS.bg,
-    borderWidth: 1,
-    borderColor: COLORS.cardWarmBorder,
-  },
-  personaCardActive: {
-    borderLeftWidth: 3,
-    borderLeftColor: COLORS.amber,
-    backgroundColor: COLORS.amberTintActive,
-  },
-  personaName: {
-    fontFamily: 'DMSans_500Medium',
-    fontSize: 16,
-    color: COLORS.inkPrimary,
-  },
-  personaDescriptor: {
-    fontFamily: 'Lora_400Regular_Italic',
-    fontSize: 13,
-    color: COLORS.inkMuted,
-    marginTop: 2,
-  },
-  personaLock: {
-    fontFamily: 'DMSans_500Medium',
-    fontSize: 12,
-    color: COLORS.amber,
-    marginLeft: 8,
   },
 })

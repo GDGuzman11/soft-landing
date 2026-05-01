@@ -84,7 +84,7 @@ export const generateSayResponse = onCall(
     const personaId: SayPersonaId = isValidPersonaId(raw.personaId) ? raw.personaId : 'kind'
 
     const db = getFirestore()
-    const messagesRef = db.collection('say').doc(uid).collection('messages')
+    const messagesRef = db.collection('say').doc(uid).collection(personaId)
 
     // STEP 3: Input injection filter
     const filterResult = filterUserInput(trimmedMessage)
