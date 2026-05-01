@@ -609,7 +609,7 @@ export default function SayThreadScreen() {
       ) : (
         <View style={[styles.header, { backgroundColor: colors.headerBg, borderBottomColor: colors.hairline }]}>
           <Pressable onPress={() => router.back()} accessibilityRole="button" accessibilityLabel="Back" hitSlop={10}>
-            <Image source={STAMP} style={styles.stampBack} resizeMode="contain" />
+            <Text style={[styles.backArrow, { color: colors.inkPrimary }]}>{'←'}</Text>
           </Pressable>
           <View style={styles.headerCenter}>
             <Text style={[styles.headerGlyph, { color: meta.glyphColor }]}>{meta.glyph}</Text>
@@ -730,9 +730,10 @@ const styles = StyleSheet.create({
     paddingBottom: 12,
     borderBottomWidth: 1,
   },
-  stampBack: {
-    width: 28,
-    height: 28,
+  backArrow: {
+    fontFamily: 'DMSans_400Regular',
+    fontSize: 22,
+    lineHeight: 28,
     opacity: 0.75,
   },
   headerCenter: {
