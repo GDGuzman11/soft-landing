@@ -1,11 +1,13 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import {
   AccessibilityInfo,
+  Alert,
   FlatList,
   KeyboardAvoidingView,
   Platform,
   Pressable,
   SafeAreaView,
+  StatusBar,
   StyleSheet,
   Text,
   TextInput,
@@ -15,6 +17,8 @@ import {
 import { router, useLocalSearchParams } from 'expo-router'
 import {
   collection,
+  deleteDoc,
+  doc,
   getDocs,
   limit,
   onSnapshot,
@@ -39,11 +43,13 @@ import app, { db } from '@/services/firebase'
 // ---- Design tokens --------------------------------------------------------
 const COLORS = {
   bg: '#FAF8F5',
+  headerBg: '#EDE6D9',
   amber: '#C4956A',
+  sendBtn: '#3D2F2A',
   inkPrimary: '#3D2F2A',
   inkMuted: '#9A8F82',
   inkSubtle: '#C4B59A',
-  hairline: 'rgba(196,149,106,0.18)',
+  hairline: 'rgba(61,47,42,0.12)',
   userBubble: '#C4956A',
   userBubbleText: '#FFFFFF',
 } as const
@@ -113,7 +119,6 @@ function buildThreadItems(
     const m = messages[i]!
     const next = messages[i + 1]
 
-    // Date divider
     if (prev) {
       const prevDate = prev.createdAt.toDate()
       const currDate = m.createdAt.toDate()
@@ -123,7 +128,6 @@ function buildThreadItems(
       }
     }
 
-    // isLastInGroup: next msg is different sender, or this is the last msg
     const isLastInGroup = !next || isAI(next.role) !== isAI(m.role)
     chrono.push({ kind: 'message', message: m, isLastInGroup })
     prev = m
@@ -192,10 +196,18 @@ function DateDivider({ label }: { label: string }) {
 }
 
 // ---- User bubble (right-aligned) ------------------------------------------
-function UserBubble({ content, isLastInGroup }: { content: string; isLastInGroup: boolean }) {
+function UserBubble({
+  content,
+  isLastInGroup,
+  highlight,
+}: {
+  content: string
+  isLastInGroup: boolean
+  highlight: boolean
+}) {
   return (
     <View style={styles.userBubbleWrapper}>
-      <View style={[styles.userBubble, isLastInGroup && styles.userBubbleTail]}>
+      <View style={[styles.userBubble, isLastInGroup && styles.userBubbleTail, highlight && styles.highlightBubble]}>
         <Text style={styles.userBubbleText}>{content}</Text>
       </View>
     </View>
@@ -208,11 +220,13 @@ function AIBubble({
   reference,
   voiceId,
   isLastInGroup,
+  highlight,
 }: {
   content: string
   reference?: string
   voiceId: VoiceId
   isLastInGroup: boolean
+  highlight: boolean
 }) {
   const meta = VOICE_META[voiceId]
   return (
@@ -226,6 +240,7 @@ function AIBubble({
         styles.aiBubble,
         isLastInGroup && styles.aiBubbleTail,
         { backgroundColor: meta.bg, borderColor: meta.border },
+        highlight && styles.highlightBubble,
       ]}>
         <Text style={styles.aiBubbleText}>{content}</Text>
         {reference ? <Text style={styles.referenceText}>{reference}</Text> : null}
@@ -307,8 +322,12 @@ export default function SayThreadScreen() {
   const [snapshotReceived, setSnapshotReceived] = useState(false)
   const [authReady, setAuthReady] = useState(false)
   const [reduceMotion, setReduceMotion] = useState(false)
+  const [searchMode, setSearchMode] = useState(false)
+  const [searchQuery, setSearchQuery] = useState('')
+  const [clearing, setClearing] = useState(false)
 
   const lastPayloadRef = useRef<SayPayload | null>(null)
+  const searchInputRef = useRef<TextInput>(null)
 
   // Manual fetch — fallback for Expo Go where onSnapshot WebSocket is unreliable
   const fetchMessages = useCallback(async () => {
@@ -363,7 +382,6 @@ export default function SayThreadScreen() {
     const user = getAuth().currentUser
     if (!user) return
 
-    // Eagerly fetch once so messages show even if onSnapshot WebSocket fails (Expo Go)
     void fetchMessages()
 
     const q = query(
@@ -390,9 +408,9 @@ export default function SayThreadScreen() {
         setMessages(docs)
         setSnapshotReceived(true)
       },
-      () => { setSnapshotReceived(true); setErrored(true) },
+      () => { setSnapshotReceived(true) },
     )
-  }, [authReady, personaId])
+  }, [authReady, personaId, fetchMessages])
 
   // Send
   const handleSend = useCallback(async () => {
@@ -432,9 +450,79 @@ export default function SayThreadScreen() {
     }
   }, [isTyping, fetchMessages])
 
+  // Clear conversation
+  const handleClearChat = useCallback(() => {
+    Alert.alert(
+      'Clear conversation',
+      `This will permanently delete all messages with ${meta.name}. This cannot be undone.`,
+      [
+        { text: 'Cancel', style: 'cancel' },
+        {
+          text: 'Clear',
+          style: 'destructive',
+          onPress: async () => {
+            const user = getAuth().currentUser
+            if (!user) return
+            setClearing(true)
+            try {
+              const snap = await getDocs(
+                query(collection(db, 'say', user.uid, personaId), limit(500)),
+              )
+              await Promise.all(
+                snap.docs.map((d) => deleteDoc(doc(db, 'say', user.uid, personaId, d.id))),
+              )
+              setMessages([])
+            } catch {
+              Alert.alert('Something went wrong', 'Could not clear the conversation. Try again.')
+            } finally {
+              setClearing(false)
+            }
+          },
+        },
+      ],
+    )
+  }, [meta.name, personaId])
+
+  // Search
+  const enterSearch = useCallback(() => {
+    setSearchMode(true)
+    setTimeout(() => searchInputRef.current?.focus(), 80)
+  }, [])
+
+  const exitSearch = useCallback(() => {
+    setSearchMode(false)
+    setSearchQuery('')
+  }, [])
+
+  // Overflow menu (search + clear)
+  const handleOverflow = useCallback(() => {
+    Alert.alert(
+      meta.name,
+      undefined,
+      [
+        { text: 'Search messages', onPress: enterSearch },
+        { text: 'Clear conversation', style: 'destructive', onPress: handleClearChat },
+        { text: 'Cancel', style: 'cancel' },
+      ],
+    )
+  }, [meta.name, enterSearch, handleClearChat])
+
+  // Filtered messages for search
+  const visibleMessages = useMemo(() => {
+    const q = searchQuery.trim().toLowerCase()
+    if (!q) return messages
+    return messages.filter((m) => m.content.toLowerCase().includes(q))
+  }, [messages, searchQuery])
+
+  const isSearching = searchMode && searchQuery.trim().length > 0
+
   const threadItems = useMemo(
-    () => buildThreadItems(messages, isTyping, errored),
-    [messages, isTyping, errored],
+    () => buildThreadItems(
+      isSearching ? visibleMessages : messages,
+      isTyping && !searchMode,
+      errored && !searchMode,
+    ),
+    [messages, visibleMessages, isTyping, errored, searchMode, isSearching],
   )
 
   const renderItem: ListRenderItem<ThreadItem> = useCallback(
@@ -442,15 +530,26 @@ export default function SayThreadScreen() {
       switch (item.kind) {
         case 'message': {
           const { message: m, isLastInGroup } = item
-          if (m.role === 'user') return <UserBubble content={m.content} isLastInGroup={isLastInGroup} />
-          return <AIBubble content={m.content} reference={m.reference} voiceId={personaId} isLastInGroup={isLastInGroup} />
+          const highlight = isSearching && m.content.toLowerCase().includes(searchQuery.trim().toLowerCase())
+          if (m.role === 'user') {
+            return <UserBubble content={m.content} isLastInGroup={isLastInGroup} highlight={highlight} />
+          }
+          return (
+            <AIBubble
+              content={m.content}
+              reference={m.reference}
+              voiceId={personaId}
+              isLastInGroup={isLastInGroup}
+              highlight={highlight}
+            />
+          )
         }
         case 'date-divider': return <DateDivider label={item.label} />
         case 'typing': return <TypingIndicator voiceId={personaId} reduceMotion={reduceMotion} />
         case 'error': return <ErrorRow onRetry={handleRetry} />
       }
     },
-    [personaId, reduceMotion, handleRetry],
+    [personaId, reduceMotion, handleRetry, isSearching, searchQuery],
   )
 
   const keyExtractor = useCallback((item: ThreadItem) => {
@@ -462,29 +561,80 @@ export default function SayThreadScreen() {
     }
   }, [])
 
-  const sendDisabled = draft.trim().length === 0 || isTyping
+  const sendDisabled = draft.trim().length === 0 || isTyping || clearing
   const showCharCounter = draft.length >= 1800
-  const showEmpty = snapshotReceived && messages.length === 0
+  const showEmpty = snapshotReceived && messages.length === 0 && !searchMode
+  const showSearchEmpty = isSearching && visibleMessages.length === 0
 
   return (
     <SafeAreaView style={styles.safe}>
+      <StatusBar barStyle="dark-content" backgroundColor={COLORS.headerBg} />
+
       {/* Header */}
-      <View style={styles.header}>
-        <Pressable onPress={() => router.back()} accessibilityRole="button" accessibilityLabel="Back" hitSlop={10}>
-          <Text style={styles.backArrow}>{'←'}</Text>
-        </Pressable>
-        <View style={styles.headerCenter}>
-          <Text style={[styles.headerGlyph, { color: meta.glyphColor }]}>{meta.glyph}</Text>
-          <Text style={styles.headerName}>{meta.name}</Text>
+      {searchMode ? (
+        <View style={styles.header}>
+          <TextInput
+            ref={searchInputRef}
+            value={searchQuery}
+            onChangeText={setSearchQuery}
+            placeholder="search messages…"
+            placeholderTextColor={COLORS.inkSubtle}
+            style={styles.searchInput}
+            accessibilityLabel="Search messages"
+            returnKeyType="search"
+            autoCorrect={false}
+          />
+          <Pressable
+            onPress={exitSearch}
+            accessibilityRole="button"
+            accessibilityLabel="Cancel search"
+            hitSlop={10}
+            style={({ pressed }) => ({ opacity: pressed ? 0.6 : 1 })}
+          >
+            <Text style={styles.cancelSearch}>{'Cancel'}</Text>
+          </Pressable>
         </View>
-        <View style={{ width: 36 }} />
-      </View>
+      ) : (
+        <View style={styles.header}>
+          <Pressable onPress={() => router.back()} accessibilityRole="button" accessibilityLabel="Back" hitSlop={10}>
+            <Text style={styles.backArrow}>{'←'}</Text>
+          </Pressable>
+          <View style={styles.headerCenter}>
+            <Text style={[styles.headerGlyph, { color: meta.glyphColor }]}>{meta.glyph}</Text>
+            <Text style={styles.headerName}>{meta.name}</Text>
+          </View>
+          <View style={styles.headerRight}>
+            <Pressable
+              onPress={enterSearch}
+              accessibilityRole="button"
+              accessibilityLabel="Search"
+              hitSlop={8}
+              style={({ pressed }) => ({ opacity: pressed ? 0.5 : 1 })}
+            >
+              <Text style={styles.headerIcon}>{'⌕'}</Text>
+            </Pressable>
+            <Pressable
+              onPress={handleOverflow}
+              accessibilityRole="button"
+              accessibilityLabel="More options"
+              hitSlop={8}
+              style={({ pressed }) => ({ opacity: pressed ? 0.5 : 1 })}
+            >
+              <Text style={styles.headerIcon}>{'···'}</Text>
+            </Pressable>
+          </View>
+        </View>
+      )}
 
       <KeyboardAvoidingView
-        style={{ flex: 1 }}
+        style={styles.body}
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       >
-        {showEmpty ? (
+        {showSearchEmpty ? (
+          <View style={styles.emptyContainer}>
+            <Text style={styles.searchEmptyText}>{`no messages matching "${searchQuery.trim()}"`}</Text>
+          </View>
+        ) : showEmpty ? (
           <View style={{ flex: 1 }}>
             <EmptyState
               meta={meta}
@@ -507,40 +657,42 @@ export default function SayThreadScreen() {
           />
         )}
 
-        {/* Input bar */}
-        <View style={styles.inputBar}>
-          {showCharCounter ? (
-            <Text style={styles.charCounter}>{`${2000 - draft.length}`}</Text>
-          ) : null}
-          <View style={styles.inputRow}>
-            <TextInput
-              value={draft}
-              onChangeText={setDraft}
-              placeholder="say something…"
-              placeholderTextColor={COLORS.inkSubtle}
-              multiline
-              maxLength={2000}
-              style={styles.input}
-              accessibilityLabel="Say message input"
-              onSubmitEditing={handleSend}
-              blurOnSubmit={false}
-            />
-            <Pressable
-              onPress={handleSend}
-              disabled={sendDisabled}
-              accessibilityRole="button"
-              accessibilityLabel="Send"
-              hitSlop={6}
-              style={({ pressed }) => [
-                styles.sendButton,
-                sendDisabled && styles.sendButtonDisabled,
-                pressed && !sendDisabled && { opacity: 0.75 },
-              ]}
-            >
-              <Text style={styles.sendButtonText}>{'↑'}</Text>
-            </Pressable>
+        {/* Input bar — hidden while searching */}
+        {!searchMode ? (
+          <View style={styles.inputBar}>
+            {showCharCounter ? (
+              <Text style={styles.charCounter}>{`${2000 - draft.length}`}</Text>
+            ) : null}
+            <View style={styles.inputRow}>
+              <TextInput
+                value={draft}
+                onChangeText={setDraft}
+                placeholder="say something…"
+                placeholderTextColor={COLORS.inkSubtle}
+                multiline
+                maxLength={2000}
+                style={styles.input}
+                accessibilityLabel="Say message input"
+                onSubmitEditing={handleSend}
+                blurOnSubmit={false}
+              />
+              <Pressable
+                onPress={handleSend}
+                disabled={sendDisabled}
+                accessibilityRole="button"
+                accessibilityLabel="Send"
+                hitSlop={6}
+                style={({ pressed }) => [
+                  styles.sendButton,
+                  sendDisabled && styles.sendButtonDisabled,
+                  pressed && !sendDisabled && { opacity: 0.7 },
+                ]}
+              >
+                <Text style={styles.sendButtonText}>{'↑'}</Text>
+              </Pressable>
+            </View>
           </View>
-        </View>
+        ) : null}
       </KeyboardAvoidingView>
     </SafeAreaView>
   )
@@ -549,6 +701,10 @@ export default function SayThreadScreen() {
 // ---- Styles ---------------------------------------------------------------
 const styles = StyleSheet.create({
   safe: {
+    flex: 1,
+    backgroundColor: COLORS.headerBg,
+  },
+  body: {
     flex: 1,
     backgroundColor: COLORS.bg,
   },
@@ -559,7 +715,8 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingHorizontal: 16,
     paddingTop: 14,
-    paddingBottom: 10,
+    paddingBottom: 12,
+    backgroundColor: COLORS.headerBg,
     borderBottomWidth: 1,
     borderBottomColor: COLORS.hairline,
   },
@@ -582,6 +739,35 @@ const styles = StyleSheet.create({
     fontFamily: 'Lora_400Regular_Italic',
     fontSize: 20,
     color: COLORS.inkPrimary,
+  },
+  headerRight: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 14,
+    width: 64,
+    justifyContent: 'flex-end',
+  },
+  headerIcon: {
+    fontFamily: 'DMSans_400Regular',
+    fontSize: 20,
+    color: COLORS.inkPrimary,
+  },
+  // ---- Search header ----
+  searchInput: {
+    flex: 1,
+    fontFamily: 'DMSans_400Regular',
+    fontSize: 16,
+    color: COLORS.inkPrimary,
+    backgroundColor: 'rgba(61,47,42,0.08)',
+    borderRadius: 10,
+    paddingHorizontal: 12,
+    paddingVertical: Platform.OS === 'ios' ? 8 : 6,
+    marginRight: 12,
+  },
+  cancelSearch: {
+    fontFamily: 'DMSans_400Regular',
+    fontSize: 15,
+    color: COLORS.amber,
   },
   // ---- Thread ----
   listContent: {
@@ -653,6 +839,11 @@ const styles = StyleSheet.create({
     color: COLORS.inkSubtle,
     fontStyle: 'italic',
     marginTop: 6,
+  },
+  // ---- Search highlight ----
+  highlightBubble: {
+    borderWidth: 2,
+    borderColor: COLORS.amber,
   },
   // ---- Typing indicator ----
   typingRow: {
@@ -727,6 +918,12 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: COLORS.amber,
   },
+  searchEmptyText: {
+    fontFamily: 'Lora_400Regular_Italic',
+    fontSize: 15,
+    color: COLORS.inkMuted,
+    textAlign: 'center',
+  },
   // ---- Input bar ----
   inputBar: {
     paddingHorizontal: 12,
@@ -764,13 +961,13 @@ const styles = StyleSheet.create({
     width: 34,
     height: 34,
     borderRadius: 17,
-    backgroundColor: COLORS.amber,
+    backgroundColor: COLORS.sendBtn,
     alignItems: 'center',
     justifyContent: 'center',
     marginLeft: 6,
   },
   sendButtonDisabled: {
-    backgroundColor: 'rgba(196,149,106,0.3)',
+    backgroundColor: 'rgba(61,47,42,0.25)',
   },
   sendButtonText: {
     fontFamily: 'DMSans_700Bold',
