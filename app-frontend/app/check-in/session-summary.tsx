@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { getSavedMessages } from '@/storage/storage'
 import type { SavedMessage, Message } from '@/types'
+import { useTheme } from '@/theme'
 
 interface ResolvedSavedMessage {
   saved: SavedMessage
@@ -27,6 +28,7 @@ async function lookupVerse(
 }
 
 export default function SessionSummaryScreen() {
+  const { colors } = useTheme()
   const { ids } = useLocalSearchParams<{ ids: string }>()
   const [resolved, setResolved] = useState<ResolvedSavedMessage[]>([])
   const [loaded, setLoaded] = useState(false)

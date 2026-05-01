@@ -79,8 +79,20 @@ export default function HistoryScreen() {
   const userName = settings?.name?.trim() || 'friend'
 
   async function handleDelete(id: string) {
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)
     await deleteSavedMessage(id)
     setResolved((prev) => prev.filter((r) => r.saved.id !== id))
+  }
+
+  function confirmDelete(id: string) {
+    Alert.alert(
+      'Remove verse?',
+      'This will permanently remove it from your saved collection.',
+      [
+        { text: 'Cancel', style: 'cancel' },
+        { text: 'Remove', style: 'destructive', onPress: () => handleDelete(id) },
+      ]
+    )
   }
 
   async function handleShare(body: string, reference: string, letter?: string) {
@@ -194,60 +206,71 @@ export default function HistoryScreen() {
               {/* Letter section */}
               {item.letter ? (
                 <Pressable
-                  onPress={() => setExpandedLetter(isLetterExpanded ? null : item.id)}
+                  onPress={() => {
+                    const nextExpanded = isLetterExpanded ? null : item.id
+                    setExpandedLetter(nextExpanded)
+                    const anim = getAnim(item.id)
+                    Animated.timing(anim, {
+                      toValue: nextExpanded === item.id ? 1 : 0,
+                      duration: 200,
+                      useNativeDriver: true,
+                    }).start()
+                  }}
                   accessibilityRole="button"
                   accessibilityLabel={isLetterExpanded ? 'Collapse letter' : 'Read your letter'}
                   style={{ marginBottom: 12 }}
                 >
                   {isLetterExpanded ? (
-                    <View
-                      style={{
-                        backgroundColor: colors.inputRow,
-                        borderRadius: 10,
-                        padding: 16,
-                      }}
-                    >
-                      <Text
+                    <Animated.View style={{ opacity: getAnim(item.id) }}>
+                      <View
                         style={{
-                          fontFamily: 'Lora_400Regular_Italic',
-                          fontSize: 13,
-                          color: colors.amber,
-                          marginBottom: 8,
+                          backgroundColor: colors.inputRow,
+                          borderRadius: 10,
+                          padding: 16,
                         }}
                       >
-                        Dear {userName},
-                      </Text>
-                      <Text
-                        style={{
-                          fontFamily: 'Lora_400Regular',
-                          fontSize: 14,
-                          color: colors.inkPrimary,
-                          lineHeight: 22,
-                        }}
-                      >
-                        {item.letter}
-                      </Text>
-                      <Text
-                        style={{
-                          fontFamily: 'Lora_400Regular_Italic',
-                          fontSize: 13,
-                          color: colors.inkMuted,
-                          marginTop: 10,
-                        }}
-                      >
-                        With you in this.
-                      </Text>
-                      <Text
-                        style={{
-                          fontFamily: 'DMSans_400Regular',
-                          fontSize: 10,
-                          color: colors.inkSubtle,
-                          marginTop: 8,
-                        }}
-                      >
-                        Written by AI for spiritual encouragement only.
-                      </Text>
-                    </View>
+                        <Text
+                          style={{
+                            fontFamily: 'Lora_400Regular_Italic',
+                            fontSize: 13,
+                            color: colors.amber,
+                            marginBottom: 8,
+                          }}
+                        >
+                          Dear {userName},
+                        </Text>
+                        <Text
+                          style={{
+                            fontFamily: 'Lora_400Regular',
+                            fontSize: 14,
+                            color: colors.inkPrimary,
+                            lineHeight: 22,
+                          }}
+                        >
+                          {item.letter}
+                        </Text>
+                        <Text
+                          style={{
+                            fontFamily: 'Lora_400Regular_Italic',
+                            fontSize: 13,
+                            color: colors.inkMuted,
+                            marginTop: 10,
+                          }}
+                        >
+                          With you in this.
+                        </Text>
+                        <Text
+                          style={{
+                            fontFamily: 'DMSans_400Regular',
+                            fontSize: 10,
+                            color: colors.inkSubtle,
+                            marginTop: 8,
+                          }}
+                        >
+                          Written by AI for spiritual encouragement only.
+                        </Text>
+                      </View>
+                    </Animated.View>
                   ) : (
                     <Text
                       style={{
@@ -314,7 +337,7 @@ export default function HistoryScreen() {
                   </Pressable>
 
                   <Pressable
-                    onPress={() => handleDelete(item.id)}
+                    onPress={() => confirmDelete(item.id)}
                     hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
                     className="active:opacity-60"
                   >

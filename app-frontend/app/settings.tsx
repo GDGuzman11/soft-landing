@@ -9,6 +9,7 @@ import { db } from '@/services/firebase'
 import { doc, getDoc, setDoc, serverTimestamp } from 'firebase/firestore'
 import { getAuth } from 'firebase/auth'
 import { useTheme } from '@/theme'
+import * as Haptics from 'expo-haptics'
 
 const DEFAULT_REMINDER_TIME = '08:00'
 
@@ -79,6 +80,7 @@ export default function SettingsScreen() {
   }, [])
 
   async function toggleVoiceMute(voiceId: VoiceId) {
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)
     const user = getAuth().currentUser
     if (!user) return
     const next = mutedVoices.includes(voiceId)
@@ -101,6 +103,7 @@ export default function SettingsScreen() {
   }
 
   async function toggle(key: 'haptics') {
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)
     if (!settings) return
     const updated = { ...settings, [key]: !settings[key] }
     setSettings(updated)
@@ -108,6 +111,7 @@ export default function SettingsScreen() {
   }
 
   async function toggleNotifications() {
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)
     if (!settings) return
     const enabling = !settings.notifications.enabled
 

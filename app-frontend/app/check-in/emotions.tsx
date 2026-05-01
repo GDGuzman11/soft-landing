@@ -142,6 +142,10 @@ export default function EmotionsScreen() {
     router.push({ pathname: '/check-in/envelope', params: { emotionId: emotion.id } })
   }
 
+  function triggerSwipeHaptic() {
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)
+  }
+
   const panGesture = Gesture.Pan()
     .onUpdate((e) => { panX.value = e.translationX })
     .onEnd((e) => {
@@ -149,10 +153,12 @@ export default function EmotionsScreen() {
       const goRight = e.translationX >  SWIPE_THRESHOLD || e.velocityX >  500
 
       if (goLeft) {
+        runOnJS(triggerSwipeHaptic)()
         panX.value = withTiming(-screenWidth * 1.4, { duration: 240 }, (done) => {
           if (done) runOnJS(advance)('left')
         })
       } else if (goRight) {
+        runOnJS(triggerSwipeHaptic)()
         panX.value = withTiming(screenWidth * 1.4, { duration: 240 }, (done) => {
           if (done) runOnJS(advance)('right')
         })
