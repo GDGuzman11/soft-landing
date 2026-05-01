@@ -255,14 +255,14 @@ export default function RegisterScreen() {
             style={{
               fontFamily: 'DMSans_400Regular',
               fontSize: 13,
-              color: '#A09080',
+              color: colors.inkMuted,
               lineHeight: 21,
               flex: 1,
             }}
           >
             I have read and agree to the{' '}
             <Text
-              style={{ color: '#C4956A', fontFamily: 'DMSans_500Medium' }}
+              style={{ color: colors.amber, fontFamily: 'DMSans_500Medium' }}
               onPress={() => Linking.openURL(TERMS_URL)}
               accessibilityRole="link"
               accessibilityLabel="Read Terms of Service"
@@ -271,7 +271,7 @@ export default function RegisterScreen() {
             </Text>
             {' '}and{' '}
             <Text
-              style={{ color: '#C4956A', fontFamily: 'DMSans_500Medium' }}
+              style={{ color: colors.amber, fontFamily: 'DMSans_500Medium' }}
               onPress={() => Linking.openURL(PRIVACY_URL)}
               accessibilityRole="link"
               accessibilityLabel="Read Privacy Policy"
@@ -301,12 +301,12 @@ export default function RegisterScreen() {
           disabled={loading}
           className="active:opacity-80"
           style={{
-            backgroundColor: '#C4956A',
+            backgroundColor: colors.amber,
             borderRadius: 9999,
             paddingVertical: 16,
             alignItems: 'center',
             marginBottom: 12,
-            shadowColor: '#C4956A',
+            shadowColor: colors.amber,
             shadowOffset: { width: 0, height: 4 },
             shadowOpacity: loading ? 0 : 0.3,
             shadowRadius: 12,
@@ -333,19 +333,19 @@ export default function RegisterScreen() {
           disabled={!request || loading}
           className="active:opacity-80"
           style={{
-            backgroundColor: '#FFFFFF',
+            backgroundColor: colors.surface,
             borderRadius: 9999,
             paddingVertical: 16,
             alignItems: 'center',
             marginBottom: 12,
             borderWidth: 1,
-            borderColor: '#E8E3DC',
+            borderColor: colors.cardBorder,
             opacity: !request || loading ? 0.5 : 1,
           }}
           accessibilityRole="button"
           accessibilityLabel="Sign up with Google"
         >
-          <Text style={{ fontFamily: 'DMSans_500Medium', fontSize: 16, color: '#1A1A1A' }}>
+          <Text style={{ fontFamily: 'DMSans_500Medium', fontSize: 16, color: colors.inkPrimary }}>
             <Text style={{ color: '#4285F4' }}>G</Text>  Sign up with Google
           </Text>
         </Pressable>
@@ -370,19 +370,19 @@ export default function RegisterScreen() {
             disabled={loading}
             className="active:opacity-80"
             style={{
-              backgroundColor: '#FFFFFF',
+              backgroundColor: colors.surface,
               borderRadius: 9999,
               paddingVertical: 16,
               alignItems: 'center',
               marginBottom: 32,
               borderWidth: 1,
-              borderColor: '#E8E3DC',
+              borderColor: colors.cardBorder,
               opacity: loading ? 0.5 : 1,
             }}
             accessibilityRole="button"
             accessibilityLabel="Sign up with Apple"
           >
-            <Text style={{ fontFamily: 'DMSans_500Medium', fontSize: 16, color: '#1A1A1A' }}>
+            <Text style={{ fontFamily: 'DMSans_500Medium', fontSize: 16, color: colors.inkPrimary }}>
               Sign up with Apple
             </Text>
           </Pressable>
@@ -396,9 +396,9 @@ export default function RegisterScreen() {
           accessibilityRole="button"
           accessibilityLabel="Sign in to existing account"
         >
-          <Text style={{ fontFamily: 'DMSans_400Regular', fontSize: 14, color: '#A09080' }}>
+          <Text style={{ fontFamily: 'DMSans_400Regular', fontSize: 14, color: colors.inkMuted }}>
             Already have an account?{' '}
-            <Text style={{ color: '#C4956A', fontFamily: 'DMSans_500Medium' }}>Sign in</Text>
+            <Text style={{ color: colors.amber, fontFamily: 'DMSans_500Medium' }}>Sign in</Text>
           </Text>
         </Pressable>
       </ScrollView>
