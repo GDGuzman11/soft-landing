@@ -14,24 +14,12 @@ import { useState, useEffect } from 'react'
 import * as WebBrowser from 'expo-web-browser'
 import * as AuthSession from 'expo-auth-session/providers/google'
 import { signUpWithEmail, signInWithGoogle, signInWithApple, sendVerificationEmail } from '@/services/auth'
+import { mapFirebaseError } from '@/utils/firebaseErrors'
 
 WebBrowser.maybeCompleteAuthSession()
 
 const TERMS_URL = 'https://gdguzman11.github.io/soft-landing/terms.html'
 const PRIVACY_URL = 'https://gdguzman11.github.io/soft-landing/privacy-policy.html'
-
-function mapFirebaseError(code: string): string {
-  switch (code) {
-    case 'auth/email-already-in-use':
-      return 'An account with that email already exists.'
-    case 'auth/invalid-email':
-      return 'Please enter a valid email address.'
-    case 'auth/weak-password':
-      return 'Password must be at least 6 characters.'
-    default:
-      return 'Something went wrong. Please try again.'
-  }
-}
 
 export default function RegisterScreen() {
   const [firstName, setFirstName] = useState('')

@@ -10,6 +10,7 @@ import Animated, {
 } from 'react-native-reanimated'
 import * as Haptics from 'expo-haptics'
 import { getSettings, saveSettings } from '@/storage/storage'
+import { useTheme } from '@/theme'
 
 const SLIDES = [
   {
@@ -25,6 +26,7 @@ const SLIDES = [
 ]
 
 export default function OnboardingScreen() {
+  const { colors } = useTheme()
   const [slide, setSlide] = useState(0)
   const opacity = useSharedValue(1)
   const translateX = useSharedValue(0)

@@ -1,4 +1,4 @@
-import { getFirestore, FieldValue, Timestamp } from 'firebase-admin/firestore'
+import { getFirestore, Timestamp } from 'firebase-admin/firestore'
 import { initializeApp, getApps } from 'firebase-admin/app'
 
 if (getApps().length === 0) {
@@ -106,7 +106,3 @@ export const SAY_LIMITS = {
   BURST_LIMIT,
   BURST_WINDOW_MS,
 } as const
-
-// Quiet the unused-import warning if FieldValue ends up unused after edits;
-// it's exported here so future increments can swap to FieldValue.increment.
-void FieldValue

@@ -15,6 +15,7 @@ import * as WebBrowser from 'expo-web-browser'
 import * as AuthSession from 'expo-auth-session/providers/google'
 import { signInWithEmail, signInWithGoogle, signInWithApple, sendVerificationEmail, resetPassword } from '@/services/auth'
 import { getSettings, saveSettings } from '@/storage/storage'
+import { mapFirebaseError } from '@/utils/firebaseErrors'
 
 WebBrowser.maybeCompleteAuthSession()
 
@@ -30,19 +31,6 @@ async function stampReturningUser() {
     })
   } catch {
     // non-fatal — nav guard will handle any remaining redirects gracefully
-  }
-}
-
-function mapFirebaseError(code: string): string {
-  switch (code) {
-    case 'auth/invalid-credential':
-      return 'Incorrect email or password.'
-    case 'auth/user-not-found':
-      return 'No account found with that email.'
-    case 'auth/too-many-requests':
-      return 'Too many attempts. Try again later.'
-    default:
-      return 'Something went wrong. Please try again.'
   }
 }
 
