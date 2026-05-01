@@ -5,6 +5,7 @@ import { getSettings, saveSettings, getSavedMessages } from '@/storage/storage'
 import type { AppSettings } from '@/types'
 import { getCurrentUser } from '@/services/auth'
 import TourTooltip from '@/components/TourTooltip'
+import { useTheme } from '@/theme'
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
@@ -24,6 +25,7 @@ function getGreetingBase(): string {
 }
 
 export default function HomeScreen() {
+  const { colors } = useTheme()
   const { tourStep } = useLocalSearchParams<{ tourStep?: string }>()
   const [settings, setSettings] = useState<AppSettings | null>(null)
   const [savedCount, setSavedCount] = useState(0)
@@ -99,7 +101,7 @@ export default function HomeScreen() {
 
   return (
     <View
-      className="flex-1 bg-background items-center justify-center px-8"
+      style={{ flex: 1, backgroundColor: colors.bg, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 32 }}
       accessibilityLabel="Home screen"
     >
       <Animated.Image
@@ -144,7 +146,7 @@ export default function HomeScreen() {
           style={{
             fontFamily: 'DMSans_400Regular',
             fontSize: 13,
-            color: '#B8A898',
+            color: colors.inkMuted,
             textAlign: 'center',
             letterSpacing: 3,
             textTransform: 'uppercase',
@@ -158,7 +160,7 @@ export default function HomeScreen() {
             style={{
               fontFamily: 'DMSans_400Regular',
               fontSize: 32,
-              color: '#1A1A1A',
+              color: colors.inkPrimary,
               textAlign: 'center',
               letterSpacing: 1.5,
             }}
@@ -173,7 +175,7 @@ export default function HomeScreen() {
           style={{
             fontFamily: 'Lora_400Regular_Italic',
             fontSize: 13,
-            color: '#A09080',
+            color: colors.inkMuted,
             textAlign: 'center',
             marginBottom: 24,
           }}

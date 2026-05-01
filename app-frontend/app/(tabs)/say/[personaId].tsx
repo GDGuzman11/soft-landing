@@ -702,7 +702,7 @@ export default function SayThreadScreen() {
                   pressed && !sendDisabled && { opacity: 0.7 },
                 ]}
               >
-                <Text style={styles.sendButtonText}>{'↑'}</Text>
+                <Image source={STAMP} style={styles.sendButtonIcon} resizeMode="contain" />
               </Pressable>
             </View>
           </View>
@@ -959,10 +959,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginLeft: 6,
   },
-  sendButtonText: {
-    fontFamily: 'DMSans_700Bold',
-    fontSize: 18,
-    color: '#FFFFFF',
-    lineHeight: 22,
+  sendButtonIcon: {
+    width: 20,
+    height: 20,
+    tintColor: '#FFFFFF',
   },
 })

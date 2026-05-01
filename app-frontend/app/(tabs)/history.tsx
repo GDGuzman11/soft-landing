@@ -5,6 +5,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import { getSavedMessages, deleteSavedMessage, getSettings } from '@/storage/storage'
 import type { SavedMessage, Message, EmotionId, AppSettings } from '@/types'
 import TourTooltip from '@/components/TourTooltip'
+import { useTheme } from '@/theme'
 
 const EMOTION_COLORS: Record<EmotionId, string> = {
   stressed: '#E8A598',
@@ -36,6 +37,7 @@ async function lookupVerse(
 }
 
 export default function HistoryScreen() {
+  const { colors } = useTheme()
   const { tourStep } = useLocalSearchParams<{ tourStep?: string }>()
   const [resolved, setResolved] = useState<ResolvedSavedMessage[]>([])
   const [expandedLetter, setExpandedLetter] = useState<string | null>(null)
@@ -86,11 +88,10 @@ export default function HistoryScreen() {
 
   if (resolved.length === 0) {
     return (
-      <View className="flex-1 bg-background items-center justify-center px-8">
-        <Text style={{ fontFamily: 'DMSans_400Regular', fontSize: 36, color: '#C4956A', marginBottom: 16, opacity: 0.6 }}>✦</Text>
+      <View style={{ flex: 1, backgroundColor: colors.bg, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 32 }}>
+        <Text style={{ fontFamily: 'DMSans_400Regular', fontSize: 36, color: colors.amber, marginBottom: 16, opacity: 0.6 }}>✦</Text>
         <Text
-          className="text-text-secondary text-base text-center"
-          style={{ fontFamily: 'DMSans_400Regular' }}
+          style={{ fontFamily: 'DMSans_400Regular', fontSize: 16, color: colors.inkMuted, textAlign: 'center' }}
         >
           Your saved verses will appear here.
         </Text>
@@ -99,11 +100,10 @@ export default function HistoryScreen() {
   }
 
   return (
-    <View className="flex-1 bg-background">
-      <View className="px-6 pt-14 pb-4">
+    <View style={{ flex: 1, backgroundColor: colors.bg }}>
+      <View style={{ paddingHorizontal: 24, paddingTop: 56, paddingBottom: 16 }}>
         <Text
-          className="text-text-primary text-2xl"
-          style={{ fontFamily: 'DMSans_500Medium' }}
+          style={{ fontFamily: 'DMSans_500Medium', fontSize: 24, color: colors.inkPrimary }}
         >
           Saved
         </Text>
@@ -121,8 +121,12 @@ export default function HistoryScreen() {
 
           return (
             <View
-              className="bg-surface rounded-2xl p-5"
               style={{
+                backgroundColor: colors.surface,
+                borderRadius: 20,
+                padding: 20,
+                borderWidth: 1,
+                borderColor: colors.cardBorder,
                 shadowColor: '#000',
                 shadowOffset: { width: 0, height: 2 },
                 shadowOpacity: 0.04,
@@ -172,8 +176,7 @@ export default function HistoryScreen() {
 
               {body ? (
                 <Text
-                  className="text-text-primary leading-7 mb-1"
-                  style={{ fontFamily: 'Lora_400Regular', fontSize: 16, marginBottom: 10 }}
+                  style={{ fontFamily: 'Lora_400Regular', fontSize: 16, lineHeight: 28, marginBottom: 10, color: colors.inkPrimary }}
                 >
                   {body}
                 </Text>
@@ -190,7 +193,7 @@ export default function HistoryScreen() {
                   {isLetterExpanded ? (
                     <View
                       style={{
-                        backgroundColor: '#F5F0E8',
+                        backgroundColor: colors.inputRow,
                         borderRadius: 10,
                         padding: 16,
                       }}
@@ -199,7 +202,7 @@ export default function HistoryScreen() {
                         style={{
                           fontFamily: 'Lora_400Regular_Italic',
                           fontSize: 13,
-                          color: '#C4956A',
+                          color: colors.amber,
                           marginBottom: 8,
                         }}
                       >
@@ -209,7 +212,7 @@ export default function HistoryScreen() {
                         style={{
                           fontFamily: 'Lora_400Regular',
                           fontSize: 14,
-                          color: '#3D2F2A',
+                          color: colors.inkPrimary,
                           lineHeight: 22,
                         }}
                       >
@@ -219,7 +222,7 @@ export default function HistoryScreen() {
                         style={{
                           fontFamily: 'Lora_400Regular_Italic',
                           fontSize: 13,
-                          color: '#9A8F82',
+                          color: colors.inkMuted,
                           marginTop: 10,
                         }}
                       >
@@ -229,7 +232,7 @@ export default function HistoryScreen() {
                         style={{
                           fontFamily: 'DMSans_400Regular',
                           fontSize: 10,
-                          color: '#C4B59A',
+                          color: colors.inkSubtle,
                           marginTop: 8,
                         }}
                       >
@@ -241,7 +244,7 @@ export default function HistoryScreen() {
                       style={{
                         fontFamily: 'Lora_400Regular_Italic',
                         fontSize: 13,
-                        color: '#A09080',
+                        color: colors.inkMuted,
                       }}
                       numberOfLines={2}
                     >
@@ -307,8 +310,7 @@ export default function HistoryScreen() {
                     className="active:opacity-60"
                   >
                     <Text
-                      className="text-text-secondary text-xs"
-                      style={{ fontFamily: 'DMSans_400Regular' }}
+                      style={{ fontFamily: 'DMSans_400Regular', fontSize: 12, color: colors.inkMuted }}
                     >
                       Remove
                     </Text>
