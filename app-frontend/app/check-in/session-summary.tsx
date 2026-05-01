@@ -55,11 +55,37 @@ export default function SessionSummaryScreen() {
 
   useEffect(() => {
     if (loaded && resolved.length === 0) {
-      router.replace('/(tabs)')
+      const t = setTimeout(() => router.replace('/(tabs)'), 1500)
+      return () => clearTimeout(t)
     }
   }, [loaded, resolved])
 
-  if (!loaded || resolved.length === 0) return null
+  if (!loaded) return null
+
+  if (resolved.length === 0) {
+    return (
+      <View
+        style={{
+          flex: 1,
+          backgroundColor: colors.bg,
+          alignItems: 'center',
+          justifyContent: 'center',
+          paddingHorizontal: 32,
+        }}
+      >
+        <Text
+          style={{
+            fontFamily: 'DMSans_400Regular',
+            fontSize: 16,
+            color: colors.inkMuted,
+            textAlign: 'center',
+          }}
+        >
+          Nothing saved this session.
+        </Text>
+      </View>
+    )
+  }
 
   return (
     <View style={{ flex: 1, backgroundColor: '#FAF8F5' }}>
