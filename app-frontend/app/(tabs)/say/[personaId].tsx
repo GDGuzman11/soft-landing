@@ -42,9 +42,35 @@ import Animated, {
 import app, { db } from '@/services/firebase'
 import { useTheme, VOICE_DARK } from '@/theme'
 
-const STAMP = require('../../../assets/images/icon-nobackground.png') as number
-
 const SIX_HOURS_MS = 6 * 60 * 60 * 1000
+
+// Wax-seal stamp drawn from primitives — matches the app logo
+function WaxStamp({ size = 36 }: { size?: number }) {
+  const S = size
+  const SEAL = '#9B2020'
+  const CROSS = '#6E1515'
+  const INNER = S * 0.72
+  const BUMP_R = S * 0.405
+  const BUMP_D = S * 0.195
+  const N = 10
+  const bumps = Array.from({ length: N }, (_, i) => {
+    const a = (i * 2 * Math.PI) / N
+    return { left: S / 2 + BUMP_R * Math.sin(a) - BUMP_D / 2, top: S / 2 - BUMP_R * Math.cos(a) - BUMP_D / 2 }
+  })
+  const cvH = INNER * 0.60, cvW = INNER * 0.115
+  const chW = INNER * 0.44, chH = INNER * 0.115
+  return (
+    <View style={{ width: S, height: S }}>
+      {bumps.map((b, i) => (
+        <View key={i} style={{ position: 'absolute', left: b.left, top: b.top, width: BUMP_D, height: BUMP_D, borderRadius: BUMP_D / 2, backgroundColor: SEAL }} />
+      ))}
+      <View style={{ position: 'absolute', left: (S - INNER) / 2, top: (S - INNER) / 2, width: INNER, height: INNER, borderRadius: INNER / 2, backgroundColor: SEAL }}>
+        <View style={{ position: 'absolute', left: (INNER - cvW) / 2, top: (INNER - cvH) / 2, width: cvW, height: cvH, backgroundColor: CROSS, borderRadius: cvW / 2 }} />
+        <View style={{ position: 'absolute', left: (INNER - chW) / 2, top: (INNER - cvH) / 2 + cvH * 0.32 - chH / 2, width: chW, height: chH, backgroundColor: CROSS, borderRadius: chH / 2 }} />
+      </View>
+    </View>
+  )
+}
 
 // ---- Voice metadata -------------------------------------------------------
 type VoiceId = 'kind' | 'still' | 'steady' | 'wise'
@@ -703,7 +729,7 @@ export default function SayThreadScreen() {
                   justifyContent: 'center',
                 })}
               >
-                <Image source={STAMP} style={styles.sendButtonIcon} resizeMode="contain" />
+                <WaxStamp size={36} />
               </Pressable>
             </View>
           </View>
@@ -952,9 +978,5 @@ const styles = StyleSheet.create({
     fontSize: 16,
     maxHeight: 120,
     paddingVertical: 6,
-  },
-  sendButtonIcon: {
-    width: 36,
-    height: 36,
   },
 })
