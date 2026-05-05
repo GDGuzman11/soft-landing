@@ -5,6 +5,7 @@ import {
   FlatList,
   Image,
   KeyboardAvoidingView,
+  Linking,
   Platform,
   Pressable,
   SafeAreaView,
@@ -82,6 +83,7 @@ type ThreadItem =
   | { kind: 'date-divider'; id: string; label: string }
   | { kind: 'typing'; id: string }
   | { kind: 'error'; id: string; errorKind: ErrorKind }
+  | { kind: 'crisis'; id: string; dismissed: boolean }
 
 // ---- Helpers --------------------------------------------------------------
 function isSameCalendarDay(a: Date, b: Date): boolean {
@@ -109,6 +111,7 @@ function buildThreadItems(
   messages: readonly SayMessage[],
   typing: boolean,
   errorKind: ErrorKind | null,
+  crisisState: 'none' | 'active' | 'dismissed',
 ): ThreadItem[] {
   const chrono: ThreadItem[] = []
   let prev: SayMessage | null = null
@@ -131,6 +134,9 @@ function buildThreadItems(
     prev = m
   }
 
+  if (crisisState !== 'none') {
+    chrono.push({ kind: 'crisis', id: 'crisis', dismissed: crisisState === 'dismissed' })
+  }
   if (typing) chrono.push({ kind: 'typing', id: 'typing' })
   if (errorKind) chrono.push({ kind: 'error', id: 'error', errorKind })
 
@@ -288,6 +294,50 @@ function ErrorRow({ errorKind, onRetry }: { errorKind: ErrorKind; onRetry: () =>
   )
 }
 
+// ---- Crisis card ----------------------------------------------------------
+function CrisisCard({ dismissed, onDismiss }: { dismissed: boolean; onDismiss: () => void }) {
+  const { colors } = useTheme()
+  if (dismissed) {
+    return (
+      <View style={styles.crisisCardDismissed}>
+        <Text style={[styles.crisisDismissedText, { color: colors.inkSubtle }]}>{'Resources shown ✦'}</Text>
+      </View>
+    )
+  }
+  return (
+    <View style={[styles.crisisCard, { backgroundColor: colors.headerBg, borderLeftColor: colors.amber }]}>
+      <Text style={[styles.crisisGlyph, { color: colors.amber }]}>{'✦'}</Text>
+      <Text style={[styles.crisisHeading, { color: colors.inkPrimary }]}>{'We heard you. Please reach out.'}</Text>
+      <Pressable
+        onPress={() => { void Linking.openURL('tel:988') }}
+        style={styles.crisisHotlineRow}
+        accessibilityRole="link"
+        accessibilityLabel="Call 988 Suicide and Crisis Lifeline"
+      >
+        <Text style={[styles.crisisHotlineName, { color: colors.inkPrimary }]}>{'988 Suicide & Crisis Lifeline'}</Text>
+        <Text style={[styles.crisisHotlineDetail, { color: colors.amber }]}>{'Call or text 988'}</Text>
+      </Pressable>
+      <Pressable
+        onPress={() => { void Linking.openURL('sms:741741?body=HOME') }}
+        style={styles.crisisHotlineRow}
+        accessibilityRole="link"
+        accessibilityLabel="Text HOME to 741741 — Crisis Text Line"
+      >
+        <Text style={[styles.crisisHotlineName, { color: colors.inkPrimary }]}>{'Crisis Text Line'}</Text>
+        <Text style={[styles.crisisHotlineDetail, { color: colors.amber }]}>{'Text HOME to 741741'}</Text>
+      </Pressable>
+      <Pressable
+        onPress={onDismiss}
+        style={[styles.crisisOkayButton, { backgroundColor: colors.amber }]}
+        accessibilityRole="button"
+        accessibilityLabel="I'm okay, continue talking"
+      >
+        <Text style={styles.crisisOkayText}>{"I'm okay — continue talking"}</Text>
+      </Pressable>
+    </View>
+  )
+}
+
 // ---- Empty state ----------------------------------------------------------
 function EmptyState({ meta, consentVisible, onConsentDismiss, inkPrimary, inkMuted }: {
   meta: (typeof VOICE_META)[VoiceId]
@@ -349,6 +399,8 @@ export default function SayThreadScreen() {
   const [draft, setDraft] = useState('')
   const [isTyping, setIsTyping] = useState(false)
   const [errorKind, setErrorKind] = useState<ErrorKind | null>(null)
+  const [crisisState, setCrisisState] = useState<'none' | 'active' | 'dismissed'>('none')
+  const crisisGated = crisisState === 'active'
   const [consentVisible, setConsentVisible] = useState(false)
   const [snapshotReceived, setSnapshotReceived] = useState(false)
   const [authReady, setAuthReady] = useState(false)
@@ -460,7 +512,7 @@ export default function SayThreadScreen() {
       } else if (result.blocked) {
         setErrorKind('blocked')
       } else if (result.showCrisisPrompt) {
-        router.push('/check-in/message' as never)
+        setCrisisState('active')
       } else {
         await fetchMessages()
       }
@@ -482,6 +534,8 @@ export default function SayThreadScreen() {
         setErrorKind(result.rateLimitType === 'daily' ? 'rate_daily' : 'rate_burst')
       } else if (result.blocked) {
         setErrorKind('blocked')
+      } else if (result.showCrisisPrompt) {
+        setCrisisState('active')
       } else {
         await fetchMessages()
       }
@@ -491,6 +545,10 @@ export default function SayThreadScreen() {
       setIsTyping(false)
     }
   }, [isTyping, fetchMessages])
+
+  const handleCrisisDismiss = useCallback(() => {
+    setCrisisState('dismissed')
+  }, [])
 
   // Clear conversation
   const handleClearChat = useCallback(() => {
@@ -563,8 +621,9 @@ export default function SayThreadScreen() {
       isSearching ? visibleMessages : messages,
       isTyping && !searchMode,
       searchMode ? null : errorKind,
+      searchMode ? 'none' : crisisState,
     ),
-    [messages, visibleMessages, isTyping, errorKind, searchMode, isSearching],
+    [messages, visibleMessages, isTyping, errorKind, searchMode, isSearching, crisisState],
   )
 
   const renderItem: ListRenderItem<ThreadItem> = useCallback(
@@ -593,9 +652,10 @@ export default function SayThreadScreen() {
         case 'date-divider': return <DateDivider label={item.label} />
         case 'typing': return <TypingIndicator voiceId={personaId} reduceMotion={reduceMotion} bg={vBg} border={vBorder} />
         case 'error': return <ErrorRow errorKind={item.errorKind} onRetry={handleRetry} />
+        case 'crisis': return <CrisisCard dismissed={item.dismissed} onDismiss={handleCrisisDismiss} />
       }
     },
-    [personaId, reduceMotion, handleRetry, isSearching, searchQuery],
+    [personaId, reduceMotion, handleRetry, handleCrisisDismiss, isSearching, searchQuery],
   )
 
   const keyExtractor = useCallback((item: ThreadItem) => {
@@ -604,10 +664,11 @@ export default function SayThreadScreen() {
       case 'date-divider': return `date-${item.id}`
       case 'typing': return 'typing'
       case 'error': return 'error'
+      case 'crisis': return 'crisis'
     }
   }, [])
 
-  const sendDisabled = draft.trim().length === 0 || isTyping || clearing
+  const sendDisabled = draft.trim().length === 0 || isTyping || clearing || crisisGated
   const showCharCounter = draft.length >= 1800
   const showEmpty = snapshotReceived && messages.length === 0 && !searchMode
   const showSearchEmpty = isSearching && visibleMessages.length === 0
@@ -719,7 +780,8 @@ export default function SayThreadScreen() {
                 placeholderTextColor={colors.inkSubtle}
                 multiline
                 maxLength={2000}
-                style={[styles.input, { color: colors.inkPrimary }]}
+                editable={!crisisGated}
+                style={[styles.input, { color: colors.inkPrimary, opacity: crisisGated ? 0.4 : 1 }]}
                 accessibilityLabel="Say message input"
                 onSubmitEditing={handleSend}
                 blurOnSubmit={false}
@@ -986,5 +1048,54 @@ const styles = StyleSheet.create({
     fontSize: 16,
     maxHeight: 120,
     paddingVertical: 6,
+  },
+  // ---- Crisis card ----
+  crisisCard: {
+    marginHorizontal: 4,
+    marginVertical: 8,
+    borderLeftWidth: 3,
+    borderRadius: 12,
+    padding: 16,
+    gap: 12,
+  },
+  crisisGlyph: {
+    fontFamily: 'DMSans_400Regular',
+    fontSize: 12,
+  },
+  crisisHeading: {
+    fontFamily: 'DMSans_500Medium',
+    fontSize: 15,
+    lineHeight: 22,
+  },
+  crisisHotlineRow: {
+    gap: 2,
+  },
+  crisisHotlineName: {
+    fontFamily: 'DMSans_500Medium',
+    fontSize: 14,
+  },
+  crisisHotlineDetail: {
+    fontFamily: 'DMSans_400Regular',
+    fontSize: 13,
+  },
+  crisisOkayButton: {
+    borderRadius: 20,
+    paddingVertical: 10,
+    paddingHorizontal: 18,
+    alignItems: 'center',
+    marginTop: 4,
+  },
+  crisisOkayText: {
+    fontFamily: 'DMSans_500Medium',
+    fontSize: 14,
+    color: '#FFFFFF',
+  },
+  crisisCardDismissed: {
+    alignItems: 'center',
+    paddingVertical: 8,
+  },
+  crisisDismissedText: {
+    fontFamily: 'DMSans_400Regular',
+    fontSize: 12,
   },
 })
