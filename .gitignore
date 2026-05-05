@@ -25,6 +25,7 @@ android/app/build/
 
 # Claude Code
 .claude/settings.local.json
+.claude/worktrees/
 
 # Logs
 *.log
