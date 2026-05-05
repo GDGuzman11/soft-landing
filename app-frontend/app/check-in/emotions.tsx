@@ -16,6 +16,7 @@ import Animated, {
 import { Gesture, GestureDetector } from 'react-native-gesture-handler'
 import { useEffect } from 'react'
 import { useState } from 'react'
+import { useTheme } from '@/theme'
 
 const { width: screenWidth, height: screenHeight } = Dimensions.get('window')
 const CARD_W          = screenWidth * 0.82
@@ -43,7 +44,9 @@ const TAGLINES: Record<string, string> = {
   good:     'Feeling grateful today',
 }
 
-function Dot({ active }: { active: boolean }) {
+type ThemeColors = ReturnType<typeof useTheme>['colors']
+
+function Dot({ active, colors }: { active: boolean; colors: ThemeColors }) {
   const w = useSharedValue(active ? 22 : 8)
   useEffect(() => {
     w.value = withSpring(active ? 22 : 8, { stiffness: 120, damping: 14 })
@@ -52,7 +55,7 @@ function Dot({ active }: { active: boolean }) {
   return (
     <Animated.View
       style={[
-        { height: 8, borderRadius: 4, backgroundColor: active ? '#C4956A' : '#D4CABE', marginHorizontal: 3, opacity: active ? 1 : 0.5 },
+        { height: 8, borderRadius: 4, backgroundColor: active ? '#C4956A' : colors.cardBorder, marginHorizontal: 3, opacity: active ? 1 : 0.5 },
         style,
       ]}
     />
@@ -60,6 +63,7 @@ function Dot({ active }: { active: boolean }) {
 }
 
 export default function EmotionsScreen() {
+  const { colors, isDark } = useTheme()
   const [activeIndex, setActiveIndex] = useState(0)
   const total = ORDERED_EMOTIONS.length
 
@@ -186,9 +190,10 @@ export default function EmotionsScreen() {
   }))
 
   const emotion = ORDERED_EMOTIONS[activeIndex]
+  const cardBorderColor = isDark ? 'rgba(196,149,106,0.35)' : '#7A5030'
 
   return (
-    <View style={{ flex: 1, backgroundColor: '#FAF8F5' }} accessibilityLabel="Emotion picker">
+    <View style={{ flex: 1, backgroundColor: colors.bg }} accessibilityLabel="Emotion picker">
       {/* Pre-render all images at full card size off-screen so the GPU decodes
           them at display resolution before the user reaches them. */}
       <View style={{ position: 'absolute', left: -9999, top: 0 }} pointerEvents="none">
@@ -200,12 +205,12 @@ export default function EmotionsScreen() {
       {/* Header */}
       <View style={{ paddingHorizontal: 24, paddingTop: 64, paddingBottom: 16, alignItems: 'center' }}>
         <Text
-          style={{ fontFamily: 'DMSans_500Medium', fontSize: 22, color: '#1A1A1A', textAlign: 'center', marginBottom: 6 }}
+          style={{ fontFamily: 'DMSans_500Medium', fontSize: 22, color: colors.inkSecondary, textAlign: 'center', marginBottom: 6 }}
           accessibilityRole="header"
         >
           How are you right now?
         </Text>
-        <Text style={{ fontFamily: 'Lora_400Regular_Italic', fontSize: 14, color: '#A09080', textAlign: 'center' }}>
+        <Text style={{ fontFamily: 'Lora_400Regular_Italic', fontSize: 14, color: colors.inkMuted, textAlign: 'center' }}>
           Take a moment. Be honest.
         </Text>
       </View>
@@ -228,7 +233,7 @@ export default function EmotionsScreen() {
         >
           {'✦'}
         </Animated.Text>
-        <Text style={{ fontFamily: 'Lora_400Regular_Italic', fontSize: 26, color: '#3D2F2A' }}>
+        <Text style={{ fontFamily: 'Lora_400Regular_Italic', fontSize: 26, color: colors.inkPrimary }}>
           {emotion?.label ?? ''}
         </Text>
       </Animated.View>
@@ -250,10 +255,10 @@ export default function EmotionsScreen() {
               cardStyle,
             ]}
           >
-            <View style={{ flex: 1, borderRadius: 26, borderWidth: 3, borderColor: '#7A5030', overflow: 'hidden' }}>
+            <View style={{ flex: 1, borderRadius: 26, borderWidth: 3, borderColor: cardBorderColor, overflow: 'hidden' }}>
 
-              {/* Placeholder — warm parchment base with pulsing ✦, visible while image decodes */}
-              <View style={[StyleSheet.absoluteFillObject, { backgroundColor: '#EDE6D9' }]}>
+              {/* Placeholder — warm surface base with pulsing ✦, visible while image decodes */}
+              <View style={[StyleSheet.absoluteFillObject, { backgroundColor: colors.headerBg }]}>
                 <Animated.View style={[StyleSheet.absoluteFillObject, { alignItems: 'center', justifyContent: 'center' }, placeholderStyle]}>
                   <Text style={{ fontFamily: 'DMSans_500Medium', fontSize: 32, color: emotion?.color ?? '#C4956A' }}>
                     {'✦'}
@@ -283,7 +288,7 @@ export default function EmotionsScreen() {
           style={{
             fontFamily: 'Lora_400Regular_Italic',
             fontSize: 14,
-            color: '#9A8F82',
+            color: colors.inkMuted,
             textAlign: 'center',
           }}
         >
@@ -294,7 +299,7 @@ export default function EmotionsScreen() {
       {/* Pagination dots */}
       <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginTop: 20 }}>
         {ORDERED_EMOTIONS.map((_, i) => (
-          <Dot key={i} active={i === activeIndex} />
+          <Dot key={i} active={i === activeIndex} colors={colors} />
         ))}
       </View>
 
@@ -306,7 +311,7 @@ export default function EmotionsScreen() {
           accessibilityRole="button"
           accessibilityLabel="Go home"
         >
-          <Text style={{ fontFamily: 'DMSans_400Regular', fontSize: 13, color: '#A09080', letterSpacing: 0.5 }}>
+          <Text style={{ fontFamily: 'DMSans_400Regular', fontSize: 13, color: colors.inkMuted, letterSpacing: 0.5 }}>
             Go Home
           </Text>
         </Pressable>

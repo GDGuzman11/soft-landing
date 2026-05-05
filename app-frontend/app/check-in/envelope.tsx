@@ -37,16 +37,33 @@ const BLOBS = [
 const SEAL_CENTER = 50
 const BLOB_RADIUS = 37
 
-const FOLD_CREASE_BASE = {
-  position: 'absolute' as const,
-  width: 1,
-  height: FOLD_Y * 1.35,
-  backgroundColor: '#D8CFBF',
-  opacity: 0.7,
-  top: 0,
-}
+function WaxSeal({ loading, isDark }: { loading: boolean; isDark: boolean }) {
+  const wax = isDark
+    ? {
+        blob: '#C4622A',
+        haloOpacity: 0.18,
+        body: '#C94E22',
+        highlight: '#E87040',
+        highlightOpacity: 0.55,
+        ring: '#A03515',
+        ringOpacity: 0.5,
+        glowColor: '#E06030',
+        glowOpacity: 0.55,
+        glowRadius: 18,
+      }
+    : {
+        blob: '#8B3010',
+        haloOpacity: 0.12,
+        body: '#A03515',
+        highlight: '#D4622A',
+        highlightOpacity: 0.42,
+        ring: '#6B2408',
+        ringOpacity: 0.35,
+        glowColor: '#3D0A00',
+        glowOpacity: 0.55,
+        glowRadius: 7,
+      }
 
-function WaxSeal({ loading }: { loading: boolean }) {
   return (
     <View style={{ width: 100, height: 100, position: 'relative' }}>
       {/* Drip blobs — irregular wax edge */}
@@ -62,7 +79,7 @@ function WaxSeal({ loading }: { loading: boolean }) {
               width: size,
               height: size,
               borderRadius: size / 2,
-              backgroundColor: '#8B3010',
+              backgroundColor: wax.blob,
               left: x,
               top: y,
             }}
@@ -76,8 +93,8 @@ function WaxSeal({ loading }: { loading: boolean }) {
         width: 100,
         height: 100,
         borderRadius: 50,
-        backgroundColor: '#8B3010',
-        opacity: 0.12,
+        backgroundColor: wax.blob,
+        opacity: wax.haloOpacity,
         left: 0,
         top: 0,
       }} />
@@ -88,13 +105,13 @@ function WaxSeal({ loading }: { loading: boolean }) {
         width: 74,
         height: 76,
         borderRadius: 39,
-        backgroundColor: '#A03515',
+        backgroundColor: wax.body,
         left: 13,
         top: 12,
-        shadowColor: '#3D0A00',
-        shadowOffset: { width: 0, height: 4 },
-        shadowOpacity: 0.55,
-        shadowRadius: 7,
+        shadowColor: wax.glowColor,
+        shadowOffset: { width: 0, height: isDark ? 2 : 4 },
+        shadowOpacity: wax.glowOpacity,
+        shadowRadius: wax.glowRadius,
         elevation: 8,
       }} />
 
@@ -104,8 +121,8 @@ function WaxSeal({ loading }: { loading: boolean }) {
         width: 30,
         height: 18,
         borderRadius: 15,
-        backgroundColor: '#D4622A',
-        opacity: 0.42,
+        backgroundColor: wax.highlight,
+        opacity: wax.highlightOpacity,
         left: 18,
         top: 16,
         transform: [{ rotate: '-22deg' }],
@@ -142,10 +159,10 @@ function WaxSeal({ loading }: { loading: boolean }) {
         height: 78,
         borderRadius: 39,
         borderWidth: 1,
-        borderColor: '#6B2408',
+        borderColor: wax.ring,
         left: 11,
         top: 11,
-        opacity: 0.35,
+        opacity: wax.ringOpacity,
       }} />
 
       {loading && (
@@ -172,7 +189,7 @@ function WaxSeal({ loading }: { loading: boolean }) {
 // ─────────────────────────────────────────────────────────────────────────────
 
 export default function EnvelopeScreen() {
-  const { colors } = useTheme()
+  const { colors, isDark } = useTheme()
   const { emotionId } = useLocalSearchParams<{ emotionId: string }>()
   const [result, setResult] = useState<CheckInResult | null>(null)
   const [loading, setLoading] = useState(true)
@@ -328,23 +345,16 @@ export default function EnvelopeScreen() {
             height: CARD_HEIGHT,
             borderRadius: 20,
             overflow: 'hidden',
-            shadowColor: '#8B7355',
+            shadowColor: isDark ? '#000000' : '#8B7355',
             shadowOffset: { width: 0, height: 14 },
-            shadowOpacity: 0.22,
-            shadowRadius: 32,
+            shadowOpacity: isDark ? 0.45 : 0.22,
+            shadowRadius: isDark ? 24 : 32,
             elevation: 14,
             borderWidth: 1,
-            borderColor: colors.cardBorder,
+            borderColor: isDark ? 'rgba(196,149,106,0.22)' : 'rgba(122,80,48,0.28)',
           }}>
-            {/* ── Flap area (top) ── */}
-            <View style={{
-              position: 'absolute',
-              top: 0, left: 0, right: 0,
-              height: FOLD_Y,
-              backgroundColor: colors.headerBg,
-            }} />
 
-            {/* ── Body area (bottom) ── */}
+            {/* ── Body area (bottom) — rendered first so flap sits on top ── */}
             <View style={{
               position: 'absolute',
               top: FOLD_Y, left: 0, right: 0,
@@ -352,7 +362,45 @@ export default function EnvelopeScreen() {
               backgroundColor: colors.inputRow,
             }} />
 
-            {/* ── Fold line ── */}
+            {/* ── Letter lines — faint horizontal rules suggesting a folded letter ── */}
+            {[0.28, 0.50, 0.72].map((pct) => (
+              <View key={pct} style={{
+                position: 'absolute',
+                top: FOLD_Y + (CARD_HEIGHT - FOLD_Y) * pct,
+                left: 32,
+                right: 32,
+                height: 1,
+                backgroundColor: colors.hairline,
+                opacity: 0.45,
+              }} />
+            ))}
+
+            {/* ── Triangular flap — downward-pointing triangle ── */}
+            <View style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              width: 0,
+              height: 0,
+              borderLeftWidth: CARD_WIDTH / 2,
+              borderRightWidth: CARD_WIDTH / 2,
+              borderTopWidth: FOLD_Y,
+              borderLeftColor: 'transparent',
+              borderRightColor: 'transparent',
+              borderTopColor: colors.headerBg,
+            }} />
+
+            {/* ── Fold glint — subtle highlight just above fold for embossed depth ── */}
+            <View style={{
+              position: 'absolute',
+              top: FOLD_Y - 1,
+              left: 24,
+              right: 24,
+              height: 1,
+              backgroundColor: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(255,255,255,0.65)',
+            }} />
+
+            {/* ── Fold hairline ── */}
             <View style={{
               position: 'absolute',
               top: FOLD_Y,
@@ -361,12 +409,6 @@ export default function EnvelopeScreen() {
               backgroundColor: colors.hairline,
             }} />
 
-            {/* ── Left diagonal fold crease on flap ── */}
-            <View style={[FOLD_CREASE_BASE, { left: 0, transform: [{ rotate: '33deg' }] }]} />
-
-            {/* ── Right diagonal fold crease on flap ── */}
-            <View style={[FOLD_CREASE_BASE, { right: 0, transform: [{ rotate: '-33deg' }] }]} />
-
             {/* ── Wax seal — centered over fold line ── */}
             <Animated.View style={[{
               position: 'absolute',
@@ -374,7 +416,7 @@ export default function EnvelopeScreen() {
               left: CARD_WIDTH / 2 - 50,
               zIndex: 10,
             }, sealStyle]}>
-              <WaxSeal loading={loading} />
+              <WaxSeal loading={loading} isDark={isDark} />
             </Animated.View>
 
           </View>
