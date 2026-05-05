@@ -120,7 +120,7 @@ Open `http://localhost:8081/dashboard` (dev/web only).
 - **Say AI chat tab**: 4 voice personas (Kind / Still / Steady / Wise) backed by Claude Sonnet 4.6
   - Per-persona Firestore conversation history (30-message rolling window)
   - Rate limiting: 100 msg/day free, 500/day premium, 20 msg/60s burst
-  - Crisis keyword detection → `/crisis` screen with 988 Lifeline resources
+  - Crisis keyword detection → inline crisis card in chat thread (988 Lifeline + Crisis Text Line); input locked until user confirms they're okay
   - Distinct error messages per error type (rate burst, daily limit, blocked, failed)
   - Kind: questions disciplined to one per thread; Steady: task-shrinking question; Wise: real questions only
 - **Emotion picker**: single-card swipe with full-bleed nano illustrations; parchment placeholder + haptic on swipe commit
