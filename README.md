@@ -16,9 +16,10 @@ Built with React Native + Expo, TypeScript strict, NativeWind, React Native Rean
 8. **Emotion picker** — Single full-bleed card with illustration photo; swipe left/right to cycle emotions (Good → Neutral → Tired → Sad → Stressed), tap to select. Pulsing amber glow, warm brown frame, shimmer ✦ beside the emotion label. Warm parchment placeholder with breathing ✦ shown while the next image decodes; card and label reveal together on load
 9. **Envelope** — Candle wax-sealed card floats in, tap to open
 10. **Verse** — KJV or WEB Bible verse in Lora serif; swipe right to save, left to skip. New verse loads immediately
-11. **History** — All saved verses with scripture reference, AI letter, and Share button
-12. **Settings** — Notifications toggle, subscription status, Start over
-13. **Paywall** — Shown when free tier (10/day) is reached; Monthly $4.99 / Annual $34.99
+11. **History** — All saved verses with scripture reference, AI letter, Share, and delete (with confirmation)
+12. **Say** — AI chat tab with 4 voice personas: Kind, Still, Steady, Wise. Per-persona conversation history. Crisis routing built in.
+13. **Settings** — Dark mode toggle, notifications toggle, voice mute, subscription status, Start over
+14. **Paywall** — Shown when free tier (10/day) is reached; Monthly $4.99 / Annual $34.99
 
 ## Prerequisites
 
@@ -103,22 +104,32 @@ pnpm exec expo start --web
 
 Open `http://localhost:8081/dashboard` (dev/web only).
 
-## Current build state (v1.6.0)
+## Current build state (v1.8.0)
 
 - Full auth flow: register, sign in (email + Google), email verification, guest mode
 - Firebase Auth with AsyncStorage persistence — users stay signed in across restarts
+- **Full dark mode**: all screens respond to the dark mode toggle via `useTheme()` / `colors.*` tokens
 - **250 KJV + WEB curated verses** (50 per emotion, 25 free / 25 premium) served from Firestore; 31,102 full-Bible verses imported
 - "How It Works" editorial guide for new visitors: scrollable, four labelled sections, fixed Begin → button
 - Onboarding profile (3 questions, Design A Candlelight): saves faith background, intent, life stage
 - **AI letter generation fully working**: Firebase Cloud Function → Claude Sonnet 4.6; first letter free, then premium
   - `ANTHROPIC_API_KEY` stored in Firebase Secret Manager and correctly declared in `onCall()` options
   - 4-layer personalization: questionnaire answers → emotion arc → verse anchor → user's typed input
+  - Letter prompts v1.6: identity-first per-emotion anchors + Gen Z tone calibration + "what you are not" exclusions
   - Letters auto-saved immediately after generation — no manual Save tap required
-- **Emotion picker redesigned**: single-card swipe with full-bleed biblical illustrations; all 5 images pre-loaded on mount for zero decode lag; image fades in on each card change; "Go Home" escape below dots
-- **Home screen**: ambient background illustrations (boy top-left, girl bottom-right) fade in on every tab visit via `useFocusEffect`; transparent stamp icon
-- **Widgets tab**: themed ❖ icon + double-line amber dividers between Small / Medium / Large sections
-- **History tab**: ✦ glyph in empty state
-- Crisis input filtering and Firestore security rules deployed to backend
+- **Say AI chat tab**: 4 voice personas (Kind / Still / Steady / Wise) backed by Claude Sonnet 4.6
+  - Per-persona Firestore conversation history (30-message rolling window)
+  - Rate limiting: 100 msg/day free, 500/day premium, 20 msg/60s burst
+  - Crisis keyword detection → `/crisis` screen with 988 Lifeline resources
+  - Distinct error messages per error type (rate burst, daily limit, blocked, failed)
+  - Kind: questions disciplined to one per thread; Steady: task-shrinking question; Wise: real questions only
+- **Emotion picker**: single-card swipe with full-bleed nano illustrations; parchment placeholder + haptic on swipe commit
+- **Home screen**: ambient background illustrations fade in on every tab visit via `useFocusEffect`
+- **History tab**: delete confirmation dialog + letter expand/collapse fade animation + haptic on delete
+- **Settings**: haptic feedback on every toggle
+- **Session summary**: 1.5s "Nothing saved" message instead of silent redirect when empty
+- **Letter compose**: loading spinner during verse fetch; "Writing your letter…" state on generate button
+- Crisis input filtering, jailbreak window scan, and Firestore security rules deployed to backend
 - All screens functional end-to-end in Expo Go
 - EAS projectId: `2d79e638-f797-42ff-86b3-94f5c20fa6ff`
 - GitHub Actions CI: `tsc --noEmit` + `vitest run` + Expo web export on every push

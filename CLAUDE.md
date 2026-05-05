@@ -67,7 +67,7 @@ One agent's work per commit. Reference a bug ID in the body when relevant (e.g. 
 - **Interaction model:** single-card swipe for the emotion picker (one card visible, card follows finger, flies off at threshold), Reanimated envelope flight, single tap to open
 
 ## Active context
-*Session 2026-04-30 — V1.7.0. Emotion picker updated with new nano illustration set (5 JPGs). Loading placeholder added: warm parchment card with breathing ✦ shows while the next image decodes; card image + label + tagline reveal together via onLoad. Off-screen preloader fixed to render at full card dimensions. Pre-launch master to-do list created at docs/TODO.md. Next steps: (1) set up RevenueCat with App Store Connect products (API keys in .env), (2) submit to TestFlight via `eas build --profile preview --platform ios`.*
+*Session 2026-05-03 — V1.8.0. Say AI chat tab shipped (4 voice personas: Kind/Still/Steady/Wise) with rate limiting, crisis routing, and per-error-type UX. Full dark mode across all remaining screens. Code cleanup: shared mapFirebaseError util, dead code removed. UX polish: history delete confirmation + fade animation + haptics, session-summary empty state, letter-compose loading states. Letter prompts upgraded to v1.6 with per-emotion identity anchors, "what you are not" exclusions, and Gen Z tone calibration. Say voice prompts updated: Kind question discipline, Steady grounding question, Wise question reinforcement, Still unchanged. Next steps: (1) set up RevenueCat with App Store Connect products (API keys in .env), (2) upload APNs key to EAS via `eas credentials`, (3) submit to TestFlight via `eas build --profile preview --platform ios`.*
 
 ## Current build state
 - All screens functional: welcome → (how it works / register / sign-in) → onboarding → onboarding-profile → faith-intro → home → emotions → envelope → message (swipe flow) → session-summary → letter-compose → history
@@ -80,7 +80,7 @@ One agent's work per commit. Reference a bug ID in the body when relevant (e.g. 
 - Onboarding profile: 3-question Candlelight design — faith background, intent, life stage
 - AI letter generation: Firebase Cloud Function → Claude Sonnet 4.6; ANTHROPIC_API_KEY via Firebase Secret Manager (secrets: ['ANTHROPIC_API_KEY'] declared in onCall options)
 - 4-layer prompt personalization: questionnaire answers set tone, emotion builds arc, verse provides anchor, user input shapes first paragraph
-- Emotion letter prompts: conversational, presence-focused; humor calibrated per emotion (none for sad); Gen Z phrasing for neutral/good
+- Emotion letter prompts v1.6: identity-first per-emotion anchors + "what you are not" exclusions + Gen Z tone calibration per emotion (heaviest for good/neutral, lightest for sad)
 - Em dash prohibited in letters at both system prompt and user prompt levels
 - Letters auto-saved immediately after generation (no manual Save tap required)
 - Candle wax seal envelope: sealed card with wax seal component, pulse on tap
@@ -88,7 +88,13 @@ One agent's work per commit. Reference a bug ID in the body when relevant (e.g. 
 - **Emotion picker:** single-card swipe — one full-bleed nano illustration card visible at a time (nanohappy/nanoneutral/nanotired/nanosad/nanostressed JPGs); card follows finger, flies off at 70pt threshold; swipe shows warm parchment placeholder (`#EDE6D9`) with breathing ✦ glyph while next image decodes; image + label + tagline fade in together on `onLoad` (`key={emotion?.id}` forces clean remount per swipe); off-screen preloader renders all 5 at `CARD_W × CARD_H` at `left: -9999`; pulsing amber glow shadow; Lora italic emotion label + shimmer ✦; warm brown frame (3pt border, 26pt radius); "Go Home" button centered below dots; order: Good → Neutral → Tired → Sad → Stressed
 - **Home screen:** ambient boy (top-left) + girl (bottom-right) background images at 35% opacity, fade in via `withDelay + withTiming` on every tab focus (`useFocusEffect`); icon stamp uses transparent-background version; content layers at `zIndex: 1`
 - **Widgets tab:** icon changed to ❖; themed double-line dividers (amber hairline + ✦ centre glyph) between Small / Medium / Large sections
-- **History tab (empty state):** ✦ amber glyph replaces ✉ envelope icon
+- **History tab:** delete confirmation dialog + 200ms letter expand/collapse fade animation + haptic on delete; ✦ amber glyph in empty state
+- **Say AI chat tab:** 4 voice personas (Kind/Still/Steady/Wise) backed by Claude Sonnet 4.6; per-persona Firestore conversation history (30-message rolling window); rate limiting 100/day free, 500/day premium, 20/60s burst; crisis keyword routing; ErrorKind discriminated union for distinct per-error UX; Kind question discipline; Steady grounding question; Wise question reinforcement; Still unchanged
+- **Dark mode:** all screens now theme-aware via `useTheme()` / `colors.*` inline styles — sign-in, register, onboarding, onboarding-profile, verify-email, letter-compose, envelope, LetterCard, TourTooltip
+- **Settings:** haptic feedback on all three toggles (darkMode, notifications, voiceMute)
+- **Emotion picker:** haptic fires on committed swipe via `runOnJS`
+- **Session summary:** 1.5s "Nothing saved this session." message before auto-routing home when no verses saved
+- **Letter compose:** `ActivityIndicator` during verse data load; "Writing your letter…" button state during Claude call
 - AsyncStorage v2.1.2 (Expo Go compatible)
 - NativeWind v4 with babel.config.js preset config
 - Native share sheet on message reveal + history

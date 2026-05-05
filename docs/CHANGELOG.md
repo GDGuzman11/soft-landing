@@ -5,6 +5,33 @@ All notable changes to Soft Landing will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.8.0] — 2026-05-03
+
+### Added
+- **Say feature** — new AI chat tab with 4 voice personas (Kind / Still / Steady / Wise). Per-persona threaded conversation stored in Firestore, 30-message rolling history window, typing indicator, crisis keyword routing to `/crisis` screen, and canary token leakage detection.
+- **Say rate limiting** (`sayRateLimit.ts`): transactional Firestore counters — 100 msg/day free, 500/day premium, 20 msg/60s burst window. UTC midnight daily reset.
+- **Say error states** — discriminated `ErrorKind` union (`failed` / `rate_burst` / `rate_daily` / `blocked`) replaces generic boolean `errored` flag. Each state shows a distinct message; rate-limit errors hide the retry button.
+- **Dark mode** — all screens now respond to the dark mode toggle: `sign-in.tsx`, `register.tsx`, `onboarding.tsx`, `onboarding-profile.tsx`, `verify-email.tsx`, `letter-compose.tsx`, `envelope.tsx`, `LetterCard.tsx`, `TourTooltip.tsx`. All hardcoded light hex values replaced with `colors.*` tokens from `useTheme()` via inline styles.
+- **Shared `mapFirebaseError` util** (`src/utils/firebaseErrors.ts`): extracted from duplicate definitions in `sign-in.tsx` and `register.tsx` — single source of truth for Firebase error code → user-facing string mapping.
+
+### Changed
+- **Letter prompts v1.6** (`prompt.ts`): each of the 5 emotion goals now opens with a mode-shift anchor (identity statement: who the letter-writer IS for that emotion), a "what you are not" exclusion line, and a Gen Z tone calibration note. Existing paragraph goals untouched. Brings letter voice closer to Say voice identity-first architecture.
+- **Say voice prompts** (`sayPrompt.ts`):
+  - **Kind** — question discipline added: warmth comes through presence; one quiet question max per thread, never when they're deep in it.
+  - **Steady** — grounding question added after step 3: one task-shrinking question ("what's the one thing you need to get through tonight?") when it helps the person land somewhere smaller.
+  - **Wise** — question instruction reinforced: "ask a question… and mean it. Not rhetorical, not leading. A real question you don't already know the answer to."
+  - **Still** — unchanged (questions would break its identity).
+- **History tab UX**: delete now requires confirmation via `Alert.alert` before `handleDelete` fires. Letter expand/collapse animates with 200ms opacity fade via `Animated.Value` per-item. Haptic fires on delete.
+- **Settings toggles**: `Haptics.impactAsync(ImpactFeedbackStyle.Light)` fires on every toggle (`darkMode`, `notifications`, `voiceMute`).
+- **Emotion picker**: `Haptics.impactAsync` fires on committed swipe via `runOnJS` in the gesture handler.
+- **Session summary empty state**: silent redirect replaced with 1.5s "Nothing saved this session." message in `colors.inkMuted` before routing home.
+- **Letter compose loading states**: `return null` blank screen replaced with `ActivityIndicator` during verse data load; `generating` state added to button — shows "Writing your letter…" + opacity 0.6 while Claude call is in-flight.
+
+### Fixed
+- `mapFirebaseError` was duplicated with divergent error cases in `sign-in.tsx` and `register.tsx` — unified in shared util.
+- Dead gate `const canUseLetter = true` and unreachable `if (!canUseLetter)` block removed from `letter-compose.tsx`.
+- `FieldValue` unused import removed from `sayRateLimit.ts`.
+
 ## [1.7.0] — 2026-04-30
 
 ### Changed
