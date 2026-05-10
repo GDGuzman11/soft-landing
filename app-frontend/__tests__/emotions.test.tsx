@@ -234,7 +234,7 @@ function findAllByType(
   tree: TestRenderer.ReactTestInstance,
   type: string,
 ): TestRenderer.ReactTestInstance[] {
-  return tree.findAll((n) => typeof n.type === 'string' && n.type === type)
+  return tree.findAll((n: TestRenderer.ReactTestInstance) => typeof n.type === 'string' && n.type === type)
 }
 
 /**
@@ -245,7 +245,7 @@ function findAllByType(
 function findCardWrappers(
   tree: TestRenderer.ReactTestInstance,
 ): TestRenderer.ReactTestInstance[] {
-  return tree.findAll((n) => {
+  return tree.findAll((n: TestRenderer.ReactTestInstance) => {
     if (typeof n.type !== 'string' || n.type !== 'View') return false
     const style = n.props.style as unknown
     const flat = Array.isArray(style)
@@ -259,7 +259,7 @@ function findCardWrappers(
       : ((style as Record<string, unknown>) ?? {})
     const op = (flat as { opacity?: number }).opacity
     if (op !== 0 && op !== 1) return false
-    return n.findAll((c) => typeof c.type === 'string' && c.type === 'ImageBackground').length === 1
+    return n.findAll((c: TestRenderer.ReactTestInstance) => typeof c.type === 'string' && c.type === 'ImageBackground').length === 1
   })
 }
 
@@ -278,7 +278,7 @@ function flattenStyle(style: unknown): Record<string, unknown> {
 
 function findGestureExclusive(tree: TestRenderer.ReactTestInstance): FakeExclusive | null {
   const detector = tree.findAll(
-    (n) => typeof n.type === 'string' && n.type === 'GestureDetector',
+    (n: TestRenderer.ReactTestInstance) => typeof n.type === 'string' && n.type === 'GestureDetector',
   )[0]
   if (!detector) return null
   return detector.props.gesture as FakeExclusive
