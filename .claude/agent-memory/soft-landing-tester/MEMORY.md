@@ -3,3 +3,5 @@
 - [Deterministic Math.random](feedback_deterministic_random.md) — sweep pattern for non-flaky weighted-selection ratio assertions
 - [__DEV__ global shim](feedback_dev_global_shim.md) — set globalThis.__DEV__ = false in service tests that hit catch branches
 - [Firebase app default export mock](feedback_firebase_app_mock.md) — mock `../firebase` default to stub when testing service modules
+- [Rendering RN screens in Vitest](feedback_react_native_render.md) — how to use react-test-renderer + RN/Reanimated/GestureHandler mocks + vi.hoisted spies
+- [Asset imports in Vitest](feedback_asset_imports.md) — assetStubPlugin in vitest.config.ts handles require('*.jpg') globally
