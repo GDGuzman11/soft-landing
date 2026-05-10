@@ -15,6 +15,7 @@ import Animated, {
 import * as Haptics from 'expo-haptics'
 import { bookmarkMessage, canCheckIn, performCheckIn } from '@/services/checkIn'
 import type { EmotionId } from '@/types'
+import { useTheme } from '@/theme'
 
 const SWIPE_THRESHOLD = 110
 
@@ -47,6 +48,7 @@ interface VerseData {
 }
 
 export default function MessageScreen() {
+  const { colors } = useTheme()
   const { emotionId, messageBody, messageReference, checkInId, messageId } =
     useLocalSearchParams<{
       emotionId: string
@@ -268,7 +270,7 @@ export default function MessageScreen() {
       <Animated.View
         style={[
           INDICATOR_BASE,
-          { left: 24, backgroundColor: '#B0BEC5' },
+          { left: 24, backgroundColor: colors.inkMuted },
           discardIndicatorStyle,
         ]}
       >
@@ -287,7 +289,7 @@ export default function MessageScreen() {
               paddingHorizontal: 32,
               paddingTop: 36,
               paddingBottom: 28,
-              backgroundColor: '#FFFFFF',
+              backgroundColor: colors.surface,
               shadowColor: '#000',
               shadowOffset: { width: 0, height: 4 },
               shadowOpacity: 0.07,

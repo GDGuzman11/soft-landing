@@ -9,11 +9,11 @@ import TourTooltip from '@/components/TourTooltip'
 import { useTheme } from '@/theme'
 
 const EMOTION_COLORS: Record<EmotionId, string> = {
-  stressed: '#E8A598',
-  tired: '#C5B8D4',
-  sad: '#B0BEC5',
-  neutral: '#D4C5B0',
-  good: '#A8C5A0',
+  stressed: '#C97B5A',
+  tired: '#9C8FB5',
+  sad: '#7A95B0',
+  neutral: '#C4B59A',
+  good: '#9CB59A',
 }
 
 interface ResolvedSavedMessage {
@@ -262,7 +262,7 @@ export default function HistoryScreen() {
                         <Text
                           style={{
                             fontFamily: 'DMSans_400Regular',
-                            fontSize: 10,
+                            fontSize: 12,
                             color: colors.inkSubtle,
                             marginTop: 8,
                           }}
