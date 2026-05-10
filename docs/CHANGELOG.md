@@ -10,6 +10,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Performance
 - **Emotion picker — instant image transitions** (`app/check-in/emotions.tsx`): Eliminated swipe delay caused by `key={emotion?.id}` on `ImageBackground` force-unmounting and remounting on every swipe, which defeated the off-screen preloader. All 5 emotion images are now pre-mounted in a card stack and toggled by opacity — swipe transitions are instant with no placeholder flash.
 
+### Fixed
+- **message.tsx**: verse card background `#FFFFFF` → `colors.surface` — fixes dark mode visibility; skip indicator `#B0BEC5` (off-palette cool gray) → `colors.inkMuted` (warm); wired `useTheme` hook
+- **history.tsx**: `EMOTION_COLORS` map reconciled to canonical brand tokens (was a diverged set); AI letter disclaimer bumped from 10pt to 12pt (below legible minimum)
+
 ## [1.8.0] — 2026-05-03
 
 ### Added
