@@ -13,7 +13,7 @@ Built with React Native + Expo, TypeScript strict, NativeWind, React Native Rean
 5. **Onboarding profile** — 3-question profile (faith background, intent, life stage); Design A "Candlelight" aesthetic
 6. **Faith intro** — Amber cross + "Find rest in His Word." shown once after onboarding
 7. **Home** — Time-based greeting with user's name, single Check In button. Ambient boy/girl background images fade in softly on every visit
-8. **Emotion picker** — Single full-bleed card with illustration photo; swipe left/right to cycle emotions (Good → Neutral → Tired → Sad → Stressed), tap to select. Pulsing amber glow, warm brown frame, shimmer ✦ beside the emotion label. Warm parchment placeholder with breathing ✦ shown while the next image decodes; card and label reveal together on load
+8. **Emotion picker** — Single full-bleed card with illustration photo; swipe left/right to cycle emotions (Good → Neutral → Tired → Sad → Stressed), tap to select. Pulsing amber glow, warm brown frame, shimmer ✦ beside the emotion label. Instant image transition on swipe (card-stack architecture — all 5 images pre-mounted)
 9. **Envelope** — Candle wax-sealed card floats in, tap to open
 10. **Verse** — KJV or WEB Bible verse in Lora serif; swipe right to save, left to skip. New verse loads immediately
 11. **History** — All saved verses with scripture reference, AI letter, Share, and delete (with confirmation)

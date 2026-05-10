@@ -5,6 +5,11 @@ All notable changes to Soft Landing will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.8.1] — 2026-05-09
+
+### Performance
+- **Emotion picker — instant image transitions** (`app/check-in/emotions.tsx`): Eliminated swipe delay caused by `key={emotion?.id}` on `ImageBackground` force-unmounting and remounting on every swipe, which defeated the off-screen preloader. All 5 emotion images are now pre-mounted in a card stack and toggled by opacity — swipe transitions are instant with no placeholder flash.
+
 ## [1.8.0] — 2026-05-03
 
 ### Added
