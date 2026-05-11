@@ -240,27 +240,48 @@ export default function EmotionsScreen() {
                   />
                 </View>
               ))}
+              {/* Tagline overlay — scrim + text over bottom of card */}
+              <Animated.View
+                pointerEvents="none"
+                style={[
+                  {
+                    position: 'absolute',
+                    bottom: 0,
+                    left: 0,
+                    right: 0,
+                    height: CARD_H * 0.30,
+                  },
+                  labelStyle,
+                ]}
+              >
+                {/* 4-step opacity staircase simulating bottom-to-top gradient */}
+                <View style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: '100%', backgroundColor: 'rgba(0,0,0,0.09)' }} />
+                <View style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: '75%',  backgroundColor: 'rgba(0,0,0,0.09)' }} />
+                <View style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: '50%',  backgroundColor: 'rgba(0,0,0,0.09)' }} />
+                <View style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: '25%',  backgroundColor: 'rgba(0,0,0,0.09)' }} />
+                {/* Tagline text */}
+                <Text
+                  style={{
+                    position: 'absolute',
+                    bottom: 18,
+                    left: 18,
+                    right: 18,
+                    fontFamily: 'Lora_400Regular_Italic',
+                    fontSize: 15,
+                    color: '#FFFFFF',
+                    textAlign: 'center',
+                  }}
+                >
+                  {TAGLINES[emotion?.id ?? ''] ?? ''}
+                </Text>
+              </Animated.View>
             </View>
           </Animated.View>
         </GestureDetector>
       </View>
 
-      {/* Tagline — hidden until image loads */}
-      <Animated.View style={[{ marginTop: 18, paddingHorizontal: 32 }, labelStyle]}>
-        <Text
-          style={{
-            fontFamily: 'Lora_400Regular_Italic',
-            fontSize: 14,
-            color: colors.inkMuted,
-            textAlign: 'center',
-          }}
-        >
-          {TAGLINES[emotion?.id ?? ''] ?? ''}
-        </Text>
-      </Animated.View>
-
       {/* Pagination dots */}
-      <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginTop: 20 }}>
+      <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginTop: 14 }}>
         {ORDERED_EMOTIONS.map((_, i) => (
           <Dot key={i} active={i === activeIndex} colors={colors} />
         ))}
