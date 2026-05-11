@@ -14,6 +14,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **message.tsx**: verse card background `#FFFFFF` → `colors.surface` — fixes dark mode visibility; skip indicator `#B0BEC5` (off-palette cool gray) → `colors.inkMuted` (warm); wired `useTheme` hook
 - **history.tsx**: `EMOTION_COLORS` map reconciled to canonical brand tokens (was a diverged set); AI letter disclaimer bumped from 10pt to 12pt (below legible minimum)
 
+### Changed
+- **Emotion picker**: tagline copy ("Carrying too much right now", etc.) moved from below the card to a white Lora italic overlay at the bottom 30% of the card, behind a 4-step dark scrim — copy is now visible during the check-in moment instead of competing with pagination dots
+
 ## [1.8.0] — 2026-05-03
 
 ### Added
