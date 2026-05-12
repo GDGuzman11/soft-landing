@@ -16,6 +16,7 @@ import * as Haptics from 'expo-haptics'
 import { bookmarkMessage, canCheckIn, performCheckIn } from '@/services/checkIn'
 import type { EmotionId } from '@/types'
 import { useTheme } from '@/theme'
+import TourTooltip from '@/components/TourTooltip'
 
 const SWIPE_THRESHOLD = 110
 
@@ -49,14 +50,16 @@ interface VerseData {
 
 export default function MessageScreen() {
   const { colors, isDark } = useTheme()
-  const { emotionId, messageBody, messageReference, checkInId, messageId } =
+  const { emotionId, messageBody, messageReference, checkInId, messageId, tourMode } =
     useLocalSearchParams<{
       emotionId: string
       messageBody: string
       messageReference: string
       checkInId: string
       messageId: string
+      tourMode?: string
     }>()
+  const isTour = tourMode === 'true'
 
   const [verse, setVerse] = useState<VerseData>({
     body: messageBody,
@@ -67,6 +70,7 @@ export default function MessageScreen() {
   const [verseIsSaved, setVerseIsSaved] = useState(false)
   const [transitioning, setTransitioning] = useState(false)
   const [sessionSavedIds, setSessionSavedIds] = useState<string[]>([])
+  const [showTourTip, setShowTourTip] = useState(isTour)
 
   // Entrance animation
   const cardOpacity = useSharedValue(0)
@@ -124,6 +128,10 @@ export default function MessageScreen() {
   }
 
   function navigateDone() {
+    if (isTour) {
+      router.replace('/welcome')
+      return
+    }
     if (sessionSavedIds.length > 0) {
       router.replace({
         pathname: '/check-in/session-summary',
@@ -167,7 +175,7 @@ export default function MessageScreen() {
       }
     })
     .onEnd((e) => {
-      if (transitioning) return
+      if (transitioning || isTour) return
 
       if (e.translationX > SWIPE_THRESHOLD) {
         // Swipe right → save + next
@@ -388,6 +396,22 @@ export default function MessageScreen() {
           </Text>
         </Pressable>
       </Animated.View>
+
+      {showTourTip && (
+        <TourTooltip
+          text="This is your verse. Swipe or use the buttons below."
+          rows={[
+            { symbol: '←', label: 'Skip to next' },
+            { symbol: '★', label: 'Save to your collection' },
+            { symbol: '↑', label: 'Share this verse' },
+          ]}
+          buttonLabel="End Tour →"
+          onDismiss={() => {
+            setShowTourTip(false)
+            setTimeout(() => router.replace('/welcome'), 400)
+          }}
+        />
+      )}
     </View>
   )
 }

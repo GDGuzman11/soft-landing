@@ -1,5 +1,5 @@
 import { View, Text, Dimensions, ImageBackground, Pressable, StyleSheet } from 'react-native'
-import { router } from 'expo-router'
+import { router, useLocalSearchParams } from 'expo-router'
 import * as Haptics from 'expo-haptics'
 import { EMOTIONS } from '@/constants/emotions'
 import { canCheckIn } from '@/services/checkIn'
@@ -17,6 +17,7 @@ import { Gesture, GestureDetector } from 'react-native-gesture-handler'
 import { useEffect } from 'react'
 import { useState } from 'react'
 import { useTheme } from '@/theme'
+import TourTooltip from '@/components/TourTooltip'
 
 const { width: screenWidth, height: screenHeight } = Dimensions.get('window')
 const CARD_W          = screenWidth * 0.82
@@ -64,7 +65,10 @@ function Dot({ active, colors }: { active: boolean; colors: ThemeColors }) {
 
 export default function EmotionsScreen() {
   const { colors, isDark } = useTheme()
-  const [activeIndex, setActiveIndex] = useState(0)
+  const { tourMode } = useLocalSearchParams<{ tourMode?: string }>()
+  const isTour = tourMode === 'true'
+  const [activeIndex, setActiveIndex] = useState(isTour ? EMOTION_ORDER.indexOf('good') : 0)
+  const [showTourTip, setShowTourTip] = useState(isTour)
   const total = ORDERED_EMOTIONS.length
 
   // Card pan
@@ -118,6 +122,10 @@ export default function EmotionsScreen() {
     const emotion = ORDERED_EMOTIONS[activeIndex]
     if (!emotion) return
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)
+    if (isTour) {
+      router.push({ pathname: '/check-in/envelope', params: { emotionId: emotion.id, tourMode: 'true' } })
+      return
+    }
     const allowed = await canCheckIn()
     if (!allowed) {
       router.push('/paywall')
@@ -300,6 +308,15 @@ export default function EmotionsScreen() {
           </Text>
         </Pressable>
       </View>
+
+      {/* Tour tooltip */}
+      {showTourTip && (
+        <TourTooltip
+          text="Five feelings. Swipe to explore — then tap any card when you're ready."
+          buttonLabel="Got it →"
+          onDismiss={() => setShowTourTip(false)}
+        />
+      )}
     </View>
   )
 }

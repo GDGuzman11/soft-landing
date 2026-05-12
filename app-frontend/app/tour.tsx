@@ -6,41 +6,60 @@ import Animated, {
   useAnimatedStyle,
   withTiming,
   withDelay,
+  withRepeat,
+  withSequence,
+  Easing,
 } from 'react-native-reanimated'
+import { useTheme } from '@/theme'
 
 const SECTIONS = [
   {
     label: 'CHECK IN',
     heading: 'How are you right now?',
-    body: "Each day, begin with one honest word. Five feelings to choose from — stressed, tired, sad, neutral, good. No judgment, no score. Just a moment to acknowledge where you actually are before the day carries you further.",
+    body: "One honest word. No score, no judgment — just a moment to name where you actually are.",
   },
   {
     label: 'YOUR VERSE',
     heading: 'A word chosen for this moment.',
-    body: "Your verse arrives sealed in an envelope, chosen for the emotion you named. Tap when you're ready to open it. Swipe right to save what stays with you; swipe left to receive another. Each verse is drawn from Scripture — a word that has been speaking into human grief and hope for thousands of years.",
+    body: "A verse arrives sealed, chosen for what you named. Open it when you're ready. Keep what carries you — receive another if you need it.",
   },
   {
-    label: 'YOUR COLLECTION',
+    label: 'THE PATH',
     heading: 'Everything you save, always here.',
-    body: "Every verse you keep lives in History — a quiet, personal library of the moments and the words that met you there. Return to any of them whenever you need to. Over time, it becomes a record of what you've carried and what has carried you.",
+    body: "The Path holds every verse you've kept — a quiet record of what you've carried and what has carried you.",
   },
   {
     label: 'LETTERS',
     heading: "Write what's on your heart.",
-    body: "After a check-in, you can share what you're carrying in your own words. In return, you'll receive a personal letter — woven from your verse, your emotion, and what you wrote — addressed to you and written for exactly this moment.",
+    body: "Share what's on your heart in your own words. What comes back is a letter — addressed to you, written for exactly this moment.",
   },
 ]
 
 export default function TourScreen() {
+  const { colors } = useTheme()
+
+  const innerGlowOpacity = useSharedValue(0.05)
   const headerOpacity = useSharedValue(0)
   const headerY = useSharedValue(12)
   const contentOpacity = useSharedValue(0)
 
   useEffect(() => {
+    // Soft breathing halo — 40% of welcome screen intensity
+    innerGlowOpacity.value = withRepeat(
+      withSequence(
+        withTiming(0.18, { duration: 1600, easing: Easing.inOut(Easing.sin) }),
+        withTiming(0.05, { duration: 1600, easing: Easing.inOut(Easing.sin) }),
+      ),
+      -1,
+      false,
+    )
+
     headerOpacity.value = withTiming(1, { duration: 500 })
     headerY.value = withTiming(0, { duration: 500 })
     contentOpacity.value = withDelay(200, withTiming(1, { duration: 500 }))
   }, [])
+
+  const innerGlowStyle = useAnimatedStyle(() => ({ opacity: innerGlowOpacity.value }))
 
   const headerStyle = useAnimatedStyle(() => ({
     opacity: headerOpacity.value,
@@ -52,24 +71,37 @@ export default function TourScreen() {
   }))
 
   return (
-    <View style={{ flex: 1, backgroundColor: '#FAF8F5' }}>
+    <View style={{ flex: 1, backgroundColor: colors.bg }}>
       <ScrollView
         contentContainerStyle={{
           paddingHorizontal: 32,
           paddingTop: 68,
-          paddingBottom: 128,
+          paddingBottom: 148,
         }}
         showsVerticalScrollIndicator={false}
       >
-        {/* Header — cross + title */}
+        {/* Header — cross + breathing halo + title */}
         <Animated.View style={[{ alignItems: 'center', marginBottom: 36 }, headerStyle]}>
+          {/* Breathing halo */}
+          <Animated.View
+            pointerEvents="none"
+            style={[{
+              position: 'absolute',
+              width: 100,
+              height: 100,
+              borderRadius: 50,
+              backgroundColor: colors.amber,
+              top: -22,
+            }, innerGlowStyle]}
+          />
+
           {/* Amber cross */}
           <View style={{ width: 44, height: 58, position: 'relative', alignItems: 'center', marginBottom: 22 }}>
             <View style={{
               position: 'absolute',
               width: 4,
               height: 58,
-              backgroundColor: '#C4956A',
+              backgroundColor: colors.amber,
               borderRadius: 2,
               alignSelf: 'center',
             }} />
@@ -77,7 +109,7 @@ export default function TourScreen() {
               position: 'absolute',
               width: 30,
               height: 4,
-              backgroundColor: '#C4956A',
+              backgroundColor: colors.amber,
               borderRadius: 2,
               top: 15,
               alignSelf: 'center',
@@ -87,7 +119,7 @@ export default function TourScreen() {
           <Text style={{
             fontFamily: 'Lora_400Regular_Italic',
             fontSize: 27,
-            color: '#1A1A1A',
+            color: colors.inkPrimary,
             textAlign: 'center',
             letterSpacing: 0.2,
             marginBottom: 10,
@@ -97,7 +129,7 @@ export default function TourScreen() {
           <Text style={{
             fontFamily: 'DMSans_400Regular',
             fontSize: 14,
-            color: '#A09080',
+            color: colors.inkMuted,
             textAlign: 'center',
             letterSpacing: 0.3,
           }}>
@@ -107,22 +139,20 @@ export default function TourScreen() {
 
         {/* Ornament divider */}
         <Animated.View style={[{ flexDirection: 'row', alignItems: 'center', gap: 14, marginBottom: 36 }, contentStyle]}>
-          <View style={{ flex: 1, height: 1, backgroundColor: '#EDE8E0' }} />
-          <Text style={{ fontSize: 10, color: '#C4956A', opacity: 0.7 }}>✦</Text>
-          <View style={{ flex: 1, height: 1, backgroundColor: '#EDE8E0' }} />
+          <View style={{ flex: 1, height: 1, backgroundColor: colors.hairline }} />
+          <Text style={{ fontSize: 10, color: colors.amber, opacity: 0.7 }}>✦</Text>
+          <View style={{ flex: 1, height: 1, backgroundColor: colors.hairline }} />
         </Animated.View>
 
         {/* Sections */}
         <Animated.View style={contentStyle}>
           {SECTIONS.map((section, i) => (
             <View key={section.label}>
-              {/* Section */}
               <View style={{ marginBottom: 30 }}>
-                {/* Label */}
                 <Text style={{
                   fontFamily: 'DMSans_500Medium',
                   fontSize: 10,
-                  color: '#C4956A',
+                  color: colors.amber,
                   letterSpacing: 2.8,
                   textTransform: 'uppercase',
                   marginBottom: 10,
@@ -130,31 +160,28 @@ export default function TourScreen() {
                   {section.label}
                 </Text>
 
-                {/* Heading */}
                 <Text style={{
                   fontFamily: 'Lora_400Regular_Italic',
                   fontSize: 19,
-                  color: '#1A1A1A',
+                  color: colors.inkPrimary,
                   lineHeight: 28,
                   marginBottom: 12,
                 }}>
                   {section.heading}
                 </Text>
 
-                {/* Body */}
                 <Text style={{
                   fontFamily: 'DMSans_400Regular',
                   fontSize: 14,
-                  color: '#6E6358',
+                  color: colors.inkMuted,
                   lineHeight: 24,
                 }}>
                   {section.body}
                 </Text>
               </View>
 
-              {/* Divider between sections */}
               {i < SECTIONS.length - 1 && (
-                <View style={{ height: 1, backgroundColor: '#EDE8E0', marginBottom: 30 }} />
+                <View style={{ height: 1, backgroundColor: colors.hairline, marginBottom: 30 }} />
               )}
             </View>
           ))}
@@ -164,44 +191,63 @@ export default function TourScreen() {
             <Text style={{
               fontFamily: 'Lora_400Regular_Italic',
               fontSize: 14,
-              color: '#C4B59A',
+              color: colors.inkSubtle,
               textAlign: 'center',
               lineHeight: 22,
             }}>
-              Free to use. A moment whenever you need one.
+              A small place to land — whenever you need one.
             </Text>
           </View>
         </Animated.View>
       </ScrollView>
 
-      {/* Fixed bottom — Begin button */}
+      {/* Fixed bottom — two CTAs */}
       <View style={{
         position: 'absolute',
         bottom: 0,
         left: 0,
         right: 0,
-        backgroundColor: '#FAF8F5',
+        backgroundColor: colors.bg,
         borderTopWidth: 1,
-        borderTopColor: '#EDE8E0',
+        borderTopColor: colors.hairline,
         paddingHorizontal: 32,
         paddingTop: 16,
         paddingBottom: 44,
         gap: 10,
       }}>
+        {/* Primary — Start the Tour */}
         <Pressable
-          onPress={() => router.replace('/welcome')}
+          onPress={() => router.push({ pathname: '/check-in/emotions', params: { tourMode: 'true' } })}
           accessibilityRole="button"
-          accessibilityLabel="Create an account or sign in"
+          accessibilityLabel="Start the interactive tour"
+          style={({ pressed }) => ({
+            borderRadius: 9999,
+            paddingVertical: 16,
+            alignItems: 'center',
+            opacity: pressed ? 0.7 : 1,
+            backgroundColor: colors.amber,
+          })}
+        >
+          <Text style={{ fontFamily: 'DMSans_500Medium', fontSize: 16, color: '#FFFFFF' }}>
+            Start the Tour →
+          </Text>
+        </Pressable>
+
+        {/* Secondary — skip straight to register */}
+        <Pressable
+          onPress={() => router.replace('/register')}
+          accessibilityRole="button"
+          accessibilityLabel="Create an account"
           style={({ pressed }) => ({
             borderRadius: 9999,
             paddingVertical: 16,
             alignItems: 'center',
             opacity: pressed ? 0.7 : 1,
             borderWidth: 1.5,
-            borderColor: '#C4956A',
+            borderColor: colors.amber,
           })}
         >
-          <Text style={{ fontFamily: 'DMSans_500Medium', fontSize: 16, color: '#C4956A' }}>
+          <Text style={{ fontFamily: 'DMSans_500Medium', fontSize: 16, color: colors.amber }}>
             Begin →
           </Text>
         </Pressable>

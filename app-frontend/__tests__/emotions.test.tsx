@@ -182,6 +182,7 @@ vi.mock('expo-router', () => ({
     push: routerPushSpy,
     back: routerBackSpy,
   },
+  useLocalSearchParams: () => ({}),
 }))
 
 vi.mock('expo-haptics', () => ({

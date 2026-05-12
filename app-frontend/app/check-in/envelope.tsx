@@ -17,6 +17,12 @@ import { performCheckIn } from '@/services/checkIn'
 import type { CheckInResult } from '@/services/checkIn'
 import type { EmotionId } from '@/types'
 import { useTheme } from '@/theme'
+import TourTooltip from '@/components/TourTooltip'
+
+const TOUR_DEMO_VERSE = {
+  body: 'Come to me, all who are weary and burdened, and I will give you rest.',
+  reference: 'Matthew 11:28 (NIV)',
+}
 
 const { width } = Dimensions.get('window')
 const CARD_WIDTH = width * 0.85
@@ -190,10 +196,12 @@ function WaxSeal({ loading, isDark }: { loading: boolean; isDark: boolean }) {
 
 export default function EnvelopeScreen() {
   const { colors, isDark } = useTheme()
-  const { emotionId } = useLocalSearchParams<{ emotionId: string }>()
+  const { emotionId, tourMode } = useLocalSearchParams<{ emotionId: string; tourMode?: string }>()
+  const isTour = tourMode === 'true'
   const [result, setResult] = useState<CheckInResult | null>(null)
   const [loading, setLoading] = useState(true)
   const [opening, setOpening] = useState(false)
+  const [showTourTip, setShowTourTip] = useState(false)
 
   const cardY = useSharedValue(420)
   const cardScale = useSharedValue(1)
@@ -204,6 +212,33 @@ export default function EnvelopeScreen() {
   const screenOpacity = useSharedValue(1)
 
   useEffect(() => {
+    if (isTour) {
+      setResult({
+        message: {
+          id: 'tour-demo',
+          emotionId: (emotionId as EmotionId) ?? 'good',
+          body: TOUR_DEMO_VERSE.body,
+          reference: TOUR_DEMO_VERSE.reference,
+          modernText: undefined,
+          weight: 1,
+          tags: [],
+          tier: 'free' as const,
+          usageCount: 0,
+          lastUsed: null,
+        },
+        event: {
+          id: 'tour-event',
+          emotionId: (emotionId as EmotionId) ?? 'good',
+          timestamp: new Date().toISOString(),
+          messageId: 'tour-demo',
+          saved: false,
+        },
+      })
+      setLoading(false)
+      const t = setTimeout(() => setShowTourTip(true), 1800)
+      return () => clearTimeout(t)
+    }
+
     performCheckIn(emotionId as EmotionId)
       .then((r) => {
         setResult(r)
@@ -287,6 +322,7 @@ export default function EnvelopeScreen() {
         messageReference: msg.reference ?? '',
         checkInId: result.event.id,
         messageId: msg.id,
+        ...(isTour ? { tourMode: 'true' } : {}),
       },
     })
   }
