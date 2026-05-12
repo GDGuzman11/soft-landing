@@ -114,28 +114,30 @@ export default function PositionedTooltip({
             fontSize: 14,
             color: colors.inkPrimary,
             lineHeight: 22,
-            marginBottom: 12,
+            marginBottom: buttonLabel ? 12 : 0,
           }}
         >
           {text}
         </Text>
-        <Pressable
-          onPress={onDismiss}
-          accessibilityRole="button"
-          accessibilityLabel={buttonLabel}
-          style={({ pressed }) => ({
-            backgroundColor: colors.amber,
-            borderRadius: 20,
-            paddingHorizontal: 20,
-            paddingVertical: 8,
-            alignSelf: 'flex-end',
-            opacity: pressed ? 0.75 : 1,
-          })}
-        >
-          <Text style={{ fontFamily: 'DMSans_500Medium', fontSize: 13, color: '#FFFFFF' }}>
-            {buttonLabel}
-          </Text>
-        </Pressable>
+        {!!buttonLabel && (
+          <Pressable
+            onPress={onDismiss}
+            accessibilityRole="button"
+            accessibilityLabel={buttonLabel}
+            style={({ pressed }) => ({
+              backgroundColor: colors.amber,
+              borderRadius: 20,
+              paddingHorizontal: 20,
+              paddingVertical: 8,
+              alignSelf: 'flex-end',
+              opacity: pressed ? 0.75 : 1,
+            })}
+          >
+            <Text style={{ fontFamily: 'DMSans_500Medium', fontSize: 13, color: '#FFFFFF' }}>
+              {buttonLabel}
+            </Text>
+          </Pressable>
+        )}
       </View>
 
       {/* Downward arrow for 'above' placement */}

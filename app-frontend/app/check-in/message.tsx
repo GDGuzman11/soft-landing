@@ -70,7 +70,7 @@ export default function MessageScreen() {
   const [verseIsSaved, setVerseIsSaved] = useState(false)
   const [transitioning, setTransitioning] = useState(false)
   const [sessionSavedIds, setSessionSavedIds] = useState<string[]>([])
-  const [tourStep, setTourStep] = useState<-1 | 0 | 1>(isTour ? 0 : -1)
+  const [tourStep, setTourStep] = useState<-1 | 0 | 1 | 2>(isTour ? 0 : -1)
   const [cardTopY, setCardTopY] = useState(0)
   const [buttonsTopY, setButtonsTopY] = useState(0)
   const cardRef = useRef<View>(null)
@@ -88,6 +88,14 @@ export default function MessageScreen() {
   // Indicator opacities
   const saveOpacity = useSharedValue(0)
   const discardOpacity = useSharedValue(0)
+
+  // Shared value mirror of tourStep so the gesture worklet can read it
+  const tourStepSV = useSharedValue<number>(isTour ? 0 : -1)
+
+  function advanceTourStep(next: -1 | 0 | 1 | 2) {
+    setTourStep(next)
+    tourStepSV.value = next
+  }
 
   useEffect(() => {
     cardOpacity.value = withTiming(1, { duration: 500 })
@@ -143,6 +151,23 @@ export default function MessageScreen() {
     actionsOpacity.value = withDelay(200, withTiming(1, { duration: 300 }))
   }
 
+  // Tour-mode swipe right: fake the "next card" without any API call
+  function handleTourSwipeRight() {
+    Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success)
+    cardX.value = -350
+    cardRotate.value = -5
+    cardOpacity.value = 0
+    saveOpacity.value = 0
+
+    cardX.value = withDelay(40, withSpring(0, { damping: 22, stiffness: 130 }))
+    cardOpacity.value = withDelay(40, withTiming(1, { duration: 280 }))
+    cardRotate.value = withDelay(40, withSpring(0, { damping: 20, stiffness: 150 }))
+    actionsOpacity.value = withDelay(200, withTiming(1, { duration: 300 }))
+
+    setTransitioning(false)
+    advanceTourStep(2)
+  }
+
   function navigateDone() {
     if (isTour) {
       router.replace('/welcome')
@@ -178,6 +203,17 @@ export default function MessageScreen() {
   const panGesture = Gesture.Pan()
     .onUpdate((e) => {
       if (transitioning) return
+      // During tour step 1, only show the save indicator (right direction)
+      if (tourStepSV.value === 1) {
+        if (e.translationX > 0) {
+          cardX.value = e.translationX
+          cardRotate.value = e.translationX * 0.055
+          saveOpacity.value = Math.min(e.translationX / SWIPE_THRESHOLD, 1)
+        }
+        return
+      }
+      if (tourStepSV.value !== -1) return  // block other tour steps
+
       cardX.value = e.translationX
       cardRotate.value = e.translationX * 0.055
 
@@ -191,7 +227,29 @@ export default function MessageScreen() {
       }
     })
     .onEnd((e) => {
-      if (transitioning || isTour) return
+      if (transitioning) return
+
+      // Tour step 1: allow swipe right only
+      if (tourStepSV.value === 1) {
+        if (e.translationX > SWIPE_THRESHOLD) {
+          runOnJS(setTransitioning)(true)
+          cardX.value = withTiming(700, { duration: 280 })
+          cardRotate.value = withTiming(22, { duration: 280 })
+          cardOpacity.value = withTiming(0, { duration: 260 })
+          saveOpacity.value = withTiming(0, { duration: 200 })
+          cardY.value = withTiming(cardY.value - 10, { duration: 280 }, () => {
+            runOnJS(handleTourSwipeRight)()
+          })
+        } else {
+          cardX.value = withSpring(0, { damping: 20, stiffness: 200 })
+          cardRotate.value = withSpring(0, { damping: 20, stiffness: 200 })
+          saveOpacity.value = withTiming(0, { duration: 200 })
+        }
+        return
+      }
+
+      // Block all swipes during other tour steps
+      if (tourStepSV.value !== -1) return
 
       if (e.translationX > SWIPE_THRESHOLD) {
         // Swipe right → save + next
@@ -252,7 +310,7 @@ export default function MessageScreen() {
   }))
 
   async function handleSaveButton() {
-    if (verseIsSaved || transitioning) return
+    if (verseIsSaved || transitioning || isTour) return
     setTransitioning(true)
     cardX.value = withTiming(700, { duration: 300 })
     cardRotate.value = withTiming(20, { duration: 300 })
@@ -260,6 +318,7 @@ export default function MessageScreen() {
   }
 
   async function handleShare() {
+    if (isTour) return
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)
     const ref = verse.reference ? ` — ${verse.reference}` : ''
     try {
@@ -417,26 +476,34 @@ export default function MessageScreen() {
       </Animated.View>
       </View>
 
+      {/* Step 0 — introduce the verse card */}
       {tourStep === 0 && cardTopY > 0 && (
         <PositionedTooltip
-          text="Your verse. Swipe right to save it, swipe left to skip to the next one."
+          text="This is your verse. Tap the card or swipe to interact with it."
           buttonLabel="Got it →"
           anchorY={cardTopY}
           placement="above"
-          onDismiss={() => setTourStep(1)}
+          onDismiss={() => advanceTourStep(1)}
         />
       )}
 
-      {tourStep === 1 && buttonsTopY > 0 && (
+      {/* Step 1 — prompt swipe right (gesture drives the advance, no button) */}
+      {tourStep === 1 && cardTopY > 0 && (
         <PositionedTooltip
-          text="☆ save  ·  ↑ share  ·  × go home"
-          buttonLabel="End Tour →"
+          text="Now let's demo saving a verse. Swipe right →"
+          anchorY={cardTopY}
+          placement="above"
+          onDismiss={() => {}}
+        />
+      )}
+
+      {/* Step 2 — prompt to tap × (the × press drives navigation, no button) */}
+      {tourStep === 2 && buttonsTopY > 0 && (
+        <PositionedTooltip
+          text="Nice! Now tap × to head to the main page."
           anchorY={buttonsTopY}
           placement="above"
-          onDismiss={() => {
-            setTourStep(-1)
-            setTimeout(() => router.replace('/welcome'), 400)
-          }}
+          onDismiss={() => {}}
         />
       )}
     </View>
