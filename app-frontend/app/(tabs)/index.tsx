@@ -4,7 +4,7 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { getSettings, saveSettings, getSavedMessages } from '@/storage/storage'
 import type { AppSettings } from '@/types'
 import { getCurrentUser } from '@/services/auth'
-import TourTooltip from '@/components/TourTooltip'
+import PositionedTooltip from '@/components/PositionedTooltip'
 import { useTheme } from '@/theme'
 import Animated, {
   useSharedValue,
@@ -30,6 +30,8 @@ export default function HomeScreen() {
   const [settings, setSettings] = useState<AppSettings | null>(null)
   const [savedCount, setSavedCount] = useState(0)
   const [showTourTooltip, setShowTourTooltip] = useState(tourStep === '5')
+  const [buttonAnchorY, setButtonAnchorY] = useState(0)
+  const checkInButtonRef = useRef<View>(null)
   const navigationChecked = useRef(false)
   const greetingOpacity = useSharedValue(0)
   const greetingY = useSharedValue(12)
@@ -73,6 +75,15 @@ export default function HomeScreen() {
     buttonY.value = withDelay(300, withSpring(0, { damping: 20, stiffness: 160 }))
 
     getSavedMessages().then(msgs => setSavedCount(msgs.length)).catch(() => {})
+
+    if (tourStep === '5') {
+      const t = setTimeout(() => {
+        checkInButtonRef.current?.measure((_x, _y, _w, _h, _px, pageY) => {
+          setButtonAnchorY(pageY)
+        })
+      }, 700)
+      return () => clearTimeout(t)
+    }
   }, [])
 
   const greetingStyle = useAnimatedStyle(() => ({
@@ -184,6 +195,7 @@ export default function HomeScreen() {
         </Text>
       )}
 
+      <View ref={checkInButtonRef}>
       <Animated.View style={[buttonStyle, { zIndex: 1 }]}>
         <Pressable
           onPress={handleCheckIn}
@@ -208,11 +220,14 @@ export default function HomeScreen() {
           </Text>
         </Pressable>
       </Animated.View>
+      </View>
 
-      {showTourTooltip && (
-        <TourTooltip
-          text="This is where you return each day. A new verse is always waiting whenever you need a moment."
+      {showTourTooltip && buttonAnchorY > 0 && (
+        <PositionedTooltip
+          text="This is where you return each day. Tap to name how you're feeling — a verse arrives sealed, chosen for this moment."
           buttonLabel="Create an account →"
+          anchorY={buttonAnchorY}
+          placement="above"
           onDismiss={() => {
             setShowTourTooltip(false)
             router.replace('/register')
