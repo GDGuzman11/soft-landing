@@ -46,7 +46,7 @@ async function lookupVerse(
 }
 
 export default function HistoryScreen() {
-  const { colors } = useTheme()
+  const { colors, isDark } = useTheme()
   const { tourStep } = useLocalSearchParams<{ tourStep?: string }>()
   const [resolved, setResolved] = useState<ResolvedSavedMessage[]>([])
   const [expandedLetter, setExpandedLetter] = useState<string | null>(null)
@@ -198,15 +198,15 @@ export default function HistoryScreen() {
                 style={{
                   flex: 1,
                   marginLeft: 12,
-                  backgroundColor: colors.surface,
+                  backgroundColor: isDark ? '#2A2018' : colors.surface,
                   borderRadius: 20,
                   padding: 20,
                   borderWidth: 1,
-                  borderColor: colors.cardBorder,
-                  shadowColor: '#000',
+                  borderColor: isDark ? 'rgba(196,149,106,0.20)' : colors.cardBorder,
+                  shadowColor: isDark ? '#C4956A' : '#000',
                   shadowOffset: { width: 0, height: 2 },
-                  shadowOpacity: 0.04,
-                  shadowRadius: 8,
+                  shadowOpacity: isDark ? 0.08 : 0.04,
+                  shadowRadius: isDark ? 12 : 8,
                   elevation: 2,
                 }}
               >
@@ -258,7 +258,7 @@ export default function HistoryScreen() {
                   >
                     {isLetterExpanded ? (
                       <Animated.View style={{ opacity: getAnim(item.id) }}>
-                        <View style={{ backgroundColor: colors.inputRow, borderRadius: 10, padding: 16 }}>
+                        <View style={{ backgroundColor: isDark ? '#221810' : colors.inputRow, borderRadius: 10, padding: 16 }}>
                           <Text style={{ fontFamily: 'Lora_400Regular_Italic', fontSize: 13, color: colors.amber, marginBottom: 8 }}>
                             Dear {userName},
                           </Text>
