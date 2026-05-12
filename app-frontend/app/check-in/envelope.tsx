@@ -235,6 +235,18 @@ export default function EnvelopeScreen() {
         },
       })
       setLoading(false)
+      cardY.value = withSpring(0, { damping: 18, stiffness: 100 })
+      bobY.value = withDelay(
+        700,
+        withRepeat(
+          withSequence(
+            withTiming(-8, { duration: 2800 }),
+            withTiming(0, { duration: 2800 })
+          ),
+          -1,
+          true
+        )
+      )
       const t = setTimeout(() => setShowTourTip(true), 1800)
       return () => clearTimeout(t)
     }
