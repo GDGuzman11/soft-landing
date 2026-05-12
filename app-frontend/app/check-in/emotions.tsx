@@ -14,10 +14,9 @@ import Animated, {
   cancelAnimation,
 } from 'react-native-reanimated'
 import { Gesture, GestureDetector } from 'react-native-gesture-handler'
-import { useEffect } from 'react'
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useTheme } from '@/theme'
-import TourTooltip from '@/components/TourTooltip'
+import PositionedTooltip from '@/components/PositionedTooltip'
 
 const { width: screenWidth, height: screenHeight } = Dimensions.get('window')
 const CARD_W          = screenWidth * 0.82
@@ -69,6 +68,8 @@ export default function EmotionsScreen() {
   const isTour = tourMode === 'true'
   const [activeIndex, setActiveIndex] = useState(isTour ? EMOTION_ORDER.indexOf('good') : 0)
   const [showTourTip, setShowTourTip] = useState(isTour)
+  const [cardAnchorY, setCardAnchorY] = useState(0)
+  const cardRef = useRef<View>(null)
   const total = ORDERED_EMOTIONS.length
 
   // Card pan
@@ -108,6 +109,16 @@ export default function EmotionsScreen() {
       false,
     )
   }, [activeIndex, pulseGlow, shimmer])
+
+  useEffect(() => {
+    if (!isTour) return
+    const t = setTimeout(() => {
+      cardRef.current?.measure((_x, _y, _w, _h, _px, pageY) => {
+        setCardAnchorY(pageY)
+      })
+    }, 700)
+    return () => clearTimeout(t)
+  }, [])
 
   function advance(dir: 'left' | 'right') {
     setActiveIndex((i) =>
@@ -215,7 +226,7 @@ export default function EmotionsScreen() {
       </Animated.View>
 
       {/* Single card */}
-      <View style={{ alignItems: 'center' }}>
+      <View ref={cardRef} style={{ alignItems: 'center' }}>
         <GestureDetector gesture={Gesture.Exclusive(panGesture, tapGesture)}>
           <Animated.View
             style={[
@@ -309,11 +320,12 @@ export default function EmotionsScreen() {
         </Pressable>
       </View>
 
-      {/* Tour tooltip */}
-      {showTourTip && (
-        <TourTooltip
-          text="Five feelings. Swipe to explore — then tap any card when you're ready."
+      {showTourTip && cardAnchorY > 0 && (
+        <PositionedTooltip
+          text="Five feelings. Swipe to explore — then tap when you're ready."
           buttonLabel="Got it →"
+          anchorY={cardAnchorY}
+          placement="above"
           onDismiss={() => setShowTourTip(false)}
         />
       )}
