@@ -198,15 +198,15 @@ export default function HistoryScreen() {
                 style={{
                   flex: 1,
                   marginLeft: 12,
-                  backgroundColor: isDark ? '#2A2018' : colors.surface,
+                  backgroundColor: isDark ? '#3D2A18' : colors.surface,
                   borderRadius: 20,
                   padding: 20,
                   borderWidth: 1,
-                  borderColor: isDark ? 'rgba(196,149,106,0.20)' : colors.cardBorder,
+                  borderColor: isDark ? 'rgba(196,149,106,0.30)' : colors.cardBorder,
                   shadowColor: isDark ? '#C4956A' : '#000',
                   shadowOffset: { width: 0, height: 2 },
-                  shadowOpacity: isDark ? 0.08 : 0.04,
-                  shadowRadius: isDark ? 12 : 8,
+                  shadowOpacity: isDark ? 0.12 : 0.04,
+                  shadowRadius: isDark ? 14 : 8,
                   elevation: 2,
                 }}
               >

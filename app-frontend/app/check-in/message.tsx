@@ -48,7 +48,7 @@ interface VerseData {
 }
 
 export default function MessageScreen() {
-  const { colors } = useTheme()
+  const { colors, isDark } = useTheme()
   const { emotionId, messageBody, messageReference, checkInId, messageId } =
     useLocalSearchParams<{
       emotionId: string
@@ -249,7 +249,7 @@ export default function MessageScreen() {
 
   return (
     <View
-      className="flex-1 bg-background items-center justify-center px-8"
+      style={{ flex: 1, backgroundColor: colors.bg, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 32 }}
       accessibilityLabel="Your verse"
     >
 
@@ -289,19 +289,20 @@ export default function MessageScreen() {
               paddingHorizontal: 32,
               paddingTop: 36,
               paddingBottom: 28,
-              backgroundColor: colors.surface,
-              shadowColor: '#000',
+              backgroundColor: isDark ? '#3D2A18' : colors.surface,
+              borderWidth: isDark ? 1 : 0,
+              borderColor: isDark ? 'rgba(196,149,106,0.25)' : 'transparent',
+              shadowColor: isDark ? '#C4956A' : '#000',
               shadowOffset: { width: 0, height: 4 },
-              shadowOpacity: 0.07,
-              shadowRadius: 18,
+              shadowOpacity: isDark ? 0.12 : 0.07,
+              shadowRadius: isDark ? 18 : 18,
               elevation: 5,
             },
             cardStyle,
           ]}
         >
           <Text
-            className="text-text-primary text-center leading-8"
-            style={{ fontFamily: 'Lora_400Regular', fontSize: 18 }}
+            style={{ fontFamily: 'Lora_400Regular', fontSize: 18, lineHeight: 32, textAlign: 'center', color: colors.inkPrimary }}
             accessibilityRole="text"
           >
             {verse.body}
@@ -309,8 +310,7 @@ export default function MessageScreen() {
 
           {verse.reference ? (
             <Text
-              className="text-center mt-5"
-              style={{
+              style={{ marginTop: 20,
                 fontFamily: 'DMSans_400Regular',
                 fontSize: 13,
                 color: '#C4956A',
@@ -323,8 +323,7 @@ export default function MessageScreen() {
 
           {/* Swipe hint */}
           <Text
-            className="text-center mt-6"
-            style={{
+            style={{ marginTop: 24,
               fontFamily: 'DMSans_400Regular',
               fontSize: 11,
               color: '#C4B59A',
@@ -369,7 +368,7 @@ export default function MessageScreen() {
           hitSlop={ACTION_HIT_SLOP}
           style={actionPressableStyle}
         >
-          <Text className="text-text-secondary" style={{ fontSize: 22 }}>↑</Text>
+          <Text style={{ fontSize: 22, color: colors.inkSecondary }}>↑</Text>
         </Pressable>
 
         {/* Dismiss — go home */}
@@ -383,8 +382,7 @@ export default function MessageScreen() {
           style={actionPressableStyle}
         >
           <Text
-            className="text-text-secondary"
-            style={{ fontFamily: 'DMSans_400Regular', fontSize: 28 }}
+            style={{ fontFamily: 'DMSans_400Regular', fontSize: 28, color: colors.inkSecondary }}
           >
             ×
           </Text>
