@@ -113,7 +113,7 @@ export default function MessageScreen() {
         buttonsRef.current?.measure((_x, _y, _w, _h, _px, pageY) => {
           setButtonsTopY(pageY)
         })
-      }, 700)
+      }, 150)
       return () => clearTimeout(t)
     }
   }, [])

@@ -100,7 +100,7 @@ export default function HomeScreen() {
         checkInButtonRef.current?.measure((_x, _y, _w, _h, _px, pageY) => {
           setButtonAnchorY(pageY)
         })
-      }, 700)
+      }, 150)
       return () => clearTimeout(t)
     }
   }, [])

@@ -116,7 +116,7 @@ export default function EmotionsScreen() {
       cardRef.current?.measure((_x, _y, _w, _h, _px, pageY) => {
         setCardAnchorY(pageY)
       })
-    }, 700)
+    }, 150)
     return () => clearTimeout(t)
   }, [])
 

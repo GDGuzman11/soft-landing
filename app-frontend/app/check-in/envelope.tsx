@@ -254,7 +254,7 @@ export default function EnvelopeScreen() {
           setCardAnchorY(pageY + CARD_HEIGHT)
           setShowTourTip(true)
         })
-      }, 1800)
+      }, 400)
       return () => clearTimeout(t)
     }
 
