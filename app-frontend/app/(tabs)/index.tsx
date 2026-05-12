@@ -60,16 +60,18 @@ export default function HomeScreen() {
               .catch(() => {})
           }
 
-          if (!user && !isGuest) {
-            router.replace('/welcome')
-          } else if (!s.disclaimerAccepted) {
-            router.replace('/onboarding-disclaimer')
-          } else if (!s.onboardingComplete) {
-            router.replace('/onboarding')
-          } else if (!s.profileComplete) {
-            router.replace('/onboarding-profile')
-          } else if (!s.faithIntroComplete) {
-            router.replace('/faith-intro')
+          if (tourStep !== 'path') {
+            if (!user && !isGuest) {
+              router.replace('/welcome')
+            } else if (!s.disclaimerAccepted) {
+              router.replace('/onboarding-disclaimer')
+            } else if (!s.onboardingComplete) {
+              router.replace('/onboarding')
+            } else if (!s.profileComplete) {
+              router.replace('/onboarding-profile')
+            } else if (!s.faithIntroComplete) {
+              router.replace('/faith-intro')
+            }
           }
         })
         .catch(() => {})
