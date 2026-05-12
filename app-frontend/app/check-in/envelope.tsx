@@ -317,11 +317,11 @@ export default function EnvelopeScreen() {
 
   if (!loading && !result) {
     return (
-      <View className="flex-1 bg-background items-center justify-center px-8">
+      <View style={{ flex: 1, backgroundColor: colors.bg, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 32 }}>
         <Text style={{ fontFamily: 'DMSans_400Regular', fontSize: 15, color: colors.inkMuted, textAlign: 'center', marginBottom: 24 }}>
           Something went wrong. Please try again.
         </Text>
-        <Pressable onPress={() => router.replace('/(tabs)')} className="active:opacity-60">
+        <Pressable onPress={() => router.replace('/(tabs)')} style={({ pressed }) => ({ opacity: pressed ? 0.6 : 1 })}>
           <Text style={{ fontFamily: 'DMSans_500Medium', fontSize: 15, color: colors.amber }}>Go home</Text>
         </Pressable>
       </View>
@@ -329,7 +329,7 @@ export default function EnvelopeScreen() {
   }
 
   return (
-    <View className="flex-1 bg-background items-center justify-center">
+    <View style={{ flex: 1, backgroundColor: colors.bg, alignItems: 'center', justifyContent: 'center' }}>
       <View style={{ alignItems: 'center' }}>
         {/* Hint — above the envelope */}
         <Animated.View style={[{ marginBottom: 20 }, hintStyle]}>
@@ -345,13 +345,13 @@ export default function EnvelopeScreen() {
             height: CARD_HEIGHT,
             borderRadius: 20,
             overflow: 'hidden',
-            shadowColor: isDark ? '#000000' : '#8B7355',
+            shadowColor: isDark ? '#C4956A' : '#8B7355',
             shadowOffset: { width: 0, height: 14 },
-            shadowOpacity: isDark ? 0.45 : 0.22,
-            shadowRadius: isDark ? 24 : 32,
+            shadowOpacity: isDark ? 0.28 : 0.22,
+            shadowRadius: isDark ? 32 : 32,
             elevation: 14,
             borderWidth: 1,
-            borderColor: isDark ? 'rgba(196,149,106,0.22)' : 'rgba(122,80,48,0.28)',
+            borderColor: isDark ? 'rgba(196,149,106,0.30)' : 'rgba(122,80,48,0.28)',
           }}>
 
             {/* ── Body area (bottom) — rendered first so flap sits on top ── */}
@@ -359,7 +359,7 @@ export default function EnvelopeScreen() {
               position: 'absolute',
               top: FOLD_Y, left: 0, right: 0,
               bottom: 0,
-              backgroundColor: colors.inputRow,
+              backgroundColor: isDark ? '#3D2718' : colors.inputRow,
             }} />
 
             {/* ── Letter lines — faint horizontal rules suggesting a folded letter ── */}
@@ -370,8 +370,8 @@ export default function EnvelopeScreen() {
                 left: 32,
                 right: 32,
                 height: 1,
-                backgroundColor: colors.hairline,
-                opacity: 0.45,
+                backgroundColor: isDark ? 'rgba(196,149,106,0.18)' : colors.hairline,
+                opacity: isDark ? 1 : 0.45,
               }} />
             ))}
 
@@ -387,7 +387,7 @@ export default function EnvelopeScreen() {
               borderTopWidth: FOLD_Y,
               borderLeftColor: 'transparent',
               borderRightColor: 'transparent',
-              borderTopColor: colors.headerBg,
+              borderTopColor: isDark ? '#2A1A0C' : colors.headerBg,
             }} />
 
             {/* ── Fold glint — subtle highlight just above fold for embossed depth ── */}
