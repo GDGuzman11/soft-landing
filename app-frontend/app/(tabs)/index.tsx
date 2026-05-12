@@ -12,10 +12,14 @@ import Animated, {
   withTiming,
   withDelay,
   withSpring,
+  withRepeat,
+  withSequence,
 } from 'react-native-reanimated'
 import * as Haptics from 'expo-haptics'
 
 const SCREEN_WIDTH = Dimensions.get('window').width
+// Path tab is the 2nd of 4 tabs; its horizontal centre sits at 37.5% of screen width
+const PATH_TAB_CENTER_X = SCREEN_WIDTH * 0.375
 
 function getGreetingBase(): string {
   const hour = new Date().getHours()
@@ -38,6 +42,8 @@ export default function HomeScreen() {
   const buttonOpacity = useSharedValue(0)
   const buttonY = useSharedValue(16)
   const peopleOpacity = useSharedValue(0)
+  const pathPulse = useSharedValue(1)
+  const showPathTip = tourStep === 'path'
 
   useEffect(() => {
     if (!navigationChecked.current) {
@@ -76,6 +82,17 @@ export default function HomeScreen() {
 
     getSavedMessages().then(msgs => setSavedCount(msgs.length)).catch(() => {})
 
+    if (showPathTip) {
+      pathPulse.value = withRepeat(
+        withSequence(
+          withTiming(1.35, { duration: 750 }),
+          withTiming(1, { duration: 750 }),
+        ),
+        -1,
+        true,
+      )
+    }
+
     if (tourStep === '5') {
       const t = setTimeout(() => {
         checkInButtonRef.current?.measure((_x, _y, _w, _h, _px, pageY) => {
@@ -97,6 +114,11 @@ export default function HomeScreen() {
   }))
 
   const peopleStyle = useAnimatedStyle(() => ({ opacity: peopleOpacity.value }))
+
+  const pathPulseStyle = useAnimatedStyle(() => ({
+    transform: [{ scale: pathPulse.value }],
+    opacity: 2 - pathPulse.value,
+  }))
 
   useFocusEffect(
     useCallback(() => {
@@ -233,6 +255,46 @@ export default function HomeScreen() {
             router.replace('/register')
           }}
         />
+      )}
+
+      {/* Path tab indicator — shown after tour saves a verse */}
+      {showPathTip && (
+        <View
+          pointerEvents="none"
+          style={{
+            position: 'absolute',
+            bottom: 6,
+            left: PATH_TAB_CENTER_X - 40,
+            width: 80,
+            alignItems: 'center',
+          }}
+        >
+          <Text
+            style={{
+              fontFamily: 'DMSans_400Regular',
+              fontSize: 10,
+              color: colors.amber,
+              letterSpacing: 0.5,
+              marginBottom: 5,
+              textAlign: 'center',
+            }}
+          >
+            your verse
+          </Text>
+          <Animated.View
+            style={[
+              {
+                width: 26,
+                height: 26,
+                borderRadius: 13,
+                borderWidth: 2,
+                borderColor: colors.amber,
+              },
+              pathPulseStyle,
+            ]}
+          />
+          <Text style={{ fontSize: 9, color: colors.amber, marginTop: 3, opacity: 0.7 }}>▼</Text>
+        </View>
       )}
     </View>
   )
