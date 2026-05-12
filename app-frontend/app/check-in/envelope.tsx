@@ -1,6 +1,6 @@
 import { View, Text, Pressable, Dimensions } from 'react-native'
 import { router, useLocalSearchParams, useFocusEffect } from 'expo-router'
-import { useEffect, useState, useCallback } from 'react'
+import { useEffect, useState, useCallback, useRef } from 'react'
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
@@ -17,7 +17,7 @@ import { performCheckIn } from '@/services/checkIn'
 import type { CheckInResult } from '@/services/checkIn'
 import type { EmotionId } from '@/types'
 import { useTheme } from '@/theme'
-import TourTooltip from '@/components/TourTooltip'
+import PositionedTooltip from '@/components/PositionedTooltip'
 
 const TOUR_DEMO_VERSE = {
   body: 'Come to me, all who are weary and burdened, and I will give you rest.',
@@ -202,6 +202,8 @@ export default function EnvelopeScreen() {
   const [loading, setLoading] = useState(true)
   const [opening, setOpening] = useState(false)
   const [showTourTip, setShowTourTip] = useState(false)
+  const [cardAnchorY, setCardAnchorY] = useState(0)
+  const envelopeRef = useRef<View>(null)
 
   const cardY = useSharedValue(420)
   const cardScale = useSharedValue(1)
@@ -247,7 +249,12 @@ export default function EnvelopeScreen() {
           true
         )
       )
-      const t = setTimeout(() => setShowTourTip(true), 1800)
+      const t = setTimeout(() => {
+        envelopeRef.current?.measure((_x, _y, _w, _h, _px, pageY) => {
+          setCardAnchorY(pageY + CARD_HEIGHT)
+          setShowTourTip(true)
+        })
+      }, 1800)
       return () => clearTimeout(t)
     }
 
@@ -386,6 +393,7 @@ export default function EnvelopeScreen() {
           </Text>
         </Animated.View>
 
+      <View ref={envelopeRef}>
       <Pressable onPress={handleOpen} disabled={loading || opening}>
         <Animated.View style={cardStyle}>
           <View style={{
@@ -471,6 +479,17 @@ export default function EnvelopeScreen() {
         </Animated.View>
       </Pressable>
       </View>
+      </View>
+
+      {showTourTip && cardAnchorY > 0 && (
+        <PositionedTooltip
+          text="Your verse is sealed inside. Tap the envelope to open it."
+          buttonLabel="Got it →"
+          anchorY={cardAnchorY}
+          placement="below"
+          onDismiss={() => setShowTourTip(false)}
+        />
+      )}
 
       {/* Screen fade overlay */}
       <Animated.View
