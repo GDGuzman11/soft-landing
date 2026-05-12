@@ -1,6 +1,6 @@
 import { View, Text, Pressable, Share } from 'react-native'
 import { router, useLocalSearchParams } from 'expo-router'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { GestureDetector, Gesture } from 'react-native-gesture-handler'
 import Animated, {
   useSharedValue,
@@ -16,7 +16,7 @@ import * as Haptics from 'expo-haptics'
 import { bookmarkMessage, canCheckIn, performCheckIn } from '@/services/checkIn'
 import type { EmotionId } from '@/types'
 import { useTheme } from '@/theme'
-import TourTooltip from '@/components/TourTooltip'
+import PositionedTooltip from '@/components/PositionedTooltip'
 
 const SWIPE_THRESHOLD = 110
 
@@ -70,7 +70,11 @@ export default function MessageScreen() {
   const [verseIsSaved, setVerseIsSaved] = useState(false)
   const [transitioning, setTransitioning] = useState(false)
   const [sessionSavedIds, setSessionSavedIds] = useState<string[]>([])
-  const [showTourTip, setShowTourTip] = useState(isTour)
+  const [tourStep, setTourStep] = useState<-1 | 0 | 1>(isTour ? 0 : -1)
+  const [cardTopY, setCardTopY] = useState(0)
+  const [buttonsTopY, setButtonsTopY] = useState(0)
+  const cardRef = useRef<View>(null)
+  const buttonsRef = useRef<View>(null)
 
   // Entrance animation
   const cardOpacity = useSharedValue(0)
@@ -89,6 +93,18 @@ export default function MessageScreen() {
     cardOpacity.value = withTiming(1, { duration: 500 })
     cardY.value = withSpring(0, { damping: 20, stiffness: 120 })
     actionsOpacity.value = withDelay(400, withTiming(1, { duration: 400 }))
+
+    if (isTour) {
+      const t = setTimeout(() => {
+        cardRef.current?.measure((_x, _y, _w, _h, _px, pageY) => {
+          setCardTopY(pageY)
+        })
+        buttonsRef.current?.measure((_x, _y, _w, _h, _px, pageY) => {
+          setButtonsTopY(pageY)
+        })
+      }, 700)
+      return () => clearTimeout(t)
+    }
   }, [])
 
   async function loadNextVerse(swipeDirection: 'right' | 'left') {
@@ -288,6 +304,7 @@ export default function MessageScreen() {
       </Animated.View>
 
       {/* Swipeable verse card */}
+      <View ref={cardRef}>
       <GestureDetector gesture={panGesture}>
         <Animated.View
           style={[
@@ -342,8 +359,10 @@ export default function MessageScreen() {
           </Text>
         </Animated.View>
       </GestureDetector>
+      </View>
 
       {/* Action buttons */}
+      <View ref={buttonsRef}>
       <Animated.View
         style={[
           {
@@ -396,18 +415,26 @@ export default function MessageScreen() {
           </Text>
         </Pressable>
       </Animated.View>
+      </View>
 
-      {showTourTip && (
-        <TourTooltip
-          text="This is your verse. Swipe or use the buttons below."
-          rows={[
-            { symbol: '←', label: 'Skip to next' },
-            { symbol: '★', label: 'Save to your collection' },
-            { symbol: '↑', label: 'Share this verse' },
-          ]}
+      {tourStep === 0 && cardTopY > 0 && (
+        <PositionedTooltip
+          text="Your verse. Swipe right to save it, swipe left to skip to the next one."
+          buttonLabel="Got it →"
+          anchorY={cardTopY}
+          placement="above"
+          onDismiss={() => setTourStep(1)}
+        />
+      )}
+
+      {tourStep === 1 && buttonsTopY > 0 && (
+        <PositionedTooltip
+          text="☆ save  ·  ↑ share  ·  × go home"
           buttonLabel="End Tour →"
+          anchorY={buttonsTopY}
+          placement="above"
           onDismiss={() => {
-            setShowTourTip(false)
+            setTourStep(-1)
             setTimeout(() => router.replace('/welcome'), 400)
           }}
         />
