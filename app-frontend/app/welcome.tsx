@@ -148,7 +148,7 @@ export default function WelcomeScreen() {
   }))
 
   function handleHowItWorks() {
-    router.replace('/tour')
+    router.push({ pathname: '/check-in/emotions', params: { tourMode: 'true' } })
   }
 
   return (
