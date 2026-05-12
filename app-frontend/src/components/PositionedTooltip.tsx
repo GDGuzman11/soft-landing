@@ -38,8 +38,8 @@ export default function PositionedTooltip({
   const opacity = useSharedValue(0)
 
   useEffect(() => {
-    scale.value = withSpring(1, { damping: 16, stiffness: 200 })
-    opacity.value = withTiming(1, { duration: 220 })
+    scale.value = withSpring(1, { damping: 22, stiffness: 400 })
+    opacity.value = withTiming(1, { duration: 80 })
   }, [])
 
   const animStyle = useAnimatedStyle(() => ({
