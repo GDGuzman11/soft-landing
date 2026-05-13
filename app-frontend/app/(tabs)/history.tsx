@@ -77,7 +77,7 @@ export default function HistoryScreen() {
   const pulseOpacity = useSharedValue(0.25)
   const pulseStyle = useAnimatedStyle(() => ({ opacity: pulseOpacity.value }))
 
-  const letterGlow = useSharedValue(0.3)
+  const letterGlow = useSharedValue(1)
   const letterGlowStyle = useAnimatedStyle(() => ({ opacity: letterGlow.value }))
 
   useEffect(() => {
@@ -95,11 +95,11 @@ export default function HistoryScreen() {
     if (!tourPathMode) return
     letterGlow.value = withRepeat(
       withSequence(
-        withTiming(1, { duration: 650 }),
-        withTiming(0.45, { duration: 650 }),
+        withTiming(0.35, { duration: 550 }),
+        withTiming(1, { duration: 550 }),
       ),
       -1,
-      true,
+      false,
     )
     const t = setTimeout(() => {
       writeLetterRef.current?.measure((_x, _y, _w, _h, _px, pageY) => {

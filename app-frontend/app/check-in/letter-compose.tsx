@@ -99,10 +99,11 @@ export default function LetterComposeScreen() {
     })
   }, [savedMessageId])
 
-  // Auto-type demo input when in tour mode
+  // Tour: auto-type input then auto-trigger demo letter generation
   useEffect(() => {
     if (!isTour) return
     let i = 0
+    let autoSendTimer: ReturnType<typeof setTimeout> | null = null
     const delay = setTimeout(() => {
       const interval = setInterval(() => {
         i++
@@ -110,11 +111,33 @@ export default function LetterComposeScreen() {
           setUserInput(DEMO_INPUT_TEXT.slice(0, i))
         } else {
           clearInterval(interval)
+          // After typing finishes, auto-trigger demo letter after brief pause
+          autoSendTimer = setTimeout(() => {
+            setLetterLoading(true)
+            setGenerating(true)
+            setLetterError(null)
+            setTimeout(() => {
+              setLetterLoading(false)
+              let j = 0
+              const revealInterval = setInterval(() => {
+                j += 5
+                if (j <= DEMO_LETTER.length) {
+                  setLetter(DEMO_LETTER.slice(0, j))
+                } else {
+                  setLetter(DEMO_LETTER)
+                  setGenerating(false)
+                  clearInterval(revealInterval)
+                }
+              }, 18)
+            }, 1400)
+          }, 700)
         }
       }, 22)
-      return () => clearInterval(interval)
-    }, 500)
-    return () => clearTimeout(delay)
+    }, 600)
+    return () => {
+      clearTimeout(delay)
+      if (autoSendTimer) clearTimeout(autoSendTimer)
+    }
   }, [isTour])
 
   if (!savedMessage || !settings || !verseData) {
@@ -338,7 +361,6 @@ export default function LetterComposeScreen() {
                 onChangeText={(t) => !isTour && setUserInput(t.slice(0, 500))}
                 placeholder="No filter. Just say what's actually going on…"
                 placeholderTextColor={colors.inkSubtle}
-                editable={!isTour}
                 style={{
                   fontFamily: 'Lora_400Regular',
                   fontSize: 15,
@@ -373,24 +395,33 @@ export default function LetterComposeScreen() {
               Your words are sent privately to generate your letter and are not stored on our servers.
             </Text>
 
-            <Pressable
-              onPress={handleSend}
-              disabled={generating || letterLoading}
-              accessibilityRole="button"
-              accessibilityLabel={sendLabel}
-              className="active:opacity-80"
-              style={{
-                backgroundColor: colors.amber,
-                borderRadius: 28,
-                paddingVertical: 14,
-                alignItems: 'center',
-                opacity: generating ? 0.6 : letterLoading ? 0.7 : 1,
-              }}
-            >
-              <Text style={{ fontFamily: 'DMSans_500Medium', fontSize: 15, color: '#FFFFFF' }}>
-                {sendLabel}
-              </Text>
-            </Pressable>
+            {!isTour && (
+              <Pressable
+                onPress={handleSend}
+                disabled={generating || letterLoading}
+                accessibilityRole="button"
+                accessibilityLabel={sendLabel}
+                className="active:opacity-80"
+                style={{
+                  backgroundColor: colors.amber,
+                  borderRadius: 28,
+                  paddingVertical: 14,
+                  alignItems: 'center',
+                  opacity: generating ? 0.6 : letterLoading ? 0.7 : 1,
+                }}
+              >
+                <Text style={{ fontFamily: 'DMSans_500Medium', fontSize: 15, color: '#FFFFFF' }}>
+                  {sendLabel}
+                </Text>
+              </Pressable>
+            )}
+            {isTour && generating && (
+              <View style={{ alignItems: 'center', paddingVertical: 14 }}>
+                <Text style={{ fontFamily: 'DMSans_400Regular', fontSize: 14, color: colors.inkMuted }}>
+                  Writing your letter…
+                </Text>
+              </View>
+            )}
           </>
         )}
 
