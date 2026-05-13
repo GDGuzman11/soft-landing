@@ -96,7 +96,7 @@ export default function HistoryScreen() {
     letterGlow.value = withRepeat(
       withSequence(
         withTiming(1, { duration: 650 }),
-        withTiming(0.2, { duration: 650 }),
+        withTiming(0.45, { duration: 650 }),
       ),
       -1,
       true,
@@ -321,36 +321,47 @@ export default function HistoryScreen() {
                     ref={isFirstTourItem ? writeLetterRef : undefined}
                     style={{ alignSelf: 'flex-start', marginBottom: 12 }}
                   >
-                    {isFirstTourItem && (
-                      <ReAnimated.View
-                        pointerEvents="none"
-                        style={[{
-                          position: 'absolute',
-                          top: -6, bottom: -6, left: -10, right: -10,
-                          borderRadius: 10,
-                          borderWidth: 1.5,
-                          borderColor: colors.amber,
-                        }, letterGlowStyle]}
-                      />
+                    {isFirstTourItem ? (
+                      <ReAnimated.View style={letterGlowStyle}>
+                        <Pressable
+                          onPress={() =>
+                            router.push({
+                              pathname: '/check-in/letter-compose',
+                              params: { savedMessageId: item.id, tourMode: 'true' },
+                            })
+                          }
+                          accessibilityRole="button"
+                          accessibilityLabel="Write a letter for this verse"
+                          style={({ pressed }) => ({
+                            backgroundColor: colors.amber,
+                            borderRadius: 20,
+                            paddingHorizontal: 16,
+                            paddingVertical: 8,
+                            opacity: pressed ? 0.7 : 1,
+                          })}
+                        >
+                          <Text style={{ fontFamily: 'DMSans_500Medium', fontSize: 13, color: '#FFFFFF' }}>
+                            Write a letter →
+                          </Text>
+                        </Pressable>
+                      </ReAnimated.View>
+                    ) : (
+                      <Pressable
+                        onPress={() =>
+                          router.push({
+                            pathname: '/check-in/letter-compose',
+                            params: { savedMessageId: item.id },
+                          })
+                        }
+                        accessibilityRole="button"
+                        accessibilityLabel="Write a letter for this verse"
+                        style={({ pressed }) => ({ opacity: pressed ? 0.6 : 1 })}
+                      >
+                        <Text style={{ fontFamily: 'DMSans_400Regular', fontSize: 13, color: '#C4956A' }}>
+                          Write a letter →
+                        </Text>
+                      </Pressable>
                     )}
-                    <Pressable
-                      onPress={() =>
-                        router.push({
-                          pathname: '/check-in/letter-compose',
-                          params: {
-                            savedMessageId: item.id,
-                            ...(isFirstTourItem ? { tourMode: 'true' } : {}),
-                          },
-                        })
-                      }
-                      accessibilityRole="button"
-                      accessibilityLabel="Write a letter for this verse"
-                      style={({ pressed }) => ({ opacity: pressed ? 0.6 : 1 })}
-                    >
-                      <Text style={{ fontFamily: 'DMSans_400Regular', fontSize: 13, color: '#C4956A' }}>
-                        Write a letter →
-                      </Text>
-                    </Pressable>
                   </View>
                 )}
 
