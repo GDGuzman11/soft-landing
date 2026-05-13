@@ -14,6 +14,7 @@ import { getSavedMessages, deleteSavedMessage, getSettings, getCheckIns } from '
 import { hasTodayCheckIn } from '@/utils/streak'
 import type { SavedMessage, Message, EmotionId, AppSettings } from '@/types'
 import TourTooltip from '@/components/TourTooltip'
+import PositionedTooltip from '@/components/PositionedTooltip'
 import { useTheme } from '@/theme'
 
 const EMOTION_COLORS: Record<EmotionId, string> = {
@@ -28,6 +29,20 @@ interface ResolvedSavedMessage {
   saved: SavedMessage
   body: string
   reference: string
+}
+
+// Hardcoded demo entry for the "How it Works" tour — no real save needed
+const TOUR_DEMO_ENTRY: ResolvedSavedMessage = {
+  saved: {
+    id: 'tour-demo',
+    messageId: 'tour-demo',
+    emotionId: 'good' as EmotionId,
+    savedAt: new Date().toISOString(),
+    note: undefined,
+    letter: undefined,
+  } as SavedMessage,
+  body: 'Come to me, all who are weary and burdened, and I will give you rest.',
+  reference: 'Matthew 11:28 (NIV)',
 }
 
 async function lookupVerse(
@@ -48,15 +63,22 @@ async function lookupVerse(
 export default function HistoryScreen() {
   const { colors, isDark } = useTheme()
   const { tourStep } = useLocalSearchParams<{ tourStep?: string }>()
+  const tourPathMode = tourStep === 'path'
+
   const [resolved, setResolved] = useState<ResolvedSavedMessage[]>([])
   const [expandedLetter, setExpandedLetter] = useState<string | null>(null)
   const [showTooltip, setShowTooltip] = useState(tourStep === '4')
   const [settings, setSettings] = useState<AppSettings | null>(null)
   const [todayDone, setTodayDone] = useState(false)
+  const [writeLetterAnchorY, setWriteLetterAnchorY] = useState(0)
   const animRefs = useRef<Map<string, Animated.Value>>(new Map())
+  const writeLetterRef = useRef<View>(null)
 
   const pulseOpacity = useSharedValue(0.25)
   const pulseStyle = useAnimatedStyle(() => ({ opacity: pulseOpacity.value }))
+
+  const letterGlow = useSharedValue(0.3)
+  const letterGlowStyle = useAnimatedStyle(() => ({ opacity: letterGlow.value }))
 
   useEffect(() => {
     pulseOpacity.value = withRepeat(
@@ -69,6 +91,24 @@ export default function HistoryScreen() {
     )
   }, [pulseOpacity])
 
+  useEffect(() => {
+    if (!tourPathMode) return
+    letterGlow.value = withRepeat(
+      withSequence(
+        withTiming(1, { duration: 650 }),
+        withTiming(0.2, { duration: 650 }),
+      ),
+      -1,
+      true,
+    )
+    const t = setTimeout(() => {
+      writeLetterRef.current?.measure((_x, _y, _w, _h, _px, pageY) => {
+        setWriteLetterAnchorY(pageY)
+      })
+    }, 200)
+    return () => clearTimeout(t)
+  }, [])
+
   function getAnim(id: string): Animated.Value {
     if (!animRefs.current.has(id)) {
       animRefs.current.set(id, new Animated.Value(0))
@@ -78,6 +118,7 @@ export default function HistoryScreen() {
 
   useFocusEffect(
     useCallback(() => {
+      if (tourPathMode) return  // demo data is injected statically, skip storage load
       let cancelled = false
       ;(async () => {
         const [all, s, checkIns] = await Promise.all([
@@ -135,7 +176,9 @@ export default function HistoryScreen() {
     }
   }
 
-  if (resolved.length === 0) {
+  const listData = tourPathMode ? [TOUR_DEMO_ENTRY] : resolved
+
+  if (listData.length === 0) {
     return (
       <View style={{ flex: 1, backgroundColor: colors.bg, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 32 }}>
         <Text style={{ fontFamily: 'DMSans_400Regular', fontSize: 36, color: colors.amber, marginBottom: 16, opacity: 0.6 }}>✦</Text>
@@ -163,31 +206,29 @@ export default function HistoryScreen() {
           <ReAnimated.Text style={[{ fontFamily: 'DMSans_400Regular', fontSize: 14, color: colors.amber }, pulseStyle]}>
             ◇
           </ReAnimated.Text>
-          {/* Connector line from ◇ downward into the list */}
           <View style={{ width: 1, backgroundColor: colors.amber, opacity: 0.2, marginTop: 4, minHeight: 20 }} />
         </View>
         <View style={{ flex: 1, marginLeft: 12 }} />
       </View>
 
       <FlatList
-        data={resolved}
+        data={listData}
         keyExtractor={(r) => r.saved.id}
         contentContainerStyle={{ paddingLeft: 16, paddingRight: 24, paddingBottom: 32 }}
-        renderItem={({ item: r }) => {
+        renderItem={({ item: r, index }) => {
           const item = r.saved
           const { body, reference } = r
           const emotionId = item.emotionId ?? 'neutral'
           const emotionColor = EMOTION_COLORS[emotionId as EmotionId] ?? colors.amber
           const isLetterExpanded = expandedLetter === item.id
+          const isFirstTourItem = tourPathMode && index === 0
 
           return (
             <View style={{ flexDirection: 'row', marginBottom: 16, alignItems: 'flex-start' }}>
 
-              {/* Left gutter — connecting line + emotion-colored ✦ */}
+              {/* Left gutter */}
               <View style={{ width: 28, alignItems: 'center', paddingTop: 22 }}>
-                {/* Continuous vertical line */}
                 <View style={{ position: 'absolute', top: 0, bottom: 0, width: 1, backgroundColor: colors.amber, opacity: 0.2 }} />
-                {/* Emotion-colored ✦ — interrupts the line */}
                 <View style={{ backgroundColor: colors.bg, paddingVertical: 2 }}>
                   <Text style={{ fontFamily: 'DMSans_400Regular', fontSize: 11, color: emotionColor }}>✦</Text>
                 </View>
@@ -213,23 +254,12 @@ export default function HistoryScreen() {
                 {/* Reference + date row */}
                 <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 4, gap: 8 }}>
                   {reference ? (
-                    <Text
-                      style={{
-                        fontFamily: 'DMSans_400Regular',
-                        fontSize: 12,
-                        color: '#C4956A',
-                        letterSpacing: 0.3,
-                        flex: 1,
-                      }}
-                    >
+                    <Text style={{ fontFamily: 'DMSans_400Regular', fontSize: 12, color: '#C4956A', letterSpacing: 0.3, flex: 1 }}>
                       {reference}
                     </Text>
                   ) : <View style={{ flex: 1 }} />}
                   <Text style={{ fontFamily: 'DMSans_400Regular', fontSize: 12, color: '#C4956A' }}>
-                    {new Date(item.savedAt).toLocaleDateString('en-US', {
-                      month: 'short',
-                      day: 'numeric',
-                    })}
+                    {new Date(item.savedAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
                   </Text>
                 </View>
 
@@ -274,10 +304,7 @@ export default function HistoryScreen() {
                         </View>
                       </Animated.View>
                     ) : (
-                      <Text
-                        style={{ fontFamily: 'Lora_400Regular_Italic', fontSize: 13, color: colors.inkMuted }}
-                        numberOfLines={2}
-                      >
+                      <Text style={{ fontFamily: 'Lora_400Regular_Italic', fontSize: 13, color: colors.inkMuted }} numberOfLines={2}>
                         {(() => {
                           const text = item.letter
                           const match = text.match(/^.+?[.!?](?=\s|$)/)
@@ -289,25 +316,42 @@ export default function HistoryScreen() {
                     )}
                   </Pressable>
                 ) : (
-                  <Pressable
-                    onPress={() =>
-                      router.push({
-                        pathname: '/check-in/letter-compose',
-                        params: { savedMessageId: item.id },
-                      })
-                    }
-                    accessibilityRole="button"
-                    accessibilityLabel="Write a letter for this verse"
-                    style={({ pressed }) => ({
-                      opacity: pressed ? 0.6 : 1,
-                      marginBottom: 12,
-                      alignSelf: 'flex-start',
-                    })}
+                  /* Write a letter button — with pulsing glow in tour mode */
+                  <View
+                    ref={isFirstTourItem ? writeLetterRef : undefined}
+                    style={{ alignSelf: 'flex-start', marginBottom: 12 }}
                   >
-                    <Text style={{ fontFamily: 'DMSans_400Regular', fontSize: 13, color: '#C4956A' }}>
-                      Write a letter →
-                    </Text>
-                  </Pressable>
+                    {isFirstTourItem && (
+                      <ReAnimated.View
+                        pointerEvents="none"
+                        style={[{
+                          position: 'absolute',
+                          top: -6, bottom: -6, left: -10, right: -10,
+                          borderRadius: 10,
+                          borderWidth: 1.5,
+                          borderColor: colors.amber,
+                        }, letterGlowStyle]}
+                      />
+                    )}
+                    <Pressable
+                      onPress={() =>
+                        router.push({
+                          pathname: '/check-in/letter-compose',
+                          params: {
+                            savedMessageId: item.id,
+                            ...(isFirstTourItem ? { tourMode: 'true' } : {}),
+                          },
+                        })
+                      }
+                      accessibilityRole="button"
+                      accessibilityLabel="Write a letter for this verse"
+                      style={({ pressed }) => ({ opacity: pressed ? 0.6 : 1 })}
+                    >
+                      <Text style={{ fontFamily: 'DMSans_400Regular', fontSize: 13, color: '#C4956A' }}>
+                        Write a letter →
+                      </Text>
+                    </Pressable>
+                  </View>
                 )}
 
                 <View className="flex-row items-center justify-end">
@@ -317,20 +361,18 @@ export default function HistoryScreen() {
                       hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
                       className="active:opacity-60"
                     >
-                      <Text style={{ fontFamily: 'DMSans_500Medium', fontSize: 12, color: '#C4956A' }}>
-                        Share ↑
-                      </Text>
+                      <Text style={{ fontFamily: 'DMSans_500Medium', fontSize: 12, color: '#C4956A' }}>Share ↑</Text>
                     </Pressable>
 
-                    <Pressable
-                      onPress={() => confirmDelete(item.id)}
-                      hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
-                      className="active:opacity-60"
-                    >
-                      <Text style={{ fontFamily: 'DMSans_400Regular', fontSize: 12, color: colors.inkMuted }}>
-                        Remove
-                      </Text>
-                    </Pressable>
+                    {!tourPathMode && (
+                      <Pressable
+                        onPress={() => confirmDelete(item.id)}
+                        hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
+                        className="active:opacity-60"
+                      >
+                        <Text style={{ fontFamily: 'DMSans_400Regular', fontSize: 12, color: colors.inkMuted }}>Remove</Text>
+                      </Pressable>
+                    )}
                   </View>
                 </View>
               </View>
@@ -340,6 +382,17 @@ export default function HistoryScreen() {
         }}
       />
 
+      {/* Tour: path mode — bubble above Write a letter */}
+      {tourPathMode && writeLetterAnchorY > 0 && (
+        <PositionedTooltip
+          text="Tap 'Write a letter' to watch AI craft a personal letter from your verse."
+          anchorY={writeLetterAnchorY}
+          placement="above"
+          onDismiss={() => {}}
+        />
+      )}
+
+      {/* Old tour step 4 */}
       {showTooltip && (
         <TourTooltip
           text="Everything you save lives here — your own collection of verses, whenever you need them."
