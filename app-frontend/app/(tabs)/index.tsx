@@ -259,16 +259,21 @@ export default function HomeScreen() {
         />
       )}
 
-      {/* Path tab indicator — shown after tour saves a verse */}
+      {/* Path tab indicator — tappable, routes directly to history with tour param */}
       {showPathTip && (
-        <View
-          pointerEvents="none"
+        <Pressable
+          onPress={() => router.push({ pathname: '/(tabs)/history', params: { tourStep: 'path' } })}
+          accessibilityRole="button"
+          accessibilityLabel="Go to The Path tab to see your saved verse"
           style={{
             position: 'absolute',
-            bottom: 6,
-            left: PATH_TAB_CENTER_X - 40,
-            width: 80,
+            bottom: 0,
+            left: PATH_TAB_CENTER_X - 44,
+            width: 88,
+            height: 72,
             alignItems: 'center',
+            justifyContent: 'flex-start',
+            paddingTop: 4,
           }}
         >
           <Text
@@ -296,7 +301,7 @@ export default function HomeScreen() {
             ]}
           />
           <Text style={{ fontSize: 9, color: colors.amber, marginTop: 3, opacity: 0.7 }}>▼</Text>
-        </View>
+        </Pressable>
       )}
     </View>
   )

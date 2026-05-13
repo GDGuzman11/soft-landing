@@ -393,10 +393,11 @@ export default function HistoryScreen() {
         }}
       />
 
-      {/* Tour: path mode — bubble above Write a letter */}
+      {/* Tour: path mode — bubble above Write a letter, no dismiss button */}
       {tourPathMode && writeLetterAnchorY > 0 && (
         <PositionedTooltip
           text="Tap 'Write a letter' to watch AI craft a personal letter from your verse."
+          buttonLabel=""
           anchorY={writeLetterAnchorY}
           placement="above"
           onDismiss={() => {}}

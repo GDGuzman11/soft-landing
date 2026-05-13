@@ -20,18 +20,18 @@ import { useTheme } from '@/theme'
 import type { SavedMessage, Message, AppSettings, EmotionId } from '@/types'
 
 const DEMO_INPUT_TEXT =
-  "I've been carrying a lot lately. This verse reminded me I don't have to hold it all together."
+  "I've been moving fast lately. Seeing this stopped me for a second."
 
 const DEMO_LETTER =
-  `There is something beautiful about the fact that you reached for rest today.
+  `You paused.
 
-The verse you saved — Matthew 11:28 — is an open door. Not a command to perform or a standard to meet, but an invitation. Come as you are. Bring the weight. All of it.
+That actually means something. You've been in motion — feeling good, building momentum — and in the middle of that, something in you looked up and let this land.
 
-In the middle of a full life, rest can feel like something you haven't quite earned yet. But the invitation doesn't have a condition attached. It isn't waiting for you to have it together first. It is always open.
+Matthew 11:28 doesn't only speak to people who are barely holding it together. It speaks to anyone carrying something, which includes the person carrying a lot of good things really well right now.
 
-Let yourself receive it today. Fully. Without apology.
+The offer is still open when you're not running on empty. Rest doesn't have to be desperate to count.
 
-You showed up. That is enough.`
+You're in a good place. It's okay to receive something here anyway.`
 
 export default function LetterComposeScreen() {
   const { colors } = useTheme()
@@ -274,17 +274,20 @@ export default function LetterComposeScreen() {
         contentContainerStyle={{ paddingHorizontal: 24, paddingTop: 56, paddingBottom: 48 }}
         keyboardShouldPersistTaps="handled"
       >
-        {/* Back */}
-        <Pressable
-          onPress={() => router.back()}
-          hitSlop={{ top: 12, bottom: 12, left: 12, right: 12 }}
-          className="active:opacity-50"
-          style={{ marginBottom: 24 }}
-          accessibilityRole="button"
-          accessibilityLabel="Go back"
-        >
-          <Text style={mutedLinkTextStyle}>← Back</Text>
-        </Pressable>
+        {/* Back — hidden in tour mode */}
+        {!isTour && (
+          <Pressable
+            onPress={() => router.back()}
+            hitSlop={{ top: 12, bottom: 12, left: 12, right: 12 }}
+            className="active:opacity-50"
+            style={{ marginBottom: 24 }}
+            accessibilityRole="button"
+            accessibilityLabel="Go back"
+          >
+            <Text style={mutedLinkTextStyle}>← Back</Text>
+          </Pressable>
+        )}
+        {isTour && <View style={{ marginBottom: 24 }} />}
 
         {/* Verse */}
         <View
@@ -500,16 +503,33 @@ export default function LetterComposeScreen() {
               </View>
             )}
 
-            {hasLetter && (
+            {hasLetter && !isTour && (
               <Pressable
-                onPress={() => isTour ? router.replace('/welcome') : router.replace('/(tabs)')}
+                onPress={() => router.replace('/(tabs)')}
                 accessibilityRole="button"
                 accessibilityLabel="Done, go home"
                 className="active:opacity-50"
                 style={{ alignItems: 'center', marginTop: 20 }}
               >
-                <Text style={mutedLinkTextStyle}>
-                  {isTour ? 'Create an account →' : 'Done — go home'}
+                <Text style={mutedLinkTextStyle}>Done — go home</Text>
+              </Pressable>
+            )}
+
+            {hasLetter && isTour && (
+              <Pressable
+                onPress={() => router.replace('/welcome')}
+                accessibilityRole="button"
+                accessibilityLabel="Create an account"
+                style={{
+                  backgroundColor: colors.amber,
+                  borderRadius: 28,
+                  paddingVertical: 14,
+                  alignItems: 'center',
+                  marginTop: 24,
+                }}
+              >
+                <Text style={{ fontFamily: 'DMSans_500Medium', fontSize: 15, color: '#FFFFFF' }}>
+                  Create an account →
                 </Text>
               </Pressable>
             )}

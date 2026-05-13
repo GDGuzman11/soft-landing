@@ -72,8 +72,7 @@ export default function MessageScreen() {
   const [verseIsSaved, setVerseIsSaved] = useState(false)
   const [transitioning, setTransitioning] = useState(false)
   const [sessionSavedIds, setSessionSavedIds] = useState<string[]>([])
-  const [tourStep, setTourStep] = useState<-1 | 0 | 1>(isTour ? 0 : -1)
-  const [showDiscardHint, setShowDiscardHint] = useState(false)
+  const [tourStep, setTourStep] = useState<-1 | 0 | 1 | 2>(isTour ? 0 : -1)
   const [cardTopY, setCardTopY] = useState(0)
   const [buttonsTopY, setButtonsTopY] = useState(0)
   const cardRef = useRef<View>(null)
@@ -95,7 +94,7 @@ export default function MessageScreen() {
   // Mirror of tourStep accessible from the gesture worklet
   const tourStepSV = useSharedValue<number>(isTour ? 0 : -1)
 
-  function setTourStepSync(next: -1 | 0 | 1) {
+  function setTourStepSync(next: -1 | 0 | 1 | 2) {
     setTourStep(next)
     tourStepSV.value = next
   }
@@ -152,8 +151,9 @@ export default function MessageScreen() {
     actionsOpacity.value = withDelay(200, withTiming(1, { duration: 300 }))
   }
 
-  // Tour left swipe: animate card back, show discard info
+  // Tour left swipe: animate card back, lock to step 2 (only right swipe allowed after)
   function handleTourSwipeLeft() {
+    setTourStepSync(2)
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)
     cardX.value = 350
     cardRotate.value = 5
@@ -165,7 +165,6 @@ export default function MessageScreen() {
     cardRotate.value = withDelay(40, withSpring(0, { damping: 20, stiffness: 150 }))
     actionsOpacity.value = withDelay(200, withTiming(1, { duration: 300 }))
     setTransitioning(false)
-    setShowDiscardHint(true)
   }
 
   // Tour right swipe: navigate to tabs with path indicator
@@ -211,6 +210,15 @@ export default function MessageScreen() {
       if (transitioning) return
       // Tour step 0: block all dragging
       if (tourStepSV.value === 0) return
+      // Tour step 2: left swipe locked — only allow right drag
+      if (tourStepSV.value === 2) {
+        if (e.translationX > 0) {
+          cardX.value = e.translationX
+          cardRotate.value = e.translationX * 0.055
+          saveOpacity.value = Math.min(e.translationX / SWIPE_THRESHOLD, 1)
+        }
+        return
+      }
       // Tour step 1: allow both directions
       if (tourStepSV.value === 1) {
         cardX.value = e.translationX
@@ -242,6 +250,25 @@ export default function MessageScreen() {
 
       // Tour step 0: no swipes
       if (tourStepSV.value === 0) return
+
+      // Tour step 2: only right swipe proceeds, left swipe snaps back
+      if (tourStepSV.value === 2) {
+        if (e.translationX > SWIPE_THRESHOLD) {
+          runOnJS(setTransitioning)(true)
+          cardX.value = withTiming(700, { duration: 280 })
+          cardRotate.value = withTiming(22, { duration: 280 })
+          cardOpacity.value = withTiming(0, { duration: 260 })
+          saveOpacity.value = withTiming(0, { duration: 200 })
+          cardY.value = withTiming(cardY.value - 10, { duration: 280 }, () => {
+            runOnJS(handleTourSwipeRight)()
+          })
+        } else {
+          cardX.value = withSpring(0, { damping: 20, stiffness: 200 })
+          cardRotate.value = withSpring(0, { damping: 20, stiffness: 200 })
+          saveOpacity.value = withTiming(0, { duration: 200 })
+        }
+        return
+      }
 
       // Tour step 1: both directions enabled
       if (tourStepSV.value === 1) {
@@ -408,45 +435,47 @@ export default function MessageScreen() {
       </GestureDetector>
       </View>
 
-      {/* Action buttons */}
+      {/* Action buttons — hidden in tour mode to prevent deviating */}
       <View ref={buttonsRef}>
-      <Animated.View
-        style={[{ flexDirection: 'row', alignItems: 'center', gap: 28, marginTop: 32 }, actionsStyle]}
-      >
-        <Pressable
-          onPress={handleSaveButton}
-          accessibilityRole="button"
-          accessibilityLabel={verseIsSaved ? 'Verse saved' : 'Save verse'}
-          hitSlop={ACTION_HIT_SLOP}
-          style={actionPressableStyle}
+      {!isTour && (
+        <Animated.View
+          style={[{ flexDirection: 'row', alignItems: 'center', gap: 28, marginTop: 32 }, actionsStyle]}
         >
-          <Text style={{ fontSize: 26, opacity: verseIsSaved ? 1 : 0.4 }}>
-            {verseIsSaved ? '★' : '☆'}
-          </Text>
-        </Pressable>
+          <Pressable
+            onPress={handleSaveButton}
+            accessibilityRole="button"
+            accessibilityLabel={verseIsSaved ? 'Verse saved' : 'Save verse'}
+            hitSlop={ACTION_HIT_SLOP}
+            style={actionPressableStyle}
+          >
+            <Text style={{ fontSize: 26, opacity: verseIsSaved ? 1 : 0.4 }}>
+              {verseIsSaved ? '★' : '☆'}
+            </Text>
+          </Pressable>
 
-        <Pressable
-          onPress={handleShare}
-          accessibilityRole="button"
-          accessibilityLabel="Share verse"
-          hitSlop={ACTION_HIT_SLOP}
-          style={actionPressableStyle}
-        >
-          <Text style={{ fontSize: 22, color: colors.inkSecondary }}>↑</Text>
-        </Pressable>
+          <Pressable
+            onPress={handleShare}
+            accessibilityRole="button"
+            accessibilityLabel="Share verse"
+            hitSlop={ACTION_HIT_SLOP}
+            style={actionPressableStyle}
+          >
+            <Text style={{ fontSize: 22, color: colors.inkSecondary }}>↑</Text>
+          </Pressable>
 
-        <Pressable
-          onPress={() => { if (!transitioning) navigateDone() }}
-          accessibilityRole="button"
-          accessibilityLabel="Go home"
-          hitSlop={ACTION_HIT_SLOP}
-          style={actionPressableStyle}
-        >
-          <Text style={{ fontFamily: 'DMSans_400Regular', fontSize: 28, color: colors.inkSecondary }}>
-            ×
-          </Text>
-        </Pressable>
-      </Animated.View>
+          <Pressable
+            onPress={() => { if (!transitioning) navigateDone() }}
+            accessibilityRole="button"
+            accessibilityLabel="Go home"
+            hitSlop={ACTION_HIT_SLOP}
+            style={actionPressableStyle}
+          >
+            <Text style={{ fontFamily: 'DMSans_400Regular', fontSize: 28, color: colors.inkSecondary }}>
+              ×
+            </Text>
+          </Pressable>
+        </Animated.View>
+      )}
       </View>
 
       {/* Tour step 0 — introduce the card */}
@@ -460,24 +489,25 @@ export default function MessageScreen() {
         />
       )}
 
-      {/* Tour step 1 — prompt to swipe (no button, gesture drives it) */}
-      {tourStep === 1 && !showDiscardHint && cardTopY > 0 && (
+      {/* Tour step 1 — no button, gesture drives it */}
+      {tourStep === 1 && cardTopY > 0 && (
         <PositionedTooltip
           text="Give it a try — swipe left or right."
+          buttonLabel=""
           anchorY={cardTopY}
           placement="above"
           onDismiss={() => {}}
         />
       )}
 
-      {/* Discard hint — shown after a left swipe in tour */}
-      {tourStep === 1 && showDiscardHint && cardTopY > 0 && (
+      {/* Tour step 2 — after left swipe, lock to right-only */}
+      {tourStep === 2 && cardTopY > 0 && (
         <PositionedTooltip
-          text="Swiping left skips a verse — it won't be saved. Now try swiping right to save this one."
-          buttonLabel="Got it →"
+          text="Swiping left skips a verse. Now swipe right to save this one."
+          buttonLabel=""
           anchorY={cardTopY}
           placement="above"
-          onDismiss={() => setShowDiscardHint(false)}
+          onDismiss={() => {}}
         />
       )}
     </View>
