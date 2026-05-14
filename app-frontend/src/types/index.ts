@@ -200,6 +200,8 @@ export interface AppSettings {
   lifeStage: 'early' | 'middle' | 'later' | null;
   /** Whether the user has completed the personalization profile flow. */
   profileComplete: boolean;
+  /** Whether the user has completed their first real check-in (used to gate first-session hints). */
+  hasCompletedFirstRealCheckIn: boolean;
 }
 
 export interface AuthUser {

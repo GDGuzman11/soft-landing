@@ -196,8 +196,9 @@ function WaxSeal({ loading, isDark }: { loading: boolean; isDark: boolean }) {
 
 export default function EnvelopeScreen() {
   const { colors, isDark } = useTheme()
-  const { emotionId, tourMode } = useLocalSearchParams<{ emotionId: string; tourMode?: string }>()
+  const { emotionId, tourMode, firstSession } = useLocalSearchParams<{ emotionId: string; tourMode?: string; firstSession?: string }>()
   const isTour = tourMode === 'true'
+  const isFirstSession = firstSession === 'true'
   const [result, setResult] = useState<CheckInResult | null>(null)
   const [loading, setLoading] = useState(true)
   const [opening, setOpening] = useState(false)
@@ -342,6 +343,7 @@ export default function EnvelopeScreen() {
         checkInId: result.event.id,
         messageId: msg.id,
         ...(isTour ? { tourMode: 'true' } : {}),
+        ...(isFirstSession ? { firstSession: 'true' } : {}),
       },
     })
   }

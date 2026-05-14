@@ -38,6 +38,7 @@ const DEFAULT_SETTINGS: AppSettings = {
   primaryIntent: null,
   lifeStage: null,
   profileComplete: false,
+  hasCompletedFirstRealCheckIn: false,
 }
 
 async function get<T>(key: string, fallback: T): Promise<T> {

@@ -14,11 +14,11 @@ export default function OnboardingDisclaimerScreen() {
   async function handleAccept() {
     try {
       const settings = await getSettings()
-      await saveSettings({ ...settings, disclaimerAccepted: true })
+      await saveSettings({ ...settings, disclaimerAccepted: true, onboardingComplete: true })
     } catch {
       // non-fatal — proceed regardless
     }
-    router.replace('/onboarding')
+    router.replace('/onboarding-profile')
   }
 
   return (
