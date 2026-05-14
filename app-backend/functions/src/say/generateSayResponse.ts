@@ -61,7 +61,7 @@ function truncateToSentence(text: string): string {
 }
 
 export const generateSayResponse = onCall(
-  { region: 'us-central1', secrets: ['ANTHROPIC_API_KEY'] },
+  { region: 'us-central1', invoker: 'public', secrets: ['ANTHROPIC_API_KEY'] },
   async (request): Promise<GenerateSayResult> => {
     // STEP 1: Auth check
     if (!request.auth) {

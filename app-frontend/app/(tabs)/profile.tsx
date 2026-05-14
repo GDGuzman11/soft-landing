@@ -3,6 +3,7 @@ import { router, useFocusEffect } from 'expo-router'
 import { useCallback, useState } from 'react'
 import * as ImagePicker from 'expo-image-picker'
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import Constants from 'expo-constants'
 import { getSettings, getCheckIns, getSavedMessages } from '@/storage/storage'
 import { getCurrentUser, signOutUser } from '@/services/auth'
 import type { AppSettings, AuthUser, CheckInEvent, SavedMessage } from '@/types'
@@ -444,7 +445,7 @@ export default function ProfileScreen() {
       <Text
         style={{ fontFamily: 'DMSans_400Regular', fontSize: 11, color: colors.inkSubtle, textAlign: 'center', marginTop: 4 }}
       >
-        Soft Landing v1.5.0
+        {`Soft Landing v${Constants.expoConfig?.version ?? '1.9.0'}`}
       </Text>
     </ScrollView>
   )

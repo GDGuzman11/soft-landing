@@ -40,7 +40,7 @@ import Animated, {
   withSequence,
   withTiming,
 } from 'react-native-reanimated'
-import app, { db } from '@/services/firebase'
+import app, { db, logAnalyticsEvent } from '@/services/firebase'
 import { useTheme, VOICE_DARK } from '@/theme'
 
 const STAMP = require('../../../assets/images/icon-nobackground.png') as number
@@ -504,6 +504,7 @@ export default function SayThreadScreen() {
     setDraft('')
     const payload: SayPayload = { message: trimmed, personaId }
     lastPayloadRef.current = payload
+    logAnalyticsEvent('say_message_sent')
 
     try {
       const result = await callGenerateSayResponse(payload)

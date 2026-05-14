@@ -1,4 +1,4 @@
-import { View, Text, Switch, Pressable, ScrollView, Alert } from 'react-native'
+import { View, Text, Switch, Pressable, ScrollView, Alert, Linking, ActivityIndicator } from 'react-native'
 import { router } from 'expo-router'
 import { useEffect, useState } from 'react'
 import { getSettings, saveSettings, clearAllData } from '@/storage/storage'
@@ -7,11 +7,14 @@ import { signOutUser } from '@/services/auth'
 import type { AppSettings } from '@/types'
 import { db } from '@/services/firebase'
 import { doc, getDoc, setDoc, serverTimestamp } from 'firebase/firestore'
+import { getFunctions, httpsCallable } from 'firebase/functions'
 import { getAuth } from 'firebase/auth'
 import { useTheme } from '@/theme'
 import * as Haptics from 'expo-haptics'
 
 const DEFAULT_REMINDER_TIME = '08:00'
+const TERMS_URL = 'https://gdguzman11.github.io/soft-landing/terms.html'
+const PRIVACY_URL = 'https://gdguzman11.github.io/soft-landing/privacy-policy.html'
 
 const SECTION_LABEL_STYLE = { fontFamily: 'DMSans_500Medium', letterSpacing: 1 } as const
 const LEGAL_ROW_LABEL_STYLE = { fontFamily: 'DMSans_400Regular', fontSize: 15, color: '#3D2F2A' } as const
@@ -40,6 +43,7 @@ export default function SettingsScreen() {
   const [loadError, setLoadError] = useState<boolean>(false)
   const [mutedVoices, setMutedVoices] = useState<VoiceId[]>([])
   const [tokenDocLoaded, setTokenDocLoaded] = useState(false)
+  const [deleting, setDeleting] = useState(false)
 
   useEffect(() => {
     let cancelled = false
@@ -510,7 +514,8 @@ export default function SettingsScreen() {
 
         <Pressable
           className="px-5 py-4"
-          style={{ borderTopWidth: 1, borderTopColor: colors.cardBorder }}
+          style={{ borderTopWidth: 1, borderTopColor: colors.cardBorder, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}
+          disabled={deleting}
           onPress={() => {
             Alert.alert(
               'Delete account?',
@@ -521,9 +526,21 @@ export default function SettingsScreen() {
                   text: 'Delete permanently',
                   style: 'destructive',
                   onPress: async () => {
-                    await clearAllData()
-                    await signOutUser()
-                    router.replace('/welcome')
+                    setDeleting(true)
+                    const functions = getFunctions()
+                    const deleteUserDataFn = httpsCallable(functions, 'deleteUserData')
+                    try {
+                      await deleteUserDataFn({})
+                    } catch (e) {
+                      console.warn('deleteUserData failed:', e)
+                    }
+                    try {
+                      await clearAllData()
+                      await signOutUser()
+                    } finally {
+                      setDeleting(false)
+                      router.replace('/welcome')
+                    }
                   },
                 },
               ]
@@ -535,6 +552,7 @@ export default function SettingsScreen() {
           <Text style={{ fontFamily: 'DMSans_400Regular', fontSize: 14, color: '#E8A598' }}>
             Delete account
           </Text>
+          {deleting ? <ActivityIndicator size="small" color="#E8A598" /> : null}
         </Pressable>
       </View>
 
@@ -559,9 +577,7 @@ export default function SettingsScreen() {
             borderTopWidth: 1,
             borderTopColor: colors.cardBorder,
           }}
-          onPress={() =>
-            Alert.alert('Coming soon', 'Terms of use will be available before launch.')
-          }
+          onPress={() => Linking.openURL(TERMS_URL)}
           accessibilityRole="button"
           accessibilityLabel="Terms of Use"
         >
@@ -580,9 +596,7 @@ export default function SettingsScreen() {
             borderTopWidth: 1,
             borderTopColor: colors.cardBorder,
           }}
-          onPress={() =>
-            Alert.alert('Coming soon', 'Privacy policy will be available before launch.')
-          }
+          onPress={() => Linking.openURL(PRIVACY_URL)}
           accessibilityRole="button"
           accessibilityLabel="Privacy Policy"
         >

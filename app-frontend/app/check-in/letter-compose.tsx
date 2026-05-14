@@ -17,6 +17,7 @@ import { generateLetter } from '@/services/letterService'
 import { getCurrentUser } from '@/services/auth'
 import LetterCard from '@/components/LetterCard'
 import { useTheme } from '@/theme'
+import { logAnalyticsEvent } from '@/services/firebase'
 import type { SavedMessage, Message, AppSettings, EmotionId } from '@/types'
 
 const DEMO_INPUT_TEXT =
@@ -229,6 +230,7 @@ export default function LetterComposeScreen() {
       }
 
       setLetter(result.letter)
+      logAnalyticsEvent('letter_generated', { emotion: emotionId })
       await updateSavedMessage(savedMessageId, {
         letter: result.letter,
         note: userInput.trim() || undefined,

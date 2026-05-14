@@ -6,6 +6,7 @@ import type { AppSettings } from '@/types'
 import { getCurrentUser } from '@/services/auth'
 import PositionedTooltip from '@/components/PositionedTooltip'
 import { useTheme } from '@/theme'
+import { logAnalyticsEvent } from '@/services/firebase'
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
@@ -131,6 +132,7 @@ export default function HomeScreen() {
 
   function handleCheckIn() {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)
+    logAnalyticsEvent('check_in_started')
     router.push('/check-in/emotions')
   }
 

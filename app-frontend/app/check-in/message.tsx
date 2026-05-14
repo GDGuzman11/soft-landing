@@ -19,6 +19,7 @@ import { bookmarkMessage, canCheckIn, performCheckIn } from '@/services/checkIn'
 import type { EmotionId } from '@/types'
 import { useTheme } from '@/theme'
 import PositionedTooltip from '@/components/PositionedTooltip'
+import { logAnalyticsEvent } from '@/services/firebase'
 
 const SWIPE_THRESHOLD = 110
 
@@ -195,6 +196,7 @@ export default function MessageScreen() {
       })
       setSessionSavedIds((prev) => [...prev, saved.id])
       setVerseIsSaved(true)
+      logAnalyticsEvent('verse_saved', { emotion: emotionId })
     }
     Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success)
     await loadNextVerse('right')
