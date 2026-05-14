@@ -26,6 +26,18 @@ export const unstable_settings = {
   initialRouteName: 'welcome',
 }
 
+// Sentry initialization — uncomment after running `pnpm add @sentry/react-native@~7.2.0`.
+// Install failed due to a Windows EPERM/file-lock issue during this change; the wiring is
+// preserved below so it can be re-enabled with a single import + uncomment.
+//
+// import * as Sentry from '@sentry/react-native'
+// if (process.env.EXPO_PUBLIC_SENTRY_DSN) {
+//   Sentry.init({
+//     dsn: process.env.EXPO_PUBLIC_SENTRY_DSN,
+//     tracesSampleRate: 0.2,
+//   })
+// }
+
 SplashScreen.preventAutoHideAsync()
 
 function ThemedStack() {
@@ -40,7 +52,6 @@ function ThemedStack() {
       <Stack.Screen name="check-in/envelope" options={{ animation: 'fade' }} />
       <Stack.Screen name="check-in/message" options={{ animation: 'none' }} />
       <Stack.Screen name="paywall" options={{ presentation: 'modal' }} />
-      <Stack.Screen name="onboarding" options={{ animation: 'fade' }} />
       <Stack.Screen name="register" options={{ animation: 'fade' }} />
       <Stack.Screen name="verify-email" options={{ animation: 'fade' }} />
       <Stack.Screen name="faith-intro" options={{ animation: 'fade' }} />
