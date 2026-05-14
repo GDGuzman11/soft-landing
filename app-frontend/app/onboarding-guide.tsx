@@ -34,7 +34,7 @@ const SLIDES = [
     iconFamily: 'Lora_400Regular_Italic' as const,
     title: 'Say',
     tagline: 'A space to speak.',
-    body: "Type what's on your mind. Choose a voice — Kind, Still, Steady, or Wise — and receive a letter written back just for you.",
+    body: "Like venting to a friend, but they're always free. Choose a voice and just talk.",
   },
   {
     icon: '○',
