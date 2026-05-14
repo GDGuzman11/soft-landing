@@ -67,10 +67,10 @@ One agent's work per commit. Reference a bug ID in the body when relevant (e.g. 
 - **Interaction model:** single-card swipe for the emotion picker (one card visible, card follows finger, flies off at threshold), Reanimated envelope flight, single tap to open
 
 ## Active context
-*Session 2026-05-03 — V1.8.0. Say AI chat tab shipped (4 voice personas: Kind/Still/Steady/Wise) with rate limiting, crisis routing, and per-error-type UX. Full dark mode across all remaining screens. Code cleanup: shared mapFirebaseError util, dead code removed. UX polish: history delete confirmation + fade animation + haptics, session-summary empty state, letter-compose loading states. Letter prompts upgraded to v1.6 with per-emotion identity anchors, "what you are not" exclusions, and Gen Z tone calibration. Say voice prompts updated: Kind question discipline, Steady grounding question, Wise question reinforcement, Still unchanged. Next steps: (1) set up RevenueCat with App Store Connect products (API keys in .env), (2) upload APNs key to EAS via `eas credentials`, (3) submit to TestFlight via `eas build --profile preview --platform ios`.*
+*Session 2026-05-13 — V1.9.0. Pre-signup "How It Works" tour fixed (amber glow, auto-typing, param propagation, gesture locking). Post-signup onboarding overhauled: 2-slide generic carousel removed from funnel; replaced with one-time 4-slide `onboarding-guide.tsx` — one slide per tab, pulsing amber glyph icons, animated dots, Gen Z copy. Next steps: (1) set up RevenueCat with App Store Connect products (API keys in .env), (2) upload APNs key to EAS via `eas credentials`, (3) submit to TestFlight via `eas build --profile preview --platform ios`.*
 
 ## Current build state
-- All screens functional: welcome → (how it works / register / sign-in) → onboarding → onboarding-profile → faith-intro → home → emotions → envelope → message (swipe flow) → session-summary → letter-compose → history
+- All screens functional: welcome → (how it works / register / sign-in) → onboarding-disclaimer → onboarding-guide → onboarding-profile → faith-intro → home → emotions → envelope → message (swipe flow) → session-summary → letter-compose → history
 - **250 KJV + WEB curated verses** (50 per emotion, 25 free / 25 premium) served from Firestore; 31,102 full-Bible verses imported
 - Verse selector: Firestore `where('emotionTags', 'array-contains', emotionId)` with 24h AsyncStorage cache; anti-repetition 48hr penalty window
 - Randomized translation per card: each swipe independently shows KJV or WEB (50/50), not both at once

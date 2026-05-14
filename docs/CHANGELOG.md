@@ -5,6 +5,23 @@ All notable changes to Soft Landing will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.9.0] — 2026-05-13
+
+### Added
+- **Post-signup onboarding guide** (`app/onboarding-guide.tsx`): 4-slide horizontal carousel shown once after the disclaimer, one slide per tab — Home (✦), The Path (◇), Say ("), Profile (○). Each slide shows the tab's glyph with a pulsing Reanimated amber `textShadow` glow, a DM Sans 500 tab name, a Lora italic tagline, and a short body. Animated stretch-spring pagination dots (same pattern as emotion picker). "swipe to continue" hint on slides 1–3 swaps to an "I'm ready →" amber CTA on slide 4. Screen appears exactly once — naturally gated by `disclaimerAccepted` via routing, no additional flag needed.
+- **`hasCompletedFirstRealCheckIn: boolean`** added to `AppSettings` interface and `DEFAULT_SETTINGS` — reserved field for future first-session gating logic.
+
+### Changed
+- **Onboarding funnel simplified**: 2-slide generic carousel (`onboarding.tsx`) removed from the post-signup path. New funnel: disclaimer → `onboarding-guide` → `onboarding-profile` → `faith-intro` → home. `onboarding-disclaimer.tsx` sets both `disclaimerAccepted` and `onboardingComplete` to `true` before routing to the guide — prevents home screen guard from redirecting to the now-bypassed carousel.
+- **Say onboarding copy**: slide 3 body replaced with relatable Gen Z framing — *"Like venting to a friend, but they're always free. Choose a voice and just talk."*
+
+### Fixed
+- **Pre-signup tour — amber glow invisible** (`history.tsx`): `letterGlow` shared value was initialised at `0.3`, making the "Write a letter →" button 30% opacity on mount. Changed to `useSharedValue(1)`; animation now pulses DOWN from full opacity then back, making the CTA consistently visible.
+- **Pre-signup tour — auto-typing not working** (`letter-compose.tsx`): `editable={false}` on `TextInput` blocked programmatic `value` prop updates from rendering. Removed the prop; rewrote the auto-type effect to self-contain character-by-character typing + simulated generation entirely in a `useEffect` — no user interaction required.
+- **Pre-signup tour — params not reaching history tab** (`index.tsx`): `router.replace({ pathname: '/(tabs)', params: { tourStep: 'path' } })` sends params to the tabs layout, not to the history screen. The path indicator was a non-tappable `View` that never received the param. Changed to a `Pressable` that explicitly navigates to `/(tabs)/history?tourStep=path`.
+- **Pre-signup tour — user could swipe multiple times**: After a left swipe `tourStep` stayed at 1, leaving gestures fully unlocked. Added step 2: `handleTourSwipeLeft` calls `setTourStepSync(2)` immediately; gesture handler blocks all left drags and snap-backs at step 2 — only a right swipe past threshold proceeds.
+- **Pre-signup tour — action buttons accessible in tour mode**: The ×, ☆, and ↑ buttons were always rendered; users could exit tour via ×. All three hidden with `{!isTour && ...}`.
+
 ## [1.8.1] — 2026-05-09
 
 ### Performance
