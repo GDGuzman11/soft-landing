@@ -5,9 +5,29 @@ developer accounts, and what becomes unlocked **after** credentials are in hand.
 A security section covers both phases with honest gap analysis against what's
 already built.
 
+*Last updated: v1.9.0 — 2026-05-13*
+
 ---
 
 ## PHASE 1 — Do Now (No Developer Accounts Required)
+
+### Code Cleanup
+
+- [ ] **Delete orphaned `onboarding.tsx`** — the 2-slide generic carousel was
+  removed from the post-signup funnel in v1.9.0 (replaced by `onboarding-guide.tsx`)
+  but the file still lives in `app-frontend/app/`. Remove it and confirm no
+  remaining imports or routes reference it.
+
+- [ ] **Decide fate of pre-signup "How It Works" tour** — the fake-data tour
+  (tour mode in `history.tsx`, `letter-compose.tsx`, `message.tsx`, and the
+  `tourMode` param chain) is complex to maintain. Now that a real post-signup
+  guide exists, consider whether the pre-signup tour still earns its weight.
+  Options: keep it as a lightweight editorial scroll (`tour.tsx`), simplify to
+  static screenshots, or remove entirely. **Make this decision before TestFlight.**
+
+- [ ] **`hasCompletedFirstRealCheckIn` field** — added to `AppSettings` in v1.9.0
+  but currently unused. Either wire it up to gate a first-session feature, or
+  remove it from `types/index.ts` and `DEFAULT_SETTINGS` to keep the schema clean.
 
 ### App Config & Metadata
 
@@ -21,8 +41,8 @@ already built.
   ```
 
 - [ ] **Sync version string with `app.json`**
-  `app.json` says `1.1.0`; `profile.tsx:449` hardcodes `v1.5.0`. Both are wrong.
-  Decide on the release version, set it once in `app.json`, then replace the
+  `app.json` still reports an old version; `profile.tsx` hardcodes a stale string.
+  Current version is `1.9.0`. Set it once in `app.json`, then replace the
   hardcoded string in `profile.tsx` with `Constants.expoConfig?.version` from
   `expo-constants`.
 
@@ -115,13 +135,9 @@ already built.
   ```
   Firebase SDK clients will still work — only raw HTTP to the Cloud Run URL is blocked.
 
-- [ ] **Deploy Firestore security rules** — `app-backend/firestore.rules` is
-  correctly written but must be deployed to take effect:
-  ```bash
-  firebase deploy --only firestore:rules
-  ```
-  Verify in the Firebase Console → Firestore → Rules that the live rules match
-  the file (`verses` read requires auth, write blocked; everything else blocked).
+- [x] **Deploy Firestore security rules** — deployed in v1.3.0 (deny-all baseline)
+  and updated in v1.5.0 (verse reads gated behind Firebase Auth, writes blocked).
+  Re-deploy if `firestore.rules` changes.
 
 - [ ] **Set up Firebase billing alert** — AI letter generation incurs Anthropic
   API costs through the Cloud Function. Go to Google Cloud Console → Billing →
@@ -412,35 +428,46 @@ already built.
 ## Quick Reference — Ordered Dependency Chain
 
 ```
-1.  Add NSPhotoLibraryUsageDescription to app.json     ← can do today
-2.  Host privacy policy + terms at public URLs         ← can do today
-3.  Fix server-side account deletion Cloud Function    ← can do today
-4.  Lock down Cloud Run (remove invoker: 'public')     ← can do today
-5.  Restrict Firebase API key in Cloud Console         ← can do today
-6.  Enable Firebase App Check                          ← can do today
-7.  Deploy Firestore rules                             ← can do today
-8.  Run pnpm audit, grep for secrets                  ← can do today
-9.  Paywall design session with Claude                 ← can do today
-10. Add crash reporting (Sentry)                       ← can do today
-11. Fix version string, splash screen, time picker     ← can do today
-12. Decide widgets scope                               ← can do today
+    ── Code cleanup ─────────────────────────────────────────────────────
+1.  Delete orphaned onboarding.tsx                     ← can do today
+2.  Decide fate of pre-signup "How It Works" tour      ← can do today
+3.  Resolve hasCompletedFirstRealCheckIn (wire or cut) ← can do today
+    ── Config & legal ───────────────────────────────────────────────────
+4.  Add NSPhotoLibraryUsageDescription to app.json     ← can do today
+5.  Sync version string to 1.9.0 in app.json           ← can do today
+6.  Host privacy policy + terms at public URLs         ← can do today
+7.  Wire privacy policy + terms links in settings      ← can do today
+    ── Security (do before TestFlight) ──────────────────────────────────
+8.  Fix server-side account deletion Cloud Function    ← can do today
+9.  Lock down Cloud Run (remove invoker: 'public')     ← can do today
+10. Restrict Firebase API key in Cloud Console         ← can do today
+11. Enable Firebase App Check                          ← can do today
+12. [x] Deploy Firestore rules                         ← done (v1.3/1.5)
+13. Run pnpm audit, grep for secrets                  ← can do today
+14. Add crash reporting (Sentry)                       ← can do today
+    ── Product decisions ────────────────────────────────────────────────
+15. Paywall design session with Claude                 ← can do today
+16. Decide widgets scope (preview / cut / build)       ← can do today
+17. Notification time picker UI                        ← can do today
+18. Splash screen design                               ← can do today
     ─────── get Apple Developer account ────────────────────────────────
-13. Create App ID + App Store Connect record
-14. Google Sign-In OAuth client ID
-15. Enable Apple Sign-In in Firebase
-16. RevenueCat account + products + API keys
-17. Wire entitlement listener (BUG-026)
-18. Wire paywall purchase + restore buttons
-19. Re-enable canCheckIn() quota (BUG-014)
-20. Re-enable AI letter gate (letter-compose.tsx)
-21. Restrict RevenueCat API key in dashboard
-22. App Store metadata, screenshots, description
-23. Age rating + privacy nutrition label
-24. TestFlight build → sandbox purchase test
-25. App Store submission (1–3 day review)
+19. Create App ID + App Store Connect record
+20. Google Sign-In OAuth client ID
+21. Enable Apple Sign-In in Firebase
+22. RevenueCat account + products + API keys
+23. Wire entitlement listener (BUG-026)
+24. Wire paywall purchase + restore buttons
+25. Re-enable canCheckIn() quota (BUG-014)
+26. Re-enable AI letter gate (letter-compose.tsx)
+27. Restrict RevenueCat API key in dashboard
+28. Firebase billing budget alert
+29. App Store metadata, screenshots, description
+30. Age rating + privacy nutrition label
+31. TestFlight build → sandbox purchase test
+32. App Store submission (1–3 day review)
     ─────── get Google Play Developer account ──────────────────────────
-26. Play Console app record, feature graphic
-27. SHA-1 fingerprint for Android Google Sign-In
-28. Content rating + Data safety form
-29. Android build → Play Store submission
+33. Play Console app record, feature graphic
+34. SHA-1 fingerprint for Android Google Sign-In
+35. Content rating + Data safety form
+36. Android build → Play Store submission
 ```
