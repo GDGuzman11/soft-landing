@@ -16,7 +16,6 @@ import Animated, {
 } from 'react-native-reanimated'
 import * as Haptics from 'expo-haptics'
 import { bookmarkMessage, canCheckIn, performCheckIn } from '@/services/checkIn'
-import { getSettings, saveSettings } from '@/storage/storage'
 import type { EmotionId } from '@/types'
 import { useTheme } from '@/theme'
 import PositionedTooltip from '@/components/PositionedTooltip'
@@ -53,7 +52,7 @@ interface VerseData {
 
 export default function MessageScreen() {
   const { colors, isDark } = useTheme()
-  const { emotionId, messageBody, messageReference, checkInId, messageId, tourMode, firstSession } =
+  const { emotionId, messageBody, messageReference, checkInId, messageId, tourMode } =
     useLocalSearchParams<{
       emotionId: string
       messageBody: string
@@ -61,10 +60,8 @@ export default function MessageScreen() {
       checkInId: string
       messageId: string
       tourMode?: string
-      firstSession?: string
     }>()
   const isTour = tourMode === 'true'
-  const isFirstSession = firstSession === 'true'
 
   const [verse, setVerse] = useState<VerseData>({
     body: messageBody,
@@ -76,7 +73,6 @@ export default function MessageScreen() {
   const [transitioning, setTransitioning] = useState(false)
   const [sessionSavedIds, setSessionSavedIds] = useState<string[]>([])
   const [tourStep, setTourStep] = useState<-1 | 0 | 1 | 2>(isTour ? 0 : -1)
-  const [showFirstSessionTip, setShowFirstSessionTip] = useState(isFirstSession)
   const [cardTopY, setCardTopY] = useState(0)
   const [buttonsTopY, setButtonsTopY] = useState(0)
   const cardRef = useRef<View>(null)
@@ -108,7 +104,7 @@ export default function MessageScreen() {
     cardY.value = withSpring(0, { damping: 20, stiffness: 120 })
     actionsOpacity.value = withDelay(400, withTiming(1, { duration: 400 }))
 
-    if (isTour || isFirstSession) {
+    if (isTour) {
       const t = setTimeout(() => {
         cardRef.current?.measure((_x, _y, _w, _h, _px, pageY) => {
           setCardTopY(pageY)
@@ -199,14 +195,6 @@ export default function MessageScreen() {
       })
       setSessionSavedIds((prev) => [...prev, saved.id])
       setVerseIsSaved(true)
-      if (isFirstSession) {
-        try {
-          const s = await getSettings()
-          await saveSettings({ ...s, hasCompletedFirstRealCheckIn: true })
-        } catch {
-          // non-fatal
-        }
-      }
     }
     Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success)
     await loadNextVerse('right')
@@ -523,16 +511,6 @@ export default function MessageScreen() {
         />
       )}
 
-      {/* First-session hint — soft, dismissable, no gesture locking */}
-      {isFirstSession && showFirstSessionTip && cardTopY > 0 && (
-        <PositionedTooltip
-          text="Swipe right to save this verse. Swipe left to skip it."
-          buttonLabel="Got it →"
-          anchorY={cardTopY}
-          placement="above"
-          onDismiss={() => setShowFirstSessionTip(false)}
-        />
-      )}
     </View>
   )
 }

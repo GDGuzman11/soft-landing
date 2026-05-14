@@ -18,7 +18,7 @@ export default function OnboardingDisclaimerScreen() {
     } catch {
       // non-fatal — proceed regardless
     }
-    router.replace('/onboarding-profile')
+    router.replace('/onboarding-guide')
   }
 
   return (

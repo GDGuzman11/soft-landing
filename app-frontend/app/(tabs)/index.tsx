@@ -34,7 +34,6 @@ export default function HomeScreen() {
   const [settings, setSettings] = useState<AppSettings | null>(null)
   const [savedCount, setSavedCount] = useState(0)
   const [showTourTooltip, setShowTourTooltip] = useState(tourStep === '5')
-  const [showFirstSessionTip, setShowFirstSessionTip] = useState(false)
   const [buttonAnchorY, setButtonAnchorY] = useState(0)
   const checkInButtonRef = useRef<View>(null)
   const navigationChecked = useRef(false)
@@ -106,20 +105,6 @@ export default function HomeScreen() {
     }
   }, [])
 
-  // Show first-session hint once settings load and user hasn't done first check-in
-  useEffect(() => {
-    if (!settings || settings.hasCompletedFirstRealCheckIn || showPathTip) return
-    if (settings.faithIntroComplete) {
-      const t = setTimeout(() => {
-        checkInButtonRef.current?.measure((_x, _y, _w, _h, _px, pageY) => {
-          setButtonAnchorY(pageY)
-          setShowFirstSessionTip(true)
-        })
-      }, 400)
-      return () => clearTimeout(t)
-    }
-  }, [settings])
-
   const greetingStyle = useAnimatedStyle(() => ({
     opacity: greetingOpacity.value,
     transform: [{ translateY: greetingY.value }],
@@ -146,11 +131,7 @@ export default function HomeScreen() {
 
   function handleCheckIn() {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)
-    const isFirstSession = settings && !settings.hasCompletedFirstRealCheckIn
-    router.push(isFirstSession
-      ? { pathname: '/check-in/emotions', params: { firstSession: 'true' } }
-      : '/check-in/emotions'
-    )
+    router.push('/check-in/emotions')
   }
 
   return (
@@ -274,19 +255,6 @@ export default function HomeScreen() {
           onDismiss={() => {
             setShowTourTooltip(false)
             router.replace('/register')
-          }}
-        />
-      )}
-
-      {showFirstSessionTip && buttonAnchorY > 0 && (
-        <PositionedTooltip
-          text="This is your daily check-in. Tap when you're ready — your first verse is waiting."
-          buttonLabel="Let's go →"
-          anchorY={buttonAnchorY}
-          placement="above"
-          onDismiss={() => {
-            setShowFirstSessionTip(false)
-            handleCheckIn()
           }}
         />
       )}

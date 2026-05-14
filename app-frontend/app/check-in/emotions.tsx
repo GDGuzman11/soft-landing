@@ -64,12 +64,10 @@ function Dot({ active, colors }: { active: boolean; colors: ThemeColors }) {
 
 export default function EmotionsScreen() {
   const { colors, isDark } = useTheme()
-  const { tourMode, firstSession } = useLocalSearchParams<{ tourMode?: string; firstSession?: string }>()
+  const { tourMode } = useLocalSearchParams<{ tourMode?: string }>()
   const isTour = tourMode === 'true'
-  const isFirstSession = firstSession === 'true'
   const [activeIndex, setActiveIndex] = useState(isTour ? EMOTION_ORDER.indexOf('good') : 0)
   const [showTourTip, setShowTourTip] = useState(isTour)
-  const [showFirstSessionTip, setShowFirstSessionTip] = useState(false)
   const [cardAnchorY, setCardAnchorY] = useState(0)
   const cardRef = useRef<View>(null)
   const total = ORDERED_EMOTIONS.length
@@ -113,13 +111,12 @@ export default function EmotionsScreen() {
   }, [activeIndex, pulseGlow, shimmer])
 
   useEffect(() => {
-    if (!isTour && !isFirstSession) return
+    if (!isTour) return
     const t = setTimeout(() => {
       cardRef.current?.measure((_x, _y, _w, _h, _px, pageY) => {
         setCardAnchorY(pageY)
-        if (isFirstSession) setShowFirstSessionTip(true)
       })
-    }, 300)
+    }, 150)
     return () => clearTimeout(t)
   }, [])
 
@@ -145,13 +142,7 @@ export default function EmotionsScreen() {
       router.push('/paywall')
       return
     }
-    router.push({
-      pathname: '/check-in/envelope',
-      params: {
-        emotionId: emotion.id,
-        ...(isFirstSession ? { firstSession: 'true' } : {}),
-      },
-    })
+    router.push({ pathname: '/check-in/envelope', params: { emotionId: emotion.id } })
   }
 
   function triggerSwipeHaptic() {
@@ -339,15 +330,6 @@ export default function EmotionsScreen() {
         />
       )}
 
-      {showFirstSessionTip && cardAnchorY > 0 && (
-        <PositionedTooltip
-          text="Pick how you're feeling. No wrong answer."
-          buttonLabel="Got it →"
-          anchorY={cardAnchorY}
-          placement="above"
-          onDismiss={() => setShowFirstSessionTip(false)}
-        />
-      )}
     </View>
   )
 }
