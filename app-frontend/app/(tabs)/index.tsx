@@ -1,8 +1,14 @@
 import { View, Text, Pressable, Image, Dimensions } from 'react-native'
 import { router, useLocalSearchParams, useFocusEffect } from 'expo-router'
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { getSettings, saveSettings, getSavedMessages } from '@/storage/storage'
-import type { AppSettings } from '@/types'
+import {
+  getSettings,
+  saveSettings,
+  getSavedMessages,
+  getCheckIns,
+  calcStreak,
+} from '@/storage/storage'
+import type { AppSettings, CheckInEvent } from '@/types'
 import { getCurrentUser } from '@/services/auth'
 import PositionedTooltip from '@/components/PositionedTooltip'
 import { useTheme } from '@/theme'
@@ -34,6 +40,8 @@ export default function HomeScreen() {
   const { tourStep } = useLocalSearchParams<{ tourStep?: string }>()
   const [settings, setSettings] = useState<AppSettings | null>(null)
   const [savedCount, setSavedCount] = useState(0)
+  const [streak, setStreak] = useState(0)
+  const [recentDays, setRecentDays] = useState<boolean[]>([false, false, false, false, false, false, false])
   const [showTourTooltip, setShowTourTooltip] = useState(tourStep === '5')
   const [buttonAnchorY, setButtonAnchorY] = useState(0)
   const checkInButtonRef = useRef<View>(null)
@@ -81,8 +89,6 @@ export default function HomeScreen() {
     buttonOpacity.value = withDelay(300, withTiming(1, { duration: 500 }))
     buttonY.value = withDelay(300, withSpring(0, { damping: 20, stiffness: 160 }))
 
-    getSavedMessages().then(msgs => setSavedCount(msgs.length)).catch(() => {})
-
     if (showPathTip) {
       pathPulse.value = withRepeat(
         withSequence(
@@ -125,6 +131,32 @@ export default function HomeScreen() {
     useCallback(() => {
       peopleOpacity.value = 0
       peopleOpacity.value = withDelay(300, withTiming(0.35, { duration: 2000 }))
+
+      // Reload streak + saved count on every focus so the home screen reflects
+      // the user's most recent activity after returning from a check-in flow.
+      void (async () => {
+        try {
+          const [savedMsgs, checkIns] = await Promise.all([
+            getSavedMessages(),
+            getCheckIns(),
+          ])
+          setSavedCount(savedMsgs.length)
+          const events = checkIns as CheckInEvent[]
+          setStreak(calcStreak(events))
+
+          // Build a 7-day window: index 0 = 6 days ago, index 6 = today.
+          const uniqueDates = new Set(events.map((e) => e.timestamp.slice(0, 10)))
+          const window: boolean[] = []
+          for (let i = 6; i >= 0; i--) {
+            const d = new Date()
+            d.setDate(d.getDate() - i)
+            window.push(uniqueDates.has(d.toISOString().slice(0, 10)))
+          }
+          setRecentDays(window)
+        } catch {
+          // non-fatal — leave defaults in place
+        }
+      })()
     }, [peopleOpacity])
   )
 
@@ -245,6 +277,51 @@ export default function HomeScreen() {
         </Pressable>
       </Animated.View>
       </View>
+
+      {streak >= 2 && (
+        <View
+          style={{ alignItems: 'center', marginTop: 20, zIndex: 1 }}
+          accessibilityRole="text"
+          accessibilityLabel={`${streak} days in a row`}
+        >
+          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
+            <Text style={{ fontFamily: 'DMSans_400Regular', fontSize: 16, color: '#C4956A' }}>✦</Text>
+            <Text style={{ fontFamily: 'DMSans_500Medium', fontSize: 28, color: '#C4956A' }}>{streak}</Text>
+          </View>
+          <Text
+            style={{
+              fontFamily: 'DMSans_400Regular',
+              fontSize: 12,
+              color: '#9A8880',
+              marginTop: 2,
+            }}
+          >
+            days in a row
+          </Text>
+          <View
+            style={{
+              flexDirection: 'row',
+              gap: 6,
+              justifyContent: 'center',
+              marginTop: 8,
+            }}
+          >
+            {recentDays.map((filled, i) => (
+              <View
+                key={i}
+                style={{
+                  width: 8,
+                  height: 8,
+                  borderRadius: 4,
+                  backgroundColor: filled ? '#C4956A' : 'transparent',
+                  borderWidth: filled ? 0 : 1,
+                  borderColor: 'rgba(196,149,106,0.4)',
+                }}
+              />
+            ))}
+          </View>
+        </View>
+      )}
 
       {showTourTooltip && buttonAnchorY > 0 && (
         <PositionedTooltip
