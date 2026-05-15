@@ -200,6 +200,8 @@ export interface AppSettings {
   lifeStage: 'early' | 'middle' | 'later' | null;
   /** Whether the user has completed the personalization profile flow. */
   profileComplete: boolean;
+  /** Whether the one-time reminder prompt has been shown on session-summary. */
+  reminderPromptShown: boolean;
 }
 
 export interface AuthUser {

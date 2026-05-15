@@ -1,6 +1,8 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import type { AppSettings, CheckInEvent, SavedMessage } from '../types'
 
+export { calcStreak, hasTodayCheckIn } from '../utils/streak'
+
 const KEYS = {
   SETTINGS: '@soft_landing/settings',
   CHECK_INS: '@soft_landing/check_ins',
@@ -38,6 +40,7 @@ const DEFAULT_SETTINGS: AppSettings = {
   primaryIntent: null,
   lifeStage: null,
   profileComplete: false,
+  reminderPromptShown: false,
 }
 
 async function get<T>(key: string, fallback: T): Promise<T> {
