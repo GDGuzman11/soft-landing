@@ -1,4 +1,4 @@
-import { View, Text, Pressable, Share, Alert } from 'react-native'
+import { View, Text, Pressable, Share } from 'react-native'
 import { router, useLocalSearchParams } from 'expo-router'
 import { useEffect, useState, useRef } from 'react'
 import { GestureDetector, Gesture } from 'react-native-gesture-handler'
@@ -21,6 +21,7 @@ import type { EmotionId } from '@/types'
 import { useTheme } from '@/theme'
 import PositionedTooltip from '@/components/PositionedTooltip'
 import VerseShareCard from '@/components/VerseShareCard'
+import ShareFormatSheet from '@/components/ShareFormatSheet'
 import { logAnalyticsEvent } from '@/services/firebase'
 
 const SWIPE_THRESHOLD = 110
@@ -85,6 +86,7 @@ export default function MessageScreen() {
   const shareCardRef = useRef<View>(null)
   const [shareFormat, setShareFormat] = useState<'square' | 'portrait'>('square')
   const [shareReady, setShareReady] = useState(false)
+  const [showShareSheet, setShowShareSheet] = useState(false)
 
   // Entrance animation
   const cardOpacity = useSharedValue(0)
@@ -398,12 +400,7 @@ export default function MessageScreen() {
   function handleShare() {
     if (isTour) return
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)
-    Alert.alert('Share', '', [
-      { text: 'Share text', onPress: () => shareText() },
-      { text: 'Square card', onPress: () => shareAsCard('square') },
-      { text: 'Portrait card', onPress: () => shareAsCard('portrait') },
-      { text: 'Cancel', style: 'cancel' },
-    ])
+    setShowShareSheet(true)
   }
 
   return (
@@ -553,6 +550,13 @@ export default function MessageScreen() {
           />
         </View>
       )}
+
+      <ShareFormatSheet
+        visible={showShareSheet}
+        onClose={() => setShowShareSheet(false)}
+        onShareText={() => { setShowShareSheet(false); shareText() }}
+        onShareCard={async (format) => { await shareAsCard(format) }}
+      />
 
     </View>
   )

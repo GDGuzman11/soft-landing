@@ -17,6 +17,7 @@ import type { SavedMessage, Message, EmotionId, AppSettings, CheckInEvent } from
 import TourTooltip from '@/components/TourTooltip'
 import PositionedTooltip from '@/components/PositionedTooltip'
 import VerseShareCard from '@/components/VerseShareCard'
+import ShareFormatSheet from '@/components/ShareFormatSheet'
 import { useTheme } from '@/theme'
 
 const EMOTION_COLORS: Record<EmotionId, string> = {
@@ -92,6 +93,8 @@ export default function HistoryScreen() {
   const shareCardRef = useRef<View>(null)
   const [shareVerse, setShareVerse] = useState<ResolvedSavedMessage | null>(null)
   const [shareFormat, setShareFormat] = useState<'square' | 'portrait'>('square')
+  const [showShareSheet, setShowShareSheet] = useState(false)
+  const [shareSheetVerse, setShareSheetVerse] = useState<ResolvedSavedMessage | null>(null)
 
   const pulseOpacity = useSharedValue(0.25)
   const pulseStyle = useAnimatedStyle(() => ({ opacity: pulseOpacity.value }))
@@ -226,12 +229,8 @@ export default function HistoryScreen() {
   }
 
   function handleShareCard(verse: ResolvedSavedMessage) {
-    Alert.alert('Share as', '', [
-      { text: 'Square (1:1)', onPress: () => doShare(verse, 'square') },
-      { text: 'Portrait (4:5)', onPress: () => doShare(verse, 'portrait') },
-      { text: 'Share text', onPress: () => handleShareText(verse) },
-      { text: 'Cancel', style: 'cancel' },
-    ])
+    setShareSheetVerse(verse)
+    setShowShareSheet(true)
   }
 
   async function doShare(verse: ResolvedSavedMessage, format: 'square' | 'portrait') {
@@ -541,6 +540,13 @@ export default function HistoryScreen() {
           />
         </View>
       )}
+
+      <ShareFormatSheet
+        visible={showShareSheet}
+        onClose={() => setShowShareSheet(false)}
+        onShareText={() => { setShowShareSheet(false); if (shareSheetVerse) handleShareText(shareSheetVerse) }}
+        onShareCard={async (format) => { if (shareSheetVerse) await doShare(shareSheetVerse, format); setShowShareSheet(false) }}
+      />
     </View>
   )
 }
