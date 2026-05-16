@@ -13,11 +13,21 @@ import ReAnimated, {
 import { captureRef } from 'react-native-view-shot'
 import { getSavedMessages, deleteSavedMessage, getSettings, getCheckIns } from '@/storage/storage'
 import { hasTodayCheckIn } from '@/utils/streak'
+import {
+  startOfWeek,
+  addDays,
+  buildMonthSlots,
+  buildWeekSlots,
+  formatMonthLabel,
+} from '@/utils/calendarMath'
 import type { SavedMessage, Message, EmotionId, AppSettings, CheckInEvent } from '@/types'
 import TourTooltip from '@/components/TourTooltip'
 import PositionedTooltip from '@/components/PositionedTooltip'
 import VerseShareCard from '@/components/VerseShareCard'
 import ShareFormatSheet from '@/components/ShareFormatSheet'
+import ViewToggle from '@/components/history/ViewToggle'
+import MonthGrid from '@/components/history/MonthGrid'
+import WeekRow from '@/components/history/WeekRow'
 import { useTheme } from '@/theme'
 
 const EMOTION_COLORS: Record<EmotionId, string> = {
@@ -28,12 +38,43 @@ const EMOTION_COLORS: Record<EmotionId, string> = {
   good:     '#9CB59A',
 }
 
-const INSIGHT_TEXT: Record<string, string> = {
-  stressed: 'A heavy stretch lately. The verses you saved know why.',
-  tired:    "You've been carrying a lot. Keep coming back.",
-  sad:      'Some heavy days lately. Your saved verses are here.',
-  neutral:  "You've been steady. That's its own kind of strength.",
-  good:     "You've been finding peace lately.",
+// Tile palette — parallel to EMOTION_COLORS but neutral is a warm gray for calendar tiles.
+const TILE_COLORS: Record<EmotionId, string> = {
+  good:     '#9CB59A', // sage
+  neutral:  '#B0ABA6', // warm gray (tiles only)
+  stressed: '#C97B5A', // clay
+  tired:    '#9C8FB5', // lavender
+  sad:      '#7A95B0', // slate
+}
+const TILE_EMPTY = '#FAF8F5'
+
+const POSITIVE_EMOTIONS: ReadonlyArray<EmotionId> = ['good']
+const NEGATIVE_EMOTIONS: ReadonlyArray<EmotionId> = ['stressed', 'tired', 'sad']
+
+function dominantTileColor(checkInsForDay: CheckInEvent[]): string {
+  if (!checkInsForDay.length) return TILE_EMPTY
+  const positiveCount = checkInsForDay.filter(c =>
+    POSITIVE_EMOTIONS.includes(c.emotionId as EmotionId)
+  ).length
+  const negativeCount = checkInsForDay.filter(c =>
+    NEGATIVE_EMOTIONS.includes(c.emotionId as EmotionId)
+  ).length
+
+  if (positiveCount === 0 && negativeCount === 0) return TILE_COLORS.neutral // only neutrals
+  if (positiveCount > negativeCount) return TILE_COLORS.good
+  if (negativeCount > positiveCount) {
+    const negCounts: Partial<Record<EmotionId, number>> = {}
+    checkInsForDay
+      .filter(c => NEGATIVE_EMOTIONS.includes(c.emotionId as EmotionId))
+      .forEach(c => {
+        const id = c.emotionId as EmotionId
+        negCounts[id] = (negCounts[id] ?? 0) + 1
+      })
+    const sorted = Object.entries(negCounts).sort((a, b) => (b[1] ?? 0) - (a[1] ?? 0))
+    const dominant = sorted[0]?.[0] as EmotionId | undefined
+    return dominant ? TILE_COLORS[dominant] : TILE_COLORS.neutral
+  }
+  return TILE_COLORS.neutral // tied
 }
 
 const fmt = (ts: string) =>
@@ -170,33 +211,89 @@ export default function HistoryScreen() {
 
   const userName = settings?.name?.trim() || 'friend'
 
-  // Build array of 28 entries (index 0 = 27 days ago, index 27 = today)
-  const last28 = useMemo<(string | null)[]>(() => {
-    const result: (string | null)[] = []
-    for (let i = 27; i >= 0; i--) {
-      const d = new Date()
-      d.setDate(d.getDate() - i)
-      const dateStr = d.toISOString().slice(0, 10)
-      const hit = checkIns
-        .filter(c => c.timestamp.slice(0, 10) === dateStr)
-        .sort((a, b) => b.timestamp.localeCompare(a.timestamp))[0]
-      result.push(hit?.emotionId ?? null)
-    }
-    return result
+  // Calendar state
+  const today = new Date().toISOString().slice(0, 10)
+  const [viewMode, setViewMode] = useState<'weekly' | 'monthly'>('monthly')
+  const [viewMonth, setViewMonth] = useState<{ year: number; month: number }>(() => {
+    const d = new Date()
+    return { year: d.getFullYear(), month: d.getMonth() }
+  })
+  const [viewWeekStart, setViewWeekStart] = useState<string>(() => startOfWeek(today))
+  const [selectedDay, setSelectedDay] = useState<string | null>(null)
+
+  // Map dateStr → all check-ins that day
+  const checkInsByDay = useMemo<Record<string, CheckInEvent[]>>(() => {
+    const map: Record<string, CheckInEvent[]> = {}
+    checkIns.forEach(c => {
+      const d = c.timestamp.slice(0, 10)
+      if (!map[d]) map[d] = []
+      map[d]!.push(c)
+    })
+    return map
   }, [checkIns])
 
-  // Dominant emotion in last 14 days
-  const dominant = useMemo<string | null>(() => {
-    const counts: Record<string, number> = {}
-    last28.slice(14).forEach(e => { if (e) counts[e] = (counts[e] ?? 0) + 1 })
-    const sorted = Object.entries(counts).sort((a, b) => b[1] - a[1])
-    if (!sorted.length) return null
-    const first = sorted[0]
-    const second = sorted[1]
-    if (!first) return null
-    if (second && first[1] === second[1]) return null
-    return first[0]
-  }, [last28])
+  // Map dateStr → tile color
+  const colorByDay = useMemo<Record<string, string>>(() => {
+    const map: Record<string, string> = {}
+    Object.entries(checkInsByDay).forEach(([date, cis]) => {
+      const color = dominantTileColor(cis)
+      if (color !== TILE_EMPTY) map[date] = color
+    })
+    return map
+  }, [checkInsByDay])
+
+  // Map dateStr → has saved letter
+  const hasLetterByDay = useMemo<Record<string, boolean>>(() => {
+    const map: Record<string, boolean> = {}
+    resolved.forEach(r => {
+      if (r.saved.letter) {
+        const d = r.saved.savedAt.slice(0, 10)
+        map[d] = true
+      }
+    })
+    return map
+  }, [resolved])
+
+  const monthSlots = useMemo(
+    () => buildMonthSlots(viewMonth.year, viewMonth.month),
+    [viewMonth]
+  )
+  const weekSlots = useMemo(() => buildWeekSlots(viewWeekStart), [viewWeekStart])
+  const monthLabel = useMemo(
+    () => formatMonthLabel(viewMonth.year, viewMonth.month),
+    [viewMonth]
+  )
+
+  // Verses filtered by selected day (tour mode always shows the demo entry).
+  const filteredResolved = useMemo<ResolvedSavedMessage[]>(() => {
+    if (tourPathMode) return [TOUR_DEMO_ENTRY]
+    if (!selectedDay) return resolved
+    return resolved.filter(r => r.saved.savedAt.slice(0, 10) === selectedDay)
+  }, [selectedDay, resolved, tourPathMode])
+
+  function handleSelectDay(date: string) {
+    setSelectedDay(prev => (prev === date ? null : date))
+  }
+
+  function handlePrevMonth() {
+    setViewMonth(prev => {
+      const d = new Date(prev.year, prev.month - 1, 1)
+      return { year: d.getFullYear(), month: d.getMonth() }
+    })
+  }
+  function handleNextMonth() {
+    setViewMonth(prev => {
+      const d = new Date(prev.year, prev.month + 1, 1)
+      return { year: d.getFullYear(), month: d.getMonth() }
+    })
+  }
+
+  function handlePrevWeek() {
+    setViewWeekStart(prev => addDays(prev, -7))
+  }
+  function handleNextWeek() {
+    setViewWeekStart(prev => addDays(prev, 7))
+  }
 
   async function handleDelete(id: string) {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)
@@ -274,9 +371,8 @@ export default function HistoryScreen() {
     }
   }
 
-  const listData = tourPathMode ? [TOUR_DEMO_ENTRY] : resolved
-
-  if (listData.length === 0) {
+  // Global empty state: zero saved verses ever (tour mode always has the demo entry).
+  if (!tourPathMode && resolved.length === 0) {
     return (
       <View style={{ flex: 1, backgroundColor: colors.bg, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 32 }}>
         <Text style={{ fontFamily: 'DMSans_400Regular', fontSize: 36, color: colors.amber, marginBottom: 16, opacity: 0.6 }}>✦</Text>
@@ -289,46 +385,66 @@ export default function HistoryScreen() {
 
   const ListHeader = (
     <View>
-      {/* 28-day emotion grid (skip in tour mode — no real data) */}
+      {/* Interactive Week/Month calendar (skip in tour mode — no real data) */}
       {!tourPathMode && (
         <>
-          <View style={{ paddingHorizontal: 24, paddingTop: 4, paddingBottom: 4 }}>
-            {[0,1,2,3].map(row => (
-              <View key={row} style={{ flexDirection: 'row', justifyContent: 'center', marginBottom: 6 }}>
-                {[0,1,2,3,4,5,6].map(col => {
-                  const idx = row * 7 + col
-                  const emotion = last28[idx]
-                  return (
-                    <View
-                      key={col}
-                      style={{
-                        width: 8, height: 8, borderRadius: 4, marginHorizontal: 3,
-                        backgroundColor: emotion ? (EMOTION_COLORS[emotion as EmotionId] ?? 'transparent') : 'transparent',
-                        borderWidth: emotion ? 0 : 1,
-                        borderColor: 'rgba(196,149,106,0.25)',
-                      }}
-                    />
-                  )
-                })}
-              </View>
-            ))}
+          <View style={{ paddingTop: 8, paddingBottom: 4 }}>
+            <ViewToggle mode={viewMode} onChange={setViewMode} />
+            {viewMode === 'monthly' ? (
+              <MonthGrid
+                slots={monthSlots}
+                today={today}
+                colorByDay={colorByDay}
+                hasLetterByDay={hasLetterByDay}
+                selectedDay={selectedDay}
+                onSelectDay={handleSelectDay}
+                monthLabel={monthLabel}
+                onPrevMonth={handlePrevMonth}
+                onNextMonth={handleNextMonth}
+              />
+            ) : (
+              <WeekRow
+                slots={weekSlots}
+                today={today}
+                colorByDay={colorByDay}
+                hasLetterByDay={hasLetterByDay}
+                selectedDay={selectedDay}
+                onSelectDay={handleSelectDay}
+                onPrevWeek={handlePrevWeek}
+                onNextWeek={handleNextWeek}
+              />
+            )}
 
-            {dominant && (
+            {selectedDay && (
               <Text style={{
                 fontFamily: 'Lora_400Regular_Italic',
                 fontSize: 13,
                 color: '#9A8880',
                 textAlign: 'center',
                 marginTop: 12,
-                paddingHorizontal: 16,
+                marginBottom: 4,
               }}>
-                {INSIGHT_TEXT[dominant]}
+                {new Date(selectedDay + 'T00:00:00').toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })}
               </Text>
             )}
           </View>
 
           {/* Hairline divider */}
           <View style={{ height: 1, backgroundColor: 'rgba(196,149,106,0.2)', marginHorizontal: 24, marginVertical: 20 }} />
+
+          {/* Per-day empty state: a real day was selected but has no saved verses. */}
+          {selectedDay && filteredResolved.length === 0 && (
+            <Text style={{
+              fontFamily: 'Lora_400Regular_Italic',
+              fontSize: 14,
+              color: '#9A8880',
+              textAlign: 'center',
+              paddingHorizontal: 32,
+              paddingBottom: 16,
+            }}>
+              This day waited quietly.
+            </Text>
+          )}
         </>
       )}
 
@@ -353,7 +469,7 @@ export default function HistoryScreen() {
       </View>
 
       <FlatList
-        data={listData}
+        data={filteredResolved}
         keyExtractor={(r) => r.saved.id}
         ListHeaderComponent={ListHeader}
         contentContainerStyle={{ paddingBottom: 32 }}
