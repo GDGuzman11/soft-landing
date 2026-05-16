@@ -16,6 +16,8 @@ interface Props {
   onSelectDay: (date: string) => void
   onPrevWeek: () => void
   onNextWeek: () => void
+  prevDisabled?: boolean
+  nextDisabled?: boolean
 }
 
 function shortMonthDay(dateStr: string, includeMonth: boolean): string {
@@ -48,6 +50,8 @@ export default function WeekRow({
   onSelectDay,
   onPrevWeek,
   onNextWeek,
+  prevDisabled,
+  nextDisabled,
 }: Props) {
   const { width } = useWindowDimensions()
   const tileW = Math.floor((width - 48) / 7)
@@ -68,9 +72,10 @@ export default function WeekRow({
         <Pressable
           onPress={onPrevWeek}
           hitSlop={12}
+          disabled={prevDisabled}
           accessibilityRole="button"
           accessibilityLabel="Previous week"
-          style={({ pressed }) => ({ opacity: pressed ? 0.5 : 1 })}
+          style={({ pressed }) => ({ opacity: prevDisabled ? 0.3 : pressed ? 0.5 : 1 })}
         >
           <Text style={{ fontFamily: 'DMSans_500Medium', fontSize: 18, color: AMBER }}>‹</Text>
         </Pressable>
@@ -80,9 +85,10 @@ export default function WeekRow({
         <Pressable
           onPress={onNextWeek}
           hitSlop={12}
+          disabled={nextDisabled}
           accessibilityRole="button"
           accessibilityLabel="Next week"
-          style={({ pressed }) => ({ opacity: pressed ? 0.5 : 1 })}
+          style={({ pressed }) => ({ opacity: nextDisabled ? 0.3 : pressed ? 0.5 : 1 })}
         >
           <Text style={{ fontFamily: 'DMSans_500Medium', fontSize: 18, color: AMBER }}>›</Text>
         </Pressable>

@@ -1,4 +1,5 @@
 export { generateLetter } from './generateLetter'
+export { generateThroughLine } from './generateThroughLine'
 export { generateSayResponse } from './say/generateSayResponse'
 export { maybeDeliverReachOut } from './say/maybeDeliverReachOut'
 export { scheduledReachOut } from './say/scheduledReachOut'

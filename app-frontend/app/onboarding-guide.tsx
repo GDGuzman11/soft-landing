@@ -26,8 +26,8 @@ const SLIDES = [
     icon: '◇',
     iconFamily: 'DMSans_400Regular' as const,
     title: 'The Path',
-    tagline: 'Your saved verses.',
-    body: 'Every verse you keep lives here. Come back to read, reflect, or write a personal letter from any saved moment.',
+    tagline: 'Your journey, day by day.',
+    body: 'Every verse you save lands here. Tap any day on the calendar to revisit what you were carrying — and write a personal letter from any saved moment.',
   },
   {
     icon: '“',

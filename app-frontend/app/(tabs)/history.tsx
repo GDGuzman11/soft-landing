@@ -28,6 +28,10 @@ import ShareFormatSheet from '@/components/ShareFormatSheet'
 import ViewToggle from '@/components/history/ViewToggle'
 import MonthGrid from '@/components/history/MonthGrid'
 import WeekRow from '@/components/history/WeekRow'
+import EchoesPanel from '@/components/history/EchoesPanel'
+import { auth } from '@/services/firebase'
+import app from '@/services/firebase'
+import { getFunctions, httpsCallable } from 'firebase/functions'
 import { useTheme } from '@/theme'
 
 const EMOTION_COLORS: Record<EmotionId, string> = {
@@ -117,7 +121,7 @@ async function lookupVerse(
 
 export default function HistoryScreen() {
   const { colors } = useTheme()
-  const { tourStep } = useLocalSearchParams<{ tourStep?: string }>()
+  const { tourStep, openDate } = useLocalSearchParams<{ tourStep?: string; openDate?: string }>()
   const tourPathMode = tourStep === 'path'
 
   const [resolved, setResolved] = useState<ResolvedSavedMessage[]>([])
@@ -221,6 +225,82 @@ export default function HistoryScreen() {
   const [viewWeekStart, setViewWeekStart] = useState<string>(() => startOfWeek(today))
   const [selectedDay, setSelectedDay] = useState<string | null>(null)
 
+  const [throughLines, setThroughLines] = useState<Record<string, string>>({})
+
+  // Signup date floor — clamp calendar to months on/after signup
+  const signupDate = useMemo(() => {
+    const ct = auth.currentUser?.metadata?.creationTime
+    if (ct) {
+      const d = new Date(ct)
+      return { year: d.getFullYear(), month: d.getMonth() }
+    }
+    return { year: new Date().getFullYear(), month: 0 } // guests: Jan this year
+  }, [])
+
+  const todayObj = new Date()
+  const isPrevMonthDisabled =
+    viewMonth.year === signupDate.year && viewMonth.month === signupDate.month
+  const isNextMonthDisabled =
+    viewMonth.year === todayObj.getFullYear() && viewMonth.month === todayObj.getMonth()
+  const signupWeekStart = startOfWeek(
+    `${signupDate.year}-${String(signupDate.month + 1).padStart(2, '0')}-01`
+  )
+  const isPrevWeekDisabled = viewWeekStart <= signupWeekStart
+  const isNextWeekDisabled = viewWeekStart >= startOfWeek(today)
+
+  // Deep-link from Mirror Days: jump to a specific date
+  useEffect(() => {
+    if (!openDate) return
+    setSelectedDay(openDate)
+    const d = new Date(openDate + 'T00:00:00')
+    setViewMonth({ year: d.getFullYear(), month: d.getMonth() })
+  }, [openDate])
+
+  // Through-Line: fetch for past completed months
+  useEffect(() => {
+    if (viewMode !== 'monthly') return
+    const isPastMonth =
+      viewMonth.year < todayObj.getFullYear() ||
+      (viewMonth.year === todayObj.getFullYear() && viewMonth.month < todayObj.getMonth())
+    if (!isPastMonth) return
+
+    const monthKey = `${viewMonth.year}-${String(viewMonth.month + 1).padStart(2, '0')}`
+    if (throughLines[monthKey]) return  // already loaded
+
+    const monthCheckIns = checkIns.filter(c => c.timestamp.slice(0, 7) === monthKey)
+    if (monthCheckIns.length < 3) return
+
+    const monthVerses = resolved.filter(r => r.saved.savedAt.slice(0, 7) === monthKey)
+
+    ;(async () => {
+      const cacheKey = `@soft_landing/through_line/${monthKey}`
+      try {
+        const cached = await AsyncStorage.getItem(cacheKey)
+        if (cached) {
+          setThroughLines(prev => ({ ...prev, [monthKey]: cached }))
+          return
+        }
+      } catch {}
+
+      if (!auth.currentUser) return
+
+      try {
+        const fns = getFunctions(app, 'us-central1')
+        const fn = httpsCallable(fns, 'generateThroughLine')
+        const result = await fn({
+          month: monthKey,
+          checkIns: monthCheckIns.map(c => ({ date: c.timestamp.slice(0, 10), emotionId: c.emotionId })),
+          verses: monthVerses.slice(0, 10).map(r => ({ body: r.body, reference: r.reference })),
+        })
+        const line = (result.data as { line: string }).line
+        if (line) {
+          setThroughLines(prev => ({ ...prev, [monthKey]: line }))
+          await AsyncStorage.setItem(cacheKey, line).catch(() => {})
+        }
+      } catch {}
+    })()
+  }, [viewMode, viewMonth, checkIns, resolved])
+
   // Map dateStr → all check-ins that day
   const checkInsByDay = useMemo<Record<string, CheckInEvent[]>>(() => {
     const map: Record<string, CheckInEvent[]> = {}
@@ -276,12 +356,14 @@ export default function HistoryScreen() {
   }
 
   function handlePrevMonth() {
+    if (isPrevMonthDisabled) return
     setViewMonth(prev => {
       const d = new Date(prev.year, prev.month - 1, 1)
       return { year: d.getFullYear(), month: d.getMonth() }
     })
   }
   function handleNextMonth() {
+    if (isNextMonthDisabled) return
     setViewMonth(prev => {
       const d = new Date(prev.year, prev.month + 1, 1)
       return { year: d.getFullYear(), month: d.getMonth() }
@@ -289,9 +371,11 @@ export default function HistoryScreen() {
   }
 
   function handlePrevWeek() {
+    if (isPrevWeekDisabled) return
     setViewWeekStart(prev => addDays(prev, -7))
   }
   function handleNextWeek() {
+    if (isNextWeekDisabled) return
     setViewWeekStart(prev => addDays(prev, 7))
   }
 
@@ -401,8 +485,34 @@ export default function HistoryScreen() {
                 monthLabel={monthLabel}
                 onPrevMonth={handlePrevMonth}
                 onNextMonth={handleNextMonth}
+                prevDisabled={isPrevMonthDisabled}
+                nextDisabled={isNextMonthDisabled}
               />
-            ) : (
+            ) : null}
+
+            {/* Through-Line — past completed months only */}
+            {viewMode === 'monthly' && (() => {
+              const monthKey = `${viewMonth.year}-${String(viewMonth.month + 1).padStart(2, '0')}`
+              const line = throughLines[monthKey]
+              return line ? (
+                <Text
+                  style={{
+                    fontFamily: 'Lora_400Regular_Italic',
+                    fontSize: 15,
+                    color: '#C4956A',
+                    textAlign: 'center',
+                    marginTop: 14,
+                    marginHorizontal: 28,
+                    lineHeight: 24,
+                    opacity: 0.85,
+                  }}
+                >
+                  {line}
+                </Text>
+              ) : null
+            })()}
+
+            {viewMode === 'weekly' ? (
               <WeekRow
                 slots={weekSlots}
                 today={today}
@@ -412,8 +522,10 @@ export default function HistoryScreen() {
                 onSelectDay={handleSelectDay}
                 onPrevWeek={handlePrevWeek}
                 onNextWeek={handleNextWeek}
+                prevDisabled={isPrevWeekDisabled}
+                nextDisabled={isNextWeekDisabled}
               />
-            )}
+            ) : null}
 
             {selectedDay && (
               <Text style={{
@@ -613,6 +725,20 @@ export default function HistoryScreen() {
                         </Pressable>
                       )}
                     </View>
+                  )}
+
+                  {/* Echoes — show when this day is selected */}
+                  {selectedDay !== null && (
+                    <EchoesPanel
+                      messageId={item.messageId}
+                      currentSavedAt={item.savedAt}
+                      allEntries={resolved.map(r => ({
+                        messageId: r.saved.messageId,
+                        savedAt: r.saved.savedAt,
+                        emotionId: r.saved.emotionId,
+                      }))}
+                      isPremium={settings?.subscription?.tier === 'premium'}
+                    />
                   )}
                 </View>
               </Pressable>

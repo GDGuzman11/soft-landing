@@ -18,6 +18,8 @@ interface Props {
   monthLabel: string
   onPrevMonth: () => void
   onNextMonth: () => void
+  prevDisabled?: boolean
+  nextDisabled?: boolean
 }
 
 export default function MonthGrid({
@@ -30,6 +32,8 @@ export default function MonthGrid({
   monthLabel,
   onPrevMonth,
   onNextMonth,
+  prevDisabled,
+  nextDisabled,
 }: Props) {
   const { width } = useWindowDimensions()
   const tileW = Math.floor((width - 48) / 7)
@@ -49,9 +53,10 @@ export default function MonthGrid({
         <Pressable
           onPress={onPrevMonth}
           hitSlop={12}
+          disabled={prevDisabled}
           accessibilityRole="button"
           accessibilityLabel="Previous month"
-          style={({ pressed }) => ({ opacity: pressed ? 0.5 : 1 })}
+          style={({ pressed }) => ({ opacity: prevDisabled ? 0.3 : pressed ? 0.5 : 1 })}
         >
           <Text style={{ fontFamily: 'DMSans_500Medium', fontSize: 18, color: AMBER }}>‹</Text>
         </Pressable>
@@ -61,9 +66,10 @@ export default function MonthGrid({
         <Pressable
           onPress={onNextMonth}
           hitSlop={12}
+          disabled={nextDisabled}
           accessibilityRole="button"
           accessibilityLabel="Next month"
-          style={({ pressed }) => ({ opacity: pressed ? 0.5 : 1 })}
+          style={({ pressed }) => ({ opacity: nextDisabled ? 0.3 : pressed ? 0.5 : 1 })}
         >
           <Text style={{ fontFamily: 'DMSans_500Medium', fontSize: 18, color: AMBER }}>›</Text>
         </Pressable>

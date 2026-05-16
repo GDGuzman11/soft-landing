@@ -16,13 +16,20 @@ import Animated, {
 } from 'react-native-reanimated'
 import { captureRef } from 'react-native-view-shot'
 import * as Haptics from 'expo-haptics'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { bookmarkMessage, canCheckIn, performCheckIn } from '@/services/checkIn'
+import { getSavedMessages } from '@/storage/storage'
 import type { EmotionId } from '@/types'
 import { useTheme } from '@/theme'
 import PositionedTooltip from '@/components/PositionedTooltip'
 import VerseShareCard from '@/components/VerseShareCard'
 import ShareFormatSheet from '@/components/ShareFormatSheet'
 import { logAnalyticsEvent } from '@/services/firebase'
+
+function formatMirrorDate(dateStr: string): string {
+  const d = new Date(dateStr + 'T00:00:00')
+  return d.toLocaleDateString('en-US', { month: 'long', day: 'numeric' })
+}
 
 const SWIPE_THRESHOLD = 110
 
@@ -56,6 +63,7 @@ interface VerseData {
 
 export default function MessageScreen() {
   const { colors, isDark } = useTheme()
+  const insets = useSafeAreaInsets()
   const { emotionId, messageBody, messageReference, checkInId, messageId, tourMode } =
     useLocalSearchParams<{
       emotionId: string
@@ -79,6 +87,7 @@ export default function MessageScreen() {
   const [tourStep, setTourStep] = useState<-1 | 0 | 1 | 2>(isTour ? 0 : -1)
   const [cardTopY, setCardTopY] = useState(0)
   const [buttonsTopY, setButtonsTopY] = useState(0)
+  const [mirrorDate, setMirrorDate] = useState<string | null>(null)
   const cardRef = useRef<View>(null)
   const buttonsRef = useRef<View>(null)
 
@@ -126,6 +135,17 @@ export default function MessageScreen() {
       return () => clearTimeout(t)
     }
   }, [])
+
+  useEffect(() => {
+    if (isTour || !emotionId) return
+    const today = new Date().toISOString().slice(0, 10)
+    getSavedMessages().then(saved => {
+      const match = saved
+        .filter(s => s.emotionId === emotionId && s.savedAt.slice(0, 10) < today)
+        .sort((a, b) => b.savedAt.localeCompare(a.savedAt))[0]
+      if (match) setMirrorDate(match.savedAt.slice(0, 10))
+    })
+  }, [emotionId, isTour])
 
   async function loadNextVerse(swipeDirection: 'right' | 'left') {
     const ok = await canCheckIn()
@@ -557,6 +577,58 @@ export default function MessageScreen() {
         onShareText={() => { setShowShareSheet(false); shareText() }}
         onShareCard={async (format) => { await shareAsCard(format) }}
       />
+
+      {/* Mirror Days footer */}
+      {!isTour && mirrorDate && (
+        <View
+          style={{
+            position: 'absolute',
+            bottom: insets.bottom + 16,
+            left: 0,
+            right: 0,
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            paddingHorizontal: 28,
+            paddingVertical: 14,
+            borderTopWidth: 1,
+            borderTopColor: 'rgba(196,149,106,0.2)',
+          }}
+        >
+          <Text
+            style={{
+              fontFamily: 'Lora_400Regular_Italic',
+              fontSize: 15,
+              color: colors.inkSecondary,
+              flex: 1,
+            }}
+          >
+            {formatMirrorDate(mirrorDate)} felt a lot like today.
+          </Text>
+          <Pressable
+            onPress={() =>
+              router.push({
+                pathname: '/(tabs)/history',
+                params: { openDate: mirrorDate },
+              })
+            }
+            hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
+            style={({ pressed }) => ({ opacity: pressed ? 0.6 : 1, marginLeft: 12 })}
+            accessibilityRole="button"
+            accessibilityLabel={`Visit ${formatMirrorDate(mirrorDate)}`}
+          >
+            <Text
+              style={{
+                fontFamily: 'DMSans_500Medium',
+                fontSize: 13,
+                color: '#C4956A',
+              }}
+            >
+              Visit →
+            </Text>
+          </Pressable>
+        </View>
+      )}
 
     </View>
   )
