@@ -461,7 +461,7 @@ export default function HistoryScreen() {
       <View style={{ flex: 1, backgroundColor: colors.bg, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 32 }}>
         <Text style={{ fontFamily: 'DMSans_400Regular', fontSize: 36, color: colors.amber, marginBottom: 16, opacity: 0.6 }}>✦</Text>
         <Text style={{ fontFamily: 'DMSans_400Regular', fontSize: 16, color: colors.inkMuted, textAlign: 'center' }}>
-          Your saved verses will appear here.
+          Nothing yet — but every path has a first step.
         </Text>
       </View>
     )
