@@ -1,4 +1,4 @@
-import { View, Text, Pressable, Share } from 'react-native'
+import { View, Text, Pressable, Share, Alert } from 'react-native'
 import { router, useLocalSearchParams } from 'expo-router'
 import { useEffect, useState, useRef } from 'react'
 import { GestureDetector, Gesture } from 'react-native-gesture-handler'
@@ -14,11 +14,13 @@ import Animated, {
   Extrapolation,
   runOnJS,
 } from 'react-native-reanimated'
+import { captureRef } from 'react-native-view-shot'
 import * as Haptics from 'expo-haptics'
 import { bookmarkMessage, canCheckIn, performCheckIn } from '@/services/checkIn'
 import type { EmotionId } from '@/types'
 import { useTheme } from '@/theme'
 import PositionedTooltip from '@/components/PositionedTooltip'
+import VerseShareCard from '@/components/VerseShareCard'
 import { logAnalyticsEvent } from '@/services/firebase'
 
 const SWIPE_THRESHOLD = 110
@@ -78,6 +80,11 @@ export default function MessageScreen() {
   const [buttonsTopY, setButtonsTopY] = useState(0)
   const cardRef = useRef<View>(null)
   const buttonsRef = useRef<View>(null)
+
+  // Share-as-card state
+  const shareCardRef = useRef<View>(null)
+  const [shareFormat, setShareFormat] = useState<'square' | 'portrait'>('square')
+  const [shareReady, setShareReady] = useState(false)
 
   // Entrance animation
   const cardOpacity = useSharedValue(0)
@@ -365,9 +372,7 @@ export default function MessageScreen() {
     cardOpacity.value = withTiming(0, { duration: 280 }, () => runOnJS(handleSaveAndNext)())
   }
 
-  async function handleShare() {
-    if (isTour) return
-    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)
+  async function shareText() {
     const ref = verse.reference ? ` — ${verse.reference}` : ''
     try {
       await Share.share({
@@ -376,6 +381,29 @@ export default function MessageScreen() {
     } catch {
       // user dismissed
     }
+  }
+
+  async function shareAsCard(format: 'square' | 'portrait') {
+    setShareFormat(format)
+    setShareReady(true)
+    await new Promise<void>(r => setTimeout(r, 150))
+    try {
+      const uri = await captureRef(shareCardRef, { format: 'jpg', quality: 0.95 })
+      await Share.share({ url: uri })
+    } catch (e) {
+      console.warn('Share failed', e)
+    }
+  }
+
+  function handleShare() {
+    if (isTour) return
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)
+    Alert.alert('Share', '', [
+      { text: 'Share text', onPress: () => shareText() },
+      { text: 'Square card', onPress: () => shareAsCard('square') },
+      { text: 'Portrait card', onPress: () => shareAsCard('portrait') },
+      { text: 'Cancel', style: 'cancel' },
+    ])
   }
 
   return (
@@ -511,6 +539,19 @@ export default function MessageScreen() {
           placement="above"
           onDismiss={() => {}}
         />
+      )}
+
+      {/* Off-screen share card */}
+      {shareReady && (
+        <View style={{ position: 'absolute', left: -9999, top: -9999 }}>
+          <VerseShareCard
+            ref={shareCardRef}
+            verseBody={verse.body}
+            reference={verse.reference}
+            emotionId={emotionId ?? 'neutral'}
+            format={shareFormat}
+          />
+        </View>
       )}
 
     </View>
