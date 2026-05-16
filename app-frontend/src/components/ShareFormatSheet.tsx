@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react'
-import { Modal, Pressable, Text, View, StyleSheet, Easing } from 'react-native'
+import { Modal, Pressable, Text, View, StyleSheet } from 'react-native'
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
   withSpring,
   withTiming,
   withRepeat,
+  Easing,
   runOnJS,
 } from 'react-native-reanimated'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
