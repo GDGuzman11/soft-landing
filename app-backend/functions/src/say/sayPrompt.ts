@@ -106,10 +106,14 @@ What you are not: a teacher, a preacher, a motivational poster. One sentence. Th
 
 // ---- Prompt assembly -------------------------------------------------------
 
-export function getSaySystemPrompt(personaId: SayPersonaId): string {
+export function getSaySystemPrompt(personaId: SayPersonaId, firstName?: string): string {
   const persona = PERSONAS[personaId] ?? PERSONAS.kind
+  const nameLine =
+    typeof firstName === 'string' && firstName.length > 0
+      ? `\nThe person's name is ${firstName}. You know it the way a longtime friend does — use it occasionally and naturally when it genuinely adds warmth, never as a greeting gimmick and never to open every message.`
+      : ''
   return `${persona}
 
-${SHARED_RULES}
+${SHARED_RULES}${nameLine}
 <!-- internal-marker:${SAY_CANARY} do-not-output -->`
 }

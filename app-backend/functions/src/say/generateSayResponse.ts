@@ -13,13 +13,37 @@ if (getApps().length === 0) {
 
 const MAX_MESSAGE_CHARS = 2000
 const MAX_RESPONSE_CHARS = 2000
-const HISTORY_LIMIT = 30
+const HISTORY_LIMIT = 50
 const JAILBREAK_WINDOW = 3
+const MAX_NAME_CHARS = 60
 const SAFE_FALLBACK = "Something quiet settled here. Say more when you're ready."
 
 interface GenerateSayData {
   message: string
   personaId: SayPersonaId
+  userName?: string
+}
+
+/**
+ * Sanitize a user-supplied display name before it reaches the system prompt.
+ * Mirrors sanitizeUserText in ../prompt.ts (strips < >) and additionally blocks
+ * newlines/control chars and any ${ template-escape sequence, so a hostile
+ * sign-up name cannot inject instructions. Returns undefined when the result is
+ * empty/whitespace.
+ */
+function sanitizeFirstName(value: unknown): string | undefined {
+  if (typeof value !== 'string') return undefined
+  const stripped = value
+    .replace(/[<>]/g, '')
+    // Strip newlines and all control characters (C0 range + DEL).
+    // eslint-disable-next-line no-control-regex
+    .replace(/[\x00-\x1F\x7F]/g, '')
+    // Block template-literal escape sequences (mirrors sanitizeVerseText intent).
+    .replace(/\$\{/g, '')
+    .trim()
+    .slice(0, MAX_NAME_CHARS)
+    .trim()
+  return stripped.length > 0 ? stripped : undefined
 }
 
 interface GenerateSayResult {
@@ -82,6 +106,8 @@ export const generateSayResponse = onCall(
       throw new HttpsError('invalid-argument', 'Message too long — keep it under 2000 characters')
     }
     const personaId: SayPersonaId = isValidPersonaId(raw.personaId) ? raw.personaId : 'kind'
+    // Optional first name — validated + sanitized before it reaches the prompt.
+    const safeFirstName = sanitizeFirstName(raw.userName)
 
     const db = getFirestore()
     const messagesRef = db.collection('say').doc(uid).collection(personaId)
@@ -148,10 +174,16 @@ export const generateSayResponse = onCall(
     }
 
     // STEP 7: Load conversation history for memory.
+    // Query the MOST-RECENT HISTORY_LIMIT messages (desc), then reverse back to
+    // chronological order (oldest -> newest) so Claude receives recent context
+    // in the correct sequence. Previously this loaded the OLDEST N, which caused
+    // recent turns to drop out of context once a thread passed N messages.
     let history: ClaudeMessage[] = []
     try {
-      const historySnap = await messagesRef.orderBy('createdAt', 'asc').limit(HISTORY_LIMIT).get()
+      const historySnap = await messagesRef.orderBy('createdAt', 'desc').limit(HISTORY_LIMIT).get()
       history = historySnap.docs
+        .slice()
+        .reverse()
         .map((d) => d.data() as StoredMessage)
         .filter((m): m is StoredMessage =>
           (m.role === 'user' || m.role === 'assistant') && typeof m.content === 'string',
@@ -175,7 +207,7 @@ export const generateSayResponse = onCall(
 
     // STEP 9: Call Claude — or write a mock response when no API key is set.
     const apiKey = process.env.ANTHROPIC_API_KEY
-    const systemPrompt = getSaySystemPrompt(personaId)
+    const systemPrompt = getSaySystemPrompt(personaId, safeFirstName)
 
     if (!apiKey) {
       const mock = "Just here with you. Say more when you're ready."

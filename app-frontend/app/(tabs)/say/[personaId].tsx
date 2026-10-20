@@ -40,6 +40,7 @@ import Animated, {
   withSequence,
   withTiming,
 } from 'react-native-reanimated'
+import { getSettings } from '@/storage/storage'
 import app, { db, logAnalyticsEvent } from '@/services/firebase'
 import { useTheme, VOICE_DARK } from '@/theme'
 
@@ -372,7 +373,7 @@ function EmptyState({ meta, consentVisible, onConsentDismiss, inkPrimary, inkMut
 }
 
 // ---- Cloud Function -------------------------------------------------------
-type SayPayload = { message: string; personaId: VoiceId }
+type SayPayload = { message: string; personaId: VoiceId; userName?: string }
 type SayResult = {
   response?: string
   blocked?: boolean
@@ -411,6 +412,21 @@ export default function SayThreadScreen() {
 
   const lastPayloadRef = useRef<SayPayload | null>(null)
   const searchInputRef = useRef<TextInput>(null)
+  // First name for addressing the user — loaded once, read via ref at send time
+  // (no state, so it never triggers a re-render). Source: AppSettings.name
+  // (sign-up full name) with auth displayName as fallback; first space-delimited token.
+  const firstNameRef = useRef('')
+
+  useEffect(() => {
+    let cancelled = false
+    getSettings()
+      .then((s) => {
+        const source = (s.name || getAuth().currentUser?.displayName || '').trim()
+        if (!cancelled) firstNameRef.current = source.split(/\s+/)[0] || ''
+      })
+      .catch(() => {})
+    return () => { cancelled = true }
+  }, [])
 
   // Manual fetch — fallback for Expo Go where onSnapshot WebSocket is unreliable
   const fetchMessages = useCallback(async () => {
@@ -502,7 +518,8 @@ export default function SayThreadScreen() {
     setErrorKind(null)
     setIsTyping(true)
     setDraft('')
-    const payload: SayPayload = { message: trimmed, personaId }
+    const firstName = (firstNameRef.current || '').trim().split(/\s+/)[0] || ''
+    const payload: SayPayload = { message: trimmed, personaId, ...(firstName ? { userName: firstName } : {}) }
     lastPayloadRef.current = payload
     logAnalyticsEvent('say_message_sent')
 

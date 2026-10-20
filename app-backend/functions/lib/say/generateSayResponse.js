@@ -17,9 +17,32 @@ if ((0, app_1.getApps)().length === 0) {
 }
 const MAX_MESSAGE_CHARS = 2000;
 const MAX_RESPONSE_CHARS = 2000;
-const HISTORY_LIMIT = 30;
+const HISTORY_LIMIT = 50;
 const JAILBREAK_WINDOW = 3;
+const MAX_NAME_CHARS = 60;
 const SAFE_FALLBACK = "Something quiet settled here. Say more when you're ready.";
+/**
+ * Sanitize a user-supplied display name before it reaches the system prompt.
+ * Mirrors sanitizeUserText in ../prompt.ts (strips < >) and additionally blocks
+ * newlines/control chars and any ${ template-escape sequence, so a hostile
+ * sign-up name cannot inject instructions. Returns undefined when the result is
+ * empty/whitespace.
+ */
+function sanitizeFirstName(value) {
+    if (typeof value !== 'string')
+        return undefined;
+    const stripped = value
+        .replace(/[<>]/g, '')
+        // Strip newlines and all control characters (C0 range + DEL).
+        // eslint-disable-next-line no-control-regex
+        .replace(/[\x00-\x1F\x7F]/g, '')
+        // Block template-literal escape sequences (mirrors sanitizeVerseText intent).
+        .replace(/\$\{/g, '')
+        .trim()
+        .slice(0, MAX_NAME_CHARS)
+        .trim();
+    return stripped.length > 0 ? stripped : undefined;
+}
 /**
  * Truncate to the last sentence boundary <= MAX_RESPONSE_CHARS.
  * Falls back to a hard cut if no boundary is found in range.
@@ -52,6 +75,8 @@ exports.generateSayResponse = (0, https_1.onCall)({ region: 'us-central1', invok
         throw new https_1.HttpsError('invalid-argument', 'Message too long — keep it under 2000 characters');
     }
     const personaId = (0, sayPrompt_1.isValidPersonaId)(raw.personaId) ? raw.personaId : 'kind';
+    // Optional first name — validated + sanitized before it reaches the prompt.
+    const safeFirstName = sanitizeFirstName(raw.userName);
     const db = (0, firestore_1.getFirestore)();
     const messagesRef = db.collection('say').doc(uid).collection(personaId);
     // STEP 3: Input injection filter
@@ -115,10 +140,16 @@ exports.generateSayResponse = (0, https_1.onCall)({ region: 'us-central1', invok
         console.error('say.rate_limit_storage_failed', { uid, code: err.message });
     }
     // STEP 7: Load conversation history for memory.
+    // Query the MOST-RECENT HISTORY_LIMIT messages (desc), then reverse back to
+    // chronological order (oldest -> newest) so Claude receives recent context
+    // in the correct sequence. Previously this loaded the OLDEST N, which caused
+    // recent turns to drop out of context once a thread passed N messages.
     let history = [];
     try {
-        const historySnap = await messagesRef.orderBy('createdAt', 'asc').limit(HISTORY_LIMIT).get();
+        const historySnap = await messagesRef.orderBy('createdAt', 'desc').limit(HISTORY_LIMIT).get();
         history = historySnap.docs
+            .slice()
+            .reverse()
             .map((d) => d.data())
             .filter((m) => (m.role === 'user' || m.role === 'assistant') && typeof m.content === 'string')
             .map((m) => ({ role: m.role, content: m.content }));
@@ -140,7 +171,7 @@ exports.generateSayResponse = (0, https_1.onCall)({ region: 'us-central1', invok
     }
     // STEP 9: Call Claude — or write a mock response when no API key is set.
     const apiKey = process.env.ANTHROPIC_API_KEY;
-    const systemPrompt = (0, sayPrompt_1.getSaySystemPrompt)(personaId);
+    const systemPrompt = (0, sayPrompt_1.getSaySystemPrompt)(personaId, safeFirstName);
     if (!apiKey) {
         const mock = "Just here with you. Say more when you're ready.";
         try {
