@@ -247,7 +247,7 @@ export default function EmotionsScreen() {
                 <View
                   key={em.id}
                   style={[
-                    StyleSheet.absoluteFillObject,
+                    StyleSheet.absoluteFill,
                     { opacity: i === activeIndex ? 1 : 0 },
                   ]}
                   pointerEvents={i === activeIndex ? 'auto' : 'none'}

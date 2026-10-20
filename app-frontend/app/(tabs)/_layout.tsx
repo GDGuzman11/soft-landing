@@ -1,8 +1,8 @@
 import { Tabs } from 'expo-router'
-import { Text } from 'react-native'
+import { Text, type ColorValue } from 'react-native'
 import { useTheme } from '@/theme'
 
-function TabIcon({ symbol, focused, color }: { symbol: string; focused: boolean; color: string }) {
+function TabIcon({ symbol, focused, color }: { symbol: string; focused: boolean; color: ColorValue }) {
   return (
     <Text style={{ fontSize: 18, opacity: focused ? 1 : 0.4, color }}>
       {symbol}

@@ -7,12 +7,6 @@
     "icon": "./assets/images/icon.png",
     "scheme": "soft-landing",
     "userInterfaceStyle": "automatic",
-    "newArchEnabled": true,
-    "splash": {
-      "image": "./assets/images/icon.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#FAF8F5"
-    },
     "ios": {
       "supportsTablet": false,
       "bundleIdentifier": "com.softlanding.app",
@@ -62,7 +56,17 @@
       "expo-secure-store",
       "expo-web-browser",
       "expo-apple-authentication",
-      "@sentry/react-native"
+      "@sentry/react-native",
+      "expo-font",
+      [
+        "expo-splash-screen",
+        {
+          "image": "./assets/images/icon.png",
+          "resizeMode": "contain",
+          "backgroundColor": "#FAF8F5"
+        }
+      ],
+      "expo-status-bar"
     ],
     "experiments": {
       "typedRoutes": true
