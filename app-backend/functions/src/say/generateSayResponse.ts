@@ -6,7 +6,7 @@ import { filterUserInput } from '../inputFilter'
 import { containsCrisisContent } from '../crisisKeywords'
 import { checkSayRateLimit } from './sayRateLimit'
 import { getSaySystemPrompt, isValidPersonaId, SAY_CANARY, type SayPersonaId } from './sayPrompt'
-import { chatDocRef } from './sayPaths'
+import { chatDocRef, chatsCollectionRef, messagesCollectionRef } from './sayPaths'
 
 if (getApps().length === 0) {
   initializeApp()
@@ -57,7 +57,7 @@ interface GenerateSayResult {
 }
 
 interface StoredMessage {
-  role: 'user' | 'assistant'
+  role: 'user' | 'assistant' | 'reachOut'
   content: string
   createdAt?: Timestamp
 }
@@ -84,6 +84,44 @@ function truncateToSentence(text: string): string {
   )
   if (lastBoundary > 0) return slice.slice(0, lastBoundary + 1).trimEnd()
   return slice.trimEnd()
+}
+
+/**
+ * Collect the most-recent `limit` USER-role message contents across ALL of this
+ * persona's chats, newest first. Used to broaden the jailbreak-window scan so a
+ * split injection payload spread over separate chats cannot evade it.
+ *
+ * Index-light: list the persona's chat docs, then per-chat query orders by
+ * createdAt desc with a small limit and filters role === 'user' in memory.
+ * No composite index required. The merged result is re-sorted by createdAt and
+ * sliced to `limit`.
+ */
+async function gatherRecentUserMessagesAcrossChats(
+  db: FirebaseFirestore.Firestore,
+  uid: string,
+  personaId: SayPersonaId,
+  limit: number,
+): Promise<string[]> {
+  const chatsSnap = await chatsCollectionRef(db, uid, personaId).get()
+  const collected: { content: string; atMs: number }[] = []
+
+  for (const chatDoc of chatsSnap.docs) {
+    const perChatSnap = await messagesCollectionRef(db, uid, personaId, chatDoc.id)
+      .orderBy('createdAt', 'desc')
+      .limit(limit)
+      .get()
+    for (const d of perChatSnap.docs) {
+      const data = d.data() as StoredMessage
+      if (data.role === 'user' && typeof data.content === 'string') {
+        collected.push({ content: data.content, atMs: data.createdAt?.toMillis() ?? 0 })
+      }
+    }
+  }
+
+  return collected
+    .sort((a, b) => b.atMs - a.atMs)
+    .slice(0, limit)
+    .map((m) => m.content)
 }
 
 export const generateSayResponse = onCall(
@@ -150,17 +188,22 @@ export const generateSayResponse = onCall(
     // STEP 5: Conversation-window jailbreak scan — concatenate the last
     // JAILBREAK_WINDOW user-role messages with the new message and re-filter.
     // Catches payload-splitting attacks across multiple turns.
+    //
+    // Scope: ACROSS all of this persona's chats, not just the current chatId.
+    // Now that messages are nested per chat, a split payload spread over
+    // separate chats would evade a single-chat scan. We iterate the persona's
+    // chat docs (bounded by the chat-creation cap) and pull each chat's recent
+    // user messages. Index-light: each per-chat query orders by createdAt only
+    // (single-field auto index) and filters role === 'user' in memory, so no
+    // composite index is required.
     try {
-      const recentUserSnap = await messagesRef
-        .where('role', '==', 'user')
-        .orderBy('createdAt', 'desc')
-        .limit(JAILBREAK_WINDOW)
-        .get()
-      const recentUserContent = recentUserSnap.docs
-        .map((d) => (d.data() as StoredMessage).content)
-        .filter((c): c is string => typeof c === 'string')
-        .join('\n')
-      const windowText = `${recentUserContent}\n${trimmedMessage}`
+      const recentUserContent = await gatherRecentUserMessagesAcrossChats(
+        db,
+        uid,
+        personaId,
+        JAILBREAK_WINDOW,
+      )
+      const windowText = `${recentUserContent.join('\n')}\n${trimmedMessage}`
       const windowFilter = filterUserInput(windowText)
       if (!windowFilter.safe) {
         return { blocked: true }
@@ -198,7 +241,7 @@ export const generateSayResponse = onCall(
         .slice()
         .reverse()
         .map((d) => d.data() as StoredMessage)
-        .filter((m): m is StoredMessage =>
+        .filter((m): m is StoredMessage & { role: 'user' | 'assistant'; content: string } =>
           (m.role === 'user' || m.role === 'assistant') && typeof m.content === 'string',
         )
         .map((m) => ({ role: m.role, content: m.content }))

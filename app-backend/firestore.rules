@@ -12,12 +12,21 @@ service cloud.firestore {
       allow write: if false;
     }
 
-    // Say — per-voice conversation threads. Reads scoped to owner; writes happen
-    // server-side only (Cloud Function with Admin SDK). Owner may delete their own messages.
-    match /say/{userId}/{personaId}/{messageId} {
+    // Say — per-voice conversation threads, organized into discrete chats.
+    // Chat docs live at say/{uid}/{personaId}/{chatId}; messages at
+    // say/{uid}/{personaId}/{chatId}/messages/{msgId}. Reads scoped to owner;
+    // writes happen server-side only (Cloud Function with Admin SDK). Owner may
+    // delete their own chats/messages (clear conversation).
+    match /say/{userId}/{personaId}/{chatId} {
       allow read: if request.auth != null && request.auth.uid == userId;
       allow write: if false;
       allow delete: if request.auth != null && request.auth.uid == userId;
+
+      match /messages/{messageId} {
+        allow read: if request.auth != null && request.auth.uid == userId;
+        allow write: if false;
+        allow delete: if request.auth != null && request.auth.uid == userId;
+      }
     }
 
     // Say usage / rate-limit doc — read-only for the owner, written by the function.
@@ -29,6 +38,12 @@ service cloud.firestore {
     // Say unread / delivery state — single doc per user, map fields keyed by personaId.
     // Server writes via Admin SDK; client reads its own doc.
     match /sayState/{uid} {
+      allow read: if request.auth != null && request.auth.uid == uid;
+      allow write: if false;
+    }
+
+    // Say chat-creation rate-limit doc — server-only writes (Admin SDK), owner reads.
+    match /sayChatCreation/{uid} {
       allow read: if request.auth != null && request.auth.uid == uid;
       allow write: if false;
     }

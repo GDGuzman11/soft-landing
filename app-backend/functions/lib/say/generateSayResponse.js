@@ -12,6 +12,7 @@ const inputFilter_1 = require("../inputFilter");
 const crisisKeywords_1 = require("../crisisKeywords");
 const sayRateLimit_1 = require("./sayRateLimit");
 const sayPrompt_1 = require("./sayPrompt");
+const sayPaths_1 = require("./sayPaths");
 if ((0, app_1.getApps)().length === 0) {
     (0, app_1.initializeApp)();
 }
@@ -56,6 +57,36 @@ function truncateToSentence(text) {
         return slice.slice(0, lastBoundary + 1).trimEnd();
     return slice.trimEnd();
 }
+/**
+ * Collect the most-recent `limit` USER-role message contents across ALL of this
+ * persona's chats, newest first. Used to broaden the jailbreak-window scan so a
+ * split injection payload spread over separate chats cannot evade it.
+ *
+ * Index-light: list the persona's chat docs, then per-chat query orders by
+ * createdAt desc with a small limit and filters role === 'user' in memory.
+ * No composite index required. The merged result is re-sorted by createdAt and
+ * sliced to `limit`.
+ */
+async function gatherRecentUserMessagesAcrossChats(db, uid, personaId, limit) {
+    const chatsSnap = await (0, sayPaths_1.chatsCollectionRef)(db, uid, personaId).get();
+    const collected = [];
+    for (const chatDoc of chatsSnap.docs) {
+        const perChatSnap = await (0, sayPaths_1.messagesCollectionRef)(db, uid, personaId, chatDoc.id)
+            .orderBy('createdAt', 'desc')
+            .limit(limit)
+            .get();
+        for (const d of perChatSnap.docs) {
+            const data = d.data();
+            if (data.role === 'user' && typeof data.content === 'string') {
+                collected.push({ content: data.content, atMs: data.createdAt?.toMillis() ?? 0 });
+            }
+        }
+    }
+    return collected
+        .sort((a, b) => b.atMs - a.atMs)
+        .slice(0, limit)
+        .map((m) => m.content);
+}
 exports.generateSayResponse = (0, https_1.onCall)({ region: 'us-central1', invoker: 'public', secrets: ['ANTHROPIC_API_KEY'] }, async (request) => {
     // STEP 1: Auth check
     if (!request.auth) {
@@ -77,8 +108,19 @@ exports.generateSayResponse = (0, https_1.onCall)({ region: 'us-central1', invok
     const personaId = (0, sayPrompt_1.isValidPersonaId)(raw.personaId) ? raw.personaId : 'kind';
     // Optional first name — validated + sanitized before it reaches the prompt.
     const safeFirstName = sanitizeFirstName(raw.userName);
+    // Required chat id — scopes this exchange to one discrete session.
+    if (typeof raw.chatId !== 'string' || raw.chatId.trim().length === 0) {
+        throw new https_1.HttpsError('invalid-argument', 'chatId is required');
+    }
+    const chatId = raw.chatId.trim();
     const db = (0, firestore_1.getFirestore)();
-    const messagesRef = db.collection('say').doc(uid).collection(personaId);
+    // Chat (session) doc + its messages subcollection.
+    // Contract: say/{uid}/{personaId}/chats/{chatId} with messages nested at
+    // say/{uid}/{personaId}/chats/{chatId}/messages/{msgId}. The {personaId}
+    // collection now holds chat (session) documents; each chat owns a messages
+    // subcollection. See report note on the "chats" path-segment arity.
+    const chatRef = (0, sayPaths_1.chatDocRef)(db, uid, personaId, chatId);
+    const messagesRef = chatRef.collection('messages');
     // STEP 3: Input injection filter
     const filterResult = (0, inputFilter_1.filterUserInput)(trimmedMessage);
     if (!filterResult.safe) {
@@ -103,17 +145,17 @@ exports.generateSayResponse = (0, https_1.onCall)({ region: 'us-central1', invok
     // STEP 5: Conversation-window jailbreak scan — concatenate the last
     // JAILBREAK_WINDOW user-role messages with the new message and re-filter.
     // Catches payload-splitting attacks across multiple turns.
+    //
+    // Scope: ACROSS all of this persona's chats, not just the current chatId.
+    // Now that messages are nested per chat, a split payload spread over
+    // separate chats would evade a single-chat scan. We iterate the persona's
+    // chat docs (bounded by the chat-creation cap) and pull each chat's recent
+    // user messages. Index-light: each per-chat query orders by createdAt only
+    // (single-field auto index) and filters role === 'user' in memory, so no
+    // composite index is required.
     try {
-        const recentUserSnap = await messagesRef
-            .where('role', '==', 'user')
-            .orderBy('createdAt', 'desc')
-            .limit(JAILBREAK_WINDOW)
-            .get();
-        const recentUserContent = recentUserSnap.docs
-            .map((d) => d.data().content)
-            .filter((c) => typeof c === 'string')
-            .join('\n');
-        const windowText = `${recentUserContent}\n${trimmedMessage}`;
+        const recentUserContent = await gatherRecentUserMessagesAcrossChats(db, uid, personaId, JAILBREAK_WINDOW);
+        const windowText = `${recentUserContent.join('\n')}\n${trimmedMessage}`;
         const windowFilter = (0, inputFilter_1.filterUserInput)(windowText);
         if (!windowFilter.safe) {
             return { blocked: true };
@@ -233,6 +275,18 @@ exports.generateSayResponse = (0, https_1.onCall)({ region: 'us-central1', invok
         console.error('say.persist_assistant_response_failed', { uid, code: err.message });
         // Response was generated; surfacing it to the user is more important
         // than failing the whole call. Return without throwing.
+    }
+    // STEP 11b: Update the chat doc's preview + lastMessageAt (merge).
+    // Preview = ~first 80 chars of the latest (assistant) message.
+    try {
+        await chatRef.set({
+            lastMessageAt: firestore_1.FieldValue.serverTimestamp(),
+            preview: responseText.slice(0, 80),
+        }, { merge: true });
+    }
+    catch (err) {
+        console.error('say.update_chat_meta_failed', { uid, code: err.message });
+        // Non-fatal — the message was already persisted.
     }
     // STEP 12
     return { response: responseText };
