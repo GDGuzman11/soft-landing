@@ -6,6 +6,7 @@ import { filterUserInput } from '../inputFilter'
 import { containsCrisisContent } from '../crisisKeywords'
 import { checkSayRateLimit } from './sayRateLimit'
 import { getSaySystemPrompt, isValidPersonaId, SAY_CANARY, type SayPersonaId } from './sayPrompt'
+import { chatDocRef } from './sayPaths'
 
 if (getApps().length === 0) {
   initializeApp()
@@ -22,6 +23,7 @@ interface GenerateSayData {
   message: string
   personaId: SayPersonaId
   userName?: string
+  chatId: string
 }
 
 /**
@@ -108,9 +110,20 @@ export const generateSayResponse = onCall(
     const personaId: SayPersonaId = isValidPersonaId(raw.personaId) ? raw.personaId : 'kind'
     // Optional first name — validated + sanitized before it reaches the prompt.
     const safeFirstName = sanitizeFirstName(raw.userName)
+    // Required chat id — scopes this exchange to one discrete session.
+    if (typeof raw.chatId !== 'string' || raw.chatId.trim().length === 0) {
+      throw new HttpsError('invalid-argument', 'chatId is required')
+    }
+    const chatId = raw.chatId.trim()
 
     const db = getFirestore()
-    const messagesRef = db.collection('say').doc(uid).collection(personaId)
+    // Chat (session) doc + its messages subcollection.
+    // Contract: say/{uid}/{personaId}/chats/{chatId} with messages nested at
+    // say/{uid}/{personaId}/chats/{chatId}/messages/{msgId}. The {personaId}
+    // collection now holds chat (session) documents; each chat owns a messages
+    // subcollection. See report note on the "chats" path-segment arity.
+    const chatRef = chatDocRef(db, uid, personaId, chatId)
+    const messagesRef = chatRef.collection('messages')
 
     // STEP 3: Input injection filter
     const filterResult = filterUserInput(trimmedMessage)
@@ -271,6 +284,21 @@ export const generateSayResponse = onCall(
       console.error('say.persist_assistant_response_failed', { uid, code: (err as Error).message })
       // Response was generated; surfacing it to the user is more important
       // than failing the whole call. Return without throwing.
+    }
+
+    // STEP 11b: Update the chat doc's preview + lastMessageAt (merge).
+    // Preview = ~first 80 chars of the latest (assistant) message.
+    try {
+      await chatRef.set(
+        {
+          lastMessageAt: FieldValue.serverTimestamp(),
+          preview: responseText.slice(0, 80),
+        },
+        { merge: true },
+      )
+    } catch (err) {
+      console.error('say.update_chat_meta_failed', { uid, code: (err as Error).message })
+      // Non-fatal — the message was already persisted.
     }
 
     // STEP 12

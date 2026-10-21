@@ -1,11 +1,10 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react'
-import { Pressable, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native'
+import { ActivityIndicator, Pressable, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native'
 import { router, useFocusEffect } from 'expo-router'
 import {
   collection,
   doc,
   getDocs,
-  limit,
   onSnapshot,
   orderBy,
   query,
@@ -22,6 +21,7 @@ import Animated, {
 } from 'react-native-reanimated'
 import app, { db } from '@/services/firebase'
 import { useTheme, VOICE_DARK } from '@/theme'
+import { startSayChat } from '@/components/say/startSayChat'
 
 // ---- Voice data -----------------------------------------------------------
 type VoiceId = 'kind' | 'still' | 'steady' | 'wise'
@@ -86,8 +86,10 @@ const VOICES: readonly Voice[] = [
 ] as const
 
 // ---- Types ----------------------------------------------------------------
+// Preview sourced from the persona's most recent chat (latest lastMessageAt).
 type LastMessage = { content: string; createdAt: Timestamp }
 type SayStateData = Partial<Record<VoiceId, { hasUnread?: boolean }>>
+type ChatCounts = Partial<Record<VoiceId, number>>
 
 // ---- Helpers --------------------------------------------------------------
 function getGreeting(): string {
@@ -116,10 +118,11 @@ type VoiceCardProps = {
   inkMuted: string
   inkSubtle: string
   amber: string
+  starting: boolean
   onPress: () => void
 }
 
-function VoiceCard({ voice, index, lastMessage, hasUnread, isDark, inkPrimary, inkMuted, inkSubtle, amber, onPress }: VoiceCardProps) {
+function VoiceCard({ voice, index, lastMessage, hasUnread, isDark, inkPrimary, inkMuted, inkSubtle, amber, starting, onPress }: VoiceCardProps) {
   const opacity = useSharedValue(0)
   const translateY = useSharedValue(12)
   const scale = useSharedValue(1)
@@ -155,7 +158,9 @@ function VoiceCard({ voice, index, lastMessage, hasUnread, isDark, inkPrimary, i
         onPress={onPress}
         onPressIn={onPressIn}
         onPressOut={onPressOut}
+        disabled={starting}
         accessibilityRole="button"
+        accessibilityState={{ busy: starting }}
         accessibilityLabel={`${voice.name}. ${voice.descriptor}${hasUnread ? '. new message' : ''}`}
       >
         <View style={[styles.card, { backgroundColor: cardBg, borderColor: cardBorder }]}>
@@ -165,8 +170,9 @@ function VoiceCard({ voice, index, lastMessage, hasUnread, isDark, inkPrimary, i
               <Text style={[styles.name, { color: inkPrimary }]}>{voice.name}</Text>
             </View>
             <View style={styles.topRowRight}>
-              {voice.premium ? <Text style={[styles.premiumMark, { color: amber }]}>{'✦'}</Text> : null}
-              {hasUnread ? <View style={[styles.unreadDot, { backgroundColor: amber }]} /> : null}
+              {starting ? <ActivityIndicator size="small" color={amber} /> : null}
+              {!starting && voice.premium ? <Text style={[styles.premiumMark, { color: amber }]}>{'✦'}</Text> : null}
+              {!starting && hasUnread ? <View style={[styles.unreadDot, { backgroundColor: amber }]} /> : null}
             </View>
           </View>
           <Text style={[styles.descriptor, { color: inkMuted }]}>{voice.descriptor}</Text>
@@ -188,8 +194,10 @@ export default function SayLobbyScreen() {
   const { isDark, colors } = useTheme()
   const [authReady, setAuthReady] = useState(false)
   const [lastMessages, setLastMessages] = useState<Partial<Record<VoiceId, LastMessage>>>({})
+  const [chatCounts, setChatCounts] = useState<ChatCounts>({})
   const [unreadState, setUnreadState] = useState<SayStateData>({})
   const [loading, setLoading] = useState(true)
+  const [startingId, setStartingId] = useState<VoiceId | null>(null)
 
   const headerOpacity = useSharedValue(0)
   const greeting = useRef(getGreeting()).current
@@ -224,25 +232,36 @@ export default function SayLobbyScreen() {
           const results = await Promise.all(
             VOICES.map(async (v) => {
               try {
+                // Read this persona's chats, most-recent first. Chat docs live
+                // DIRECTLY in the persona collection (no literal 'chats'
+                // segment). The latest chat provides the lobby preview; the
+                // snapshot size is the count used to decide list-vs-new-chat
+                // on tap. orderBy('lastMessageAt') excludes legacy/reach-out
+                // docs lacking the field.
                 const snap = await getDocs(
-                  query(collection(db, 'say', uid, v.id), orderBy('createdAt', 'desc'), limit(1)),
+                  query(collection(db, 'say', uid, v.id), orderBy('lastMessageAt', 'desc')),
                 )
-                if (snap.empty) return [v.id, null] as const
-                const d = snap.docs[0].data() as { content?: unknown; createdAt?: unknown }
-                const content = typeof d.content === 'string' ? d.content : ''
-                if (!(d.createdAt instanceof Timestamp)) return [v.id, null] as const
-                return [v.id, { content, createdAt: d.createdAt }] as const
+                const count = snap.size
+                if (snap.empty) return { id: v.id, last: null, count } as const
+                const d = snap.docs[0].data() as { preview?: unknown; lastMessageAt?: unknown }
+                const content = typeof d.preview === 'string' ? d.preview : ''
+                const createdAt = d.lastMessageAt instanceof Timestamp ? d.lastMessageAt : null
+                const last = createdAt ? { content, createdAt } : null
+                return { id: v.id, last, count } as const
               } catch {
-                return [v.id, null] as const
+                return { id: v.id, last: null, count: 0 } as const
               }
             }),
           )
           if (cancelled) return
-          const next: Partial<Record<VoiceId, LastMessage>> = {}
-          for (const [id, lm] of results) {
-            if (lm) next[id as VoiceId] = lm
+          const nextLast: Partial<Record<VoiceId, LastMessage>> = {}
+          const nextCounts: ChatCounts = {}
+          for (const { id, last, count } of results) {
+            if (last) nextLast[id] = last
+            nextCounts[id] = count
           }
-          setLastMessages(next)
+          setLastMessages(nextLast)
+          setChatCounts(nextCounts)
         } finally {
           if (!cancelled) setLoading(false)
         }
@@ -273,10 +292,29 @@ export default function SayLobbyScreen() {
     )
   }, [authReady])
 
-  const handlePress = useCallback((voice: Voice) => {
-    // TODO: re-enable premium gate before launch
-    router.push({ pathname: '/say/[personaId]', params: { personaId: voice.id } })
-  }, [])
+  const handlePress = useCallback(
+    async (voice: Voice) => {
+      // TODO: re-enable premium gate before launch
+      if (startingId) return
+      const count = chatCounts[voice.id] ?? 0
+      if (count === 0) {
+        // No chats yet → create one and go straight to the thread.
+        setStartingId(voice.id)
+        try {
+          const chatId = await startSayChat(voice.id)
+          router.push({ pathname: '/say/[personaId]/[chatId]', params: { personaId: voice.id, chatId } })
+        } catch {
+          // Surface nothing destructive — just release the spinner so the user can retry.
+        } finally {
+          setStartingId(null)
+        }
+        return
+      }
+      // 1+ chats → show the persona's chat list.
+      router.push({ pathname: '/say/[personaId]', params: { personaId: voice.id } })
+    },
+    [chatCounts, startingId],
+  )
 
   return (
     <SafeAreaView style={[styles.safe, { backgroundColor: colors.bg }]}>
@@ -301,7 +339,8 @@ export default function SayLobbyScreen() {
               inkMuted={colors.inkMuted}
               inkSubtle={colors.inkSubtle}
               amber={colors.amber}
-              onPress={() => handlePress(voice)}
+              starting={startingId === voice.id}
+              onPress={() => { void handlePress(voice) }}
             />
           ))}
         </View>

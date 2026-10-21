@@ -7,6 +7,7 @@ import {
   getSavedMessages,
   getCheckIns,
   calcStreak,
+  localDayKey,
 } from '@/storage/storage'
 import type { AppSettings, CheckInEvent } from '@/types'
 import { getCurrentUser } from '@/services/auth'
@@ -145,12 +146,12 @@ export default function HomeScreen() {
           setStreak(calcStreak(events))
 
           // Build a 7-day window: index 0 = 6 days ago, index 6 = today.
-          const uniqueDates = new Set(events.map((e) => e.timestamp.slice(0, 10)))
+          const uniqueDates = new Set(events.map((e) => localDayKey(new Date(e.timestamp))))
           const window: boolean[] = []
           for (let i = 6; i >= 0; i--) {
             const d = new Date()
             d.setDate(d.getDate() - i)
-            window.push(uniqueDates.has(d.toISOString().slice(0, 10)))
+            window.push(uniqueDates.has(localDayKey(d)))
           }
           setRecentDays(window)
         } catch {

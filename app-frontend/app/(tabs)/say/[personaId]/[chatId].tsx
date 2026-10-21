@@ -44,7 +44,7 @@ import { getSettings } from '@/storage/storage'
 import app, { db, logAnalyticsEvent } from '@/services/firebase'
 import { useTheme, VOICE_DARK } from '@/theme'
 
-const STAMP = require('../../../assets/images/icon-nobackground.png') as number
+const STAMP = require('../../../../assets/images/icon-nobackground.png') as number
 
 const SIX_HOURS_MS = 6 * 60 * 60 * 1000
 
@@ -373,7 +373,9 @@ function EmptyState({ meta, consentVisible, onConsentDismiss, inkPrimary, inkMut
 }
 
 // ---- Cloud Function -------------------------------------------------------
-type SayPayload = { message: string; personaId: VoiceId; userName?: string }
+// `chatId` is now REQUIRED by the backend contract: it scopes the message to a
+// specific chat session under say/{uid}/{personaId}/chats/{chatId}.
+type SayPayload = { message: string; personaId: VoiceId; chatId: string; userName?: string }
 type SayResult = {
   response?: string
   blocked?: boolean
@@ -390,9 +392,11 @@ async function callGenerateSayResponse(payload: SayPayload): Promise<SayResult> 
 // ---- Main screen ----------------------------------------------------------
 export default function SayThreadScreen() {
   const { isDark, colors } = useTheme()
-  const params = useLocalSearchParams<{ personaId?: string | string[] }>()
-  const raw = Array.isArray(params.personaId) ? params.personaId[0] : params.personaId
-  const personaId: VoiceId = isVoiceId(raw) ? raw : 'kind'
+  const params = useLocalSearchParams<{ personaId?: string | string[]; chatId?: string | string[] }>()
+  const rawPersona = Array.isArray(params.personaId) ? params.personaId[0] : params.personaId
+  const personaId: VoiceId = isVoiceId(rawPersona) ? rawPersona : 'kind'
+  const rawChat = Array.isArray(params.chatId) ? params.chatId[0] : params.chatId
+  const chatId = rawChat ?? ''
   const meta = VOICE_META[personaId]
   const { bg: vBg, border: vBorder } = voiceSurface(personaId, isDark)
 
@@ -428,13 +432,18 @@ export default function SayThreadScreen() {
     return () => { cancelled = true }
   }, [])
 
-  // Manual fetch — fallback for Expo Go where onSnapshot WebSocket is unreliable
+  // Manual fetch — fallback for Expo Go where onSnapshot WebSocket is unreliable.
+  // Scoped to this chat's messages subcollection.
   const fetchMessages = useCallback(async () => {
     const user = getAuth().currentUser
-    if (!user) return
+    if (!user || !chatId) return
     try {
       const snap = await getDocs(
-        query(collection(db, 'say', user.uid, personaId), orderBy('createdAt', 'desc'), limit(50)),
+        query(
+          collection(db, 'say', user.uid, personaId, chatId, 'messages'),
+          orderBy('createdAt', 'desc'),
+          limit(50),
+        ),
       )
       const docs: SayMessage[] = []
       snap.forEach((d) => {
@@ -453,7 +462,7 @@ export default function SayThreadScreen() {
     } catch {
       // silent — onSnapshot may still be working
     }
-  }, [personaId])
+  }, [personaId, chatId])
 
   // Reduce motion
   useEffect(() => {
@@ -475,16 +484,16 @@ export default function SayThreadScreen() {
     return () => { cancelled = true }
   }, [])
 
-  // Initial load + Firestore subscription
+  // Initial load + Firestore subscription — scoped to this chat's messages
   useEffect(() => {
-    if (!authReady) return
+    if (!authReady || !chatId) return
     const user = getAuth().currentUser
     if (!user) return
 
     void fetchMessages()
 
     const q = query(
-      collection(db, 'say', user.uid, personaId),
+      collection(db, 'say', user.uid, personaId, chatId, 'messages'),
       orderBy('createdAt', 'desc'),
       limit(50),
     )
@@ -509,17 +518,17 @@ export default function SayThreadScreen() {
       },
       () => { setSnapshotReceived(true) },
     )
-  }, [authReady, personaId, fetchMessages])
+  }, [authReady, personaId, chatId, fetchMessages])
 
   // Send
   const handleSend = useCallback(async () => {
     const trimmed = draft.trim()
-    if (!trimmed || isTyping) return
+    if (!trimmed || isTyping || !chatId) return
     setErrorKind(null)
     setIsTyping(true)
     setDraft('')
     const firstName = (firstNameRef.current || '').trim().split(/\s+/)[0] || ''
-    const payload: SayPayload = { message: trimmed, personaId, ...(firstName ? { userName: firstName } : {}) }
+    const payload: SayPayload = { message: trimmed, personaId, chatId, ...(firstName ? { userName: firstName } : {}) }
     lastPayloadRef.current = payload
     logAnalyticsEvent('say_message_sent')
 
@@ -539,7 +548,7 @@ export default function SayThreadScreen() {
     } finally {
       setIsTyping(false)
     }
-  }, [draft, isTyping, personaId, fetchMessages])
+  }, [draft, isTyping, personaId, chatId, fetchMessages])
 
   const handleRetry = useCallback(async () => {
     const last = lastPayloadRef.current
@@ -568,11 +577,11 @@ export default function SayThreadScreen() {
     setCrisisState('dismissed')
   }, [])
 
-  // Clear conversation
+  // Clear conversation — scoped to THIS chat's messages subcollection only
   const handleClearChat = useCallback(() => {
     Alert.alert(
       'Clear conversation',
-      `This will permanently delete all messages with ${meta.name}. This cannot be undone.`,
+      `This will permanently delete all messages in this chat with ${meta.name}. This cannot be undone.`,
       [
         { text: 'Cancel', style: 'cancel' },
         {
@@ -580,14 +589,16 @@ export default function SayThreadScreen() {
           style: 'destructive',
           onPress: async () => {
             const user = getAuth().currentUser
-            if (!user) return
+            if (!user || !chatId) return
             setClearing(true)
             try {
               const snap = await getDocs(
-                query(collection(db, 'say', user.uid, personaId), limit(500)),
+                query(collection(db, 'say', user.uid, personaId, chatId, 'messages'), limit(500)),
               )
               await Promise.all(
-                snap.docs.map((d) => deleteDoc(doc(db, 'say', user.uid, personaId, d.id))),
+                snap.docs.map((d) =>
+                  deleteDoc(doc(db, 'say', user.uid, personaId, chatId, 'messages', d.id)),
+                ),
               )
               setMessages([])
             } catch {
@@ -599,7 +610,7 @@ export default function SayThreadScreen() {
         },
       ],
     )
-  }, [meta.name, personaId])
+  }, [meta.name, personaId, chatId])
 
   // Search
   const enterSearch = useCallback(() => {
@@ -673,7 +684,7 @@ export default function SayThreadScreen() {
         case 'crisis': return <CrisisCard dismissed={item.dismissed} onDismiss={handleCrisisDismiss} />
       }
     },
-    [personaId, reduceMotion, handleRetry, handleCrisisDismiss, isSearching, searchQuery],
+    [personaId, reduceMotion, handleRetry, handleCrisisDismiss, isSearching, searchQuery, vBg, vBorder, colors.inkPrimary, colors.inkSubtle],
   )
 
   const keyExtractor = useCallback((item: ThreadItem) => {

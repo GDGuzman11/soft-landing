@@ -1,19 +1,18 @@
 import type { CheckInEvent } from '@/types'
+import { localDayKey } from './day'
 
 export function calcStreak(checkIns: CheckInEvent[]): number {
   if (checkIns.length === 0) return 0
-  const dates = [...new Set(checkIns.map((e) => e.timestamp.slice(0, 10)))]
+  const dates = [...new Set(checkIns.map((e) => localDayKey(new Date(e.timestamp))))]
     .sort()
     .reverse()
-  const today = new Date().toISOString().slice(0, 10)
   let streak = 0
-  let cursor = today
+  let cursor = localDayKey()
   for (const date of dates) {
     if (date === cursor) {
       streak++
-      const d = new Date(cursor)
-      d.setDate(d.getDate() - 1)
-      cursor = d.toISOString().slice(0, 10)
+      const [y, m, d] = cursor.split('-').map(Number)
+      cursor = localDayKey(new Date(y, m - 1, d - 1))
     } else if (date < cursor) {
       break
     }
@@ -22,6 +21,6 @@ export function calcStreak(checkIns: CheckInEvent[]): number {
 }
 
 export function hasTodayCheckIn(checkIns: CheckInEvent[]): boolean {
-  const today = new Date().toISOString().slice(0, 10)
-  return checkIns.some((e) => e.timestamp.slice(0, 10) === today)
+  const today = localDayKey()
+  return checkIns.some((e) => localDayKey(new Date(e.timestamp)) === today)
 }

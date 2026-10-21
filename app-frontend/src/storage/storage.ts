@@ -1,7 +1,9 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import type { AppSettings, CheckInEvent, SavedMessage } from '../types'
+import { localDayKey } from '../utils/day'
 
 export { calcStreak, hasTodayCheckIn } from '../utils/streak'
+export { localDayKey } from '../utils/day'
 
 const KEYS = {
   SETTINGS: '@soft_landing/settings',
@@ -94,7 +96,7 @@ export async function deleteSavedMessage(id: string): Promise<void> {
 
 export async function getTodayCheckInCount(): Promise<number> {
   const settings = await getSettings()
-  const today = new Date().toISOString().slice(0, 10)
+  const today = localDayKey()
 
   if (settings.lastCheckInDate !== today) return 0
   return settings.checkInsToday
@@ -102,7 +104,7 @@ export async function getTodayCheckInCount(): Promise<number> {
 
 export async function incrementCheckInCount(): Promise<number> {
   const settings = await getSettings()
-  const today = new Date().toISOString().slice(0, 10)
+  const today = localDayKey()
 
   const isNewDay = settings.lastCheckInDate !== today
   const newCount = isNewDay ? 1 : settings.checkInsToday + 1
