@@ -10,14 +10,10 @@ import {
   Linking,
 } from 'react-native'
 import { router } from 'expo-router'
-import { useState, useEffect } from 'react'
-import * as WebBrowser from 'expo-web-browser'
-import * as AuthSession from 'expo-auth-session/providers/google'
-import { signUpWithEmail, signInWithGoogle, signInWithApple, sendVerificationEmail } from '@/services/auth'
+import { useState } from 'react'
+import { signUpWithEmail, signInWithGoogleNative, signInWithApple, sendVerificationEmail } from '@/services/auth'
 import { mapFirebaseError } from '@/utils/firebaseErrors'
 import { useTheme } from '@/theme'
-
-WebBrowser.maybeCompleteAuthSession()
 
 const TERMS_URL = 'https://gdguzman11.github.io/soft-landing/terms.html'
 const PRIVACY_URL = 'https://gdguzman11.github.io/soft-landing/privacy-policy.html'
@@ -32,28 +28,26 @@ export default function RegisterScreen() {
   const [error, setError] = useState<string | null>(null)
   const [tosAccepted, setTosAccepted] = useState(false)
 
-  const [request, response, promptAsync] = AuthSession.useAuthRequest({
-    clientId: process.env.EXPO_PUBLIC_GOOGLE_CLIENT_ID,
-    iosClientId: process.env.EXPO_PUBLIC_GOOGLE_CLIENT_ID,
-    webClientId: process.env.EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID,
-    scopes: ['openid', 'profile', 'email'],
-  })
-
-  useEffect(() => {
-    if (response?.type === 'success') {
-      const { id_token } = response.params
-      if (id_token) {
-        setLoading(true)
-        setError(null)
-        signInWithGoogle(id_token)
-          .then(() => router.replace('/onboarding-disclaimer'))
-          .catch(() => {
-            setError('Google sign-in failed. Please try again.')
-            setLoading(false)
-          })
-      }
+  async function handleGoogleSignUp() {
+    if (!tosAccepted) {
+      setError('Please agree to the Terms of Service to continue.')
+      return
     }
-  }, [response])
+    if (loading) return
+    setLoading(true)
+    setError(null)
+    try {
+      const user = await signInWithGoogleNative()
+      if (!user) {
+        setLoading(false)
+        return
+      }
+      router.replace('/onboarding-disclaimer')
+    } catch {
+      setError('Google sign-in failed. Please try again.')
+      setLoading(false)
+    }
+  }
 
   async function handleCreateAccount() {
     if (!tosAccepted) {
@@ -328,11 +322,8 @@ export default function RegisterScreen() {
         </Pressable>
 
         <Pressable
-          onPress={() => {
-            if (!tosAccepted) { setError('Please agree to the Terms of Service to continue.'); return }
-            if (!loading) promptAsync()
-          }}
-          disabled={!request || loading}
+          onPress={handleGoogleSignUp}
+          disabled={loading}
           className="active:opacity-80"
           style={{
             backgroundColor: colors.surface,
@@ -342,7 +333,7 @@ export default function RegisterScreen() {
             marginBottom: 12,
             borderWidth: 1,
             borderColor: colors.cardBorder,
-            opacity: !request || loading ? 0.5 : 1,
+            opacity: loading ? 0.5 : 1,
           }}
           accessibilityRole="button"
           accessibilityLabel="Sign up with Google"
@@ -363,8 +354,9 @@ export default function RegisterScreen() {
                 await signInWithApple()
                 router.replace('/onboarding-disclaimer')
               } catch (e: unknown) {
-                if ((e as { code?: string })?.code !== 'ERR_REQUEST_CANCELED') {
-                  setError('Apple sign-in failed. Please try again.')
+                const code = (e as { code?: string })?.code
+                if (code !== 'ERR_REQUEST_CANCELED') {
+                  setError(`Apple sign-in failed (${code ?? 'unknown'}). Please try again.`)
                 }
                 setLoading(false)
               }

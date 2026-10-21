@@ -11,8 +11,14 @@ import {
   type User,
 } from 'firebase/auth'
 import { auth } from './firebase'
+import { Platform } from 'react-native'
 import * as AppleAuthentication from 'expo-apple-authentication'
 import * as Crypto from 'expo-crypto'
+import {
+  GoogleSignin,
+  statusCodes,
+  isErrorWithCode,
+} from '@react-native-google-signin/google-signin'
 import type { AuthUser } from '../types'
 
 export type { AuthUser }
@@ -67,6 +73,45 @@ export async function signInWithGoogle(idToken: string): Promise<AuthUser> {
   } catch (err) {
     wrapAuthError(err)
   }
+}
+
+let googleConfigured = false
+function ensureGoogleConfigured() {
+  if (googleConfigured) return
+  // webClientId is required so the returned idToken's audience matches a client
+  // Firebase trusts; iosClientId drives the native iOS consent sheet.
+  GoogleSignin.configure({
+    iosClientId: process.env.EXPO_PUBLIC_GOOGLE_CLIENT_ID,
+    webClientId: process.env.EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID,
+  })
+  googleConfigured = true
+}
+
+/**
+ * Native Google Sign-In (iOS/Android SDK) → Firebase. Replaces the
+ * expo-auth-session browser flow, which Google blocks in installed apps.
+ * Returns `null` when the user cancels the native sheet (not an error).
+ */
+export async function signInWithGoogleNative(): Promise<AuthUser | null> {
+  ensureGoogleConfigured()
+  let idToken: string | null = null
+  try {
+    if (Platform.OS === 'android') {
+      await GoogleSignin.hasPlayServices({ showPlayServicesUpdateDialog: true })
+    }
+    const response = await GoogleSignin.signIn()
+    if (response.type === 'cancelled') return null
+    idToken = response.data?.idToken ?? null
+  } catch (err) {
+    if (isErrorWithCode(err) && err.code === statusCodes.SIGN_IN_CANCELLED) return null
+    wrapAuthError(err)
+  }
+  if (!idToken) {
+    const e = new Error('No Google identity token returned') as Error & { code: string }
+    e.code = 'auth/no-id-token'
+    throw e
+  }
+  return signInWithGoogle(idToken)
 }
 
 export async function sendVerificationEmail(): Promise<void> {

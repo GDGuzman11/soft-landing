@@ -10,15 +10,11 @@ import {
   Platform,
 } from 'react-native'
 import { router } from 'expo-router'
-import { useState, useEffect } from 'react'
-import * as WebBrowser from 'expo-web-browser'
-import * as AuthSession from 'expo-auth-session/providers/google'
-import { signInWithEmail, signInWithGoogle, signInWithApple, sendVerificationEmail, resetPassword } from '@/services/auth'
+import { useState } from 'react'
+import { signInWithEmail, signInWithGoogleNative, signInWithApple, sendVerificationEmail, resetPassword } from '@/services/auth'
 import { getSettings, saveSettings } from '@/storage/storage'
 import { mapFirebaseError } from '@/utils/firebaseErrors'
 import { useTheme } from '@/theme'
-
-WebBrowser.maybeCompleteAuthSession()
 
 async function stampReturningUser() {
   try {
@@ -42,28 +38,23 @@ export default function SignInScreen() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
-  const [request, response, promptAsync] = AuthSession.useAuthRequest({
-    clientId: process.env.EXPO_PUBLIC_GOOGLE_CLIENT_ID,
-    iosClientId: process.env.EXPO_PUBLIC_GOOGLE_CLIENT_ID,
-    webClientId: process.env.EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID,
-    scopes: ['openid', 'profile', 'email'],
-  })
-
-  useEffect(() => {
-    if (response?.type === 'success') {
-      const { id_token } = response.params
-      if (id_token) {
-        setLoading(true)
-        setError(null)
-        signInWithGoogle(id_token)
-          .then(() => stampReturningUser().then(() => router.replace('/(tabs)')))
-          .catch(() => {
-            setError('Google sign-in failed. Please try again.')
-            setLoading(false)
-          })
+  async function handleGoogleSignIn() {
+    if (loading) return
+    setLoading(true)
+    setError(null)
+    try {
+      const user = await signInWithGoogleNative()
+      if (!user) {
+        setLoading(false)
+        return
       }
+      await stampReturningUser()
+      router.replace('/(tabs)')
+    } catch {
+      setError('Google sign-in failed. Please try again.')
+      setLoading(false)
     }
-  }, [response])
+  }
 
   async function handleSignIn() {
     if (!email.trim() || !password) return
@@ -241,8 +232,8 @@ export default function SignInScreen() {
         </Pressable>
 
         <Pressable
-          onPress={() => !loading && promptAsync()}
-          disabled={!request || loading}
+          onPress={handleGoogleSignIn}
+          disabled={loading}
           className="active:opacity-80"
           style={{
             backgroundColor: colors.surface,
@@ -252,7 +243,7 @@ export default function SignInScreen() {
             marginBottom: 12,
             borderWidth: 1,
             borderColor: colors.cardBorder,
-            opacity: !request || loading ? 0.5 : 1,
+            opacity: loading ? 0.5 : 1,
           }}
           accessibilityRole="button"
           accessibilityLabel="Sign in with Google"
@@ -273,8 +264,9 @@ export default function SignInScreen() {
                 await stampReturningUser()
                 router.replace('/(tabs)')
               } catch (e: unknown) {
-                if ((e as { code?: string })?.code !== 'ERR_REQUEST_CANCELED') {
-                  setError('Apple sign-in failed. Please try again.')
+                const code = (e as { code?: string })?.code
+                if (code !== 'ERR_REQUEST_CANCELED') {
+                  setError(`Apple sign-in failed (${code ?? 'unknown'}). Please try again.`)
                 }
                 setLoading(false)
               }

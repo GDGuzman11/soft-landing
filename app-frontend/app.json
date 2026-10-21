@@ -17,14 +17,7 @@
         "UIBackgroundModes": [
           "fetch"
         ],
-        "ITSAppUsesNonExemptEncryption": false,
-        "CFBundleURLTypes": [
-          {
-            "CFBundleURLSchemes": [
-              "com.googleusercontent.apps.780566026276-voiv0dglbe6km78g1plm2s48bd5tsaou"
-            ]
-          }
-        ]
+        "ITSAppUsesNonExemptEncryption": false
       }
     },
     "android": {
@@ -57,6 +50,12 @@
       "expo-secure-store",
       "expo-web-browser",
       "expo-apple-authentication",
+      [
+        "@react-native-google-signin/google-signin",
+        {
+          "iosUrlScheme": "com.googleusercontent.apps.780566026276-voiv0dglbe6km78g1plm2s48bd5tsaou"
+        }
+      ],
       "@sentry/react-native",
       "expo-font",
       [
