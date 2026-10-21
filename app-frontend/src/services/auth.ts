@@ -14,11 +14,6 @@ import { auth } from './firebase'
 import { Platform } from 'react-native'
 import * as AppleAuthentication from 'expo-apple-authentication'
 import * as Crypto from 'expo-crypto'
-import {
-  GoogleSignin,
-  statusCodes,
-  isErrorWithCode,
-} from '@react-native-google-signin/google-signin'
 import type { AuthUser } from '../types'
 
 export type { AuthUser }
@@ -75,27 +70,49 @@ export async function signInWithGoogle(idToken: string): Promise<AuthUser> {
   }
 }
 
+// Loaded lazily (require, not a top-level import) so the native module is only
+// touched when the user taps "Sign in with Google". A static import would run
+// TurboModuleRegistry.getEnforcing('RNGoogleSignin') at app startup and crash
+// the entire app anywhere the native module is absent (e.g. Expo Go).
+type GoogleSigninModule = typeof import('@react-native-google-signin/google-signin')
+let googleModule: GoogleSigninModule | null = null
 let googleConfigured = false
-function ensureGoogleConfigured() {
-  if (googleConfigured) return
-  // webClientId is required so the returned idToken's audience matches a client
-  // Firebase trusts; iosClientId drives the native iOS consent sheet.
-  GoogleSignin.configure({
-    iosClientId: process.env.EXPO_PUBLIC_GOOGLE_CLIENT_ID,
-    webClientId: process.env.EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID,
-  })
-  googleConfigured = true
+
+function loadGoogleSignin(): GoogleSigninModule {
+  if (!googleModule) {
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
+    googleModule = require('@react-native-google-signin/google-signin') as GoogleSigninModule
+  }
+  return googleModule
 }
 
 /**
  * Native Google Sign-In (iOS/Android SDK) → Firebase. Replaces the
  * expo-auth-session browser flow, which Google blocks in installed apps.
  * Returns `null` when the user cancels the native sheet (not an error).
+ * Requires a dev/production build — the native module is absent in Expo Go.
  */
 export async function signInWithGoogleNative(): Promise<AuthUser | null> {
-  ensureGoogleConfigured()
+  let gs: GoogleSigninModule
+  try {
+    gs = loadGoogleSignin()
+  } catch {
+    const e = new Error('Google sign-in needs a dev or production build') as Error & { code: string }
+    e.code = 'auth/google-native-unavailable'
+    throw e
+  }
+  const { GoogleSignin, statusCodes, isErrorWithCode } = gs
   let idToken: string | null = null
   try {
+    if (!googleConfigured) {
+      // webClientId is required so the returned idToken's audience matches a
+      // client Firebase trusts; iosClientId drives the native iOS consent sheet.
+      GoogleSignin.configure({
+        iosClientId: process.env.EXPO_PUBLIC_GOOGLE_CLIENT_ID,
+        webClientId: process.env.EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID,
+      })
+      googleConfigured = true
+    }
     if (Platform.OS === 'android') {
       await GoogleSignin.hasPlayServices({ showPlayServicesUpdateDialog: true })
     }
