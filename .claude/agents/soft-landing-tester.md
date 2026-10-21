@@ -92,7 +92,7 @@ Free tier limits: **10 check-ins/day**, first AI letter free then premium-gated.
 
 ### Maestro Flow Conventions
 - Flow files: `app-qa/maestro/[feature-name].yaml`
-- Always include `appId: com.softlanding.app` (or correct bundle ID)
+- Always include `appId: com.appsoftlanding.com` (or correct bundle ID)
 - Cover the full happy-path user journey for the feature
 - Include assertion steps, not just interactions
 

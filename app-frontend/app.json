@@ -9,8 +9,9 @@
     "userInterfaceStyle": "automatic",
     "ios": {
       "supportsTablet": false,
-      "bundleIdentifier": "com.softlanding.app",
+      "bundleIdentifier": "com.appsoftlanding.com",
       "buildNumber": "1",
+      "usesAppleSignIn": true,
       "infoPlist": {
         "NSUserNotificationUsageDescription": "Soft Landing uses notifications to send you gentle daily check-in reminders.",
         "UIBackgroundModes": [
@@ -20,7 +21,7 @@
         "CFBundleURLTypes": [
           {
             "CFBundleURLSchemes": [
-              "com.googleusercontent.apps.780566026276-atjb22a57kgant0ls9llp2umbdi91phq"
+              "com.googleusercontent.apps.780566026276-voiv0dglbe6km78g1plm2s48bd5tsaou"
             ]
           }
         ]
@@ -31,7 +32,7 @@
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#FAF8F5"
       },
-      "package": "com.softlanding.app",
+      "package": "com.appsoftlanding.com",
       "versionCode": 1,
       "permissions": [
         "android.permission.RECEIVE_BOOT_COMPLETED",

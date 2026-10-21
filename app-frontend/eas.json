@@ -26,7 +26,15 @@
         "buildType": "apk"
       },
       "env": {
-        "EXPO_PUBLIC_APP_ENV": "staging"
+        "EXPO_PUBLIC_APP_ENV": "staging",
+        "EXPO_PUBLIC_FIREBASE_API_KEY": "AIzaSyDsBzCJ-kwdKGsmOkkXPFJxVakUMWdWvqw",
+        "EXPO_PUBLIC_FIREBASE_AUTH_DOMAIN": "soft-landing-afe2d.firebaseapp.com",
+        "EXPO_PUBLIC_FIREBASE_PROJECT_ID": "soft-landing-afe2d",
+        "EXPO_PUBLIC_FIREBASE_STORAGE_BUCKET": "soft-landing-afe2d.firebasestorage.app",
+        "EXPO_PUBLIC_FIREBASE_MESSAGING_SENDER_ID": "780566026276",
+        "EXPO_PUBLIC_FIREBASE_APP_ID": "1:780566026276:ios:12d3addf49aba2d5d020b1",
+        "EXPO_PUBLIC_GOOGLE_CLIENT_ID": "780566026276-voiv0dglbe6km78g1plm2s48bd5tsaou.apps.googleusercontent.com",
+        "EXPO_PUBLIC_REVERSED_CLIENT_ID": "com.googleusercontent.apps.780566026276-voiv0dglbe6km78g1plm2s48bd5tsaou"
       }
     },
     "production": {

@@ -112,7 +112,7 @@ already built.
   `EXPO_PUBLIC_FIREBASE_API_KEY` is bundled into the client binary. Anyone who
   decompiles the app can read it. Go to Google Cloud Console → APIs & Services
   → Credentials → your API key → "Application restrictions" → restrict to
-  iOS bundle ID `com.softlanding.app` and Android package `com.softlanding.app`.
+  iOS bundle ID `com.appsoftlanding.com` and Android package `com.appsoftlanding.com`.
   This prevents the key from being used outside your app.
 
 - [ ] **Enable Firebase App Check**
@@ -203,7 +203,7 @@ already built.
 
 - [ ] **Join Apple Developer Program** — unlocks everything below.
 
-- [ ] **Create App ID** for bundle `com.softlanding.app` in Apple Developer portal.
+- [ ] **Create App ID** for bundle `com.appsoftlanding.com` in Apple Developer portal.
   Enable capabilities: Push Notifications, Sign in with Apple.
 
 - [ ] **Create App Store Connect app record** — required before any TestFlight
@@ -277,7 +277,7 @@ already built.
 ### Google Sign-In OAuth Client ID
 
 - [ ] **Create iOS OAuth 2.0 client** in Google Cloud Console → APIs & Services
-  → Credentials. Bundle ID must match `com.softlanding.app`. Set the value in:
+  → Credentials. Bundle ID must match `com.appsoftlanding.com`. Set the value in:
   `.env` → `EXPO_PUBLIC_GOOGLE_CLIENT_ID`
   The `CFBundleURLSchemes` in `app.json` already has a Google URL scheme configured
   (`com.googleusercontent.apps.780566026276-...`) — verify this matches the credential you create.
@@ -340,7 +340,7 @@ already built.
 
 - [ ] **Register Google Play Developer account** ($25 one-time).
 
-- [ ] **Create Android app record** in Play Console with package `com.softlanding.app`.
+- [ ] **Create Android app record** in Play Console with package `com.appsoftlanding.com`.
 
 - [ ] **Download `google-services.json`** from Firebase Console → Android app.
   Place in `app-frontend/` (gitignored).

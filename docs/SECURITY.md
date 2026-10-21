@@ -107,7 +107,7 @@ service cloud.firestore {
 - [ ] Move Cloud Run `generateletter` to require authentication (not `invoker: 'public'`)
 - [ ] Re-enable `canUseLetter` gate in `letter-compose.tsx`
 - [ ] Re-enable `canCheckIn()` in `checkIn.ts`
-- [ ] Restrict iOS API key to bundle ID `com.softlanding.app` in Google Cloud Console
+- [ ] Restrict iOS API key to bundle ID `com.appsoftlanding.com` in Google Cloud Console
 - [ ] Enable Firebase App Check for Cloud Functions
 - [ ] Set Google Cloud billing alert at $30/month
 - [ ] `pnpm audit` + `npm audit` clean before submission

@@ -12,6 +12,7 @@ import {
 } from 'firebase/auth'
 import { auth } from './firebase'
 import * as AppleAuthentication from 'expo-apple-authentication'
+import * as Crypto from 'expo-crypto'
 import type { AuthUser } from '../types'
 
 export type { AuthUser }
@@ -110,19 +111,35 @@ export function getCurrentUser(): AuthUser | null {
   return user ? toAuthUser(user) : null
 }
 
-export async function signInWithApple(): Promise<void> {
+export async function signInWithApple(): Promise<AuthUser> {
   try {
+    // Firebase requires a nonce for Apple sign-in. Apple embeds the SHA-256 hash
+    // of the nonce in the identity token; Firebase re-hashes the rawNonce we pass
+    // and compares. So: hashed nonce goes to Apple, raw nonce goes to Firebase.
+    const rawNonce = Crypto.randomUUID()
+    const hashedNonce = await Crypto.digestStringAsync(
+      Crypto.CryptoDigestAlgorithm.SHA256,
+      rawNonce,
+    )
     const credential = await AppleAuthentication.signInAsync({
       requestedScopes: [
         AppleAuthentication.AppleAuthenticationScope.FULL_NAME,
         AppleAuthentication.AppleAuthenticationScope.EMAIL,
       ],
+      nonce: hashedNonce,
     })
-    const { identityToken } = credential
+    const { identityToken, fullName } = credential
     if (!identityToken) throw new Error('No Apple identity token returned')
     const provider = new OAuthProvider('apple.com')
-    const firebaseCredential = provider.credential({ idToken: identityToken })
-    await signInWithCredential(auth, firebaseCredential)
+    const firebaseCredential = provider.credential({ idToken: identityToken, rawNonce })
+    const result = await signInWithCredential(auth, firebaseCredential)
+    // Apple returns the user's name ONLY on the first sign-in. Capture it so the
+    // app (letters, Say first-name personalization) has a display name to use.
+    if (!result.user.displayName && fullName?.givenName) {
+      const name = [fullName.givenName, fullName.familyName].filter(Boolean).join(' ').trim()
+      if (name) await updateProfile(result.user, { displayName: name })
+    }
+    return toAuthUser(result.user)
   } catch (err) {
     wrapAuthError(err)
   }
