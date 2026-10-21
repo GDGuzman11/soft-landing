@@ -109,3 +109,39 @@ A running log of load-bearing technical decisions, with rationale and what we ga
 **Rationale.** The vertical list had a noticeable render lag (multi-card stack, multiple simultaneous `withRepeat` animations) and the stacked design felt visually noisy. One card at a time is calmer and more intentional — still deliberate, but now immersive. The full-bleed biblical illustration gives each emotion a distinct visual identity that words and colour alone couldn't. Performance gains from rendering a single card and pre-loading all 5 images on mount make swapping instantaneous.
 
 **Tradeoffs.** The user can't see all 5 options at a glance (they must swipe). Pagination dots and the emotion label above the card address discoverability. The tradeoff is accepted: the tactile engagement of swiping through images reinforces the reflective mood the app is trying to create.
+
+---
+
+## ADR-010: Say — discrete chats per persona (not per emotion)
+**Date:** 2026-10-20
+**Status:** Accepted
+
+**Decision.** Keep the four voice personas (Kind / Still / Steady / Wise) as the chat entities, and give each persona multiple **discrete chat sessions** rather than one continuous stream. Chats are stored at `say/{uid}/{personaId}/{chatId}` with messages in a `messages` subcollection; `generateSayResponse` scopes to a `chatId`.
+
+**Rationale.** The request was framed around "emotions," but the chat system is built on personas and the five check-in emotions are a separate, parallel feature; wiring emotions into chat would have been a much larger re-architecture for no clear user benefit. Discrete sessions let a person keep distinct conversations with the same voice and get a fresh, context-aware opener each time.
+
+**Tradeoffs.** A new session/schema layer and a nav restructure (persona → chat-list → thread). The legacy flat message stream is not migrated (no production users yet). Firestore path arity forced chat docs to live directly in the persona collection (no literal `chats/` segment); the chat-list query orders by `lastMessageAt`, which also excludes any stray legacy/reach-out docs.
+
+---
+
+## ADR-011: Device-local day boundary for streaks and daily limits
+**Date:** 2026-10-20
+**Status:** Accepted
+
+**Decision.** Compute "what day is it for the user" with a single `localDayKey()` helper (device-local `YYYY-MM-DD`) instead of `toISOString().slice(0,10)` (UTC).
+
+**Rationale.** UTC bucketing rolled the day at the wrong local clock time for users behind UTC — streaks and the daily check-in count appeared to reset early or on re-login. Local bucketing matches the user's lived "day." (Plain sign-out never wiped data; the earlier data-wipe theory was wrong — only the explicit Delete/Start-over actions clear storage.)
+
+**Tradeoffs.** Stored check-in timestamps remain UTC ISO strings; the local day is derived from them at read time, so a device whose timezone changes will re-bucket history to the new zone. Acceptable for a personal, single-device app (ADR-003).
+
+---
+
+## ADR-012: Expo SDK 57 upgrade
+**Date:** 2026-10-20
+**Status:** Accepted
+
+**Decision.** Upgrade `app-frontend` from Expo SDK 54 to 57 (incrementally, 54 → 55 → 56 → 57), letting `expo install --fix` set compatible versions at each hop.
+
+**Rationale.** Expo Go on devices had moved to SDK 57, so the SDK-54 project no longer loaded in Expo Go — and iOS can't install an older Expo Go. Upgrading restores on-device testing and keeps the dependency tree current (RN 0.86, React 19.2, Reanimated 4.5, TypeScript 6.0).
+
+**Tradeoffs.** Three SDK jumps at once; required `app.json` schema changes (`newArchEnabled`/`splash`) and minor RN 0.86 type fixes. Native modules (RevenueCat, view-shot, Apple sign-in) still require a development build — Expo Go covers the core flow only. The functions runtime remains Node 20, which Google decommissions 2026-10-30 (tracked separately — bump to Node 22).

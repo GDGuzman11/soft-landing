@@ -12,7 +12,7 @@ A premium emotional check-in mobile app. The user opens the app, picks an emotio
 - Add bugs to `docs/bugs.json` immediately on discovery.
 
 ## Current phase
-**Phase 0** — foundation. Repo skeleton, agent ownership map, base documentation, bug tracker, design tokens.
+**Pre-TestFlight — V1.10.** Full app functional end-to-end. Latest: Expo SDK 57 upgrade; Say multi-chat per persona with prior-day check-up openers + first-name personalization; device-local day rollover. Next: wire RevenueCat, re-enable the check-in limit (BUG-014), deploy `deleteUserData`/`scheduledReachOut` (BUG-033), bump functions to Node 22 (runtime decommission 2026-10-30), submit to TestFlight.
 
 ## Stack summary
 - React Native via **Expo** (managed workflow)
@@ -21,7 +21,7 @@ A premium emotional check-in mobile app. The user opens the app, picks an emotio
 - **NativeWind v4** (Tailwind for React Native)
 - **React Native Reanimated** (UI-thread animations, no Lottie)
 - **AsyncStorage** for local persistence (local-first, no backend in V1)
-- **RevenueCat** for subscriptions ($4.99/month or $34.99/year, 3 free check-ins per day)
+- **RevenueCat** for subscriptions ($4.99/month or $34.99/year, 10 free check-ins per day)
 - **Vitest** for unit tests, **Maestro** for end-to-end flows
 - **pnpm** + **Node 20**
 
@@ -36,7 +36,7 @@ Every file is owned by exactly one agent. Agents must not edit files outside the
 | **tester** | `app-qa/**` (Vitest suites, Maestro flows), `app-frontend/**/*.test.ts(x)` colocated tests, dev dashboard at `app-frontend/app/dashboard.tsx` |
 | **docs** | `CLAUDE.md`, `README.md`, `docs/ARCHITECTURE.md`, `docs/DECISIONS.md`, `docs/CHANGELOG.md`, `docs/bugs.json` |
 
-`app-backend/` is reserved but unused in V1.
+`app-backend/**` (Firebase Cloud Functions, Claude integration, prompts, Firestore rules) is owned by **backend-engineer**. Release/config (`eas.json`, `app.json`, `firebase.json`, CI workflows, `firestore.rules`) is owned by **devops-release-lead**. Visual/UX review is **ux-design-guardian**. (The `app-frontend/lib/...` paths in the table above predate the current `app-frontend/src/...` layout — read ownership by area, not literal path.)
 
 ## Bug tracker
 **Location:** `docs/bugs.json`
@@ -67,7 +67,7 @@ One agent's work per commit. Reference a bug ID in the body when relevant (e.g. 
 - **Interaction model:** single-card swipe for the emotion picker (one card visible, card follows finger, flies off at threshold), Reanimated envelope flight, single tap to open
 
 ## Active context
-*Session 2026-05-13 — V1.9.0. Pre-signup "How It Works" tour fixed (amber glow, auto-typing, param propagation, gesture locking). Post-signup onboarding overhauled: 2-slide generic carousel removed from funnel; replaced with one-time 4-slide `onboarding-guide.tsx` — one slide per tab, pulsing amber glyph icons, animated dots, Gen Z copy. Next steps: (1) set up RevenueCat with App Store Connect products (API keys in .env), (2) upload APNs key to EAS via `eas credentials`, (3) submit to TestFlight via `eas build --profile preview --platform ios`.*
+*Session 2026-10-20 — V1.10. Expo SDK 54→57 (RN 0.86 / React 19.2 / Reanimated 4.5 / TS 6.0). Say overhauled: sign-up first name injected into the system prompt (used naturally); memory window fixed to most-recent 50 (was oldest-30); multiple discrete chats per persona (`say/{uid}/{personaId}/{chatId}/messages`) with a chat-list page + `[chatId]` threads; new `startSayChat` callable summarizes the prior calendar day and opens a gentle, crisis-safe check-up (once per persona per ~20h), metered 5/60s + 30/day; `generateSayResponse` now takes a required `chatId`. Day rollover fixed to device-local (`localDayKey`). Firestore rules extended for the nested chat-messages path. All deployed to `soft-landing-afe2d` and verified live. Known gaps: RevenueCat unwired (BUG-010/026), check-in limit disabled (BUG-014), `deleteUserData`/`scheduledReachOut` undeployed (BUG-033), Node 20 runtime decommission 2026-10-30. Note: an auto-commit hook writes generic "Update:" commits; this session's work + docs were pushed to origin/master.*
 
 ## Current build state
 - All screens functional: welcome → (how it works / register / sign-in) → onboarding-disclaimer → onboarding-guide → onboarding-profile → faith-intro → home → emotions → envelope → message (swipe flow) → session-summary → letter-compose → history
@@ -89,16 +89,16 @@ One agent's work per commit. Reference a bug ID in the body when relevant (e.g. 
 - **Home screen:** ambient boy (top-left) + girl (bottom-right) background images at 35% opacity, fade in via `withDelay + withTiming` on every tab focus (`useFocusEffect`); icon stamp uses transparent-background version; content layers at `zIndex: 1`
 - **Widgets tab:** icon changed to ❖; themed double-line dividers (amber hairline + ✦ centre glyph) between Small / Medium / Large sections
 - **History tab:** delete confirmation dialog + 200ms letter expand/collapse fade animation + haptic on delete; ✦ amber glyph in empty state
-- **Say AI chat tab:** 4 voice personas (Kind/Still/Steady/Wise) backed by Claude Sonnet 4.6; per-persona Firestore conversation history (30-message rolling window); rate limiting 100/day free, 500/day premium, 20/60s burst; crisis keyword routing; ErrorKind discriminated union for distinct per-error UX; Kind question discipline; Steady grounding question; Wise question reinforcement; Still unchanged
+- **Say AI chat tab:** 4 voice personas (Kind/Still/Steady/Wise) backed by Claude Sonnet 4.6; **multiple discrete chats per persona** (`say/{uid}/{personaId}/{chatId}/messages`, chat-list → thread nav); **most-recent-50 memory window per chat**; **first name injected into the system prompt**, used naturally; **`startSayChat` prior-day check-up opener** — summarizes the persona's previous calendar day and opens gently (once/persona/~20h), crisis-safe (warmth-first 988/741741 if the prior day held crisis content); metering 100/day msgs + 500/day premium + 20/60s burst, chat creation 5/60s + 30/day; crisis keyword routing; ErrorKind per-error UX; Kind question discipline; Steady grounding question; Wise question reinforcement; Still unchanged
 - **Dark mode:** all screens now theme-aware via `useTheme()` / `colors.*` inline styles — sign-in, register, onboarding, onboarding-profile, verify-email, letter-compose, envelope, LetterCard, TourTooltip
 - **Settings:** haptic feedback on all three toggles (darkMode, notifications, voiceMute)
 - **Emotion picker:** haptic fires on committed swipe via `runOnJS`
 - **Session summary:** 1.5s "Nothing saved this session." message before auto-routing home when no verses saved
 - **Letter compose:** `ActivityIndicator` during verse data load; "Writing your letter…" button state during Claude call
-- AsyncStorage v2.1.2 (Expo Go compatible)
+- Expo SDK 57 (RN 0.86, React 19.2, Reanimated 4.5 + worklets 0.10, TypeScript 6.0); AsyncStorage ~2.2
 - NativeWind v4 with babel.config.js preset config
 - Native share sheet on message reveal + history
-- Free tier: 10 check-ins/day
+- Free tier: 10 check-ins/day; day boundary device-local via `localDayKey()` (streaks + daily count no longer roll at UTC midnight)
 - RevenueCat integration: wired in types and constants, SDK init pending (needs API keys in .env)
 - EAS Build profiles: development / preview / production in `eas.json`
 - EAS projectId populated: 2d79e638-f797-42ff-86b3-94f5c20fa6ff

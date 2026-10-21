@@ -2,7 +2,7 @@
 
 A faith-based emotional check-in app for iOS and Android. Open the app, pick how you're feeling, tap the wax-sealed envelope that floats in, and receive a Bible verse selected for that emotion. Swipe right to save it, left to skip to the next one.
 
-Built with React Native + Expo, TypeScript strict, NativeWind, React Native Reanimated, Firebase Auth, and Firebase Cloud Functions backed by Claude Sonnet 4.6.
+Built with React Native + **Expo SDK 57** (RN 0.86, TypeScript strict), NativeWind, React Native Reanimated, Firebase Auth/Firestore, and Firebase Cloud Functions backed by Claude Sonnet 4.6.
 
 ## What it does
 
@@ -17,7 +17,7 @@ Built with React Native + Expo, TypeScript strict, NativeWind, React Native Rean
 9. **Envelope** — Candle wax-sealed card floats in, tap to open
 10. **Verse** — KJV or WEB Bible verse in Lora serif; swipe right to save, left to skip. New verse loads immediately
 11. **History** — All saved verses with scripture reference, AI letter, Share, and delete (with confirmation)
-12. **Say** — AI chat tab with 4 voice personas: Kind, Still, Steady, Wise. Per-persona conversation history. Crisis routing built in.
+12. **Say** — AI chat tab with 4 voice personas (Kind, Still, Steady, Wise). Each persona holds **multiple discrete chats** (chat-list → thread); starting a new chat opens with a **gentle check-up that references your previous day**. Knows your first name, per-chat memory (most-recent 50 messages), crisis routing + crisis-safe openers built in.
 13. **Settings** — Dark mode toggle, notifications toggle, voice mute, subscription status, Start over
 14. **Paywall** — Shown when free tier (10/day) is reached; Monthly $4.99 / Annual $34.99
 
@@ -78,7 +78,7 @@ soft-landing/
 │   │   └── paywall.tsx
 │   ├── src/
 │   │   ├── constants/     # Design tokens, emotion catalog
-│   │   ├── messages/      # catalog.json — 150 NIV verses (30 per emotion)
+│   │   ├── messages/      # Firestore verse selector (KJV + WEB); catalog.json kept as legacy fixture
 │   │   ├── services/      # firebase.ts, auth.ts, checkIn.ts, notifications.ts
 │   │   ├── storage/       # AsyncStorage typed wrappers
 │   │   └── types/         # All TypeScript interfaces
@@ -104,7 +104,7 @@ pnpm exec expo start --web
 
 Open `http://localhost:8081/dashboard` (dev/web only).
 
-## Current build state (v1.8.0)
+## Current build state (v1.10.0)
 
 - Full auth flow: register, sign in (email + Google), email verification, guest mode
 - Firebase Auth with AsyncStorage persistence — users stay signed in across restarts
@@ -118,10 +118,12 @@ Open `http://localhost:8081/dashboard` (dev/web only).
   - Letter prompts v1.6: identity-first per-emotion anchors + Gen Z tone calibration + "what you are not" exclusions
   - Letters auto-saved immediately after generation — no manual Save tap required
 - **Say AI chat tab**: 4 voice personas (Kind / Still / Steady / Wise) backed by Claude Sonnet 4.6
-  - Per-persona Firestore conversation history (30-message rolling window)
-  - Rate limiting: 100 msg/day free, 500/day premium, 20 msg/60s burst
-  - Crisis keyword detection → inline crisis card in chat thread (988 Lifeline + Crisis Text Line); input locked until user confirms they're okay
-  - Distinct error messages per error type (rate burst, daily limit, blocked, failed)
+  - **Multiple discrete chats per persona**: tap a persona → chat-list → individual threads (`say/{uid}/{personaId}/{chatId}/messages`)
+  - **Prior-day check-up opener**: a new chat summarizes that persona's previous calendar day and opens with a gentle, non-prying check-in (once per persona per ~20h, via the `startSayChat` function); crisis-safe (warmth-first 988 / Crisis Text Line if the prior day held crisis content)
+  - **Knows your first name** (injected into the system prompt from sign-up) and uses it naturally — never as a greeting gimmick
+  - Per-chat memory: most-recent 50 messages replayed to Claude
+  - Rate limiting: 100 msg/day free, 500/day premium, 20 msg/60s burst; chat creation capped at 5/60s + 30/day
+  - Crisis keyword detection → inline crisis card; input locked until the user confirms they're okay; distinct error messages per error type
   - Kind: questions disciplined to one per thread; Steady: task-shrinking question; Wise: real questions only
 - **Emotion picker**: single-card swipe with full-bleed nano illustrations; parchment placeholder + haptic on swipe commit
 - **Home screen**: ambient background illustrations fade in on every tab visit via `useFocusEffect`
@@ -130,14 +132,17 @@ Open `http://localhost:8081/dashboard` (dev/web only).
 - **Session summary**: 1.5s "Nothing saved" message instead of silent redirect when empty
 - **Letter compose**: loading spinner during verse fetch; "Writing your letter…" state on generate button
 - Crisis input filtering, jailbreak window scan, and Firestore security rules deployed to backend
-- All screens functional end-to-end in Expo Go
+- **Expo SDK 57** (RN 0.86, React 19.2, Reanimated 4.5, TypeScript 6.0)
+- **Device-local day boundary** for streaks + daily check-in count (via `localDayKey()`) — no more UTC "new day" on evening re-login
+- Core flow functional end-to-end in Expo Go (native modules — RevenueCat, share-as-image, Apple sign-in — require a dev build)
 - EAS projectId: `2d79e638-f797-42ff-86b3-94f5c20fa6ff`
 - GitHub Actions CI: `tsc --noEmit` + `vitest run` + Expo web export on every push
 
 ### Known pre-ship blockers
-- **BUG-010**: Paywall purchase buttons are no-ops — RevenueCat integration required
-- **BUG-011**: Verse anti-repetition system non-functional — usageCount not persisted
-- **BUG-014**: `canCheckIn()` bypass must be re-enabled before App Store submission
+- **BUG-010 / BUG-026**: RevenueCat not wired — paywall buttons are no-ops and premium is gated on local storage only (not server-verified)
+- **BUG-014**: `canCheckIn()` bypass must be re-enabled before App Store submission (free check-in limit currently disabled)
+- **BUG-033**: `deleteUserData` + `scheduledReachOut` are not deployed — the account-deletion path 404s (App Store 5.1.1(v) / GDPR)
+- **Functions runtime**: Node 20 is decommissioned by Google on 2026-10-30 — bump the Cloud Functions runtime to Node 22 before then
 
 ## Submitting to TestFlight
 
@@ -150,4 +155,4 @@ Requires an Apple Developer account and EAS credentials configured.
 
 ## Agent team
 
-Built collaboratively by a five-agent team — **frontend**, **data**, **security**, **tester**, and **docs**. Each agent owns a non-overlapping slice of the repo. See [`CLAUDE.md`](./CLAUDE.md) for the ownership map and commit conventions. All discovered bugs are documented in [`docs/bugs.json`](./docs/bugs.json).
+Built collaboratively by a specialized agent team — **frontend**, **data**, **backend**, **security**, **tester**, **devops**, **ux**, and **docs**. Each agent owns a non-overlapping slice of the repo. See [`CLAUDE.md`](./CLAUDE.md) for the ownership map and commit conventions. All discovered bugs are documented in [`docs/bugs.json`](./docs/bugs.json).

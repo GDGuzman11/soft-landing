@@ -5,6 +5,34 @@ All notable changes to Soft Landing will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.10.0] — 2026-10-20
+
+### Added
+- **Say — multiple chats per persona**: each voice (Kind / Still / Steady / Wise) now holds discrete chat sessions instead of one endless stream. Tapping a persona with existing chats opens a chat-list page (`app/(tabs)/say/[personaId]/index.tsx`); each chat is its own thread (`[personaId]/[chatId].tsx`). Firestore layout: chat docs at `say/{uid}/{personaId}/{chatId}`, messages at `.../{chatId}/messages/{msgId}`.
+- **Say — prior-day check-up opener** (`app-backend/functions/src/say/startSayChat.ts`, new callable): starting a new chat summarizes that persona's **previous calendar day** of messages (Claude, adapted from `generateThroughLine`) and opens with a gentle, non-prying check-in referencing it — at most once per persona per ~20h. If the prior day held crisis content, the opener is a warmth-first message with 988 / Crisis Text Line instead of a summary.
+- **Say — first-name personalization**: the user's sign-up first name is injected into the Say system prompt so every persona knows it and uses it naturally (never as a greeting gimmick). Sourced from `AppSettings.name` / Firebase `displayName`.
+- **`localDayKey()`** (`src/utils/day.ts`): device-local `YYYY-MM-DD` helper used for streaks, daily check-in counts, and the home 7-day window.
+- **Say chat-creation limiter** (`sayChatCreationLimit.ts`): separate counter (5/60s burst, 30/day) so new-chat creation can't be spammed — independent of the 100/day message cap.
+
+### Changed
+- **Expo SDK 54 → 57** across `app-frontend`: React Native 0.81 → 0.86, React 19.1 → 19.2, Reanimated 4.1 → 4.5 (+ worklets 0.10), TypeScript 5.9 → 6.0, all `expo-*` modules on 57.x. `app.json` migrated to the SDK-57 schema (`newArchEnabled` removed — now default; `splash` moved into the `expo-splash-screen` plugin).
+- **Say memory window 30 → 50 messages**, now loading the **most-recent** 50 (was loading the oldest 30 — BUG-028).
+- **`generateSayResponse`** takes a required `chatId`, scoping history + writes to that chat's `messages` subcollection; the cross-turn jailbreak scan now spans the persona's chats.
+
+### Fixed
+- **BUG-028** — Say memory loaded the oldest 30 messages (`orderBy('createdAt','asc').limit(30)`), so conversations past 30 turns stopped absorbing recent context. Now most-recent 50 (`desc` + reverse).
+- **BUG-029** — day rollover used UTC (`toISOString().slice(0,10)`), flipping streaks/daily counts to a "new day" at the wrong local clock time (and appearing to reset on re-login). Now device-local via `localDayKey()`.
+- **BUG-030** — Firestore rules didn't grant owner read on the new nested Say messages path, causing PERMISSION_DENIED in the chat UI. Rules extended (`say/{uid}/{personaId}/{chatId}/messages/{msgId}` + `sayChatCreation`) and redeployed.
+- RN 0.86 type tightenings: `ColorValue` tab-icon prop (`(tabs)/_layout.tsx`), `StyleSheet.absoluteFill` (`emotions.tsx`).
+
+### Security
+- **BUG-031** — `startSayChat` hardened: transactional reserve-before-generate opener guard on a server timestamp (no longer trusting a client-supplied day) + the chat-creation limiter above, so the Claude summary/opener path can't be spammed.
+- **BUG-032** — prior-day crisis content can no longer seed a cheerful opener; it routes to a warmth-first crisis-resource message.
+- Name and prior-day summary inputs sanitized before prompt interpolation.
+
+### Deployed
+- `startSayChat` (new) + `generateSayResponse` (updated) + updated Firestore rules to `soft-landing-afe2d`. Verified live across all four personas (name recall, per-chat isolation, prior-day check-up, once/day guard, crisis-safe opener, chat-create limit).
+
 ## [1.9.0] — 2026-05-13
 
 ### Added

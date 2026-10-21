@@ -412,6 +412,106 @@
       ],
       "resolution": null,
       "resolvedAt": null
+    },
+    {
+      "id": "BUG-028",
+      "discovered": "2026-10-20",
+      "discoveredBy": "backend-engineer",
+      "severity": "high",
+      "status": "resolved",
+      "area": "backend",
+      "description": "Say conversation memory loaded the OLDEST 30 messages (orderBy('createdAt','asc').limit(30)) instead of the most recent, so once a thread passed 30 turns the model stopped seeing recent messages — it 'remembered' the start of the chat and forgot everything new.",
+      "file": "app-backend/functions/src/say/generateSayResponse.ts",
+      "reproductionSteps": [
+        "Send 30+ messages to any Say persona",
+        "Reference something said in a recent turn",
+        "Bot has no memory of it (but recalls the first messages of the thread)"
+      ],
+      "resolution": "Switched to orderBy('createdAt','desc').limit(50) then reverse to chronological; window raised to 50. Name is also injected into the system prompt so it is never aged out.",
+      "resolvedAt": "2026-10-20"
+    },
+    {
+      "id": "BUG-029",
+      "discovered": "2026-10-20",
+      "discoveredBy": "coordinator",
+      "severity": "medium",
+      "status": "resolved",
+      "area": "data",
+      "description": "Day boundary was bucketed in UTC (new Date().toISOString().slice(0,10)) for streaks and the daily check-in counter, so the app rolled to a 'new day' at the wrong local clock time — appearing to reset/advance the day when the user re-logged in during the evening (west of UTC).",
+      "file": "app-frontend/src/utils/streak.ts",
+      "reproductionSteps": [
+        "Check in during the evening in a timezone behind UTC",
+        "Reopen or sign back in after UTC midnight (still the same local day)",
+        "App shows a new day / streak gap"
+      ],
+      "resolution": "Added localDayKey() (src/utils/day.ts); streaks, daily check-in count, and the home 7-day window now bucket by device-local date.",
+      "resolvedAt": "2026-10-20"
+    },
+    {
+      "id": "BUG-030",
+      "discovered": "2026-10-20",
+      "discoveredBy": "tester",
+      "severity": "high",
+      "status": "resolved",
+      "area": "security",
+      "description": "Firestore security rules did not cover the new nested Say chat messages path. The rule matched say/{userId}/{personaId}/{messageId} (3 levels), but messages now live at say/{uid}/{personaId}/{chatId}/messages/{msgId} (5 levels), so a user's own ID token got PERMISSION_DENIED reading their own chats — would break chat/opener/history display in the app, not just tests.",
+      "file": "app-backend/firestore.rules",
+      "reproductionSteps": [
+        "Open a Say chat under the new multi-chat model",
+        "Client subscribes to say/{uid}/{personaId}/{chatId}/messages",
+        "Read returns PERMISSION_DENIED"
+      ],
+      "resolution": "Added match /say/{userId}/{personaId}/{chatId}/messages/{messageId} (owner read + delete) and a sayChatCreation rule; recompiled and redeployed rules.",
+      "resolvedAt": "2026-10-20"
+    },
+    {
+      "id": "BUG-031",
+      "discovered": "2026-10-20",
+      "discoveredBy": "security",
+      "severity": "high",
+      "status": "resolved",
+      "area": "security",
+      "description": "startSayChat was unmetered: it created a chat doc on every call before any guard (unbounded doc creation), and its once-per-day opener guard was a non-atomic read-then-write keyed on a client-supplied day string, so a hostile client could spam unlimited Claude summary+opener generations.",
+      "file": "app-backend/functions/src/say/startSayChat.ts",
+      "reproductionSteps": [
+        "Call startSayChat repeatedly, varying the clientDay field",
+        "Each call creates a chat doc and can trigger another summary+opener Claude call"
+      ],
+      "resolution": "Opener generation now gated by a Firestore transaction (reserve-before-generate) on a server-stored sayState.{persona}.lastOpeningAt timestamp (~20h cooldown); a separate sayChatCreation limiter (5/60s, 30/day) bounds chat-doc creation; clientDay is no longer the guard key.",
+      "resolvedAt": "2026-10-20"
+    },
+    {
+      "id": "BUG-032",
+      "discovered": "2026-10-20",
+      "discoveredBy": "security",
+      "severity": "medium",
+      "status": "resolved",
+      "area": "security",
+      "description": "The prior-day check-up opener could summarize crisis content from the previous day's messages into a breezy 'check-in' with no crisis routing, because the opener path had no crisis gate.",
+      "file": "app-backend/functions/src/say/startSayChat.ts",
+      "reproductionSteps": [
+        "Send a message containing crisis content to a persona",
+        "Start a new chat with that persona referencing the prior day",
+        "Opener is a cheerful check-in with no 988 / Crisis Text Line resources"
+      ],
+      "resolution": "Gathered prior-day messages (and the summary) are run through containsCrisisContent; on a hit the opener is replaced with a warmth-first message including 988 and text HOME to 741741, skipping the cheerful AI opener.",
+      "resolvedAt": "2026-10-20"
+    },
+    {
+      "id": "BUG-033",
+      "discovered": "2026-10-20",
+      "discoveredBy": "tester",
+      "severity": "high",
+      "status": "open",
+      "area": "backend",
+      "description": "deleteUserData and scheduledReachOut are exported from functions/index.ts but are NOT deployed to production (only generateLetter, generateSayResponse, startSayChat, maybeDeliverReachOut are live). The account-deletion callable 404s, leaving the App Store 5.1.1(v) / GDPR account-deletion path unreachable.",
+      "file": "app-backend/functions/src/index.ts",
+      "reproductionSteps": [
+        "Call deleteUserData from the app or curl the endpoint",
+        "Returns HTTP 404 (function not found)"
+      ],
+      "resolution": null,
+      "resolvedAt": null
     }
   ]
 }
