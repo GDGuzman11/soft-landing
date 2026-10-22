@@ -3,6 +3,7 @@ import { router } from 'expo-router'
 import { useEffect, useState } from 'react'
 import { getSettings, saveSettings, clearAllData } from '@/storage/storage'
 import { requestPermission, scheduleDaily, cancelAll, previewReachOut } from '@/services/notifications'
+import { setCrashReportingEnabled } from '@/services/crashReporting'
 import { signOutUser } from '@/services/auth'
 import type { AppSettings } from '@/types'
 import { db } from '@/services/firebase'
@@ -106,12 +107,14 @@ export default function SettingsScreen() {
     await previewReachOut(sample.name, sample.message)
   }
 
-  async function toggle(key: 'haptics') {
+  async function toggle(key: 'haptics' | 'crashReportingEnabled') {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)
     if (!settings) return
-    const updated = { ...settings, [key]: !settings[key] }
+    const next = !settings[key]
+    const updated = { ...settings, [key]: next }
     setSettings(updated)
     await saveSettings(updated)
+    if (key === 'crashReportingEnabled') setCrashReportingEnabled(next)
   }
 
   async function toggleNotifications() {
@@ -275,6 +278,32 @@ export default function SettingsScreen() {
           <Switch
             value={settings.haptics ?? true}
             onValueChange={() => toggle('haptics')}
+            trackColor={{ false: colors.cardBorder, true: colors.amber }}
+            thumbColor="#FFFFFF"
+          />
+        </View>
+
+        <View
+          className="flex-row items-center justify-between px-5 py-4"
+          style={{ borderTopWidth: 1, borderTopColor: colors.cardBorder }}
+        >
+          <View style={{ flex: 1, paddingRight: 12 }}>
+            <Text
+              className="text-base"
+              style={{ fontFamily: 'DMSans_400Regular', color: colors.inkPrimary }}
+            >
+              Crash reporting
+            </Text>
+            <Text
+              className="text-sm mt-0.5"
+              style={{ fontFamily: 'DMSans_400Regular', color: colors.inkMuted }}
+            >
+              Send crash &amp; error diagnostics to help us fix bugs
+            </Text>
+          </View>
+          <Switch
+            value={settings.crashReportingEnabled ?? true}
+            onValueChange={() => toggle('crashReportingEnabled')}
             trackColor={{ false: colors.cardBorder, true: colors.amber }}
             thumbColor="#FFFFFF"
           />

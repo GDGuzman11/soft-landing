@@ -27,10 +27,13 @@ export const unstable_settings = {
 }
 
 import * as Sentry from '@sentry/react-native'
+import { isCrashReportingEnabled, setCrashReportingEnabled } from '@/services/crashReporting'
 if (process.env.EXPO_PUBLIC_SENTRY_DSN) {
   Sentry.init({
     dsn: process.env.EXPO_PUBLIC_SENTRY_DSN,
     tracesSampleRate: 0.2,
+    // Honor the user's opt-out: drop all events when crash reporting is disabled.
+    beforeSend: (event) => (isCrashReportingEnabled() ? event : null),
   })
 }
 
@@ -75,6 +78,11 @@ export default function RootLayout() {
 
   useEffect(() => {
     initPurchases()
+
+    // Apply the stored crash-reporting preference (Sentry inits before settings can be read).
+    getSettings()
+      .then((s) => setCrashReportingEnabled(s.crashReportingEnabled !== false))
+      .catch(() => {})
 
     // Register push token after a short delay to let auth settle
     const t = setTimeout(() => {
