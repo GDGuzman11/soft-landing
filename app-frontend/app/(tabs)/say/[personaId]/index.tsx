@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import {
   ActivityIndicator,
+  Alert,
   Pressable,
   SafeAreaView,
   ScrollView,
@@ -28,6 +29,9 @@ import Animated, {
 import { db } from '@/services/firebase'
 import { useTheme, VOICE_DARK } from '@/theme'
 import { startSayChat, type SayPersonaId } from '@/components/say/startSayChat'
+import { deleteSayChat } from '@/services/sayChats'
+import * as Haptics from 'expo-haptics'
+import ReanimatedSwipeable from 'react-native-gesture-handler/ReanimatedSwipeable'
 
 // ---- Voice metadata -------------------------------------------------------
 type VoiceId = SayPersonaId
@@ -75,6 +79,17 @@ function relativeTime(ts: Timestamp | null): string {
   return ts.toDate().toLocaleDateString(undefined, { month: 'short', day: 'numeric' })
 }
 
+/** Format the chat's start date for the row title (year only when not this year). */
+function formatStartDate(ts: Timestamp | null): string {
+  if (!ts) return ''
+  const d = ts.toDate()
+  const sameYear = d.getFullYear() === new Date().getFullYear()
+  return d.toLocaleDateString(
+    undefined,
+    sameYear ? { month: 'short', day: 'numeric' } : { month: 'short', day: 'numeric', year: 'numeric' },
+  )
+}
+
 // ---- Chat row (reuses the lobby card visual language) ---------------------
 const ROW_DELAYS = [80, 150, 220, 290, 360] as const
 
@@ -87,9 +102,10 @@ type ChatRowProps = {
   inkMuted: string
   inkSubtle: string
   onPress: () => void
+  onDelete: () => void
 }
 
-function ChatRow({ chat, index, bg, border, inkPrimary, inkMuted, inkSubtle, onPress }: ChatRowProps) {
+function ChatRow({ chat, index, bg, border, inkPrimary, inkMuted, inkSubtle, onPress, onDelete }: ChatRowProps) {
   const opacity = useSharedValue(0)
   const translateY = useSharedValue(10)
   const scale = useSharedValue(1)
@@ -114,36 +130,51 @@ function ChatRow({ chat, index, bg, border, inkPrimary, inkMuted, inkSubtle, onP
     scale.value = withTiming(1, { duration: 160 })
   }, [scale])
 
-  const preview = chat.preview.trim().length > 0 ? chat.preview : 'new chat'
+  const snippet = chat.preview.trim().length > 0 ? chat.preview : 'new chat'
+  const startDate = formatStartDate(chat.createdAt ?? chat.lastMessageAt)
   const time = relativeTime(chat.lastMessageAt)
+
+  const renderRightActions = () => (
+    <Pressable
+      onPress={onDelete}
+      accessibilityRole="button"
+      accessibilityLabel="Delete chat"
+      style={({ pressed }) => [styles.deleteAction, { opacity: pressed ? 0.85 : 1 }]}
+    >
+      <Text style={styles.deleteActionText}>Delete</Text>
+    </Pressable>
+  )
 
   return (
     <Animated.View style={[styles.cardWrapper, animStyle]}>
-      <Pressable
-        onPress={onPress}
-        onPressIn={onPressIn}
-        onPressOut={onPressOut}
-        accessibilityRole="button"
-        accessibilityLabel={`Chat: ${preview}${time ? `, ${time}` : ''}`}
+      <ReanimatedSwipeable
+        friction={2}
+        rightThreshold={40}
+        overshootRight={false}
+        renderRightActions={renderRightActions}
       >
-        <View style={[styles.card, { backgroundColor: bg, borderColor: border }]}>
-          <View style={styles.topRow}>
-            <Text style={[styles.cardTime, { color: inkSubtle }]}>{time}</Text>
-          </View>
-          <Text
-            style={[styles.preview, { color: inkMuted }]}
-            numberOfLines={2}
-            ellipsizeMode="tail"
-          >
-            {preview}
-          </Text>
-          {chat.daySummary ? (
-            <Text style={[styles.daySummary, { color: inkPrimary }]} numberOfLines={1}>
-              {chat.daySummary}
+        <Pressable
+          onPress={onPress}
+          onPressIn={onPressIn}
+          onPressOut={onPressOut}
+          accessibilityRole="button"
+          accessibilityLabel={`Chat started ${startDate}: ${snippet}${time ? `, last active ${time}` : ''}`}
+        >
+          <View style={[styles.card, { backgroundColor: bg, borderColor: border }]}>
+            <Text style={styles.title} numberOfLines={1} ellipsizeMode="tail">
+              <Text style={[styles.titleDate, { color: inkPrimary }]}>{startDate}</Text>
+              <Text style={[styles.titleSnippet, { color: inkSubtle }]}>{startDate ? '   ·   ' : ''}</Text>
+              <Text style={[styles.titleSnippet, { color: inkMuted }]}>{snippet}</Text>
             </Text>
-          ) : null}
-        </View>
-      </Pressable>
+            {chat.daySummary ? (
+              <Text style={[styles.daySummary, { color: inkPrimary }]} numberOfLines={1}>
+                {chat.daySummary}
+              </Text>
+            ) : null}
+            {time ? <Text style={[styles.cardTime, { color: inkSubtle }]}>{time}</Text> : null}
+          </View>
+        </Pressable>
+      </ReanimatedSwipeable>
     </Animated.View>
   )
 }
@@ -241,6 +272,26 @@ export default function SayChatListScreen() {
     [personaId],
   )
 
+  const handleDeleteChat = useCallback(
+    (chatId: string) => {
+      Alert.alert('Delete this chat?', "This can't be undone.", [
+        { text: 'Cancel', style: 'cancel' },
+        {
+          text: 'Delete',
+          style: 'destructive',
+          onPress: () => {
+            Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium).catch(() => {})
+            // The live onSnapshot listener removes the row once the docs are gone.
+            deleteSayChat(personaId, chatId).catch(() => {
+              Alert.alert('Could not delete', 'Please try again.')
+            })
+          },
+        },
+      ])
+    },
+    [personaId],
+  )
+
   return (
     <SafeAreaView style={[styles.safe, { backgroundColor: colors.bg }]}>
       <StatusBar barStyle={isDark ? 'light-content' : 'dark-content'} backgroundColor={colors.bg} />
@@ -323,6 +374,7 @@ export default function SayChatListScreen() {
                 inkMuted={colors.inkMuted}
                 inkSubtle={colors.inkSubtle}
                 onPress={() => handleOpenChat(chat.id)}
+                onDelete={() => handleDeleteChat(chat.id)}
               />
             ))}
           </View>
@@ -399,25 +451,38 @@ const styles = StyleSheet.create({
     minHeight: 84,
     width: '100%',
   },
-  topRow: {
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
-    alignItems: 'center',
-    marginBottom: 6,
+  title: {
+    fontSize: 15,
+    lineHeight: 22,
+  },
+  titleDate: {
+    fontFamily: 'DMSans_700Bold',
+  },
+  titleSnippet: {
+    fontFamily: 'Lora_400Regular_Italic',
   },
   cardTime: {
     fontFamily: 'DMSans_400Regular',
     fontSize: 12,
-  },
-  preview: {
-    fontFamily: 'Lora_400Regular_Italic',
-    fontSize: 16,
-    lineHeight: 23,
+    marginTop: 8,
   },
   daySummary: {
     fontFamily: 'DMSans_400Regular',
     fontSize: 12,
     marginTop: 8,
+  },
+  deleteAction: {
+    backgroundColor: '#C0392B',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: 96,
+    borderRadius: 20,
+    marginLeft: 10,
+  },
+  deleteActionText: {
+    fontFamily: 'DMSans_500Medium',
+    fontSize: 14,
+    color: '#FFFFFF',
   },
   // ---- States ----
   centerState: {
