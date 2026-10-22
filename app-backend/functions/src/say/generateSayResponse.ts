@@ -14,7 +14,7 @@ if (getApps().length === 0) {
 
 const MAX_MESSAGE_CHARS = 2000
 const MAX_RESPONSE_CHARS = 2000
-const HISTORY_LIMIT = 50
+const HISTORY_LIMIT = 100
 const JAILBREAK_WINDOW = 3
 const MAX_NAME_CHARS = 60
 const SAFE_FALLBACK = "Something quiet settled here. Say more when you're ready."
@@ -282,16 +282,44 @@ export const generateSayResponse = onCall(
     let responseText: string
     try {
       const client = new Anthropic({ apiKey })
-      const claudeMessages: ClaudeMessage[] = [
+      // Prompt caching: cache the system prompt (stable) + the conversation
+      // prefix by marking the last history message as the cache breakpoint. Only
+      // the newest user message is uncached, so repeat turns in an active thread
+      // bill the reused context at the cache-read rate (~10% of input). The
+      // ephemeral cache TTL is 5 minutes, refreshed on each hit.
+      const claudeMessages: Anthropic.MessageParam[] = [
         ...history,
         { role: 'user', content: trimmedMessage },
       ]
+      if (history.length > 0) {
+        const last = claudeMessages[history.length - 1]
+        claudeMessages[history.length - 1] = {
+          role: last.role,
+          content: [
+            {
+              type: 'text',
+              text: typeof last.content === 'string' ? last.content : '',
+              cache_control: { type: 'ephemeral' },
+            },
+          ],
+        }
+      }
 
       const completion = await client.messages.create({
         model: 'claude-sonnet-4-6',
         max_tokens: 500,
-        system: systemPrompt,
+        system: [{ type: 'text', text: systemPrompt, cache_control: { type: 'ephemeral' } }],
         messages: claudeMessages,
+      })
+
+      // Usage logging (Firebase Functions logs only) for real cost visibility.
+      const usage = completion.usage
+      console.log('say.usage', {
+        uid,
+        input: usage.input_tokens,
+        output: usage.output_tokens,
+        cacheWrite: usage.cache_creation_input_tokens ?? 0,
+        cacheRead: usage.cache_read_input_tokens ?? 0,
       })
 
       const block = completion.content[0]
