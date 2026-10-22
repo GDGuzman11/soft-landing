@@ -94,6 +94,7 @@ export async function deleteSavedMessage(id: string): Promise<void> {
   await set(KEYS.SAVED_MESSAGES, saved.filter((m) => m.id !== id))
 }
 
+// Retained for BUG-014 (daily check-in quota re-enable); intentionally unused for now.
 export async function getTodayCheckInCount(): Promise<number> {
   const settings = await getSettings()
   const today = localDayKey()
