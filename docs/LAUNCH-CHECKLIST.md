@@ -12,8 +12,8 @@ _Sources: `docs/bugs.json`, `docs/SECURITY.md`, `docs/LEGAL-REVIEW.md`, memory p
 ## Tier 0 — This week (hard deadline + backend; ships without Apple review)
 
 **ENG**
-- ☑ **Node 22 runtime bump** (`app-backend/functions/package.json` engines → 22) — ⚠️ **DEPLOY before Oct 30, 2026** (Node 20 decommission). Deploy: `cd app-backend && firebase deploy --only functions`.
-- ☐ **Deploy + test account deletion** (`deleteUserData`) end-to-end — **Apple requires** in-app account deletion. Code + Settings wiring exist; confirm it's deployed and actually wipes Firestore + Auth on a test account.
+- ☑ **Node 22 runtime bump** — **DEPLOYED 2026-10-21** ✅. Functions run Node 22; the Oct 30 Node 20 decommission risk is cleared.
+- ◐ **Account deletion** (`deleteUserData`) — **deployed 2026-10-21**; **end-to-end test pending** (delete a throwaway account; confirm the user disappears from Firebase Auth and its Firestore data is gone). Apple requires this to work.
 - ☑ **Cloud Run "lockdown"** — **RESOLVED, no action.** `invoker:'public'` is *required* for Firebase callable functions; auth is enforced in-code via `request.auth`. Do NOT remove it (would break the app). Prior "open Cloud Run" flag was a misunderstanding.
 
 ---
