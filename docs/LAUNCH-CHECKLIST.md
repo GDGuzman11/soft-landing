@@ -38,7 +38,7 @@ _Sources: `docs/bugs.json`, `docs/SECURITY.md`, `docs/LEGAL-REVIEW.md`, memory p
 ## Tier 2 — Before / around TestFlight (strategic)
 
 **ENG**
-- ☐ **EAS Update (expo-updates) setup** — OTA so post-launch JS/copy/legal-link fixes ship without a rebuild. ~1-time config: `runtimeVersion` policy + channels mapped to `preview`/`production`.
+- ◐ **EAS Update (expo-updates)** — **configured 2026-10-21** (updates.url + `fingerprint` runtimeVersion + per-profile channels). OTA works from the **next build** onward; end-to-end OTA test happens at the TestFlight build step.
 - ☐ **iOS API key restriction** (Cloud Console → Credentials → restrict the iOS key to `com.appsoftlanding.com`) — after TestFlight confirms working.
 - ☐ **Firebase App Check** — register production bundle id, enable enforcement on callable functions (DeviceCheck/App Attest).
 - ☐ (Optional) **Close age-gate residual** — social sign-in started from the Sign-In screen can create an account without the gate; move the gate to first launch to fully close.
