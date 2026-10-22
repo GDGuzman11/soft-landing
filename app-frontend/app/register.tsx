@@ -388,6 +388,14 @@ export default function RegisterScreen() {
           )}
         </Pressable>
 
+        <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 12 }}>
+          <View style={{ flex: 1, height: 1, backgroundColor: colors.cardBorder }} />
+          <Text style={{ marginHorizontal: 12, fontFamily: 'DMSans_400Regular', fontSize: 13, color: colors.inkMuted }}>
+            or
+          </Text>
+          <View style={{ flex: 1, height: 1, backgroundColor: colors.cardBorder }} />
+        </View>
+
         <Pressable
           onPress={handleGoogleSignUp}
           disabled={loading}
@@ -444,7 +452,7 @@ export default function RegisterScreen() {
             accessibilityLabel="Sign up with Apple"
           >
             <Text style={{ fontFamily: 'DMSans_500Medium', fontSize: 16, color: colors.inkPrimary }}>
-              Sign up with Apple
+              <Text style={{ fontSize: 15 }}>{''}</Text>  Sign up with Apple
             </Text>
           </Pressable>
         )}

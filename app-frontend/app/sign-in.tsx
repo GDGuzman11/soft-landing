@@ -231,6 +231,14 @@ export default function SignInScreen() {
           )}
         </Pressable>
 
+        <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 12 }}>
+          <View style={{ flex: 1, height: 1, backgroundColor: colors.cardBorder }} />
+          <Text style={{ marginHorizontal: 12, fontFamily: 'DMSans_400Regular', fontSize: 13, color: colors.inkMuted }}>
+            or
+          </Text>
+          <View style={{ flex: 1, height: 1, backgroundColor: colors.cardBorder }} />
+        </View>
+
         <Pressable
           onPress={handleGoogleSignIn}
           disabled={loading}
@@ -286,7 +294,7 @@ export default function SignInScreen() {
             accessibilityLabel="Sign in with Apple"
           >
             <Text style={{ fontFamily: 'DMSans_500Medium', fontSize: 16, color: colors.inkPrimary }}>
-              Sign in with Apple
+              <Text style={{ fontSize: 15 }}>{''}</Text>  Sign in with Apple
             </Text>
           </Pressable>
         )}
