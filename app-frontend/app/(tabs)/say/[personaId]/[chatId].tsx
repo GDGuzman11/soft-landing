@@ -42,6 +42,7 @@ import Animated, {
 } from 'react-native-reanimated'
 import { getSettings } from '@/storage/storage'
 import app, { db, logAnalyticsEvent } from '@/services/firebase'
+import * as Haptics from 'expo-haptics'
 import { useTheme, VOICE_DARK } from '@/theme'
 
 const STAMP = require('../../../../assets/images/icon-nobackground.png') as number
@@ -230,6 +231,7 @@ function AIBubble({
   border,
   inkPrimary,
   inkSubtle,
+  onReport,
 }: {
   content: string
   reference?: string
@@ -240,6 +242,7 @@ function AIBubble({
   border: string
   inkPrimary: string
   inkSubtle: string
+  onReport?: () => void
 }) {
   const meta = VOICE_META[voiceId]
   return (
@@ -249,15 +252,20 @@ function AIBubble({
       ) : (
         <View style={styles.voiceAvatarGap} />
       )}
-      <View style={[
-        styles.aiBubble,
-        isLastInGroup && styles.aiBubbleTail,
-        { backgroundColor: bg, borderColor: border },
-        highlight && styles.highlightBubble,
-      ]}>
+      <Pressable
+        onLongPress={onReport}
+        delayLongPress={350}
+        accessibilityHint="Long press to report this message"
+        style={[
+          styles.aiBubble,
+          isLastInGroup && styles.aiBubbleTail,
+          { backgroundColor: bg, borderColor: border },
+          highlight && styles.highlightBubble,
+        ]}
+      >
         <Text style={[styles.aiBubbleText, { color: inkPrimary }]}>{content}</Text>
         {reference ? <Text style={[styles.referenceText, { color: inkSubtle }]}>{reference}</Text> : null}
-      </View>
+      </Pressable>
     </View>
   )
 }
@@ -655,6 +663,25 @@ export default function SayThreadScreen() {
     [messages, visibleMessages, isTyping, errorKind, searchMode, isSearching, crisisState],
   )
 
+  const handleReportMessage = useCallback(
+    (messageId: string) => {
+      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light).catch(() => {})
+      const submit = (reason: 'harmful' | 'inaccurate' | 'other') => {
+        const fn = httpsCallable(getFunctions(app, 'us-central1'), 'reportSayMessage')
+        fn({ personaId, chatId, messageId, reason })
+          .then(() => Alert.alert('Thanks', "Reported. We'll review it within 24 hours."))
+          .catch(() => Alert.alert('Could not report', 'Please try again.'))
+      }
+      Alert.alert('Report this message?', "We'll review it within 24 hours.", [
+        { text: 'Cancel', style: 'cancel' },
+        { text: 'Harmful or offensive', onPress: () => submit('harmful') },
+        { text: 'Inaccurate', onPress: () => submit('inaccurate') },
+        { text: 'Other', onPress: () => submit('other') },
+      ])
+    },
+    [personaId, chatId],
+  )
+
   const renderItem: ListRenderItem<ThreadItem> = useCallback(
     ({ item }) => {
       switch (item.kind) {
@@ -675,6 +702,7 @@ export default function SayThreadScreen() {
               border={vBorder}
               inkPrimary={colors.inkPrimary}
               inkSubtle={colors.inkSubtle}
+              onReport={() => handleReportMessage(m.id)}
             />
           )
         }
@@ -684,7 +712,7 @@ export default function SayThreadScreen() {
         case 'crisis': return <CrisisCard dismissed={item.dismissed} onDismiss={handleCrisisDismiss} />
       }
     },
-    [personaId, reduceMotion, handleRetry, handleCrisisDismiss, isSearching, searchQuery, vBg, vBorder, colors.inkPrimary, colors.inkSubtle],
+    [personaId, reduceMotion, handleRetry, handleCrisisDismiss, handleReportMessage, isSearching, searchQuery, vBg, vBorder, colors.inkPrimary, colors.inkSubtle],
   )
 
   const keyExtractor = useCallback((item: ThreadItem) => {
