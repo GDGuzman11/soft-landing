@@ -354,9 +354,8 @@ export default function RegisterScreen() {
                 await signInWithApple()
                 router.replace('/onboarding-disclaimer')
               } catch (e: unknown) {
-                const code = (e as { code?: string })?.code
-                if (code !== 'ERR_REQUEST_CANCELED') {
-                  setError(`Apple sign-in failed (${code ?? 'unknown'}). Please try again.`)
+                if ((e as { code?: string })?.code !== 'ERR_REQUEST_CANCELED') {
+                  setError('Apple sign-in failed. Please try again.')
                 }
                 setLoading(false)
               }
