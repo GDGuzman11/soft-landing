@@ -32,6 +32,26 @@ state UDAP exposure, Apple App Review rejection, GDPR Art. 5(1)(a) accuracy fail
 
 ---
 
+## 1a. Remediation status — updated 2026-10-21
+
+**Addressed this pass** (drafts/changes committed — the legal text still requires attorney review):
+- ✅ **Privacy Policy rewritten** for accuracy — removed the "never on our servers" claims; disclosed Say server-side storage + retention, reach-outs, Sentry, and push-token storage; added a sub-processor table, international-transfer/SCC language, a sensitive-data section, data export, and a 16+ minimum. (`docs/privacy-policy.html`)
+- ✅ **Terms rewritten** — Bible attribution corrected to public-domain KJV/WEB; added a Say + reach-outs section; extended the AI disclaimer to Say; upgraded user-conduct into an Acceptable Use + moderation section with reporting/blocking, CSAM/NCMEC, and appeals; set eligibility to 16+. (`docs/terms.html`)
+- ✅ **NOTICE/attributions file** added — font OFL attributions; image provenance marked **[CONFIRM]**. (`NOTICE.md`)
+- ✅ **16+ age gate** at sign-up across all three auth paths (DOB checked on-device, not stored). (`app/register.tsx`)
+- ✅ **Say "AI, not a person" disclosure** on the lobby and in the chat header.
+- ✅ **Sentry disclosure + opt-out** toggle in Settings, honored at runtime.
+
+**Still outstanding — your actions / deferred work:**
+- ⬜ **Attorney review** of every drafted document (required before relying on them).
+- ⬜ Set the **App Store privacy label + age rating** to match (16+/17+).
+- ⬜ **Execute/record vendor DPAs + SCCs** (Google, Anthropic, RevenueCat, Sentry) and enable Anthropic's org-level data-use controls — contractual steps only you can take.
+- ⬜ Confirm **image provenance/licenses** (the **[CONFIRM]** entries in `NOTICE.md`).
+- ⬜ Deferred features: in-app **UGC report/block action** + moderation handling; **self-service data export**; **Say-message retention limit**; fix **RevenueCat entitlement sync + server-side premium** (BUG-010/026); re-enable the **check-in limit** (BUG-014); **lock down the open `generateLetter` Cloud Run** service (see `docs/SECURITY.md`).
+- ⬜ Residual gap: social sign-in started from the **Sign-In** screen can still create a new account without passing the age gate — close by moving the gate to first launch if desired.
+
+---
+
 ## 2. Method & scope
 
 Read-only review of all user-facing copy, data flows, backend functions, Firestore rules, and the two hosted policy
