@@ -22,6 +22,7 @@ import Animated, {
 import app, { db } from '@/services/firebase'
 import { useTheme, VOICE_DARK } from '@/theme'
 import { startSayChat } from '@/components/say/startSayChat'
+import { V1_UNLOCK_ALL } from '@/constants'
 
 // ---- Voice data -----------------------------------------------------------
 type VoiceId = 'kind' | 'still' | 'steady' | 'wise'
@@ -171,7 +172,7 @@ function VoiceCard({ voice, index, lastMessage, hasUnread, isDark, inkPrimary, i
             </View>
             <View style={styles.topRowRight}>
               {starting ? <ActivityIndicator size="small" color={amber} /> : null}
-              {!starting && voice.premium ? <Text style={[styles.premiumMark, { color: amber }]}>{'✦'}</Text> : null}
+              {!V1_UNLOCK_ALL && !starting && voice.premium ? <Text style={[styles.premiumMark, { color: amber }]}>{'✦'}</Text> : null}
               {!starting && hasUnread ? <View style={[styles.unreadDot, { backgroundColor: amber }]} /> : null}
             </View>
           </View>

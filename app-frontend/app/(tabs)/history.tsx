@@ -13,6 +13,7 @@ import ReAnimated, {
 import { captureRef } from 'react-native-view-shot'
 import { getSavedMessages, deleteSavedMessage, getSettings, getCheckIns } from '@/storage/storage'
 import { hasTodayCheckIn } from '@/utils/streak'
+import { V1_UNLOCK_ALL } from '@/constants'
 import {
   startOfWeek,
   addDays,
@@ -737,7 +738,7 @@ export default function HistoryScreen() {
                         savedAt: r.saved.savedAt,
                         emotionId: r.saved.emotionId,
                       }))}
-                      isPremium={settings?.subscription?.tier === 'premium'}
+                      isPremium={V1_UNLOCK_ALL || settings?.subscription?.tier === 'premium'}
                     />
                   )}
                 </View>

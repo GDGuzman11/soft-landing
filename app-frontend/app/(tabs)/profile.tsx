@@ -9,6 +9,7 @@ import { getCurrentUser, signOutUser } from '@/services/auth'
 import type { AppSettings, AuthUser, CheckInEvent, SavedMessage } from '@/types'
 import { useTheme } from '@/theme'
 import { calcStreak } from '@/utils/streak'
+import { V1_UNLOCK_ALL } from '@/constants'
 
 const PHOTO_KEY = '@soft_landing/profile_photo_uri'
 
@@ -339,7 +340,8 @@ export default function ProfileScreen() {
         </View>
       </View>
 
-      {/* Subscription Section */}
+      {/* Subscription Section — hidden in free-first V1 (flip V1_UNLOCK_ALL in V1.1) */}
+      {!V1_UNLOCK_ALL && (
       <View className="mx-6 mt-5">
         <SectionLabel color={colors.sectionLabel}>SUBSCRIPTION</SectionLabel>
         <View style={{ backgroundColor: colors.profileCard, borderRadius: 16, borderWidth: 1, borderColor: colors.cardBorder }}>
@@ -358,6 +360,7 @@ export default function ProfileScreen() {
           )}
         </View>
       </View>
+      )}
 
       {/* Appearance Section */}
       <View className="mx-6 mt-5">

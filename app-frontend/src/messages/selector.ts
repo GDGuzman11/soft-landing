@@ -3,6 +3,7 @@ import { collection, getDocs, query, where } from 'firebase/firestore'
 import type { EmotionId, Message, Tier } from '../types'
 import { db } from '../services/firebase'
 import { getMessageMetadata, updateMessageMetadata } from '../storage/storage'
+import { V1_UNLOCK_ALL } from '../constants'
 
 const RECENT_PENALTY_HOURS = 48
 const RECENT_PENALTY_FACTOR = 0.2
@@ -43,6 +44,8 @@ function cacheKey(emotionId: EmotionId): string {
 
 /** Filter a fully-fetched pool down to the tier the user is allowed to see. */
 function filterByTier(verses: Message[], tier: Tier): Message[] {
+  // Free-first V1: everyone sees the full pool. V1.1 re-gates via RevenueCat.
+  if (V1_UNLOCK_ALL) return verses
   return verses.filter((v) => tier === 'premium' || v.tier === 'free')
 }
 
