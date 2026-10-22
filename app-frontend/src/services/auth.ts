@@ -60,7 +60,7 @@ export async function signInWithEmail(email: string, password: string): Promise<
   }
 }
 
-export async function signInWithGoogle(idToken: string): Promise<AuthUser> {
+async function signInWithGoogle(idToken: string): Promise<AuthUser> {
   try {
     const googleCredential = GoogleAuthProvider.credential(idToken)
     const credential = await signInWithCredential(auth, googleCredential)

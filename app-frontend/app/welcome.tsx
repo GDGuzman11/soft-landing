@@ -11,10 +11,7 @@ import Animated, {
   withSequence,
   Easing,
 } from 'react-native-reanimated'
-import * as WebBrowser from 'expo-web-browser'
 import { getCurrentUser } from '@/services/auth'
-
-WebBrowser.maybeCompleteAuthSession()
 
 const RING_BASE = 100
 const RING_DURATION = 3500

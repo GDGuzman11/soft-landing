@@ -38,7 +38,7 @@ type StartSayChatResult = { chatId: string }
 // the user's local midnight, then read as .getTime() (UTC epoch ms).
 //   start = local midnight at the START of yesterday
 //   end   = local midnight at the START of today (exclusive upper bound)
-export function previousLocalDayBoundsMs(now: Date = new Date()): {
+function previousLocalDayBoundsMs(now: Date = new Date()): {
   prevDayStartMs: number
   prevDayEndMs: number
 } {

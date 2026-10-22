@@ -8,29 +8,9 @@ import { getSettings, getCheckIns, getSavedMessages } from '@/storage/storage'
 import { getCurrentUser, signOutUser } from '@/services/auth'
 import type { AppSettings, AuthUser, CheckInEvent, SavedMessage } from '@/types'
 import { useTheme } from '@/theme'
+import { calcStreak } from '@/utils/streak'
 
 const PHOTO_KEY = '@soft_landing/profile_photo_uri'
-
-function calcStreak(checkIns: CheckInEvent[]): number {
-  if (checkIns.length === 0) return 0
-  const dates = [...new Set(checkIns.map((e) => e.timestamp.slice(0, 10)))]
-    .sort()
-    .reverse()
-  const today = new Date().toISOString().slice(0, 10)
-  let streak = 0
-  let cursor = today
-  for (const date of dates) {
-    if (date === cursor) {
-      streak++
-      const d = new Date(cursor)
-      d.setDate(d.getDate() - 1)
-      cursor = d.toISOString().slice(0, 10)
-    } else if (date < cursor) {
-      break
-    }
-  }
-  return streak
-}
 
 const FAITH_BACKGROUND_LABELS: Record<NonNullable<AppSettings['faithBackground']>, string> = {
   established: 'Established faith',
