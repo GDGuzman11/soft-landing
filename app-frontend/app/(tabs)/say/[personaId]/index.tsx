@@ -32,6 +32,7 @@ import { startSayChat, type SayPersonaId } from '@/components/say/startSayChat'
 import { deleteSayChat } from '@/services/sayChats'
 import * as Haptics from 'expo-haptics'
 import ReanimatedSwipeable from 'react-native-gesture-handler/ReanimatedSwipeable'
+import { Ionicons } from '@expo/vector-icons'
 
 // ---- Voice metadata -------------------------------------------------------
 type VoiceId = SayPersonaId
@@ -139,8 +140,9 @@ function ChatRow({ chat, index, bg, border, inkPrimary, inkMuted, inkSubtle, onP
       onPress={onDelete}
       accessibilityRole="button"
       accessibilityLabel="Delete chat"
-      style={({ pressed }) => [styles.deleteAction, { opacity: pressed ? 0.85 : 1 }]}
+      style={({ pressed }) => [styles.deleteAction, { opacity: pressed ? 0.8 : 1 }]}
     >
+      <Ionicons name="trash-outline" size={22} color="#FFFFFF" />
       <Text style={styles.deleteActionText}>Delete</Text>
     </Pressable>
   )
@@ -310,26 +312,6 @@ export default function SayChatListScreen() {
       </View>
 
       <ScrollView contentContainerStyle={styles.scroll} showsVerticalScrollIndicator={false}>
-        <Animated.View style={headerStyle}>
-          {/* Start new chat — always available at top */}
-          <Pressable
-            onPress={handleStartNewChat}
-            disabled={starting}
-            accessibilityRole="button"
-            accessibilityLabel="Start a new chat"
-            style={({ pressed }) => [
-              styles.newChatButton,
-              { backgroundColor: colors.amber, opacity: starting ? 0.6 : pressed ? 0.85 : 1 },
-            ]}
-          >
-            {starting ? (
-              <ActivityIndicator color="#FFFFFF" size="small" />
-            ) : (
-              <Text style={styles.newChatText}>{'✦  start a new chat'}</Text>
-            )}
-          </Pressable>
-        </Animated.View>
-
         {/* Body states: loading → error → empty → list */}
         {loading ? (
           <View style={styles.centerState}>
@@ -380,6 +362,26 @@ export default function SayChatListScreen() {
           </View>
         )}
       </ScrollView>
+
+      {/* Floating new-chat button */}
+      <Animated.View style={[styles.fabWrap, headerStyle]}>
+        <Pressable
+          onPress={handleStartNewChat}
+          disabled={starting}
+          accessibilityRole="button"
+          accessibilityLabel="Start a new chat"
+          style={({ pressed }) => [
+            styles.fab,
+            { backgroundColor: colors.amber, opacity: starting ? 0.7 : pressed ? 0.9 : 1 },
+          ]}
+        >
+          {starting ? (
+            <ActivityIndicator color="#FFFFFF" size="small" />
+          ) : (
+            <Ionicons name="add" size={30} color="#FFFFFF" />
+          )}
+        </Pressable>
+      </Animated.View>
     </SafeAreaView>
   )
 }
@@ -424,19 +426,24 @@ const styles = StyleSheet.create({
   scroll: {
     paddingHorizontal: 20,
     paddingTop: 24,
-    paddingBottom: 64,
+    paddingBottom: 100,
   },
-  newChatButton: {
-    borderRadius: 24,
-    paddingVertical: 14,
+  fabWrap: {
+    position: 'absolute',
+    bottom: 28,
+    right: 20,
+  },
+  fab: {
+    width: 56,
+    height: 56,
+    borderRadius: 28,
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: 28,
-  },
-  newChatText: {
-    fontFamily: 'DMSans_500Medium',
-    fontSize: 15,
-    color: '#FFFFFF',
+    shadowColor: '#C4956A',
+    shadowOffset: { width: 0, height: 6 },
+    shadowOpacity: 0.4,
+    shadowRadius: 12,
+    elevation: 8,
   },
   stack: {
     gap: 14,
@@ -472,16 +479,18 @@ const styles = StyleSheet.create({
     marginTop: 8,
   },
   deleteAction: {
-    backgroundColor: '#C0392B',
+    backgroundColor: '#C96A58',
     justifyContent: 'center',
     alignItems: 'center',
-    width: 96,
+    gap: 4,
+    width: 84,
+    alignSelf: 'stretch',
     borderRadius: 20,
-    marginLeft: 10,
+    marginLeft: 8,
   },
   deleteActionText: {
     fontFamily: 'DMSans_500Medium',
-    fontSize: 14,
+    fontSize: 12,
     color: '#FFFFFF',
   },
   // ---- States ----
