@@ -7,6 +7,12 @@
     "icon": "./assets/images/icon.png",
     "scheme": "soft-landing",
     "userInterfaceStyle": "automatic",
+    "updates": {
+      "url": "https://u.expo.dev/2d79e638-f797-42ff-86b3-94f5c20fa6ff"
+    },
+    "runtimeVersion": {
+      "policy": "fingerprint"
+    },
     "ios": {
       "supportsTablet": false,
       "bundleIdentifier": "com.appsoftlanding.com",
