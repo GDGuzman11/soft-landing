@@ -78,7 +78,8 @@ export const generateLetter = onCall(
       if (err instanceof Error && err.message === 'RATE_LIMIT_EXCEEDED') {
         throw new HttpsError('resource-exhausted', 'Letter limit reached — try again in an hour.')
       }
-      // Rate limit storage failure is non-fatal — continue
+      // Rate limit storage failure is non-fatal — continue, mirroring generateSayResponse.
+      console.error('letter.rate_limit_storage_failed', { uid: request.auth.uid, code: (err as Error).message })
     }
 
     const apiKey = process.env.ANTHROPIC_API_KEY
