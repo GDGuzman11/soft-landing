@@ -11,7 +11,7 @@ import Animated, {
   withSequence,
   Easing,
 } from 'react-native-reanimated'
-import { getCurrentUser } from '@/services/auth'
+import { waitForAuthUser } from '@/services/auth'
 
 const RING_BASE = 100
 const RING_DURATION = 3500
@@ -38,16 +38,9 @@ export default function WelcomeScreen() {
   const buttonsY = useSharedValue(16)
 
   useEffect(() => {
-    const user = getCurrentUser()
-    if (user) {
-      if (!user.emailVerified) {
-        router.replace('/verify-email')
-      } else {
-        router.replace('/(tabs)')
-      }
-      return
-    }
+    let active = true
 
+    const runIntro = () => {
     // Ambient background glow
     outerGlowOpacity.value = withTiming(0.12, { duration: 1000, easing: Easing.out(Easing.quad) })
     innerGlowOpacity.value = withRepeat(
@@ -113,6 +106,22 @@ export default function WelcomeScreen() {
 
     buttonsOpacity.value = withDelay(1400, withTiming(1, { duration: 600, easing: Easing.out(Easing.quad) }))
     buttonsY.value = withDelay(1400, withTiming(0, { duration: 600, easing: Easing.out(Easing.quad) }))
+    }
+
+    // Wait for Firebase to restore any persisted session before deciding where to
+    // land, so a returning user goes straight to home instead of the login screen.
+    waitForAuthUser().then((user) => {
+      if (!active) return
+      if (user) {
+        router.replace(user.emailVerified ? '/(tabs)' : '/verify-email')
+        return
+      }
+      runIntro()
+    })
+
+    return () => {
+      active = false
+    }
   }, [])
 
   const outerGlowStyle = useAnimatedStyle(() => ({ opacity: outerGlowOpacity.value }))

@@ -23,7 +23,12 @@ export const auth = (() => {
     return initializeAuth(app, {
       persistence: getReactNativePersistence(AsyncStorage),
     })
-  } catch {
+  } catch (err) {
+    console.warn(
+      '[auth] React Native persistence unavailable — falling back to in-memory auth; ' +
+        'the session will NOT persist across app launches.',
+      err,
+    )
     return getAuth(app)
   }
 })()

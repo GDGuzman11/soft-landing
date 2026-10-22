@@ -173,6 +173,17 @@ export function getCurrentUser(): AuthUser | null {
   return user ? toAuthUser(user) : null
 }
 
+/**
+ * Resolve once Firebase has finished restoring any persisted session, then
+ * return the current user. Use this on launch instead of reading currentUser
+ * synchronously — currentUser is null until the async session restore completes,
+ * which otherwise makes a returning user look signed out.
+ */
+export async function waitForAuthUser(): Promise<AuthUser | null> {
+  await auth.authStateReady()
+  return getCurrentUser()
+}
+
 export async function signInWithApple(): Promise<AuthUser> {
   try {
     // Firebase requires a nonce for Apple sign-in. Apple embeds the SHA-256 hash
