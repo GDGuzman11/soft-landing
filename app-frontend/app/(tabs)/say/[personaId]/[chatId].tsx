@@ -737,7 +737,10 @@ export default function SayThreadScreen() {
           </Pressable>
           <View style={styles.headerCenter}>
             <Text style={[styles.headerGlyph, { color: meta.glyphColor }]}>{meta.glyph}</Text>
-            <Text style={[styles.headerName, { color: colors.inkPrimary }]}>{meta.name}</Text>
+            <View>
+              <Text style={[styles.headerName, { color: colors.inkPrimary }]}>{meta.name}</Text>
+              <Text style={[styles.headerAiTag, { color: colors.inkSubtle }]}>AI companion</Text>
+            </View>
           </View>
           <View style={styles.headerRight}>
             <Pressable
@@ -874,6 +877,12 @@ const styles = StyleSheet.create({
   headerName: {
     fontFamily: 'Lora_400Regular_Italic',
     fontSize: 20,
+  },
+  headerAiTag: {
+    fontFamily: 'DMSans_400Regular',
+    fontSize: 10.5,
+    lineHeight: 13,
+    letterSpacing: 0.3,
   },
   headerRight: {
     flexDirection: 'row',

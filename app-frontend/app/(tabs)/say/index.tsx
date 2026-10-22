@@ -324,6 +324,9 @@ export default function SayLobbyScreen() {
       >
         <Animated.View style={[styles.header, headerStyle]}>
           <Text style={[styles.greeting, { color: colors.inkPrimary }]}>{greeting}</Text>
+          <Text style={[styles.aiNote, { color: colors.inkSubtle }]}>
+            The voices here are AI — not real people, and not a substitute for professional help.
+          </Text>
         </Animated.View>
 
         <View style={styles.stack}>
@@ -366,6 +369,12 @@ const styles = StyleSheet.create({
     fontFamily: 'Lora_400Regular_Italic',
     fontSize: 24,
     lineHeight: 34,
+  },
+  aiNote: {
+    fontFamily: 'DMSans_400Regular',
+    fontSize: 12.5,
+    lineHeight: 18,
+    marginTop: 10,
   },
   stack: {
     gap: 16,
