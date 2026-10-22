@@ -12,11 +12,31 @@ import {
 import { router } from 'expo-router'
 import { useState } from 'react'
 import { signUpWithEmail, signInWithGoogleNative, signInWithApple, sendVerificationEmail } from '@/services/auth'
+import { getSettings, saveSettings } from '@/storage/storage'
 import { mapFirebaseError } from '@/utils/firebaseErrors'
 import { useTheme } from '@/theme'
 
 const TERMS_URL = 'https://gdguzman11.github.io/soft-landing/terms.html'
 const PRIVACY_URL = 'https://gdguzman11.github.io/soft-landing/privacy-policy.html'
+
+const MIN_AGE = 16
+
+/** Parse MM/DD/YYYY and return age in whole years, or null if invalid. The date of birth is never stored. */
+function ageFromDob(input: string): number | null {
+  const m = input.trim().match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/)
+  if (!m) return null
+  const month = parseInt(m[1], 10)
+  const day = parseInt(m[2], 10)
+  const year = parseInt(m[3], 10)
+  const d = new Date(year, month - 1, day)
+  if (d.getFullYear() !== year || d.getMonth() !== month - 1 || d.getDate() !== day) return null
+  const now = new Date()
+  let age = now.getFullYear() - year
+  const beforeBirthday =
+    now.getMonth() < month - 1 || (now.getMonth() === month - 1 && now.getDate() < day)
+  if (beforeBirthday) age -= 1
+  return age
+}
 
 export default function RegisterScreen() {
   const { colors } = useTheme()
@@ -27,12 +47,34 @@ export default function RegisterScreen() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [tosAccepted, setTosAccepted] = useState(false)
+  const [dob, setDob] = useState('')
+
+  /** Gate every sign-up path on the 16+ minimum age. Stores only that the age was met, not the DOB. */
+  async function ensureAgeOk(): Promise<boolean> {
+    const age = ageFromDob(dob)
+    if (age === null) {
+      setError('Please enter your date of birth as MM/DD/YYYY.')
+      return false
+    }
+    if (age < MIN_AGE) {
+      setError(`You must be at least ${MIN_AGE} to use Soft Landing.`)
+      return false
+    }
+    try {
+      const s = await getSettings()
+      await saveSettings({ ...s, ageVerified: true })
+    } catch {
+      // non-fatal — the age check already passed; persistence is best-effort
+    }
+    return true
+  }
 
   async function handleGoogleSignUp() {
     if (!tosAccepted) {
       setError('Please agree to the Terms of Service to continue.')
       return
     }
+    if (!(await ensureAgeOk())) return
     if (loading) return
     setLoading(true)
     setError(null)
@@ -58,6 +100,7 @@ export default function RegisterScreen() {
       setError('Please fill in all fields. Password must be at least 6 characters.')
       return
     }
+    if (!(await ensureAgeOk())) return
     setLoading(true)
     setError(null)
     const fullName = `${firstName.trim()} ${lastName.trim()}`
@@ -158,6 +201,30 @@ export default function RegisterScreen() {
             }}
           />
         </View>
+
+        <TextInput
+          value={dob}
+          onChangeText={setDob}
+          placeholder="Date of birth (MM/DD/YYYY)"
+          placeholderTextColor={colors.inkSubtle}
+          keyboardType="number-pad"
+          autoCorrect={false}
+          editable={!loading}
+          maxLength={10}
+          style={{
+            width: '100%',
+            borderWidth: 1,
+            borderColor: colors.cardBorder,
+            borderRadius: 16,
+            paddingHorizontal: 20,
+            paddingVertical: 14,
+            fontFamily: 'DMSans_400Regular',
+            fontSize: 16,
+            backgroundColor: colors.surface,
+            color: colors.inkPrimary,
+            marginBottom: 12,
+          }}
+        />
 
         <TextInput
           value={email}
@@ -347,6 +414,7 @@ export default function RegisterScreen() {
           <Pressable
             onPress={async () => {
               if (!tosAccepted) { setError('Please agree to the Terms of Service to continue.'); return }
+              if (!(await ensureAgeOk())) return
               if (loading) return
               setLoading(true)
               setError(null)

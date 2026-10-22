@@ -43,6 +43,8 @@ const DEFAULT_SETTINGS: AppSettings = {
   lifeStage: null,
   profileComplete: false,
   reminderPromptShown: false,
+  ageVerified: false,
+  crashReportingEnabled: true,
 }
 
 async function get<T>(key: string, fallback: T): Promise<T> {

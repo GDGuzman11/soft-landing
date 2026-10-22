@@ -202,6 +202,10 @@ export interface AppSettings {
   profileComplete: boolean;
   /** Whether the one-time reminder prompt has been shown on session-summary. */
   reminderPromptShown: boolean;
+  /** Whether the user confirmed they meet the 16+ minimum age at sign-up. The date of birth itself is never stored. */
+  ageVerified: boolean;
+  /** Whether crash/error reporting (Sentry) is enabled. Defaults to true; the user can opt out in Settings. */
+  crashReportingEnabled: boolean;
 }
 
 export interface AuthUser {
