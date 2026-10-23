@@ -4198,5 +4198,705 @@
     ],
     "tier": "premium",
     "weight": 7
+  },
+  {
+    "id": "stressed-101",
+    "emotionId": "stressed",
+    "body": "Search me, O God, and know my heart: try me, and know my thoughts:",
+    "modernText": "Search me, God, and know my heart. Try me, and know my thoughts.",
+    "reference": "Psalm 139:23",
+    "message": "The anxious thoughts you can't even organize, this invites them to be seen instead of hidden. Known all the way down, mess included.",
+    "tags": [
+      "anxiety",
+      "known"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "stressed-102",
+    "emotionId": "stressed",
+    "body": "And see if there be any wicked way in me, and lead me in the way everlasting.",
+    "modernText": "See if there is any wicked way in me, and lead me in the everlasting way.",
+    "reference": "Psalm 139:24",
+    "message": "After the searching, a gentle leading. Not judged for what's in there, guided through it.",
+    "tags": [
+      "anxiety",
+      "guidance"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "stressed-103",
+    "emotionId": "stressed",
+    "body": "Cease from anger, and forsake wrath: fret not thyself in any wise to do evil.",
+    "modernText": "Cease from anger, and forsake wrath. Don’t fret; it leads only to evildoing.",
+    "reference": "Psalm 37:8",
+    "message": "Fret not is a tall order, so read it as permission more than command. The fretting was never the thing holding your life together anyway.",
+    "tags": [
+      "fret",
+      "anger"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "stressed-104",
+    "emotionId": "stressed",
+    "body": "And I said, Oh that I had wings like a dove! for then would I fly away, and be at rest.",
+    "modernText": "I said, “Oh that I had wings like a dove! Then I would fly away, and be at rest.",
+    "reference": "Psalm 55:6",
+    "message": "That exact fantasy of just disappearing somewhere quiet, the Bible has it too. You're not weak for wishing you could fly away from it for a while.",
+    "tags": [
+      "escape",
+      "rest"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "stressed-105",
+    "emotionId": "stressed",
+    "body": "He only is my rock and my salvation; he is my defence; I shall not be greatly moved.",
+    "modernText": "He alone is my rock, my salvation, and my fortress. I will never be greatly shaken.",
+    "reference": "Psalm 62:2",
+    "message": "Not 'never moved,' just 'not greatly moved.' Room to be shaken without being toppled.",
+    "tags": [
+      "rock",
+      "steadiness"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "stressed-106",
+    "emotionId": "stressed",
+    "body": "My soul, wait thou only upon God; for my expectation is from him.",
+    "modernText": "My soul, wait in silence for God alone, for my expectation is from him.",
+    "reference": "Psalm 62:5",
+    "message": "Pointing your expectation at something steadier than outcomes you can't control. A quieter place to hang your hope.",
+    "tags": [
+      "wait",
+      "expectation"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "stressed-107",
+    "emotionId": "stressed",
+    "body": "Trust in him at all times; ye people, pour out your heart before him: God is a refuge for us. Selah.",
+    "modernText": "Trust in him at all times, you people. Pour out your heart before him. God is a refuge for us.",
+    "reference": "Psalm 62:8",
+    "message": "Pour out your heart, it says, not tidy it up first. You can bring the unfiltered version here.",
+    "tags": [
+      "trust",
+      "refuge"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "stressed-108",
+    "emotionId": "stressed",
+    "body": "My flesh and my heart faileth: but God is the strength of my heart, and my portion for ever.",
+    "modernText": "My flesh and my heart fails, but God is the strength of my heart and my portion forever.",
+    "reference": "Psalm 73:26",
+    "message": "Honest about the failing part, your body and your nerve giving out, and just as honest about the strength that isn't yours to run out of.",
+    "tags": [
+      "strength",
+      "failing"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "stressed-109",
+    "emotionId": "stressed",
+    "body": "In the day of my trouble I will call upon thee: for thou wilt answer me.",
+    "modernText": "In the day of my trouble I will call on you, for you will answer me.",
+    "reference": "Psalm 86:7",
+    "message": "For the specific day, not trouble in general. This one, the one you're actually in, is the one it says gets answered.",
+    "tags": [
+      "trouble",
+      "answer"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "stressed-110",
+    "emotionId": "stressed",
+    "body": "Return unto thy rest, O my soul; for the LORD hath dealt bountifully with thee.",
+    "modernText": "Return to your rest, my soul, for Yahweh has dealt bountifully with you.",
+    "reference": "Psalm 116:7",
+    "message": "Talking to your own soul like a friend: come back, you can rest now. Sometimes you have to tell yourself the thing you'd tell anyone else.",
+    "tags": [
+      "rest",
+      "soul"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "stressed-111",
+    "emotionId": "stressed",
+    "body": "Great peace have they which love thy law: and nothing shall offend them.",
+    "modernText": "Those who love your law have great peace. Nothing causes them to stumble.",
+    "reference": "Psalm 119:165",
+    "message": "A peace big enough that the small things stop snagging you. Less flinching at every little thing that goes sideways.",
+    "tags": [
+      "peace",
+      "steadiness"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "stressed-112",
+    "emotionId": "stressed",
+    "body": "They that trust in the LORD shall be as mount Zion, which cannot be removed, but abideth for ever.",
+    "modernText": "Those who trust in Yahweh are as Mount Zion, which can’t be moved, but remains forever.",
+    "reference": "Psalm 125:1",
+    "message": "Trust that makes you harder to move, not because nothing pushes, but because of what you're anchored to.",
+    "tags": [
+      "trust",
+      "unmoved"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "stressed-113",
+    "emotionId": "stressed",
+    "body": "It is vain for you to rise up early, to sit up late, to eat the bread of sorrows: for so he giveth his beloved sleep.",
+    "modernText": "It is vain for you to rise up early, to stay up late, eating the bread of toil, for he gives sleep to his loved ones.",
+    "reference": "Psalm 127:2",
+    "message": "The verse that basically calls out hustle culture. Staying up late grinding isn't the thing holding it together, and rest is actually given to you.",
+    "tags": [
+      "overwork",
+      "sleep"
+    ],
+    "tier": "free",
+    "weight": 9
+  },
+  {
+    "id": "stressed-114",
+    "emotionId": "stressed",
+    "body": "Surely I have behaved and quieted myself, as a child that is weaned of his mother: my soul is even as a weaned child.",
+    "modernText": "Surely I have stilled and quieted my soul, like a weaned child with his mother, like a weaned child is my soul within me.",
+    "reference": "Psalm 131:2",
+    "message": "A soul calmed like a kid who's done crying and just rests against someone. Not fixed, just quiet and held.",
+    "tags": [
+      "quieted",
+      "calm"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "stressed-115",
+    "emotionId": "stressed",
+    "body": "When my spirit was overwhelmed within me, then thou knewest my path. In the way wherein I walked have they privily laid a snare for me.",
+    "modernText": "When my spirit was overwhelmed within me, you knew my route. On the path in which I walk, they have hidden a snare for me.",
+    "reference": "Psalm 142:3",
+    "message": "Right when your spirit is overwhelmed, the verse says the path is still known, by someone who isn't overwhelmed with you.",
+    "tags": [
+      "overwhelm",
+      "known"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "stressed-116",
+    "emotionId": "stressed",
+    "body": "The LORD upholdeth all that fall, and raiseth up all those that be bowed down.",
+    "modernText": "Yahweh upholds all who fall, and raises up all those who are bowed down.",
+    "reference": "Psalm 145:14",
+    "message": "For everyone currently bent under the weight. Upheld and raised, specifically the ones who feel like they're going down.",
+    "tags": [
+      "upheld",
+      "bowed"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "stressed-117",
+    "emotionId": "stressed",
+    "body": "The LORD is my rock, and my fortress, and my deliverer; my God, my strength, in whom I will trust; my buckler, and the horn of my salvation, and my high tower.",
+    "modernText": "Yahweh is my rock, my fortress, and my deliverer; my God, my rock, in whom I take refuge; my shield, and the horn of my salvation, my high tower.",
+    "reference": "Psalm 18:2",
+    "message": "A pile-up of steady words, rock, fortress, deliverer, like the verse itself is bracing you with everything it's got.",
+    "tags": [
+      "rock",
+      "fortress"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "stressed-118",
+    "emotionId": "stressed",
+    "body": "Thou art my hiding place; thou shalt preserve me from trouble; thou shalt compass me about with songs of deliverance. Selah.",
+    "modernText": "You are my hiding place. You will preserve me from trouble. You will surround me with songs of deliverance.",
+    "reference": "Psalm 32:7",
+    "message": "A hiding place isn't avoidance, it's a breather. Somewhere to be surrounded by something other than the trouble for a minute.",
+    "tags": [
+      "hiding",
+      "trouble"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "stressed-119",
+    "emotionId": "stressed",
+    "body": "The righteous cry, and the LORD heareth, and delivereth them out of all their troubles.",
+    "modernText": "The righteous cry, and Yahweh hears, and delivers them out of all their troubles.",
+    "reference": "Psalm 34:17",
+    "message": "The crying out gets heard. Not performance, not composure, just the cry, and it reaches someone.",
+    "tags": [
+      "trouble",
+      "deliverance"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "stressed-120",
+    "emotionId": "stressed",
+    "body": "Many are the afflictions of the righteous: but the LORD delivereth him out of them all.",
+    "modernText": "Many are the afflictions of the righteous, but Yahweh delivers him out of them all.",
+    "reference": "Psalm 34:19",
+    "message": "It doesn't lowball it: many afflictions. And it doesn't lowball the other side either: out of them all.",
+    "tags": [
+      "affliction",
+      "deliverance"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "stressed-121",
+    "emotionId": "stressed",
+    "body": "I waited patiently for the LORD; and he inclined unto me, and heard my cry.",
+    "modernText": "I waited patiently for Yahweh. He turned to me, and heard my cry.",
+    "reference": "Psalm 40:1",
+    "message": "Waiting and being heard in the same breath. The patience wasn't wasted, something was listening the whole time.",
+    "tags": [
+      "wait",
+      "heard"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "stressed-122",
+    "emotionId": "stressed",
+    "body": "He brought me up also out of an horrible pit, out of the miry clay, and set my feet upon a rock, and established my goings.",
+    "modernText": "He brought me up also out of a horrible pit, out of the miry clay. He set my feet on a rock, and gave me a firm place to stand.",
+    "reference": "Psalm 40:2",
+    "message": "Brought up out of the sinking place and set on something that holds. The after-picture for the part that feels like quicksand.",
+    "tags": [
+      "rescue",
+      "rock"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "stressed-123",
+    "emotionId": "stressed",
+    "body": "The LORD also will be a refuge for the oppressed, a refuge in times of trouble.",
+    "modernText": "Yahweh will also be a high tower for the oppressed; a high tower in times of trouble.",
+    "reference": "Psalm 9:9",
+    "message": "A refuge specifically in the times of trouble, not just the calm stretches. Built for exactly now.",
+    "tags": [
+      "refuge",
+      "trouble"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "stressed-124",
+    "emotionId": "stressed",
+    "body": "And call upon me in the day of trouble: I will deliver thee, and thou shalt glorify me.",
+    "modernText": "Call on me in the day of trouble. I will deliver you, and you will honor me.”",
+    "reference": "Psalm 50:15",
+    "message": "An open invitation with your name on it: call, in the trouble, and be answered. You don't have to earn the right to.",
+    "tags": [
+      "trouble",
+      "deliverance"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "stressed-125",
+    "emotionId": "stressed",
+    "body": "LORD, thou wilt ordain peace for us: for thou also hast wrought all our works in us.",
+    "modernText": "Yahweh, you will ordain peace for us, for you have also done all our work for us.",
+    "reference": "Isaiah 26:12",
+    "message": "Peace as something ordained, arranged, set up on purpose for you. Not a fluke you have to hope for.",
+    "tags": [
+      "peace",
+      "ordained"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "stressed-126",
+    "emotionId": "stressed",
+    "body": "Fear not, thou worm Jacob, and ye men of Israel; I will help thee, saith the LORD, and thy redeemer, the Holy One of Israel.",
+    "modernText": "Don’t be afraid, you worm Jacob, and you men of Israel. I will help you,” says Yahweh. “Your Redeemer is the Holy One of Israel.",
+    "reference": "Isaiah 41:14",
+    "message": "Even calling you small, it turns straight to help. Being little here isn't a disqualifier, it's the reason help shows up.",
+    "tags": [
+      "fear",
+      "help"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "stressed-127",
+    "emotionId": "stressed",
+    "body": "Fear not: for I am with thee: I will bring thy seed from the east, and gather thee from the west;",
+    "modernText": "Don’t be afraid, for I am with you. I will bring your offspring from the east, and gather you from the west.",
+    "reference": "Isaiah 43:5",
+    "message": "The whole weight of it sits on one phrase: I am with thee. The fear shrinks next to the company.",
+    "tags": [
+      "fear",
+      "presence"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "stressed-128",
+    "emotionId": "stressed",
+    "body": "And even to your old age I am he; and even to hoar hairs will I carry you: I have made, and I will bear; even I will carry, and will deliver you.",
+    "modernText": "Even to old age I am he, and even to gray hairs I will carry you. I have made, and I will bear. Yes, I will carry, and will deliver.",
+    "reference": "Isaiah 46:4",
+    "message": "Carried the whole way, even to gray hair. On a day you feel like you're hauling yourself, this says you're the one being carried.",
+    "tags": [
+      "carried",
+      "faithfulness"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "stressed-129",
+    "emotionId": "stressed",
+    "body": "And the LORD shall guide thee continually, and satisfy thy soul in drought, and make fat thy bones: and thou shalt be like a watered garden, and like a spring of water, whose waters fail not.",
+    "modernText": "and Yahweh will guide you continually, satisfy your soul in dry places, and make your bones strong. You will be like a watered garden, and like a spring of water whose waters don’t fail.",
+    "reference": "Isaiah 58:11",
+    "message": "Guided continually, and watered even in the dry stretch. Provision that doesn't wait for conditions to improve.",
+    "tags": [
+      "guidance",
+      "provision"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "stressed-130",
+    "emotionId": "stressed",
+    "body": "The eternal God is thy refuge, and underneath are the everlasting arms: and he shall thrust out the enemy from before thee; and shall say, Destroy them.",
+    "modernText": "The eternal God is your dwelling place. Underneath are the everlasting arms. He thrust out the enemy from before you, and said, ‘Destroy!’",
+    "reference": "Deuteronomy 33:27",
+    "message": "However far you feel like you're falling, the verse says there's a floor, and it's arms. Underneath, always underneath.",
+    "tags": [
+      "refuge",
+      "everlasting"
+    ],
+    "tier": "free",
+    "weight": 9
+  },
+  {
+    "id": "stressed-131",
+    "emotionId": "stressed",
+    "body": "Therefore I will look unto the LORD; I will wait for the God of my salvation: my God will hear me.",
+    "modernText": "But as for me, I will look to Yahweh. I will wait for the God of my salvation. My God will hear me.",
+    "reference": "Micah 7:7",
+    "message": "Looking up and waiting, even when nothing's answered yet, because the hearing is already a given.",
+    "tags": [
+      "wait",
+      "heard"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "stressed-132",
+    "emotionId": "stressed",
+    "body": "It is of the LORD’s mercies that we are not consumed, because his compassions fail not.",
+    "modernText": "It is because of Yahweh’s loving kindnesses that we are not consumed, because his compassion doesn’t fail.",
+    "reference": "Lamentations 3:22",
+    "message": "You're not used up, not finished, not past the point of mercy. The supply hasn't run out, even today.",
+    "tags": [
+      "mercy",
+      "faithfulness"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "stressed-133",
+    "emotionId": "stressed",
+    "body": "They are new every morning: great is thy faithfulness.",
+    "modernText": "They are new every morning. Great is your faithfulness.",
+    "reference": "Lamentations 3:23",
+    "message": "Whatever you spent yesterday, the mercy resets overnight. You don't start today already in the red.",
+    "tags": [
+      "mercy",
+      "morning"
+    ],
+    "tier": "free",
+    "weight": 9
+  },
+  {
+    "id": "stressed-134",
+    "emotionId": "stressed",
+    "body": "And he said, Hearken ye, all Judah, and ye inhabitants of Jerusalem, and thou king Jehoshaphat, Thus saith the LORD unto you, Be not afraid nor dismayed by reason of this great multitude; for the battle is not yours, but God’s.",
+    "modernText": "and he said, “Listen, all Judah, and you inhabitants of Jerusalem, and you, king Jehoshaphat. Yahweh says to you, ‘Don’t be afraid, and don’t be dismayed because of this great multitude; for the battle is not yours, but God’s.",
+    "reference": "2 Chronicles 20:15",
+    "message": "The one that quietly takes the weight off: this isn't yours to win alone. The battle has a different owner.",
+    "tags": [
+      "battle",
+      "relief"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "stressed-135",
+    "emotionId": "stressed",
+    "body": "Ye shall not need to fight in this battle: set yourselves, stand ye still, and see the salvation of the LORD with you, O Judah and Jerusalem: fear not, nor be dismayed; to morrow go out against them: for the LORD will be with you.",
+    "modernText": "You will not need to fight this battle. Set yourselves, stand still, and see the salvation of Yahweh with you, O Judah and Jerusalem. Don’t be afraid, nor be dismayed. Go out against them tomorrow, for Yahweh is with you.’ ”",
+    "reference": "2 Chronicles 20:17",
+    "message": "Permission to stop swinging at every front. Sometimes standing still is the strategy, not the surrender.",
+    "tags": [
+      "stillness",
+      "battle"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "stressed-136",
+    "emotionId": "stressed",
+    "body": "Then he said unto them, Go your way, eat the fat, and drink the sweet, and send portions unto them for whom nothing is prepared: for this day is holy unto our LORD: neither be ye sorry; for the joy of the LORD is your strength.",
+    "modernText": "Then he said to them, “Go your way. Eat the fat, drink the sweet, and send portions to him for whom nothing is prepared, for today is holy to our Lord. Don’t be grieved, for the joy of Yahweh is your strength.”",
+    "reference": "Nehemiah 8:10",
+    "message": "On an empty day, this points to a strength that isn't manufactured by your mood. Joy as a source, not just a feeling.",
+    "tags": [
+      "joy",
+      "strength"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "stressed-137",
+    "emotionId": "stressed",
+    "body": "When thou liest down, thou shalt not be afraid: yea, thou shalt lie down, and thy sleep shall be sweet.",
+    "modernText": "When you lie down, you will not be afraid. Yes, you will lie down, and your sleep will be sweet.",
+    "reference": "Proverbs 3:24",
+    "message": "A specific promise for the part of stress that steals sleep: you'll lie down, and it'll actually be rest.",
+    "tags": [
+      "sleep",
+      "rest"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "stressed-138",
+    "emotionId": "stressed",
+    "body": "Heaviness in the heart of man maketh it stoop: but a good word maketh it glad.",
+    "modernText": "Anxiety in a man’s heart weighs it down, but a kind word makes it glad.",
+    "reference": "Proverbs 12:25",
+    "message": "It names how heaviness literally bends you, and how small a thing can lift it. One good word can do more than you'd think.",
+    "tags": [
+      "heaviness",
+      "encouragement"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "stressed-139",
+    "emotionId": "stressed",
+    "body": "Commit thy works unto the LORD, and thy thoughts shall be established.",
+    "modernText": "Commit your deeds to Yahweh, and your plans shall succeed.",
+    "reference": "Proverbs 16:3",
+    "message": "Hand over the doing, and the thinking steadies. The spiraling often settles once the grip on outcomes loosens.",
+    "tags": [
+      "commit",
+      "established"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "stressed-140",
+    "emotionId": "stressed",
+    "body": "The name of the LORD is a strong tower: the righteous runneth into it, and is safe.",
+    "modernText": "Yahweh’s name is a strong tower: the righteous run to him, and are safe.",
+    "reference": "Proverbs 18:10",
+    "message": "Somewhere to run that's actually safe, not just a distraction. A tower, not a hiding-from.",
+    "tags": [
+      "refuge",
+      "safety"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "stressed-141",
+    "emotionId": "stressed",
+    "body": "The fear of man bringeth a snare: but whoso putteth his trust in the LORD shall be safe.",
+    "modernText": "The fear of man proves to be a snare, but whoever puts his trust in Yahweh is kept safe.",
+    "reference": "Proverbs 29:25",
+    "message": "A lot of the stress is just the fear of what people think. This quietly unhooks you from that trap.",
+    "tags": [
+      "fear",
+      "trust"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "stressed-142",
+    "emotionId": "stressed",
+    "body": "Let not your heart be troubled: ye believe in God, believe also in me.",
+    "modernText": "“Don’t let your heart be troubled. Believe in God. Believe also in me.",
+    "reference": "John 14:1",
+    "message": "Said the night before the worst day. Not 'nothing's wrong,' just 'don't let the trouble have your whole heart.'",
+    "tags": [
+      "troubled",
+      "trust"
+    ],
+    "tier": "free",
+    "weight": 9
+  },
+  {
+    "id": "stressed-143",
+    "emotionId": "stressed",
+    "body": "I will not leave you comfortless: I will come to you.",
+    "modernText": "I will not leave you orphans. I will come to you.",
+    "reference": "John 14:18",
+    "message": "A promise not to be left alone in it. Comfort coming to you, not you having to go find it.",
+    "tags": [
+      "comfort",
+      "presence"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "stressed-144",
+    "emotionId": "stressed",
+    "body": "Take my yoke upon you, and learn of me; for I am meek and lowly in heart: and ye shall find rest unto your souls.",
+    "modernText": "Take my yoke upon you, and learn from me, for I am gentle and humble in heart; and you will find rest for your souls.",
+    "reference": "Matthew 11:29",
+    "message": "The rest offered here is soul-deep, not just a day off. The kind that reaches the part of you that's actually tired.",
+    "tags": [
+      "rest",
+      "yoke"
+    ],
+    "tier": "free",
+    "weight": 9
+  },
+  {
+    "id": "stressed-145",
+    "emotionId": "stressed",
+    "body": "For my yoke is easy, and my burden is light.",
+    "modernText": "For my yoke is easy, and my burden is light.”",
+    "reference": "Matthew 11:30",
+    "message": "Not a promise of no load, a promise of a lighter one, shared. The weight redistributed so it stops crushing.",
+    "tags": [
+      "burden",
+      "light"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "stressed-146",
+    "emotionId": "stressed",
+    "body": "And Jesus answered and said unto her, Martha, Martha, thou art careful and troubled about many things:",
+    "modernText": "Jesus answered her, “Martha, Martha, you are anxious and troubled about many things,",
+    "reference": "Luke 10:41",
+    "message": "Named gently, by name, while mid-spiral over the many things. Seen in the exact overwhelm, not scolded for it.",
+    "tags": [
+      "worry",
+      "distraction"
+    ],
+    "tier": "free",
+    "weight": 9
+  },
+  {
+    "id": "stressed-147",
+    "emotionId": "stressed",
+    "body": "But one thing is needful: and Mary hath chosen that good part, which shall not be taken away from her.",
+    "modernText": "but one thing is needed. Mary has chosen the good part, which will not be taken away from her.”",
+    "reference": "Luke 10:42",
+    "message": "One thing needful, out of the twenty that feel urgent. Permission to let most of the list be optional for a minute.",
+    "tags": [
+      "priority",
+      "one thing"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "stressed-148",
+    "emotionId": "stressed",
+    "body": "Not that I speak in respect of want: for I have learned, in whatsoever state I am, therewith to be content.",
+    "modernText": "Not that I speak because of lack, for I have learned in whatever state I am, to be content in it.",
+    "reference": "Philippians 4:11",
+    "message": "Contentment learned, not faked, even in the hard state. Something steadier than circumstances deciding how you feel.",
+    "tags": [
+      "contentment",
+      "state"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "stressed-149",
+    "emotionId": "stressed",
+    "body": "Likewise the Spirit also helpeth our infirmities: for we know not what we should pray for as we ought: but the Spirit itself maketh intercession for us with groanings which cannot be uttered.",
+    "modernText": "In the same way, the Spirit also helps our weaknesses, for we don’t know how to pray as we ought. But the Spirit himself makes intercession for us with groanings which can’t be uttered.",
+    "reference": "Romans 8:26",
+    "message": "When you don't even have words for the stress, this says the praying gets done for you. You don't have to articulate it right.",
+    "tags": [
+      "weakness",
+      "help"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "stressed-150",
+    "emotionId": "stressed",
+    "body": "Who comforteth us in all our tribulation, that we may be able to comfort them which are in any trouble, by the comfort wherewith we ourselves are comforted of God.",
+    "modernText": "who comforts us in all our affliction, that we may be able to comfort those who are in any affliction, through the comfort with which we ourselves are comforted by God.",
+    "reference": "2 Corinthians 1:4",
+    "message": "Comfort in all of it, no tribulation too small or too big to qualify. And later, that comfort becomes something you can pass on.",
+    "tags": [
+      "comfort",
+      "tribulation"
+    ],
+    "tier": "premium",
+    "weight": 7
   }
 ]
