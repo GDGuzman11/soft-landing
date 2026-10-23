@@ -20,6 +20,14 @@ vi.mock('../services/firebase', () => ({
   db: {},
 }))
 
+// Tier filtering is intentionally bypassed app-wide in V1 via the V1_UNLOCK_ALL
+// flag; force it off here so these tests still exercise the underlying tier gate
+// (which V1.1 re-enables when RevenueCat is wired).
+vi.mock('../constants', async (importOriginal) => ({
+  ...(await importOriginal<typeof import('../constants')>()),
+  V1_UNLOCK_ALL: false,
+}))
+
 vi.mock('firebase/firestore', () => ({
   collection: vi.fn((_db: unknown, name: string) => ({ __collection: name })),
   query: vi.fn((coll: unknown, ...constraints: unknown[]) => ({ __query: { coll, constraints } })),
