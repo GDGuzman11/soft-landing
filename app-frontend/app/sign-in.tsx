@@ -8,12 +8,14 @@ import {
   ScrollView,
   KeyboardAvoidingView,
   Platform,
+  Modal,
 } from 'react-native'
 import { router } from 'expo-router'
 import { useState } from 'react'
 import { signInWithEmail, signInWithGoogleNative, signInWithApple, sendVerificationEmail, resetPassword } from '@/services/auth'
 import { getSettings, saveSettings } from '@/storage/storage'
 import { mapFirebaseError } from '@/utils/firebaseErrors'
+import { MIN_AGE, formatDob, ageFromDob, isAgeVerified, markAgeVerified } from '@/utils/age'
 import { useTheme } from '@/theme'
 
 async function stampReturningUser() {
@@ -37,8 +39,11 @@ export default function SignInScreen() {
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [ageModal, setAgeModal] = useState<null | 'google' | 'apple'>(null)
+  const [modalDob, setModalDob] = useState('')
+  const [modalError, setModalError] = useState<string | null>(null)
 
-  async function handleGoogleSignIn() {
+  async function proceedGoogle() {
     if (loading) return
     setLoading(true)
     setError(null)
@@ -54,6 +59,54 @@ export default function SignInScreen() {
       setError('Google sign-in failed. Please try again.')
       setLoading(false)
     }
+  }
+
+  async function proceedApple() {
+    if (loading) return
+    setLoading(true)
+    setError(null)
+    try {
+      await signInWithApple()
+      await stampReturningUser()
+      router.replace('/(tabs)')
+    } catch (e: unknown) {
+      if ((e as { code?: string })?.code !== 'ERR_REQUEST_CANCELED') {
+        setError('Apple sign-in failed. Please try again.')
+      }
+      setLoading(false)
+    }
+  }
+
+  /** Social sign-in must still clear the 16+ gate: skip it when the device already
+   *  verified, otherwise prompt for a birthdate — parity with register (Apple 5.1.1 / age rating). */
+  async function startSocial(method: 'google' | 'apple') {
+    if (loading) return
+    setError(null)
+    if (await isAgeVerified()) {
+      if (method === 'google') proceedGoogle()
+      else proceedApple()
+      return
+    }
+    setModalDob('')
+    setModalError(null)
+    setAgeModal(method)
+  }
+
+  async function confirmAgeModal() {
+    const age = ageFromDob(modalDob)
+    if (age === null) {
+      setModalError('Enter your date of birth as MM-DD-YYYY.')
+      return
+    }
+    if (age < MIN_AGE) {
+      setModalError(`You must be at least ${MIN_AGE} to use Soft Landing.`)
+      return
+    }
+    await markAgeVerified()
+    const method = ageModal
+    setAgeModal(null)
+    if (method === 'google') proceedGoogle()
+    else if (method === 'apple') proceedApple()
   }
 
   async function handleSignIn() {
@@ -240,7 +293,7 @@ export default function SignInScreen() {
         </View>
 
         <Pressable
-          onPress={handleGoogleSignIn}
+          onPress={() => startSocial('google')}
           disabled={loading}
           className="active:opacity-80"
           style={{
@@ -263,21 +316,7 @@ export default function SignInScreen() {
 
         {Platform.OS === 'ios' && (
           <Pressable
-            onPress={async () => {
-              if (loading) return
-              setLoading(true)
-              setError(null)
-              try {
-                await signInWithApple()
-                await stampReturningUser()
-                router.replace('/(tabs)')
-              } catch (e: unknown) {
-                if ((e as { code?: string })?.code !== 'ERR_REQUEST_CANCELED') {
-                  setError('Apple sign-in failed. Please try again.')
-                }
-                setLoading(false)
-              }
-            }}
+            onPress={() => startSocial('apple')}
             disabled={loading}
             className="active:opacity-80"
             style={{
@@ -312,6 +351,67 @@ export default function SignInScreen() {
             <Text style={{ color: colors.amber, fontFamily: 'DMSans_500Medium' }}>Create one</Text>
           </Text>
         </Pressable>
+
+        <Modal
+          visible={ageModal !== null}
+          transparent
+          animationType="fade"
+          onRequestClose={() => setAgeModal(null)}
+        >
+          <View style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.4)', justifyContent: 'center', paddingHorizontal: 32 }}>
+            <View style={{ backgroundColor: colors.surface, borderRadius: 20, padding: 24 }}>
+              <Text style={{ fontFamily: 'Lora_400Regular_Italic', fontSize: 20, color: colors.inkPrimary, marginBottom: 6 }}>
+                One quick thing
+              </Text>
+              <Text style={{ fontFamily: 'DMSans_400Regular', fontSize: 14, color: colors.inkMuted, marginBottom: 16, lineHeight: 20 }}>
+                Enter your date of birth to continue. You must be at least {MIN_AGE}.
+              </Text>
+              <TextInput
+                value={modalDob}
+                onChangeText={(t) => setModalDob(formatDob(t))}
+                placeholder="MM-DD-YYYY"
+                placeholderTextColor={colors.inkSubtle}
+                keyboardType="number-pad"
+                autoCorrect={false}
+                maxLength={10}
+                autoFocus
+                style={{
+                  width: '100%',
+                  borderWidth: 1,
+                  borderColor: colors.cardBorder,
+                  borderRadius: 16,
+                  paddingHorizontal: 20,
+                  paddingVertical: 14,
+                  fontFamily: 'DMSans_400Regular',
+                  fontSize: 16,
+                  backgroundColor: colors.bg,
+                  color: colors.inkPrimary,
+                }}
+              />
+              {modalError ? (
+                <Text style={{ fontFamily: 'DMSans_400Regular', fontSize: 13, color: '#C0392B', marginTop: 10, textAlign: 'center' }}>
+                  {modalError}
+                </Text>
+              ) : null}
+              <Pressable
+                onPress={confirmAgeModal}
+                style={{ backgroundColor: colors.amber, borderRadius: 9999, paddingVertical: 14, alignItems: 'center', marginTop: 18 }}
+                accessibilityRole="button"
+                accessibilityLabel="Continue"
+              >
+                <Text style={{ fontFamily: 'DMSans_500Medium', fontSize: 16, color: '#FFFFFF' }}>Continue</Text>
+              </Pressable>
+              <Pressable
+                onPress={() => setAgeModal(null)}
+                style={{ alignItems: 'center', paddingVertical: 12 }}
+                accessibilityRole="button"
+                accessibilityLabel="Cancel"
+              >
+                <Text style={{ fontFamily: 'DMSans_400Regular', fontSize: 14, color: colors.inkMuted }}>Cancel</Text>
+              </Pressable>
+            </View>
+          </View>
+        </Modal>
       </ScrollView>
     </KeyboardAvoidingView>
   )
