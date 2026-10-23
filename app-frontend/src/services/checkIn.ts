@@ -4,9 +4,11 @@ import { selectMessage } from '../messages/selector'
 import {
   addCheckIn,
   getSettings,
+  getTodayCheckInCount,
   incrementCheckInCount,
   saveMessage,
 } from '../storage/storage'
+import { CHECK_IN_LIMIT_ENABLED, FREE_CHECKINS_PER_DAY } from '../constants'
 
 export interface CheckInResult {
   event: CheckInEvent
@@ -14,10 +16,13 @@ export interface CheckInResult {
 }
 
 export async function canCheckIn(): Promise<boolean> {
-  // BUG-014: quota check disabled for testing — re-enable before App Store submission.
-  // Original implementation read subscription tier (premium → unlimited) and
-  // compared getTodayCheckInCount() against FREE_CHECKINS_PER_DAY.
-  return true
+  // BUG-014: cost-control cap. Disabled for TestFlight (CHECK_IN_LIMIT_ENABLED=false)
+  // so testers aren't blocked; flip the flag in constants before public submission.
+  if (!CHECK_IN_LIMIT_ENABLED) return true
+  const settings = await getSettings().catch(() => null)
+  if ((settings?.subscription.tier ?? 'free') === 'premium') return true
+  const count = await getTodayCheckInCount().catch(() => 0)
+  return count < FREE_CHECKINS_PER_DAY
 }
 
 export async function performCheckIn(emotionId: EmotionId): Promise<CheckInResult> {
