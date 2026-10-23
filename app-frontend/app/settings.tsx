@@ -16,6 +16,7 @@ import * as Haptics from 'expo-haptics'
 const DEFAULT_REMINDER_TIME = '08:00'
 const TERMS_URL = 'https://gdguzman11.github.io/soft-landing/terms.html'
 const PRIVACY_URL = 'https://gdguzman11.github.io/soft-landing/privacy-policy.html'
+const SUPPORT_URL = 'mailto:gabedeguzman99@gmail.com?subject=Soft%20Landing%20Support'
 
 const SECTION_LABEL_STYLE = { fontFamily: 'DMSans_500Medium', letterSpacing: 1 } as const
 const LEGAL_ROW_LABEL_STYLE = { fontFamily: 'DMSans_400Regular', fontSize: 15, color: '#3D2F2A' } as const
@@ -631,6 +632,25 @@ export default function SettingsScreen() {
         >
           <Text style={{ ...LEGAL_ROW_LABEL_STYLE, color: colors.inkPrimary }}>
             Privacy Policy
+          </Text>
+          <Text style={{ ...CHEVRON_STYLE, color: colors.amber }}>›</Text>
+        </Pressable>
+
+        <Pressable
+          className="px-5 py-4"
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            borderTopWidth: 1,
+            borderTopColor: colors.cardBorder,
+          }}
+          onPress={() => Linking.openURL(SUPPORT_URL)}
+          accessibilityRole="button"
+          accessibilityLabel="Contact Support"
+        >
+          <Text style={{ ...LEGAL_ROW_LABEL_STYLE, color: colors.inkPrimary }}>
+            Contact Support
           </Text>
           <Text style={{ ...CHEVRON_STYLE, color: colors.amber }}>›</Text>
         </Pressable>
