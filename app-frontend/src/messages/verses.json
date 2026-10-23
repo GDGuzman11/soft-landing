@@ -700,6 +700,706 @@
     "weight": 8
   },
   {
+    "id": "good-051",
+    "emotionId": "good",
+    "body": "The LORD hath done great things for us; whereof we are glad.",
+    "modernText": "Yahweh has done great things for us, and we are glad.",
+    "reference": "Psalm 126:3",
+    "message": "Permission to just be glad, because something good actually happened. No need to downplay it, name the great thing and enjoy it.",
+    "tags": [
+      "gladness",
+      "great things"
+    ],
+    "tier": "free",
+    "weight": 9
+  },
+  {
+    "id": "good-052",
+    "emotionId": "good",
+    "body": "Thou hast turned for me my mourning into dancing: thou hast put off my sackcloth, and girded me with gladness;",
+    "modernText": "You have turned my mourning into dancing for me. You have removed my sackcloth, and clothed me with gladness,",
+    "reference": "Psalm 30:11",
+    "message": "If today feels like dancing after a hard stretch, that's worth noticing. The turn from heavy to light is real, and you get to feel it.",
+    "tags": [
+      "dancing",
+      "turned"
+    ],
+    "tier": "free",
+    "weight": 9
+  },
+  {
+    "id": "good-053",
+    "emotionId": "good",
+    "body": "To the end that my glory may sing praise to thee, and not be silent. O LORD my God, I will give thanks unto thee for ever.",
+    "modernText": "to the end that my heart may sing praise to you, and not be silent. Yahweh my God, I will give thanks to you forever!",
+    "reference": "Psalm 30:12",
+    "message": "Good days are made for saying something, not swallowing it. Let the gladness have a voice instead of keeping it polite and quiet.",
+    "tags": [
+      "praise",
+      "sing"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "good-054",
+    "emotionId": "good",
+    "body": "Be glad in the LORD, and rejoice, ye righteous: and shout for joy, all ye that are upright in heart.",
+    "modernText": "Be glad in Yahweh, and rejoice, you righteous! Shout for joy, all you who are upright in heart!",
+    "reference": "Psalm 32:11",
+    "message": "Three verbs for being happy, stacked up like the verse can't contain it. Match that energy, nothing to hold back today.",
+    "tags": [
+      "glad",
+      "rejoice"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "good-055",
+    "emotionId": "good",
+    "body": "Rejoice in the LORD, O ye righteous: for praise is comely for the upright.",
+    "modernText": "Rejoice in Yahweh, you righteous! Praise is fitting for the upright.",
+    "reference": "Psalm 33:1",
+    "message": "Rejoicing called comely, like gladness suits you, looks good on you. A good mood as the thing that fits you best.",
+    "tags": [
+      "rejoice",
+      "praise"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "good-056",
+    "emotionId": "good",
+    "body": "For our heart shall rejoice in him, because we have trusted in his holy name.",
+    "modernText": "For our heart rejoices in him, because we have trusted in his holy name.",
+    "reference": "Psalm 33:21",
+    "message": "The heart getting to rejoice, not just cope. On a good day, let the gladness go all the way down.",
+    "tags": [
+      "heart",
+      "rejoice"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "good-057",
+    "emotionId": "good",
+    "body": "And he hath put a new song in my mouth, even praise unto our God: many shall see it, and fear, and shall trust in the LORD.",
+    "modernText": "He has put a new song in my mouth, even praise to our God. Many shall see it, and fear, and shall trust in Yahweh.",
+    "reference": "Psalm 40:3",
+    "message": "A new song for a new feeling. When things are good, you don't have to keep humming the old worried tune.",
+    "tags": [
+      "new song",
+      "praise"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "good-058",
+    "emotionId": "good",
+    "body": "O clap your hands, all ye people; shout unto God with the voice of triumph.",
+    "modernText": "Oh clap your hands, all you nations. Shout to God with the voice of triumph!",
+    "reference": "Psalm 47:1",
+    "message": "Big, physical, unembarrassed joy. The verse basically says make some noise about it, so go ahead and be glad out loud.",
+    "tags": [
+      "triumph",
+      "joy"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "good-059",
+    "emotionId": "good",
+    "body": "Because thy lovingkindness is better than life, my lips shall praise thee.",
+    "modernText": "Because your loving kindness is better than life, my lips shall praise you.",
+    "reference": "Psalm 63:3",
+    "message": "Some good is better than the best thing you can name. This says the kindness you're feeling tops even life itself.",
+    "tags": [
+      "lovingkindness",
+      "life"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "good-060",
+    "emotionId": "good",
+    "body": "My soul shall be satisfied as with marrow and fatness; and my mouth shall praise thee with joyful lips:",
+    "modernText": "My soul shall be satisfied as with the richest food. My mouth shall praise you with joyful lips,",
+    "reference": "Psalm 63:5",
+    "message": "Satisfied, actually full, not still reaching. A rare, good feeling, and the verse says let your lips be joyful about it.",
+    "tags": [
+      "satisfied",
+      "joyful"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "good-061",
+    "emotionId": "good",
+    "body": "Make a joyful noise unto God, all ye lands:",
+    "modernText": "Make a joyful shout to God, all the earth!",
+    "reference": "Psalm 66:1",
+    "message": "Everybody's invited to be glad, the whole earth. On a good day, you're just joining a chorus that's already going.",
+    "tags": [
+      "joyful noise",
+      "praise"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "good-062",
+    "emotionId": "good",
+    "body": "O let the nations be glad and sing for joy: for thou shalt judge the people righteously, and govern the nations upon earth. Selah.",
+    "modernText": "Oh let the nations be glad and sing for joy, for you will judge the peoples with equity, and govern the nations on earth.",
+    "reference": "Psalm 67:4",
+    "message": "Gladness on a scale bigger than you, nations-wide. Your good mood is part of something much larger than today.",
+    "tags": [
+      "glad",
+      "sing"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "good-063",
+    "emotionId": "good",
+    "body": "My lips shall greatly rejoice when I sing unto thee; and my soul, which thou hast redeemed.",
+    "modernText": "My lips shall shout for joy! My soul, which you have redeemed, sings praises to you!",
+    "reference": "Psalm 71:23",
+    "message": "Greatly rejoice, not mildly. When it's good, the verse gives you room to be all the way glad about it.",
+    "tags": [
+      "rejoice",
+      "sing"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "good-064",
+    "emotionId": "good",
+    "body": "Blessed is the people that know the joyful sound: they shall walk, O LORD, in the light of thy countenance.",
+    "modernText": "Blessed are the people who learn to acclaim you. They walk in the light of your presence, Yahweh.",
+    "reference": "Psalm 89:15",
+    "message": "Blessed is the person who can recognize the good when it comes. Today you heard it, and that's its own gift.",
+    "tags": [
+      "joyful",
+      "blessed"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "good-065",
+    "emotionId": "good",
+    "body": "O satisfy us early with thy mercy; that we may rejoice and be glad all our days.",
+    "modernText": "Satisfy us in the morning with your loving kindness, that we may rejoice and be glad all our days.",
+    "reference": "Psalm 90:14",
+    "message": "Satisfied early, so the whole day can be glad. When good lands in the morning, it colors everything after it.",
+    "tags": [
+      "mercy",
+      "rejoice"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "good-066",
+    "emotionId": "good",
+    "body": "For thou, LORD, hast made me glad through thy work: I will triumph in the works of thy hands.",
+    "modernText": "For you, Yahweh, have made me glad through your work. I will triumph in the works of your hands.",
+    "reference": "Psalm 92:4",
+    "message": "Made glad by the work of someone's hands, including the ordinary good of a day well-made. Gladness with a source behind it.",
+    "tags": [
+      "glad",
+      "work"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "good-067",
+    "emotionId": "good",
+    "body": "O come, let us sing unto the LORD: let us make a joyful noise to the rock of our salvation.",
+    "modernText": "Oh come, let’s sing to Yahweh. Let’s shout aloud to the rock of our salvation!",
+    "reference": "Psalm 95:1",
+    "message": "An invitation, warm and casual, come sing. On a good day, this just wants you to join in the gladness.",
+    "tags": [
+      "sing",
+      "joy"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "good-068",
+    "emotionId": "good",
+    "body": "Let us come before his presence with thanksgiving, and make a joyful noise unto him with psalms.",
+    "modernText": "Let’s come before his presence with thanksgiving. Let’s extol him with songs!",
+    "reference": "Psalm 95:2",
+    "message": "Showing up grateful rather than grasping. A good day is the easiest day to walk in thankful.",
+    "tags": [
+      "thanksgiving",
+      "praise"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "good-069",
+    "emotionId": "good",
+    "body": "O sing unto the LORD a new song; for he hath done marvellous things: his right hand, and his holy arm, hath gotten him the victory.",
+    "modernText": "Sing to Yahweh a new song, for he has done marvelous things! His right hand and his holy arm have worked salvation for him.",
+    "reference": "Psalm 98:1",
+    "message": "Marvellous things, worth a brand-new song. When good happens, it deserves more than the usual quiet nod.",
+    "tags": [
+      "new song",
+      "marvellous"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "good-070",
+    "emotionId": "good",
+    "body": "Make a joyful noise unto the LORD, all the earth: make a loud noise, and rejoice, and sing praise.",
+    "modernText": "Make a joyful noise to Yahweh, all the earth! Burst out and sing for joy, yes, sing praises!",
+    "reference": "Psalm 98:4",
+    "message": "The whole earth making a joyful noise, and you're allowed to be loud in it. Good moods don't have to be kept to yourself.",
+    "tags": [
+      "joyful noise",
+      "earth"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "good-071",
+    "emotionId": "good",
+    "body": "I will sing unto the LORD as long as I live: I will sing praise to my God while I have my being.",
+    "modernText": "I will sing to Yahweh as long as I live. I will sing praise to my God while I have any being.",
+    "reference": "Psalm 104:33",
+    "message": "A lifelong commitment to gladness, renewed on good days like this one. Let today add to the song.",
+    "tags": [
+      "sing",
+      "life"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "good-072",
+    "emotionId": "good",
+    "body": "My meditation of him shall be sweet: I will be glad in the LORD.",
+    "modernText": "Let my meditation be sweet to him. I will rejoice in Yahweh.",
+    "reference": "Psalm 104:34",
+    "message": "Sweet is the word, not heavy. On a good day, even your thinking gets to be pleasant, a nice place to rest your mind.",
+    "tags": [
+      "sweet",
+      "gladness"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "good-073",
+    "emotionId": "good",
+    "body": "What shall I render unto the LORD for all his benefits toward me?",
+    "modernText": "What will I give to Yahweh for all his benefits toward me?",
+    "reference": "Psalm 116:12",
+    "message": "A good day makes you want to give something back. The nice question of what to do with all the good you've been handed.",
+    "tags": [
+      "gratitude",
+      "benefits"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "good-074",
+    "emotionId": "good",
+    "body": "O give thanks unto the LORD; for he is good: because his mercy endureth for ever.",
+    "modernText": "Give thanks to Yahweh, for he is good, for his loving kindness endures forever.",
+    "reference": "Psalm 118:1",
+    "message": "The simplest, truest response to a good day: thanks, because it's good. No overthinking required.",
+    "tags": [
+      "thanks",
+      "good"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "good-075",
+    "emotionId": "good",
+    "body": "The voice of rejoicing and salvation is in the tabernacles of the righteous: the right hand of the LORD doeth valiantly.",
+    "modernText": "The voice of rejoicing and salvation is in the tents of the righteous. “The right hand of Yahweh does valiantly.",
+    "reference": "Psalm 118:15",
+    "message": "A house full of the sound of rejoicing. On a good day, be the place that sound is coming from.",
+    "tags": [
+      "rejoicing",
+      "salvation"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "good-076",
+    "emotionId": "good",
+    "body": "Thy testimonies have I taken as an heritage for ever: for they are the rejoicing of my heart.",
+    "modernText": "I have taken your testimonies as a heritage forever, for they are the joy of my heart.",
+    "reference": "Psalm 119:111",
+    "message": "Something good enough to be called the rejoicing of the heart. A gladness with real substance under it.",
+    "tags": [
+      "rejoicing",
+      "heart"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "good-077",
+    "emotionId": "good",
+    "body": "They that sow in tears shall reap in joy.",
+    "modernText": "Those who sow in tears will reap in joy.",
+    "reference": "Psalm 126:5",
+    "message": "If today's a harvest after a hard season, enjoy it fully. The tears you planted are allowed to come back as joy.",
+    "tags": [
+      "joy",
+      "reaping"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "good-078",
+    "emotionId": "good",
+    "body": "Behold, how good and how pleasant it is for brethren to dwell together in unity!",
+    "modernText": "See how good and how pleasant it is for brothers to live together in unity!",
+    "reference": "Psalm 133:1",
+    "message": "Good and pleasant, the verse says of just being with people you love. If that's today, it counts as one of the best things there is.",
+    "tags": [
+      "unity",
+      "pleasant"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "good-079",
+    "emotionId": "good",
+    "body": "O give thanks unto the LORD; for he is good: for his mercy endureth for ever.",
+    "modernText": "Give thanks to Yahweh, for he is good; for his loving kindness endures forever.",
+    "reference": "Psalm 136:1",
+    "message": "The good you feel runs on a mercy that never quits. Today's gladness is drawing from a well that doesn't run dry.",
+    "tags": [
+      "thanks",
+      "mercy"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "good-080",
+    "emotionId": "good",
+    "body": "I will praise thee with my whole heart: before the gods will I sing praise unto thee.",
+    "modernText": "I will give you thanks with my whole heart. Before the gods, I will sing praises to you.",
+    "reference": "Psalm 138:1",
+    "message": "Whole-hearted praise for a whole-hearted good mood. Nothing half about today, so hold nothing back.",
+    "tags": [
+      "praise",
+      "whole heart"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "good-081",
+    "emotionId": "good",
+    "body": "Thou openest thine hand, and satisfiest the desire of every living thing.",
+    "modernText": "You open your hand, and satisfy the desire of every living thing.",
+    "reference": "Psalm 145:16",
+    "message": "An open hand feeding everything alive, including you, today. Good as the feeling of being provided for without even asking.",
+    "tags": [
+      "satisfied",
+      "provision"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "good-082",
+    "emotionId": "good",
+    "body": "Praise ye the LORD: for it is good to sing praises unto our God; for it is pleasant; and praise is comely.",
+    "modernText": "Praise Yah, for it is good to sing praises to our God; for it is pleasant and fitting to praise him.",
+    "reference": "Psalm 147:1",
+    "message": "Good and pleasant, both, just to be glad. The verse makes gladness itself the point, not a means to anything.",
+    "tags": [
+      "praise",
+      "pleasant"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "good-083",
+    "emotionId": "good",
+    "body": "Let Israel rejoice in him that made him: let the children of Zion be joyful in their King.",
+    "modernText": "Let Israel rejoice in him who made them. Let the children of Zion be joyful in their King.",
+    "reference": "Psalm 149:2",
+    "message": "Joyful, specifically, not just content. On a good day, you're allowed the upgraded version of fine.",
+    "tags": [
+      "joyful",
+      "king"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "good-084",
+    "emotionId": "good",
+    "body": "A merry heart maketh a cheerful countenance: but by sorrow of the heart the spirit is broken.",
+    "modernText": "A glad heart makes a cheerful face, but an aching heart breaks the spirit.",
+    "reference": "Proverbs 15:13",
+    "message": "A happy heart shows up on your face, and that's a good thing to let happen. Let the gladness reach your expression today.",
+    "tags": [
+      "merry heart",
+      "countenance"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "good-085",
+    "emotionId": "good",
+    "body": "A merry heart doeth good like a medicine: but a broken spirit drieth the bones.",
+    "modernText": "A cheerful heart makes good medicine, but a crushed spirit dries up the bones.",
+    "reference": "Proverbs 17:22",
+    "message": "Joy as actual medicine. A good mood isn't frivolous, it's doing something real for you. Take the dose.",
+    "tags": [
+      "merry heart",
+      "medicine"
+    ],
+    "tier": "free",
+    "weight": 9
+  },
+  {
+    "id": "good-086",
+    "emotionId": "good",
+    "body": "I know that there is no good in them, but for a man to rejoice, and to do good in his life.",
+    "modernText": "I know that there is nothing better for them than to rejoice, and to do good as long as they live.",
+    "reference": "Ecclesiastes 3:12",
+    "message": "From the most no-nonsense book in the Bible: rejoice and do good. Even the realist says the move is to enjoy it.",
+    "tags": [
+      "rejoice",
+      "good"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "good-087",
+    "emotionId": "good",
+    "body": "Go thy way, eat thy bread with joy, and drink thy wine with a merry heart; for God now accepteth thy works.",
+    "modernText": "Go your way—eat your bread with joy, and drink your wine with a merry heart; for God has already accepted your works.",
+    "reference": "Ecclesiastes 9:7",
+    "message": "Go eat, drink, enjoy, it says plainly. Permission from scripture to savor the good things of an ordinary good day.",
+    "tags": [
+      "joy",
+      "enjoyment"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "good-088",
+    "emotionId": "good",
+    "body": "For ye shall go out with joy, and be led forth with peace: the mountains and the hills shall break forth before you into singing, and all the trees of the field shall clap their hands.",
+    "modernText": "For you shall go out with joy, and be led out with peace. The mountains and the hills will break out before you into singing; and all the trees of the fields will clap their hands.",
+    "reference": "Isaiah 55:12",
+    "message": "Sent out with joy, even the mountains and trees in on it. A good day where everything seems to be rooting for you.",
+    "tags": [
+      "joy",
+      "peace"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "good-089",
+    "emotionId": "good",
+    "body": "I will greatly rejoice in the LORD, my soul shall be joyful in my God; for he hath clothed me with the garments of salvation, he hath covered me with the robe of righteousness, as a bridegroom decketh himself with ornaments, and as a bride adorneth herself with her jewels.",
+    "modernText": "I will greatly rejoice in Yahweh! My soul will be joyful in my God, for he has clothed me with the garments of salvation. He has covered me with the robe of righteousness, as a bridegroom decks himself with a garland and as a bride adorns herself with her jewels.",
+    "reference": "Isaiah 61:10",
+    "message": "Dressed up in good things, greatly rejoicing. On a good day, this says you're wearing the gladness, not borrowing it.",
+    "tags": [
+      "rejoice",
+      "clothed"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "good-090",
+    "emotionId": "good",
+    "body": "Then shall the virgin rejoice in the dance, both young men and old together: for I will turn their mourning into joy, and will comfort them, and make them rejoice from their sorrow.",
+    "modernText": "Then the virgin will rejoice in the dance; the young men and the old together; for I will turn their mourning into joy, and will comfort them, and make them rejoice from their sorrow.",
+    "reference": "Jeremiah 31:13",
+    "message": "The specialty move: mourning turned into joy. If today's the turn, let yourself feel how far it came.",
+    "tags": [
+      "joy",
+      "turned"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "good-091",
+    "emotionId": "good",
+    "body": "Sing, O daughter of Zion; shout, O Israel; be glad and rejoice with all the heart, O daughter of Jerusalem.",
+    "modernText": "Sing, daughter of Zion! Shout, Israel! Be glad and rejoice with all your heart, daughter of Jerusalem.",
+    "reference": "Zephaniah 3:14",
+    "message": "Sing, shout, be glad with the whole heart, the verse piles it on. When it's good, there's no such thing as too glad.",
+    "tags": [
+      "sing",
+      "glad"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "good-092",
+    "emotionId": "good",
+    "body": "And my spirit hath rejoiced in God my Saviour.",
+    "modernText": "My spirit has rejoiced in God my Savior,",
+    "reference": "Luke 1:47",
+    "message": "Spontaneous, spilling-over joy, the kind that just happens. If today feels like that, you're in good company with it.",
+    "tags": [
+      "rejoiced",
+      "spirit"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "good-093",
+    "emotionId": "good",
+    "body": "But the fruit of the Spirit is love, joy, peace, longsuffering, gentleness, goodness, faith,",
+    "modernText": "But the fruit of the Spirit is love, joy, peace, patience, kindness, goodness, faith,",
+    "reference": "Galatians 5:22",
+    "message": "Joy named as something that grows in you, like fruit. A good mood as a sign of something quietly flourishing underneath.",
+    "tags": [
+      "joy",
+      "fruit"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "good-094",
+    "emotionId": "good",
+    "body": "I thank my God upon every remembrance of you,",
+    "modernText": "I thank my God whenever I remember you,",
+    "reference": "Philippians 1:3",
+    "message": "A good day often comes with good people. Let yourself be thankful for the ones who make the remembering sweet.",
+    "tags": [
+      "thankful",
+      "remembrance"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "good-095",
+    "emotionId": "good",
+    "body": "Always in every prayer of mine for you all making request with joy,",
+    "modernText": "always in every request of mine on behalf of you all, making my requests with joy,",
+    "reference": "Philippians 1:4",
+    "message": "Even the asking done with joy. On a good day, gladness colors everything, including the things you're hoping for.",
+    "tags": [
+      "joy",
+      "prayer"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "good-096",
+    "emotionId": "good",
+    "body": "Rejoice evermore.",
+    "modernText": "Always rejoice.",
+    "reference": "1 Thessalonians 5:16",
+    "message": "Two words, no caveats: rejoice evermore. The shortest permission slip in the Bible to just be glad.",
+    "tags": [
+      "rejoice",
+      "always"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "good-097",
+    "emotionId": "good",
+    "body": "By him therefore let us offer the sacrifice of praise to God continually, that is, the fruit of our lips giving thanks to his name.",
+    "modernText": "Through him, then, let’s offer up a sacrifice of praise to God continually, that is, the fruit of lips which proclaim allegiance to his name.",
+    "reference": "Hebrews 13:15",
+    "message": "Praise called a sacrifice, an offering. On a good day, giving thanks isn't a chore, it's the easy, natural thing to lay down.",
+    "tags": [
+      "praise",
+      "thanksgiving"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "good-098",
+    "emotionId": "good",
+    "body": "Blessed be the God and Father of our Lord Jesus Christ, which according to his abundant mercy hath begotten us again unto a lively hope by the resurrection of Jesus Christ from the dead,",
+    "modernText": "Blessed be the God and Father of our Lord Jesus Christ, who according to his great mercy caused us to be born again to a living hope through the resurrection of Jesus Christ from the dead,",
+    "reference": "1 Peter 1:3",
+    "message": "A lively hope, the verse says, hope with a pulse. If today feels alive, that's the kind it means.",
+    "tags": [
+      "blessed",
+      "hope"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "good-099",
+    "emotionId": "good",
+    "body": "Let us be glad and rejoice, and give honour to him: for the marriage of the Lamb is come, and his wife hath made herself ready.",
+    "modernText": "Let’s rejoice and be exceedingly glad, and let’s give the glory to him. For the wedding of the Lamb has come, and his wife has made herself ready.”",
+    "reference": "Revelation 19:7",
+    "message": "A picture of the biggest celebration there is. Today's good mood is a small rehearsal for that kind of gladness.",
+    "tags": [
+      "glad",
+      "rejoice"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "good-100",
+    "emotionId": "good",
+    "body": "I have no greater joy than to hear that my children walk in truth.",
+    "modernText": "I have no greater joy than this: to hear about my children walking in truth.",
+    "reference": "3 John 1:4",
+    "message": "Joy that comes from someone else doing well. If today's good because of someone you love, this gets it, that's the best kind.",
+    "tags": [
+      "joy",
+      "gladness"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
     "id": "neutral-001",
     "emotionId": "neutral",
     "body": "I will praise thee; for I am fearfully and wonderfully made: marvellous are thy works; and that my soul knoweth right well.",
