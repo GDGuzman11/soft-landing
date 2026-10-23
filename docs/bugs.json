@@ -169,7 +169,7 @@
       "discovered": "2026-04-20",
       "discoveredBy": "data-security-qa",
       "severity": "critical",
-      "status": "open",
+      "status": "resolved",
       "area": "data",
       "description": "Anti-repetition system non-functional — selector reads usageCount and lastUsed from static catalog.json which always returns 0 and null. No code path writes updated values back to storage. effectiveWeight() penalty logic is dead code.",
       "file": "app-frontend/src/messages/selector.ts",
@@ -177,8 +177,8 @@
         "Check in 10 times with the same emotion",
         "Same verses can repeat because lastUsed is always null"
       ],
-      "resolution": null,
-      "resolvedAt": null
+      "resolution": "Superseded by the Firestore verse-pool rewrite. selectMessage() now loads getMessageMetadata() from AsyncStorage, merges lastUsed/usageCount onto the fetched pool, applies the 48h penalty via effectiveWeight(), and records each pick with updateMessageMetadata() (selector.ts:155-181). Verified during the 2026-10-22 readiness audit; the catalog.json path in the original report no longer exists.",
+      "resolvedAt": "2026-10-22"
     },
     {
       "id": "BUG-012",
@@ -220,12 +220,12 @@
       "severity": "high",
       "status": "open",
       "area": "subscriptions",
-      "description": "canCheckIn() is permanently bypassed — always returns true. Free users get unlimited check-ins. TEMP comment marks pre-ship requirement. Must be re-enabled before App Store submission.",
+      "description": "canCheckIn() daily cap. The gate now sits behind the CHECK_IN_LIMIT_ENABLED flag in src/constants/index.ts (with FREE_CHECKINS_PER_DAY), deliberately DISABLED for TestFlight so testers aren't blocked. Flip CHECK_IN_LIMIT_ENABLED to true (and confirm the number) before the public App Store submission. Intentionally open until then.",
       "file": "app-frontend/src/services/checkIn.ts",
       "reproductionSteps": [
         "Sign in as free user",
-        "Perform more than 10 check-ins in one day",
-        "Paywall never appears"
+        "Perform more than FREE_CHECKINS_PER_DAY check-ins in one day",
+        "With the flag off, no cap is enforced (expected for TestFlight)"
       ],
       "resolution": null,
       "resolvedAt": null
@@ -502,7 +502,7 @@
       "discovered": "2026-10-20",
       "discoveredBy": "tester",
       "severity": "high",
-      "status": "open",
+      "status": "resolved",
       "area": "backend",
       "description": "deleteUserData and scheduledReachOut are exported from functions/index.ts but are NOT deployed to production (only generateLetter, generateSayResponse, startSayChat, maybeDeliverReachOut are live). The account-deletion callable 404s, leaving the App Store 5.1.1(v) / GDPR account-deletion path unreachable.",
       "file": "app-backend/functions/src/index.ts",
@@ -510,8 +510,8 @@
         "Call deleteUserData from the app or curl the endpoint",
         "Returns HTTP 404 (function not found)"
       ],
-      "resolution": null,
-      "resolvedAt": null
+      "resolution": "Stale. `firebase functions:list` on 2026-10-22 shows all seven functions live on nodejs22, including deleteUserData (callable) and scheduledReachOut (scheduled). Account deletion is reachable from Settings. reportSayMessage was the only missing function and was deployed the same day.",
+      "resolvedAt": "2026-10-22"
     }
   ]
 }

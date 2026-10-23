@@ -21,10 +21,10 @@ _Sources: `docs/bugs.json`, `docs/SECURITY.md`, `docs/LEGAL-REVIEW.md`, memory p
 ## Tier 1 — Launch blockers (free-first)
 
 **ENG**
-- ☐ **Neutralize the paywall for V1** — hide/remove subscription entry points (`app/paywall.tsx` + any "upgrade" CTAs) and **unlock premium features for everyone in V1** (premium verses, all Say personas), so Apple never sees non-functional IAP and free users aren't blocked. Re-gate in V1.1.
-- ☐ **UGC report/block mechanism** — in-app "report" on AI messages + a block/mute path, wired to a moderation handling flow (**Apple Guideline 1.2** for AI chat + user content). Published policy already in Terms §10.
-- ☐ **Re-enable the daily check-in limit** (BUG-014) — now primarily for **API cost control** (not upsell). Confirm the number is sane.
-- ☐ **Verify** `ANTHROPIC_API_KEY` secret is set and rate limits are appropriate (`rateLimit.ts`, `sayRateLimit.ts`).
+- ☑ **Neutralize the paywall for V1** — `V1_UNLOCK_ALL=true` unlocks premium verses + all Say personas; paywall is unreachable from the UI. Re-gate in V1.1.
+- ☑ **UGC report/block mechanism** — long-press → report on AI messages (`reportSayMessage` callable, **deployed 2026-10-22**) + voice mute/block in Settings. Terms §10 + in-app AI disclosure cover **Apple Guideline 1.2**.
+- ⏸ **Daily check-in limit** (BUG-014) — now behind `CHECK_IN_LIMIT_ENABLED` (constants), **deliberately off for TestFlight**. Flip to true + confirm `FREE_CHECKINS_PER_DAY` before the public submission.
+- ☑ **Verify** `ANTHROPIC_API_KEY` secret + rate limits — all seven functions boot (nodejs22) and Say/letters work live, confirming the secret mounts; limiters in `rateLimit.ts`/`sayRateLimit.ts`/`sayChatCreationLimit.ts`.
 
 **BIZ**
 - ☐ **App Store Connect**: app record, listing copy, screenshots (free app).
@@ -38,10 +38,10 @@ _Sources: `docs/bugs.json`, `docs/SECURITY.md`, `docs/LEGAL-REVIEW.md`, memory p
 ## Tier 2 — Before / around TestFlight (strategic)
 
 **ENG**
-- ◐ **EAS Update (expo-updates)** — **configured 2026-10-21** (updates.url + `fingerprint` runtimeVersion + per-profile channels). OTA works from the **next build** onward; end-to-end OTA test happens at the TestFlight build step.
+- ☑ **EAS Update (expo-updates)** — configured; `runtimeVersion` on `appVersion` policy + per-profile channels. **`production` build env fixed 2026-10-22** (was missing Firebase/Google vars → would have booted with no backend).
+- ☑ **Close age-gate residual** — Sign-In social (Google/Apple) now runs the same 16+ birthdate gate as register, via shared `src/utils/age.ts` (done 2026-10-22).
 - ☐ **iOS API key restriction** (Cloud Console → Credentials → restrict the iOS key to `com.appsoftlanding.com`) — after TestFlight confirms working.
 - ☐ **Firebase App Check** — register production bundle id, enable enforcement on callable functions (DeviceCheck/App Attest).
-- ☐ (Optional) **Close age-gate residual** — social sign-in started from the Sign-In screen can create an account without the gate; move the gate to first launch to fully close.
 
 ---
 
@@ -66,3 +66,14 @@ Tier 0 → Tier 1 → Tier 2 → **TestFlight** (`eas build --profile preview` �
 
 ## Already done (recent sessions)
 Social auth (Google + Apple, native); Expo SDK 57; codebase cleanup; security hardening report; legal docs rewrite (Privacy Policy + Terms accurate, KJV/WEB fix, moderation/CSAM, 16+); NOTICE file; 16+ age gate; Say AI disclosure; Sentry opt-out.
+
+## Readiness audit — 2026-10-22
+Full audit vs Apple's App Store Review Guidelines (3 parallel explorers + manual verification).
+**Outcome:** backend/security posture solid (owner-scoped Firestore rules, auth on every callable,
+input/prompt-injection filters, crisis routing, secrets clean — nothing sensitive is git-tracked).
+ENG blockers fixed this pass: production EAS env, Sign-In age-gate residual, support-contact link,
+check-in-limit toggle (off for TestFlight), and `reportSayMessage` deployed. Verified all 7 functions
+live on nodejs22 → **BUG-033 was stale** (deleteUserData/scheduledReachOut are deployed). Also
+**BUG-011 stale** (anti-repetition works via the Firestore selector). Remaining before public launch:
+BIZ/legal track below + re-enable the check-in cap. Deferred to V1.1: RevenueCat gating (BUG-010/026),
+PII-at-rest (BUG-027), expanded test coverage, App Check, iOS key restriction.
