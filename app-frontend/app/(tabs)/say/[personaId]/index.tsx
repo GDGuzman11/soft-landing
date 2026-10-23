@@ -376,11 +376,12 @@ export default function SayChatListScreen() {
           ]}
         >
           {starting ? (
-            <ActivityIndicator color="#FFFFFF" size="small" />
+            <ActivityIndicator color="#3D2F2A" size="small" />
           ) : (
-            <Ionicons name="add" size={30} color="#FFFFFF" />
+            <Ionicons name="add" size={28} color="#3D2F2A" />
           )}
         </Pressable>
+        <Text style={[styles.fabLabel, { color: colors.inkMuted }]}>New Chat</Text>
       </Animated.View>
     </SafeAreaView>
   )
@@ -426,12 +427,13 @@ const styles = StyleSheet.create({
   scroll: {
     paddingHorizontal: 20,
     paddingTop: 24,
-    paddingBottom: 100,
+    paddingBottom: 116,
   },
   fabWrap: {
     position: 'absolute',
-    bottom: 28,
+    bottom: 24,
     right: 20,
+    alignItems: 'center',
   },
   fab: {
     width: 56,
@@ -439,11 +441,19 @@ const styles = StyleSheet.create({
     borderRadius: 28,
     alignItems: 'center',
     justifyContent: 'center',
+    borderWidth: 1.5,
+    borderColor: 'rgba(61,47,42,0.22)',
     shadowColor: '#C4956A',
     shadowOffset: { width: 0, height: 6 },
     shadowOpacity: 0.4,
     shadowRadius: 12,
     elevation: 8,
+  },
+  fabLabel: {
+    fontFamily: 'DMSans_500Medium',
+    fontSize: 12,
+    marginTop: 6,
+    letterSpacing: 0.3,
   },
   stack: {
     gap: 14,
