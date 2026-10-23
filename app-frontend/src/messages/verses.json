@@ -2100,6 +2100,706 @@
     "weight": 8
   },
   {
+    "id": "good-151",
+    "emotionId": "good",
+    "body": "There be many that say, Who will shew us any good? LORD, lift thou up the light of thy countenance upon us.",
+    "modernText": "Many say, “Who will show us any good?” Yahweh, let the light of your face shine on us.",
+    "reference": "Psalm 4:6",
+    "message": "An ask for a face to brighten toward you. A good day as the feeling of being looked at warmly, light landing where you are.",
+    "tags": [
+      "light",
+      "countenance"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "good-152",
+    "emotionId": "good",
+    "body": "Thou hast put gladness in my heart, more than in the time that their corn and their wine increased.",
+    "modernText": "You have put gladness in my heart, more than when their grain and their new wine are increased.",
+    "reference": "Psalm 4:7",
+    "message": "Gladness bigger than a good harvest, bigger than the stuff people usually celebrate. If today's joy runs deeper than its reasons, this gets it.",
+    "tags": [
+      "gladness",
+      "heart"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "good-153",
+    "emotionId": "good",
+    "body": "The lines are fallen unto me in pleasant places; yea, I have a goodly heritage.",
+    "modernText": "The lines have fallen to me in pleasant places. Yes, I have a good inheritance.",
+    "reference": "Psalm 16:6",
+    "message": "A quiet look at where your life has landed and calling it pleasant. On a good day, this says the plot you got is a good one.",
+    "tags": [
+      "pleasant",
+      "heritage"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "good-154",
+    "emotionId": "good",
+    "body": "I will bless the LORD, who hath given me counsel: my reins also instruct me in the night seasons.",
+    "modernText": "I will bless Yahweh, who has given me counsel. Yes, my heart instructs me in the night seasons.",
+    "reference": "Psalm 16:7",
+    "message": "Thankful even for the guidance that got you here. A good day as a chance to be glad for the quiet help along the way.",
+    "tags": [
+      "bless",
+      "counsel"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "good-155",
+    "emotionId": "good",
+    "body": "One thing have I desired of the LORD, that will I seek after; that I may dwell in the house of the LORD all the days of my life, to behold the beauty of the LORD, and to enquire in his temple.",
+    "modernText": "One thing I have asked of Yahweh, that I will seek after: that I may dwell in Yahweh’s house all the days of my life, to see Yahweh’s beauty, and to inquire in his temple.",
+    "reference": "Psalm 27:4",
+    "message": "A longing just to look at something beautiful. On a good day, permission to stop and simply take the goodness in.",
+    "tags": [
+      "beauty",
+      "presence"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "good-156",
+    "emotionId": "good",
+    "body": "And now shall mine head be lifted up above mine enemies round about me: therefore will I offer in his tabernacle sacrifices of joy; I will sing, yea, I will sing praises unto the LORD.",
+    "modernText": "Now my head will be lifted up above my enemies around me. I will offer sacrifices of joy in his tent. I will sing, yes, I will sing praises to Yahweh.",
+    "reference": "Psalm 27:6",
+    "message": "Joy offered up like a gift, not just felt. A good day as something you get to give back, gladly.",
+    "tags": [
+      "joy",
+      "offering"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "good-157",
+    "emotionId": "good",
+    "body": "Sing unto the LORD, O ye saints of his, and give thanks at the remembrance of his holiness.",
+    "modernText": "Sing praise to Yahweh, you saints of his. Give thanks to his holy name.",
+    "reference": "Psalm 30:4",
+    "message": "An invitation to join the singing. On a good day, you're not making the gladness up, you're joining in with it.",
+    "tags": [
+      "sing",
+      "thanks"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "good-158",
+    "emotionId": "good",
+    "body": "He loveth righteousness and judgment: the earth is full of the goodness of the LORD.",
+    "modernText": "He loves righteousness and justice. The earth is full of the loving kindness of Yahweh.",
+    "reference": "Psalm 33:5",
+    "message": "The whole earth, full of goodness, if you look. A good day as one of the places that fullness shows up for you.",
+    "tags": [
+      "goodness",
+      "earth"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "good-159",
+    "emotionId": "good",
+    "body": "They looked unto him, and were lightened: and their faces were not ashamed.",
+    "modernText": "They looked to him, and were radiant. Their faces shall never be covered with shame.",
+    "reference": "Psalm 34:5",
+    "message": "Faces lifted and lit up, not ashamed. A good day as the feeling of looking up and brightening without even trying.",
+    "tags": [
+      "light",
+      "radiance"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "good-160",
+    "emotionId": "good",
+    "body": "The young lions do lack, and suffer hunger: but they that seek the LORD shall not want any good thing.",
+    "modernText": "The young lions do lack, and suffer hunger, but those who seek Yahweh shall not lack any good thing.",
+    "reference": "Psalm 34:10",
+    "message": "No good thing lacking, for those who seek. If today feels full, this says that's the pattern, not the exception.",
+    "tags": [
+      "provision",
+      "good"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "good-161",
+    "emotionId": "good",
+    "body": "They shall be abundantly satisfied with the fatness of thy house; and thou shalt make them drink of the river of thy pleasures.",
+    "modernText": "They shall be abundantly satisfied with the abundance of your house. You will make them drink of the river of your pleasures.",
+    "reference": "Psalm 36:8",
+    "message": "Abundantly satisfied, not just topped off. A good day as the rare, full feeling of having more than enough.",
+    "tags": [
+      "satisfied",
+      "abundance"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "good-162",
+    "emotionId": "good",
+    "body": "For with thee is the fountain of life: in thy light shall we see light.",
+    "modernText": "For with you is the spring of life. In your light we will see light.",
+    "reference": "Psalm 36:9",
+    "message": "A fountain, not a trickle, the source of life itself. On a good day, you're drinking from something that doesn't run dry.",
+    "tags": [
+      "life",
+      "light"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "good-163",
+    "emotionId": "good",
+    "body": "But the meek shall inherit the earth; and shall delight themselves in the abundance of peace.",
+    "modernText": "But the humble shall inherit the land, and shall delight themselves in the abundance of peace.",
+    "reference": "Psalm 37:11",
+    "message": "Delight in peace, the quiet kind of good. A day that's good not because it's loud, but because it's calm and full.",
+    "tags": [
+      "peace",
+      "delight"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "good-164",
+    "emotionId": "good",
+    "body": "I will praise thee for ever, because thou hast done it: and I will wait on thy name; for it is good before thy saints.",
+    "modernText": "I will give you thanks forever, because you have done it. I will hope in your name, for it is good, in the presence of your saints.",
+    "reference": "Psalm 52:9",
+    "message": "Praise rooted in something already done, already settled. A good day standing on ground laid long before today.",
+    "tags": [
+      "praise",
+      "forever"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "good-165",
+    "emotionId": "good",
+    "body": "Blessed is the man whom thou choosest, and causest to approach unto thee, that he may dwell in thy courts: we shall be satisfied with the goodness of thy house, even of thy holy temple.",
+    "modernText": "Blessed is the one whom you choose and cause to come near, that he may live in your courts. We will be filled with the goodness of your house, your holy temple.",
+    "reference": "Psalm 65:4",
+    "message": "Satisfied, filled up with goodness. On a good day, this names the feeling of simply having had enough good.",
+    "tags": [
+      "satisfied",
+      "goodness"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "good-166",
+    "emotionId": "good",
+    "body": "They also that dwell in the uttermost parts are afraid at thy tokens: thou makest the outgoings of the morning and evening to rejoice.",
+    "modernText": "They also who dwell in faraway places are afraid at your wonders. You call the morning’s dawn and the evening with songs of joy.",
+    "reference": "Psalm 65:8",
+    "message": "Both ends of the day set rejoicing. A good day as one where even the sunrise and sunset seem glad.",
+    "tags": [
+      "rejoice",
+      "morning"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "good-167",
+    "emotionId": "good",
+    "body": "Let the people praise thee, O God; let all the people praise thee.",
+    "modernText": "let the peoples praise you, God. Let all the peoples praise you.",
+    "reference": "Psalm 67:3",
+    "message": "Gladness that spreads to everyone, not hoarded. A good day as the kind that makes you want others in on it too.",
+    "tags": [
+      "praise",
+      "people"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "good-168",
+    "emotionId": "good",
+    "body": "Let my mouth be filled with thy praise and with thy honour all the day.",
+    "modernText": "My mouth shall be filled with your praise, with your honor all day long.",
+    "reference": "Psalm 71:8",
+    "message": "A mouth filled with praise, overflowing. On a good day, let the gladness be the thing that keeps coming out.",
+    "tags": [
+      "praise",
+      "filled"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "good-169",
+    "emotionId": "good",
+    "body": "Whom have I in heaven but thee? and there is none upon earth that I desire beside thee.",
+    "modernText": "Whom do I have in heaven? There is no one on earth whom I desire besides you.",
+    "reference": "Psalm 73:25",
+    "message": "A good day that sharpens what actually matters. The quiet realization that the best thing you have isn't a thing at all.",
+    "tags": [
+      "desire",
+      "enough"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "good-170",
+    "emotionId": "good",
+    "body": "But it is good for me to draw near to God: I have put my trust in the Lord GOD, that I may declare all thy works.",
+    "modernText": "But it is good for me to come close to God. I have made the Lord Yahweh my refuge, that I may tell of all your works.",
+    "reference": "Psalm 73:28",
+    "message": "Simply: it is good to be near. A good day as the plain, uncomplicated gladness of closeness.",
+    "tags": [
+      "nearness",
+      "good"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "good-171",
+    "emotionId": "good",
+    "body": "My soul longeth, yea, even fainteth for the courts of the LORD: my heart and my flesh crieth out for the living God.",
+    "modernText": "My soul longs, and even faints for the courts of Yahweh. My heart and my flesh cry out for the living God.",
+    "reference": "Psalm 84:2",
+    "message": "A whole-body longing, met. On a good day, the ache and the answer meet in the same place.",
+    "tags": [
+      "longing",
+      "joy"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "good-172",
+    "emotionId": "good",
+    "body": "Blessed are they that dwell in thy house: they will be still praising thee. Selah.",
+    "modernText": "Blessed are those who dwell in your house. They are always praising you.",
+    "reference": "Psalm 84:4",
+    "message": "Blessed are the ones who get to stay and keep being glad. A good day as a taste of that settled, ongoing joy.",
+    "tags": [
+      "blessed",
+      "praise"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "good-173",
+    "emotionId": "good",
+    "body": "I will praise thee, O Lord my God, with all my heart: and I will glorify thy name for evermore.",
+    "modernText": "I will praise you, Lord my God, with my whole heart. I will glorify your name forever more.",
+    "reference": "Psalm 86:12",
+    "message": "All the heart, nothing held in reserve. On a good day, you get to be glad without hedging.",
+    "tags": [
+      "praise",
+      "whole heart"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "good-174",
+    "emotionId": "good",
+    "body": "The righteous shall flourish like the palm tree: he shall grow like a cedar in Lebanon.",
+    "modernText": "The righteous shall flourish like the palm tree. He will grow like a cedar in Lebanon.",
+    "reference": "Psalm 92:12",
+    "message": "Flourishing, not just surviving. If today feels like growth, this says that's what you were made to do.",
+    "tags": [
+      "flourish",
+      "thriving"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "good-175",
+    "emotionId": "good",
+    "body": "For as the heaven is high above the earth, so great is his mercy toward them that fear him.",
+    "modernText": "For as the heavens are high above the earth, so great is his loving kindness toward those who fear him.",
+    "reference": "Psalm 103:11",
+    "message": "Mercy as high as the sky is above the earth. A good day resting on something immeasurably large underneath it.",
+    "tags": [
+      "mercy",
+      "great"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "good-176",
+    "emotionId": "good",
+    "body": "For he satisfieth the longing soul, and filleth the hungry soul with goodness.",
+    "modernText": "For he satisfies the longing soul. He fills the hungry soul with good.",
+    "reference": "Psalm 107:9",
+    "message": "The longing soul satisfied, the hungry filled with goodness. A good day as that exact feeling of a need finally met.",
+    "tags": [
+      "satisfied",
+      "goodness"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "good-177",
+    "emotionId": "good",
+    "body": "The LORD hath been mindful of us: he will bless us; he will bless the house of Israel; he will bless the house of Aaron.",
+    "modernText": "Yahweh remembers us. He will bless us. He will bless the house of Israel. He will bless the house of Aaron.",
+    "reference": "Psalm 115:12",
+    "message": "Remembered, kept in mind, and blessed. On a good day, this says the good wasn't random, you were thought of.",
+    "tags": [
+      "mindful",
+      "bless"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "good-178",
+    "emotionId": "good",
+    "body": "Gracious is the LORD, and righteous; yea, our God is merciful.",
+    "modernText": "Yahweh is Gracious and righteous. Yes, our God is merciful.",
+    "reference": "Psalm 116:5",
+    "message": "Gracious and merciful, the character behind a good day. The gladness has a kind source, not just lucky timing.",
+    "tags": [
+      "gracious",
+      "merciful"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "good-179",
+    "emotionId": "good",
+    "body": "Thou art good, and doest good; teach me thy statutes.",
+    "modernText": "You are good, and do good. Teach me your statutes.",
+    "reference": "Psalm 119:68",
+    "message": "Good, and does good, the verse says plainly. A good day as that goodness simply doing what it does.",
+    "tags": [
+      "good",
+      "goodness"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "good-180",
+    "emotionId": "good",
+    "body": "Lo, children are an heritage of the LORD: and the fruit of the womb is his reward.",
+    "modernText": "Behold, children are a heritage of Yahweh. The fruit of the womb is his reward.",
+    "reference": "Psalm 127:3",
+    "message": "The good of people, of family, named as a gift and a reward. If today's good because of someone in your life, this honors that.",
+    "tags": [
+      "heritage",
+      "blessing"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "good-181",
+    "emotionId": "good",
+    "body": "Blessed is every one that feareth the LORD; that walketh in his ways.",
+    "modernText": "Blessed is everyone who fears Yahweh, who walks in his ways.",
+    "reference": "Psalm 128:1",
+    "message": "Blessing offered to every one, not a select few. A good day as proof the blessing has your name on it too.",
+    "tags": [
+      "blessed",
+      "happy"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "good-182",
+    "emotionId": "good",
+    "body": "For thou shalt eat the labour of thine hands: happy shalt thou be, and it shall be well with thee.",
+    "modernText": "For you will eat the labor of your hands. You will be happy, and it will be well with you.",
+    "reference": "Psalm 128:2",
+    "message": "Happy, and well with you. Two of the simplest, best words, said straight to you on a good day.",
+    "tags": [
+      "happy",
+      "labor"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "good-183",
+    "emotionId": "good",
+    "body": "I will praise thee; for I am fearfully and wonderfully made: marvellous are thy works; and that my soul knoweth right well.",
+    "modernText": "I will give thanks to you, for I am fearfully and wonderfully made. Your works are wonderful. My soul knows that very well.",
+    "reference": "Psalm 139:14",
+    "message": "A good day to remember you're wonderfully made, not accidentally. The gladness extends even to how you were put together.",
+    "tags": [
+      "wonderful",
+      "made"
+    ],
+    "tier": "free",
+    "weight": 9
+  },
+  {
+    "id": "good-184",
+    "emotionId": "good",
+    "body": "Great is the LORD, and greatly to be praised; and his greatness is unsearchable.",
+    "modernText": "Great is Yahweh, and greatly to be praised! His greatness is unsearchable.",
+    "reference": "Psalm 145:3",
+    "message": "Great things, greatly praised. On a good day, the size of the gladness gets to match the size of the good.",
+    "tags": [
+      "great",
+      "praise"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "good-185",
+    "emotionId": "good",
+    "body": "The LORD is gracious, and full of compassion; slow to anger, and of great mercy.",
+    "modernText": "Yahweh is gracious, merciful, slow to anger, and of great loving kindness.",
+    "reference": "Psalm 145:8",
+    "message": "Gracious, compassionate, patient, the character under a good day. The goodness you feel has a gentle source.",
+    "tags": [
+      "gracious",
+      "compassion"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "good-186",
+    "emotionId": "good",
+    "body": "The LORD taketh pleasure in them that fear him, in those that hope in his mercy.",
+    "modernText": "Yahweh takes pleasure in those who fear him, in those who hope in his loving kindness.",
+    "reference": "Psalm 147:11",
+    "message": "Here's the lovely twist: pleasure taken in you. On a good day, picture being someone's delight, not just delighting.",
+    "tags": [
+      "pleasure",
+      "hope"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "good-187",
+    "emotionId": "good",
+    "body": "The LORD bless thee, and keep thee:",
+    "modernText": "‘Yahweh bless you, and keep you.",
+    "reference": "Numbers 6:24",
+    "message": "The oldest blessing there is, said over you: blessed and kept. A good day as that blessing actually landing.",
+    "tags": [
+      "bless",
+      "keep"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "good-188",
+    "emotionId": "good",
+    "body": "The LORD make his face shine upon thee, and be gracious unto thee:",
+    "modernText": "Yahweh make his face to shine on you, and be gracious to you.",
+    "reference": "Numbers 6:25",
+    "message": "A face shining toward you, gracious. On a good day, this says that warmth you feel is a face turned your way.",
+    "tags": [
+      "face shine",
+      "grace"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "good-189",
+    "emotionId": "good",
+    "body": "Seven days shalt thou keep a solemn feast unto the LORD thy God in the place which the LORD shall choose: because the LORD thy God shall bless thee in all thine increase, and in all the works of thine hands, therefore thou shalt surely rejoice.",
+    "modernText": "You shall keep a feast to Yahweh your God seven days in the place which Yahweh chooses, because Yahweh your God will bless you in all your increase and in all the work of your hands, and you shall be altogether joyful.",
+    "reference": "Deuteronomy 16:15",
+    "message": "A command, almost: thou shalt surely rejoice. On a good day, you have permission, even instruction, to be glad.",
+    "tags": [
+      "rejoice",
+      "blessing"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "good-190",
+    "emotionId": "good",
+    "body": "Glory and honour are in his presence; strength and gladness are in his place.",
+    "modernText": "Honor and majesty are before him. Strength and gladness are in his place.",
+    "reference": "1 Chronicles 16:27",
+    "message": "Strength and gladness in the same room. A good day where feeling strong and feeling happy aren't at odds.",
+    "tags": [
+      "gladness",
+      "strength"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "good-191",
+    "emotionId": "good",
+    "body": "The blessing of the LORD, it maketh rich, and he addeth no sorrow with it.",
+    "modernText": "Yahweh’s blessing brings wealth, and he adds no trouble to it.",
+    "reference": "Proverbs 10:22",
+    "message": "The kind of rich that doesn't come with a catch. A good day as blessing without the usual sorrow tacked on.",
+    "tags": [
+      "blessing",
+      "rich"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "good-192",
+    "emotionId": "good",
+    "body": "He that handleth a matter wisely shall find good: and whoso trusteth in the LORD, happy is he.",
+    "modernText": "He who heeds the Word finds prosperity. Whoever trusts in Yahweh is blessed.",
+    "reference": "Proverbs 16:20",
+    "message": "Happiness linked to trust, something steadier than luck. A good day with roots that go deeper than circumstance.",
+    "tags": [
+      "trust",
+      "happy"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "good-193",
+    "emotionId": "good",
+    "body": "There is nothing better for a man, than that he should eat and drink, and that he should make his soul enjoy good in his labour. This also I saw, that it was from the hand of God.",
+    "modernText": "There is nothing better for a man than that he should eat and drink, and make his soul enjoy good in his labor. This also I saw, that it is from the hand of God.",
+    "reference": "Ecclesiastes 2:24",
+    "message": "From the Bible's biggest skeptic: there's nothing better than enjoying your work and your bread. High praise for an ordinary good day.",
+    "tags": [
+      "enjoy",
+      "gift"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "good-194",
+    "emotionId": "good",
+    "body": "Every man also to whom God hath given riches and wealth, and hath given him power to eat thereof, and to take his portion, and to rejoice in his labour; this is the gift of God.",
+    "modernText": "Every man also to whom God has given riches and wealth, and has given him power to eat of it, and to take his portion, and to rejoice in his labor—this is the gift of God.",
+    "reference": "Ecclesiastes 5:19",
+    "message": "The ability to actually enjoy what you have, called a gift. If today you can enjoy it, that's its own blessing.",
+    "tags": [
+      "rejoice",
+      "gift"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "good-195",
+    "emotionId": "good",
+    "body": "Then shalt thou delight thyself in the LORD; and I will cause thee to ride upon the high places of the earth, and feed thee with the heritage of Jacob thy father: for the mouth of the LORD hath spoken it.",
+    "modernText": "then you will delight yourself in Yahweh, and I will make you to ride on the high places of the earth, and I will feed you with the heritage of Jacob your father;” for Yahweh’s mouth has spoken it.",
+    "reference": "Isaiah 58:14",
+    "message": "Delight, the verse instructs, like joy is something you're allowed to choose. A good day as the easiest day to take it up on the offer.",
+    "tags": [
+      "delight",
+      "joy"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "good-196",
+    "emotionId": "good",
+    "body": "And of his fulness have all we received, and grace for grace.",
+    "modernText": "From his fullness we all received grace upon grace.",
+    "reference": "John 1:16",
+    "message": "Grace layered on grace, fullness received. A good day as one more wave of a kindness that keeps coming.",
+    "tags": [
+      "fulness",
+      "grace"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "good-197",
+    "emotionId": "good",
+    "body": "The thief cometh not, but for to steal, and to kill, and to destroy: I am come that they might have life, and that they might have it more abundantly.",
+    "modernText": "The thief only comes to steal, kill, and destroy. I came that they may have life, and may have it abundantly.",
+    "reference": "John 10:10",
+    "message": "Not just life, abundant life, is the stated goal. A good day as a glimpse of the fullness it's pointing at.",
+    "tags": [
+      "abundant",
+      "life"
+    ],
+    "tier": "free",
+    "weight": 9
+  },
+  {
+    "id": "good-198",
+    "emotionId": "good",
+    "body": "Nevertheless he left not himself without witness, in that he did good, and gave us rain from heaven, and fruitful seasons, filling our hearts with food and gladness.",
+    "modernText": "Yet he didn’t leave himself without witness, in that he did good and gave you rains from the sky and fruitful seasons, filling our hearts with food and gladness.”",
+    "reference": "Acts 14:17",
+    "message": "Hearts filled with food and gladness, the ordinary good of being fed and happy. A good day as evidence of that quiet kindness.",
+    "tags": [
+      "gladness",
+      "provision"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "good-199",
+    "emotionId": "good",
+    "body": "Blessed be the God and Father of our Lord Jesus Christ, who hath blessed us with all spiritual blessings in heavenly places in Christ:",
+    "modernText": "Blessed be the God and Father of our Lord Jesus Christ, who has blessed us with every spiritual blessing in the heavenly places in Christ,",
+    "reference": "Ephesians 1:3",
+    "message": "Blessed with all of them, the verse says, all. A good day as one of those blessings becoming something you can actually feel.",
+    "tags": [
+      "blessed",
+      "blessings"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "good-200",
+    "emotionId": "good",
+    "body": "Charge them that are rich in this world, that they be not highminded, nor trust in uncertain riches, but in the living God, who giveth us richly all things to enjoy;",
+    "modernText": "Charge those who are rich in this present world that they not be arrogant, nor have their hope set on the uncertainty of riches, but on the living God, who richly provides us with everything to enjoy;",
+    "reference": "1 Timothy 6:17",
+    "message": "Given richly, to enjoy, not just to endure. A good day as permission to actually take pleasure in the good things you've got.",
+    "tags": [
+      "enjoy",
+      "provision"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
     "id": "neutral-001",
     "emotionId": "neutral",
     "body": "I will praise thee; for I am fearfully and wonderfully made: marvellous are thy works; and that my soul knoweth right well.",
