@@ -6298,5 +6298,705 @@
     ],
     "tier": "premium",
     "weight": 7
+  },
+  {
+    "id": "stressed-251",
+    "emotionId": "stressed",
+    "body": "I cried unto the LORD with my voice, and he heard me out of his holy hill. Selah.",
+    "modernText": "I cry to Yahweh with my voice, and he answers me out of his holy hill.",
+    "reference": "Psalm 3:4",
+    "message": "A cry sent up and an answer sent back. Not shouting into the void, the verse insists something on the other end actually heard.",
+    "tags": [
+      "cry",
+      "heard"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "stressed-252",
+    "emotionId": "stressed",
+    "body": "I will not be afraid of ten thousands of people, that have set themselves against me round about.",
+    "modernText": "I will not be afraid of tens of thousands of people who have set themselves against me on every side.",
+    "reference": "Psalm 3:6",
+    "message": "Written by someone with a literal army after him. If he could sleep through that, maybe the thing you're bracing for is survivable too.",
+    "tags": [
+      "fear",
+      "courage"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "stressed-253",
+    "emotionId": "stressed",
+    "body": "But let all those that put their trust in thee rejoice: let them ever shout for joy, because thou defendest them: let them also that love thy name be joyful in thee.",
+    "modernText": "But let all those who take refuge in you rejoice. Let them always shout for joy, because you defend them. Let them also who love your name be joyful in you.",
+    "reference": "Psalm 5:11",
+    "message": "Trust that leads somewhere lighter than survival. Even now, there's room for a little gladness underneath the defending.",
+    "tags": [
+      "trust",
+      "joy"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "stressed-254",
+    "emotionId": "stressed",
+    "body": "The LORD hath heard my supplication; the LORD will receive my prayer.",
+    "modernText": "Yahweh has heard my supplication. Yahweh accepts my prayer.",
+    "reference": "Psalm 6:9",
+    "message": "Short and certain: the asking was heard. Sometimes you just need the confirmation that the message got through.",
+    "tags": [
+      "supplication",
+      "heard"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "stressed-255",
+    "emotionId": "stressed",
+    "body": "O LORD my God, in thee do I put my trust: save me from all them that persecute me, and deliver me:",
+    "modernText": "Yahweh, my God, I take refuge in you. Save me from all those who pursue me, and deliver me,",
+    "reference": "Psalm 7:1",
+    "message": "Trust and a plain cry for help in the same line. You don't have to pick between faith and admitting you need rescuing.",
+    "tags": [
+      "trust",
+      "refuge"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "stressed-256",
+    "emotionId": "stressed",
+    "body": "And they that know thy name will put their trust in thee: for thou, LORD, hast not forsaken them that seek thee.",
+    "modernText": "Those who know your name will put their trust in you, for you, Yahweh, have not forsaken those who seek you.",
+    "reference": "Psalm 9:10",
+    "message": "The ones who seek don't get abandoned. On a day you feel dropped by everyone, the seeking itself is met.",
+    "tags": [
+      "not forsaken",
+      "trust"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "stressed-257",
+    "emotionId": "stressed",
+    "body": "LORD, thou hast heard the desire of the humble: thou wilt prepare their heart, thou wilt cause thine ear to hear:",
+    "modernText": "Yahweh, you have heard the desire of the humble. You will prepare their heart. You will cause your ear to hear,",
+    "reference": "Psalm 10:17",
+    "message": "The quiet, unglamorous desire of someone who's low gets heard. You don't have to make it loud to be noticed.",
+    "tags": [
+      "humble",
+      "heard"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "stressed-258",
+    "emotionId": "stressed",
+    "body": "The LORD is the portion of mine inheritance and of my cup: thou maintainest my lot.",
+    "modernText": "Yahweh assigned my portion and my cup. You made my lot secure.",
+    "reference": "Psalm 16:5",
+    "message": "When everything feels uncertain, this names a portion that can't be lost. A share in something that isn't subject to the market.",
+    "tags": [
+      "portion",
+      "security"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "stressed-259",
+    "emotionId": "stressed",
+    "body": "Therefore my heart is glad, and my glory rejoiceth: my flesh also shall rest in hope.",
+    "modernText": "Therefore my heart is glad, and my tongue rejoices. My body shall also dwell in safety.",
+    "reference": "Psalm 16:9",
+    "message": "Even the body gets to rest, in hope, not exhaustion. The relaxing isn't denial, it's trust settling into your shoulders.",
+    "tags": [
+      "rest",
+      "hope"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "stressed-260",
+    "emotionId": "stressed",
+    "body": "He sent from above, he took me, he drew me out of many waters.",
+    "modernText": "He sent from on high. He took me. He drew me out of many waters.",
+    "reference": "Psalm 18:16",
+    "message": "Reached down from above and pulled you out of the deep. A rescue image for the days you feel like you're going under.",
+    "tags": [
+      "rescue",
+      "waters"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "stressed-261",
+    "emotionId": "stressed",
+    "body": "Lead me in thy truth, and teach me: for thou art the God of my salvation; on thee do I wait all the day.",
+    "modernText": "Guide me in your truth, and teach me, For you are the God of my salvation, I wait for you all day long.",
+    "reference": "Psalm 25:5",
+    "message": "Guidance and patience together: lead me, and I'll wait. For a day you don't know which way to move, permission to wait for it.",
+    "tags": [
+      "guidance",
+      "wait"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "stressed-262",
+    "emotionId": "stressed",
+    "body": "For thy lovingkindness is before mine eyes: and I have walked in thy truth.",
+    "modernText": "For your loving kindness is before my eyes. I have walked in your truth.",
+    "reference": "Psalm 26:3",
+    "message": "Keeping the kindness in view, on purpose, so it's the thing you're looking at instead of the pile. A deliberate change of focus.",
+    "tags": [
+      "lovingkindness",
+      "truth"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "stressed-263",
+    "emotionId": "stressed",
+    "body": "I will instruct thee and teach thee in the way which thou shalt go: I will guide thee with mine eye.",
+    "modernText": "I will instruct you and teach you in the way which you shall go. I will counsel you with my eye on you.",
+    "reference": "Psalm 32:8",
+    "message": "Guided with a look, closely, like someone watching to make sure you don't miss the turn. Not left to figure the route out alone.",
+    "tags": [
+      "guidance",
+      "instruction"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "stressed-264",
+    "emotionId": "stressed",
+    "body": "Behold, the eye of the LORD is upon them that fear him, upon them that hope in his mercy;",
+    "modernText": "Behold, Yahweh’s eye is on those who fear him, on those who hope in his loving kindness,",
+    "reference": "Psalm 33:18",
+    "message": "Watched over, not watched critically. An eye kept on you the way you'd keep an eye on someone you love in a crowd.",
+    "tags": [
+      "watched",
+      "mercy"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "stressed-265",
+    "emotionId": "stressed",
+    "body": "The eyes of the LORD are upon the righteous, and his ears are open unto their cry.",
+    "modernText": "Yahweh’s eyes are toward the righteous. His ears listen to their cry.",
+    "reference": "Psalm 34:15",
+    "message": "Eyes on you, ears open. Fully attended to, both seen and heard, on a day you feel like neither.",
+    "tags": [
+      "seen",
+      "heard"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "stressed-266",
+    "emotionId": "stressed",
+    "body": "How excellent is thy lovingkindness, O God! therefore the children of men put their trust under the shadow of thy wings.",
+    "modernText": "How precious is your loving kindness, God! The children of men take refuge under the shadow of your wings.",
+    "reference": "Psalm 36:7",
+    "message": "Back to the wing image, because it keeps being the right one. Somewhere small and covered to wait out the big thing.",
+    "tags": [
+      "shelter",
+      "trust"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "stressed-267",
+    "emotionId": "stressed",
+    "body": "But I am poor and needy; yet the Lord thinketh upon me: thou art my help and my deliverer; make no tarrying, O my God.",
+    "modernText": "But I am poor and needy. May the Lord think about me. You are my help and my deliverer. Don’t delay, my God.",
+    "reference": "Psalm 40:17",
+    "message": "Honest: I'm poor and needy. And steady: yet he thinks upon me. Being low doesn't move you off the radar.",
+    "tags": [
+      "needy",
+      "remembered"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "stressed-268",
+    "emotionId": "stressed",
+    "body": "Why art thou cast down, O my soul? and why art thou disquieted within me? hope thou in God: for I shall yet praise him, who is the health of my countenance, and my God.",
+    "modernText": "Why are you in despair, my soul? Why are you disturbed within me? Hope in God! For I shall still praise him, the saving help of my countenance, and my God.",
+    "reference": "Psalm 42:11",
+    "message": "Talking back to your own discouragement: why so down? Then pointing it somewhere, hope in God. A conversation with yourself worth having.",
+    "tags": [
+      "hope",
+      "cast down"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "stressed-269",
+    "emotionId": "stressed",
+    "body": "The LORD of hosts is with us; the God of Jacob is our refuge. Selah.",
+    "modernText": "Yahweh of Armies is with us. The God of Jacob is our refuge.",
+    "reference": "Psalm 46:7",
+    "message": "The refrain that closes the storm psalm: with us, and a refuge. Said twice in the chapter, like it's worth repeating until it lands.",
+    "tags": [
+      "presence",
+      "refuge"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "stressed-270",
+    "emotionId": "stressed",
+    "body": "The LORD of hosts is with us; the God of Jacob is our refuge. Selah.",
+    "modernText": "Yahweh of Armies is with us. The God of Jacob is our refuge.",
+    "reference": "Psalm 46:11",
+    "message": "The same line again, on purpose. Some truths you have to hear more than once before the shoulders finally drop.",
+    "tags": [
+      "presence",
+      "refuge"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "stressed-271",
+    "emotionId": "stressed",
+    "body": "For this God is our God for ever and ever: he will be our guide even unto death.",
+    "modernText": "For this God is our God forever and ever. He will be our guide even to death.",
+    "reference": "Psalm 48:14",
+    "message": "A guide not just for today's maze but the whole way through. The long view, for when you can't see past this week.",
+    "tags": [
+      "guide",
+      "steadfast"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "stressed-272",
+    "emotionId": "stressed",
+    "body": "When I cry unto thee, then shall mine enemies turn back: this I know; for God is for me.",
+    "modernText": "Then my enemies shall turn back in the day that I call. I know this: that God is for me.",
+    "reference": "Psalm 56:9",
+    "message": "Four stubborn words for a day it feels like everything's against you: God is for me. Known, even when it isn't felt.",
+    "tags": [
+      "God for me",
+      "confidence"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "stressed-273",
+    "emotionId": "stressed",
+    "body": "In God have I put my trust: I will not be afraid what man can do unto me.",
+    "modernText": "I have put my trust in God. I will not be afraid. What can man do to me?",
+    "reference": "Psalm 56:11",
+    "message": "A decision stated out loud, not a feeling waited on. The 'I will not be afraid' is a choice being made in real time.",
+    "tags": [
+      "trust",
+      "fear"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "stressed-274",
+    "emotionId": "stressed",
+    "body": "Give us help from trouble: for vain is the help of man.",
+    "modernText": "Give us help against the adversary, for the help of man is vain.",
+    "reference": "Psalm 60:11",
+    "message": "An honest line about the limits of people. Not cynical, just pointing you toward help that doesn't run out when others do.",
+    "tags": [
+      "help",
+      "trouble"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "stressed-275",
+    "emotionId": "stressed",
+    "body": "God hath spoken once; twice have I heard this; that power belongeth unto God.",
+    "modernText": "God has spoken once; twice I have heard this, that power belongs to God.",
+    "reference": "Psalm 62:11",
+    "message": "A quiet reminder of where the real power sits, which isn't in the thing stressing you or even fully in you. Takes some weight off the outcome.",
+    "tags": [
+      "power",
+      "God"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "stressed-276",
+    "emotionId": "stressed",
+    "body": "Which holdeth our soul in life, and suffereth not our feet to be moved.",
+    "modernText": "who preserves our life among the living, and doesn’t allow our feet to be moved.",
+    "reference": "Psalm 66:9",
+    "message": "Kept alive and kept steady, your feet not allowed to slip. A behind-the-scenes holding you don't notice until you look back.",
+    "tags": [
+      "held",
+      "steady"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "stressed-277",
+    "emotionId": "stressed",
+    "body": "Hear me, O LORD; for thy lovingkindness is good: turn unto me according to the multitude of thy tender mercies.",
+    "modernText": "Answer me, Yahweh, for your loving kindness is good. According to the multitude of your tender mercies, turn to me.",
+    "reference": "Psalm 69:16",
+    "message": "Leaning the whole request on the kindness being reliable. You can ask boldly when you trust the character of who you're asking.",
+    "tags": [
+      "lovingkindness",
+      "heard"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "stressed-278",
+    "emotionId": "stressed",
+    "body": "But I am poor and needy: make haste unto me, O God: thou art my help and my deliverer; O LORD, make no tarrying.",
+    "modernText": "But I am poor and needy. Come to me quickly, God. You are my help and my deliverer. Yahweh, don’t delay.",
+    "reference": "Psalm 70:5",
+    "message": "Permission to ask God to hurry. Urgency isn't irreverent here, it's just honest about how it feels right now.",
+    "tags": [
+      "needy",
+      "haste"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "stressed-279",
+    "emotionId": "stressed",
+    "body": "For thou, Lord, art good, and ready to forgive; and plenteous in mercy unto all them that call upon thee.",
+    "modernText": "For you, Lord, are good, and ready to forgive, abundant in loving kindness to all those who call on you.",
+    "reference": "Psalm 86:5",
+    "message": "Ready to forgive, not reluctant. On a day you're also carrying guilt about the stress, the posture here is open arms, not a lecture.",
+    "tags": [
+      "good",
+      "mercy"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "stressed-280",
+    "emotionId": "stressed",
+    "body": "He shall call upon me, and I will answer him: I will be with him in trouble; I will deliver him, and honour him.",
+    "modernText": "He will call on me, and I will answer him. I will be with him in trouble. I will deliver him, and honor him.",
+    "reference": "Psalm 91:15",
+    "message": "Not 'I'll keep you from trouble,' but 'I'll be with you in it.' Company in the trouble, which is often the thing that actually helps.",
+    "tags": [
+      "answered",
+      "presence"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "stressed-281",
+    "emotionId": "stressed",
+    "body": "Ye that love the LORD, hate evil: he preserveth the souls of his saints; he delivereth them out of the hand of the wicked.",
+    "modernText": "You who love Yahweh, hate evil! He preserves the souls of his saints. He delivers them out of the hand of the wicked.",
+    "reference": "Psalm 97:10",
+    "message": "The soul, the part of you that feels worn thin, specifically preserved. Guarded while you're too tired to guard it yourself.",
+    "tags": [
+      "preserved",
+      "kept"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "stressed-282",
+    "emotionId": "stressed",
+    "body": "For the LORD is good; his mercy is everlasting; and his truth endureth to all generations.",
+    "modernText": "For Yahweh is good. His loving kindness endures forever, his faithfulness to all generations.",
+    "reference": "Psalm 100:5",
+    "message": "A flat, steadying fact for an unsteady day: good, and the mercy doesn't expire. True regardless of how today went.",
+    "tags": [
+      "good",
+      "mercy"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "stressed-283",
+    "emotionId": "stressed",
+    "body": "Bless the LORD, O my soul, and forget not all his benefits:",
+    "modernText": "Praise Yahweh, my soul, and don’t forget all his benefits,",
+    "reference": "Psalm 103:2",
+    "message": "A nudge against the way stress erases the good. Remember the benefits, it says, because anxiety has a short memory for them.",
+    "tags": [
+      "benefits",
+      "gratitude"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "stressed-284",
+    "emotionId": "stressed",
+    "body": "Seek the LORD, and his strength: seek his face evermore.",
+    "modernText": "Seek Yahweh and his strength. Seek his face forever more.",
+    "reference": "Psalm 105:4",
+    "message": "Seek the strength, not just the solution. The resource you're low on is available, and the finding starts with turning toward it.",
+    "tags": [
+      "seek",
+      "strength"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "stressed-285",
+    "emotionId": "stressed",
+    "body": "The LORD preserveth the simple: I was brought low, and he helped me.",
+    "modernText": "Yahweh preserves the simple. I was brought low, and he saved me.",
+    "reference": "Psalm 116:6",
+    "message": "The whole arc in one line: I was brought low, and he helped me. The low part is named, and so is the rescue.",
+    "tags": [
+      "brought low",
+      "helped"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "stressed-286",
+    "emotionId": "stressed",
+    "body": "Thou hast thrust sore at me that I might fall: but the LORD helped me.",
+    "modernText": "You pushed me back hard, to make me fall, but Yahweh helped me.",
+    "reference": "Psalm 118:13",
+    "message": "Honest that you were pushed hard, nearly down. And just as honest that something caught you before the fall finished.",
+    "tags": [
+      "falling",
+      "helped"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "stressed-287",
+    "emotionId": "stressed",
+    "body": "I shall not die, but live, and declare the works of the LORD.",
+    "modernText": "I will not die, but live, and declare Yah’s works.",
+    "reference": "Psalm 118:17",
+    "message": "A defiant little line for a day that feels like too much: not die, but live. You're going to get through this one.",
+    "tags": [
+      "survival",
+      "hope"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "stressed-288",
+    "emotionId": "stressed",
+    "body": "This is my comfort in my affliction: for thy word hath quickened me.",
+    "modernText": "This is my comfort in my affliction, for your word has revived me.",
+    "reference": "Psalm 119:50",
+    "message": "Comfort found inside the affliction, not after it ends. Something to hold while it's still hard, not just a promise for later.",
+    "tags": [
+      "comfort",
+      "affliction"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "stressed-289",
+    "emotionId": "stressed",
+    "body": "Let, I pray thee, thy merciful kindness be for my comfort, according to thy word unto thy servant.",
+    "modernText": "Please let your loving kindness be for my comfort, according to your word to your servant.",
+    "reference": "Psalm 119:76",
+    "message": "A simple ask: let the kindness be what comforts me. Permission to want comfort, and to ask for it plainly.",
+    "tags": [
+      "comfort",
+      "kindness"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "stressed-290",
+    "emotionId": "stressed",
+    "body": "I wait for the LORD, my soul doth wait, and in his word do I hope.",
+    "modernText": "I wait for Yahweh. My soul waits. I hope in his word.",
+    "reference": "Psalm 130:5",
+    "message": "Waiting said twice, because waiting is the hard part. The verse sits in it with you instead of rushing you past it.",
+    "tags": [
+      "wait",
+      "hope"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "stressed-291",
+    "emotionId": "stressed",
+    "body": "Whither shall I go from thy spirit? or whither shall I flee from thy presence?",
+    "modernText": "Where could I go from your Spirit? Or where could I flee from your presence?",
+    "reference": "Psalm 139:7",
+    "message": "A question with a relieving answer: there's nowhere you can go where you'd be out of reach. Even the hiding version of you is still accompanied.",
+    "tags": [
+      "presence",
+      "everywhere"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "stressed-292",
+    "emotionId": "stressed",
+    "body": "Even there shall thy hand lead me, and thy right hand shall hold me.",
+    "modernText": "even there your hand will lead me, and your right hand will hold me.",
+    "reference": "Psalm 139:10",
+    "message": "Even in the furthest, darkest place you can imagine, the hand still reaches, still leads, still holds. No corner is out of range.",
+    "tags": [
+      "led",
+      "held"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "stressed-293",
+    "emotionId": "stressed",
+    "body": "Teach me to do thy will; for thou art my God: thy spirit is good; lead me into the land of uprightness.",
+    "modernText": "Teach me to do your will, for you are my God. Your Spirit is good. Lead me in the land of uprightness.",
+    "reference": "Psalm 143:10",
+    "message": "When you can't tell the right move from the anxious one, this asks for the way to be made plain. Guidance for a foggy head.",
+    "tags": [
+      "guidance",
+      "will"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "stressed-294",
+    "emotionId": "stressed",
+    "body": "Even the youths shall faint and be weary, and the young men shall utterly fall:",
+    "modernText": "Even the youths faint and get weary, and the young men utterly fall;",
+    "reference": "Isaiah 40:30",
+    "message": "Even the strong, the young, the ones who seem to have endless energy, run out. Your tiredness isn't a character flaw, it's the human default.",
+    "tags": [
+      "faint",
+      "weary"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "stressed-295",
+    "emotionId": "stressed",
+    "body": "When the poor and needy seek water, and there is none, and their tongue faileth for thirst, I the LORD will hear them, I the God of Israel will not forsake them.",
+    "modernText": "The poor and needy seek water, and there is none. Their tongue fails for thirst. I, Yahweh, will answer them. I, the God of Israel, will not forsake them.",
+    "reference": "Isaiah 41:17",
+    "message": "For the parched, searching feeling, this promises the thirst gets answered, not ignored. Need as the thing that gets you heard.",
+    "tags": [
+      "need",
+      "heard"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "stressed-296",
+    "emotionId": "stressed",
+    "body": "A bruised reed shall he not break, and the smoking flax shall he not quench: he shall bring forth judgment unto truth.",
+    "modernText": "He won’t break a bruised reed. He won’t quench a dimly burning wick. He will faithfully bring justice.",
+    "reference": "Isaiah 42:3",
+    "message": "The gentlest verse for the most fragile day. Already bent, barely flickering, and the response isn't to snap you, it's to be careful with you.",
+    "tags": [
+      "gentleness",
+      "fragile"
+    ],
+    "tier": "free",
+    "weight": 9
+  },
+  {
+    "id": "stressed-297",
+    "emotionId": "stressed",
+    "body": "To appoint unto them that mourn in Zion, to give unto them beauty for ashes, the oil of joy for mourning, the garment of praise for the spirit of heaviness; that they might be called trees of righteousness, the planting of the LORD, that he might be glorified.",
+    "modernText": "to provide for those who mourn in Zion, to give to them a garland for ashes, the oil of joy for mourning, the garment of praise for the spirit of heaviness, that they may be called trees of righteousness, the planting of Yahweh, that he may be glorified.",
+    "reference": "Isaiah 61:3",
+    "message": "A promise of exchange, not erasure. The ashes are real, and they get traded for something, not just swept away and forgotten.",
+    "tags": [
+      "beauty",
+      "ashes"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "stressed-298",
+    "emotionId": "stressed",
+    "body": "Fear ye not therefore, ye are of more value than many sparrows.",
+    "modernText": "Therefore don’t be afraid. You are of more value than many sparrows.",
+    "reference": "Matthew 10:31",
+    "message": "A quiet resizing of your worth on a day it feels low. More valuable than you're currently feeling, by a lot.",
+    "tags": [
+      "value",
+      "fear"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "stressed-299",
+    "emotionId": "stressed",
+    "body": "For which cause we faint not; but though our outward man perish, yet the inward man is renewed day by day.",
+    "modernText": "Therefore we don’t faint, but though our outward man is decaying, yet our inward man is renewed day by day.",
+    "reference": "2 Corinthians 4:16",
+    "message": "The outside might be worn down by all of it, but something inside gets topped back up daily. You're not just depleting, you're also being refilled.",
+    "tags": [
+      "renewal",
+      "endurance"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "stressed-300",
+    "emotionId": "stressed",
+    "body": "Faithful is he that calleth you, who also will do it.",
+    "modernText": "He who calls you is faithful, who will also do it.",
+    "reference": "1 Thessalonians 5:24",
+    "message": "Whatever you've been called to and feel unequal to, this says the one who called will also do it. The follow-through isn't all on you.",
+    "tags": [
+      "faithful",
+      "sure"
+    ],
+    "tier": "premium",
+    "weight": 7
   }
 ]
