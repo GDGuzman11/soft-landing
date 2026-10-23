@@ -12,6 +12,7 @@ import ReAnimated, {
 } from 'react-native-reanimated'
 import { captureRef } from 'react-native-view-shot'
 import { getSavedMessages, deleteSavedMessage, getSettings, getCheckIns } from '@/storage/storage'
+import { getVerseById } from '@/messages/selector'
 import { hasTodayCheckIn } from '@/utils/streak'
 import { V1_UNLOCK_ALL } from '@/constants'
 import {
@@ -109,6 +110,11 @@ async function lookupVerse(
   messageId: string,
   emotionId: string
 ): Promise<{ body: string; reference: string }> {
+  // Primary: the bundled verse library (offline, covers all current saves).
+  const v = getVerseById(messageId)
+  if (v) return { body: v.body, reference: v.reference ?? '' }
+  // Fallback: the legacy verse_pool cache, for letters saved before the
+  // bundled-verses migration (ids there were Firestore doc ids).
   try {
     const cached = await AsyncStorage.getItem(`@soft_landing/verse_pool/${emotionId}`)
     if (cached) {

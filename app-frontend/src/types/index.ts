@@ -81,6 +81,8 @@ export interface Message {
   modernText?: string;
   /** Scripture reference for the verse (e.g. "Psalm 34:18"). */
   reference?: string;
+  /** Pre-written reflection tying this verse to its emotion, shown beneath the verse. */
+  message?: string;
   /** Free-form tags used for filtering and analytics (e.g. `grief`, `work`). */
   tags: string[];
   /** Tier required to receive this message. */

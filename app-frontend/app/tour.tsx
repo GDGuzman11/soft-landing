@@ -217,7 +217,7 @@ export default function TourScreen() {
       }}>
         {/* Primary — Start the Tour */}
         <Pressable
-          onPress={() => router.push({ pathname: '/check-in/emotions', params: { tourMode: 'true' } })}
+          onPress={() => router.push({ pathname: '/check-in', params: { tourMode: 'true' } })}
           accessibilityRole="button"
           accessibilityLabel="Start the interactive tour"
           style={({ pressed }) => ({

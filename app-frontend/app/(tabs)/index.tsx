@@ -164,7 +164,7 @@ export default function HomeScreen() {
   function handleCheckIn() {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)
     logAnalyticsEvent('check_in_started')
-    router.push('/check-in/emotions')
+    router.push('/check-in')
   }
 
   return (

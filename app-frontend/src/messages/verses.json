@@ -1,0 +1,3502 @@
+[
+  {
+    "id": "good-001",
+    "emotionId": "good",
+    "body": "This is the day which the LORD hath made; we will rejoice and be glad in it.",
+    "modernText": "This is the day that Yahweh has made. We will rejoice and be glad in it!",
+    "reference": "Psalm 118:24",
+    "message": "",
+    "tags": [
+      "rejoice",
+      "day"
+    ],
+    "tier": "free",
+    "weight": 10
+  },
+  {
+    "id": "good-002",
+    "emotionId": "good",
+    "body": "Enter into his gates with thanksgiving, and into his courts with praise: be thankful unto him, and bless his name.",
+    "modernText": "Enter into his gates with thanksgiving, and into his courts with praise. Give thanks to him, and bless his name.",
+    "reference": "Psalm 100:4",
+    "message": "",
+    "tags": [
+      "thanksgiving",
+      "praise"
+    ],
+    "tier": "free",
+    "weight": 10
+  },
+  {
+    "id": "good-003",
+    "emotionId": "good",
+    "body": "For the LORD is good; his mercy is everlasting; and his truth endureth to all generations.",
+    "modernText": "For Yahweh is good. His loving kindness endures forever, his faithfulness to all generations.",
+    "reference": "Psalm 100:5",
+    "message": "",
+    "tags": [
+      "good",
+      "love"
+    ],
+    "tier": "free",
+    "weight": 10
+  },
+  {
+    "id": "good-004",
+    "emotionId": "good",
+    "body": "Rejoice in the Lord alway: and again I say, Rejoice.",
+    "modernText": "Rejoice in the Lord always! Again I will say, “Rejoice!”",
+    "reference": "Philippians 4:4",
+    "message": "",
+    "tags": [
+      "rejoice",
+      "always"
+    ],
+    "tier": "free",
+    "weight": 10
+  },
+  {
+    "id": "good-005",
+    "emotionId": "good",
+    "body": "In every thing give thanks: for this is the will of God in Christ Jesus concerning you.",
+    "modernText": "In everything give thanks, for this is the will of God in Christ Jesus toward you.",
+    "reference": "1 Thessalonians 5:18",
+    "message": "",
+    "tags": [
+      "thanksgiving",
+      "always"
+    ],
+    "tier": "free",
+    "weight": 9
+  },
+  {
+    "id": "good-006",
+    "emotionId": "good",
+    "body": "Every good gift and every perfect gift is from above, and cometh down from the Father of lights, with whom is no variableness, neither shadow of turning.",
+    "modernText": "Every good gift and every perfect gift is from above, coming down from the Father of lights, with whom can be no variation, nor turning shadow.",
+    "reference": "James 1:17",
+    "message": "",
+    "tags": [
+      "gift",
+      "perfect"
+    ],
+    "tier": "free",
+    "weight": 9
+  },
+  {
+    "id": "good-007",
+    "emotionId": "good",
+    "body": "The LORD is my strength and my shield; my heart trusted in him, and I am helped: therefore my heart greatly rejoiceth; and with my song will I praise him.",
+    "modernText": "Yahweh is my strength and my shield. My heart has trusted in him, and I am helped. Therefore my heart greatly rejoices. With my song I will thank him.",
+    "reference": "Psalm 28:7",
+    "message": "",
+    "tags": [
+      "rejoice",
+      "trust"
+    ],
+    "tier": "free",
+    "weight": 9
+  },
+  {
+    "id": "good-008",
+    "emotionId": "good",
+    "body": "Thou wilt shew me the path of life: in thy presence is fulness of joy; at thy right hand there are pleasures for evermore.",
+    "modernText": "You will show me the path of life. In your presence is fullness of joy. In your right hand there are pleasures forever more.",
+    "reference": "Psalm 16:11",
+    "message": "",
+    "tags": [
+      "joy",
+      "presence"
+    ],
+    "tier": "free",
+    "weight": 9
+  },
+  {
+    "id": "good-009",
+    "emotionId": "good",
+    "body": "Then he said unto them, Go your way, eat the fat, and drink the sweet, and send portions unto them for whom nothing is prepared: for this day is holy unto our LORD: neither be ye sorry; for the joy of the LORD is your strength.",
+    "modernText": "Then he said to them, “Go your way. Eat the fat, drink the sweet, and send portions to him for whom nothing is prepared, for today is holy to our Lord. Don’t be grieved, for the joy of Yahweh is your strength.”",
+    "reference": "Nehemiah 8:10",
+    "message": "",
+    "tags": [
+      "joy",
+      "strength"
+    ],
+    "tier": "free",
+    "weight": 9
+  },
+  {
+    "id": "good-010",
+    "emotionId": "good",
+    "body": "And we know that all things work together for good to them that love God, to them who are the called according to his purpose.",
+    "modernText": "We know that all things work together for good for those who love God, for those who are called according to his purpose.",
+    "reference": "Romans 8:28",
+    "message": "",
+    "tags": [
+      "good",
+      "purpose"
+    ],
+    "tier": "free",
+    "weight": 9
+  },
+  {
+    "id": "good-011",
+    "emotionId": "good",
+    "body": "These things I have spoken unto you, that in me ye might have peace. In the world ye shall have tribulation: but be of good cheer; I have overcome the world.",
+    "modernText": "I have told you these things, that in me you may have peace. In the world you have trouble; but cheer up! I have overcome the world.”",
+    "reference": "John 16:33",
+    "message": "",
+    "tags": [
+      "peace",
+      "overcome"
+    ],
+    "tier": "free",
+    "weight": 9
+  },
+  {
+    "id": "good-012",
+    "emotionId": "good",
+    "body": "O taste and see that the LORD is good: blessed is the man that trusteth in him.",
+    "modernText": "Oh taste and see that Yahweh is good. Blessed is the man who takes refuge in him.",
+    "reference": "Psalm 34:8",
+    "message": "",
+    "tags": [
+      "taste",
+      "good"
+    ],
+    "tier": "free",
+    "weight": 9
+  },
+  {
+    "id": "good-013",
+    "emotionId": "good",
+    "body": "They shall abundantly utter the memory of thy great goodness, and shall sing of thy righteousness.",
+    "modernText": "They will utter the memory of your great goodness, and will sing of your righteousness.",
+    "reference": "Psalm 145:7",
+    "message": "",
+    "tags": [
+      "goodness",
+      "sing"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "good-014",
+    "emotionId": "good",
+    "body": "O give thanks unto the LORD, for he is good: for his mercy endureth for ever.",
+    "modernText": "Give thanks to Yahweh, for he is good, for his loving kindness endures forever.",
+    "reference": "Psalm 107:1",
+    "message": "",
+    "tags": [
+      "good",
+      "love"
+    ],
+    "tier": "free",
+    "weight": 9
+  },
+  {
+    "id": "good-015",
+    "emotionId": "good",
+    "body": "How excellent is thy lovingkindness, O God! therefore the children of men put their trust under the shadow of thy wings.",
+    "modernText": "How precious is your loving kindness, God! The children of men take refuge under the shadow of your wings.",
+    "reference": "Psalm 36:7",
+    "message": "",
+    "tags": [
+      "love",
+      "wings"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "good-016",
+    "emotionId": "good",
+    "body": "The LORD thy God in the midst of thee is mighty; he will save, he will rejoice over thee with joy; he will rest in his love, he will joy over thee with singing.",
+    "modernText": "Yahweh, your God, is among you, a mighty one who will save. He will rejoice over you with joy. He will calm you in his love. He will rejoice over you with singing.",
+    "reference": "Zephaniah 3:17",
+    "message": "",
+    "tags": [
+      "singing",
+      "delight"
+    ],
+    "tier": "free",
+    "weight": 9
+  },
+  {
+    "id": "good-017",
+    "emotionId": "good",
+    "body": "Now unto him that is able to do exceeding abundantly above all that we ask or think, according to the power that worketh in us,",
+    "modernText": "Now to him who is able to do exceedingly abundantly above all that we ask or think, according to the power that works in us,",
+    "reference": "Ephesians 3:20",
+    "message": "",
+    "tags": [
+      "abundantly",
+      "ask"
+    ],
+    "tier": "free",
+    "weight": 9
+  },
+  {
+    "id": "good-018",
+    "emotionId": "good",
+    "body": "And God is able to make all grace abound toward you; that ye, always having all sufficiency in all things, may abound to every good work:",
+    "modernText": "And God is able to make all grace abound to you, that you, always having all sufficiency in everything, may abound to every good work.",
+    "reference": "2 Corinthians 9:8",
+    "message": "",
+    "tags": [
+      "grace",
+      "abundance"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "good-019",
+    "emotionId": "good",
+    "body": "Behold, God is my salvation; I will trust, and not be afraid: for the LORD JEHOVAH is my strength and my song; he also is become my salvation.",
+    "modernText": "Behold, God is my salvation. I will trust, and will not be afraid; for Yah, Yahweh, is my strength and song; and he has become my salvation.”",
+    "reference": "Isaiah 12:2",
+    "message": "",
+    "tags": [
+      "trust",
+      "salvation"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "good-020",
+    "emotionId": "good",
+    "body": "And in that day shall ye say, Praise the LORD, call upon his name, declare his doings among the people, make mention that his name is exalted.",
+    "modernText": "In that day you will say, “Give thanks to Yahweh! Call on his name. Declare his doings among the peoples. Proclaim that his name is exalted!",
+    "reference": "Isaiah 12:4",
+    "message": "",
+    "tags": [
+      "name",
+      "declare"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "good-021",
+    "emotionId": "good",
+    "body": "O sing unto the LORD a new song: sing unto the LORD, all the earth.",
+    "modernText": "Sing to Yahweh a new song! Sing to Yahweh, all the earth.",
+    "reference": "Psalm 96:1",
+    "message": "",
+    "tags": [
+      "sing",
+      "new"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "good-022",
+    "emotionId": "good",
+    "body": "Sing unto the LORD, bless his name; shew forth his salvation from day to day.",
+    "modernText": "Sing to Yahweh! Bless his name! Proclaim his salvation from day to day!",
+    "reference": "Psalm 96:2",
+    "message": "",
+    "tags": [
+      "bless",
+      "salvation"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "good-023",
+    "emotionId": "good",
+    "body": "Yet I will rejoice in the LORD, I will joy in the God of my salvation.",
+    "modernText": "yet I will rejoice in Yahweh. I will be joyful in the God of my salvation!",
+    "reference": "Habakkuk 3:18",
+    "message": "",
+    "tags": [
+      "rejoice",
+      "joy"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "good-024",
+    "emotionId": "good",
+    "body": "Let every thing that hath breath praise the LORD. Praise ye the LORD.",
+    "modernText": "Let everything that has breath praise Yah! Praise Yah!",
+    "reference": "Psalm 150:6",
+    "message": "",
+    "tags": [
+      "praise",
+      "breath"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "good-025",
+    "emotionId": "good",
+    "body": "Whom having not seen, ye love; in whom, though now ye see him not, yet believing, ye rejoice with joy unspeakable and full of glory:",
+    "modernText": "whom, not having known, you love. In him, though now you don’t see him, yet believing, you rejoice greatly with joy that is unspeakable and full of glory,",
+    "reference": "1 Peter 1:8",
+    "message": "",
+    "tags": [
+      "joy",
+      "believing"
+    ],
+    "tier": "free",
+    "weight": 9
+  },
+  {
+    "id": "good-026",
+    "emotionId": "good",
+    "body": "The heavens declare the glory of God; and the firmament sheweth his handywork.",
+    "modernText": "The heavens declare the glory of God. The expanse shows his handiwork.",
+    "reference": "Psalm 19:1",
+    "message": "",
+    "tags": [
+      "glory",
+      "creation"
+    ],
+    "tier": "premium",
+    "weight": 9
+  },
+  {
+    "id": "good-027",
+    "emotionId": "good",
+    "body": "The statutes of the LORD are right, rejoicing the heart: the commandment of the LORD is pure, enlightening the eyes.",
+    "modernText": "Yahweh’s precepts are right, rejoicing the heart. Yahweh’s commandment is pure, enlightening the eyes.",
+    "reference": "Psalm 19:8",
+    "message": "",
+    "tags": [
+      "heart",
+      "pure"
+    ],
+    "tier": "premium",
+    "weight": 8
+  },
+  {
+    "id": "good-028",
+    "emotionId": "good",
+    "body": "For thou hast made him most blessed for ever: thou hast made him exceeding glad with thy countenance.",
+    "modernText": "For you make him most blessed forever. You make him glad with joy in your presence.",
+    "reference": "Psalm 21:6",
+    "message": "",
+    "tags": [
+      "joy",
+      "presence"
+    ],
+    "tier": "premium",
+    "weight": 8
+  },
+  {
+    "id": "good-029",
+    "emotionId": "good",
+    "body": "And not only so, but we also joy in God through our Lord Jesus Christ, by whom we have now received the atonement.",
+    "modernText": "Not only so, but we also rejoice in God through our Lord Jesus Christ, through whom we have now received the reconciliation.",
+    "reference": "Romans 5:11",
+    "message": "",
+    "tags": [
+      "rejoice",
+      "reconciled"
+    ],
+    "tier": "premium",
+    "weight": 8
+  },
+  {
+    "id": "good-030",
+    "emotionId": "good",
+    "body": "Finally, brethren, whatsoever things are true, whatsoever things are honest, whatsoever things are just, whatsoever things are pure, whatsoever things are lovely, whatsoever things are of good report; if there be any virtue, and if there be any praise, think on these things.",
+    "modernText": "Finally, brothers, whatever things are true, whatever things are honorable, whatever things are just, whatever things are pure, whatever things are lovely, whatever things are of good report: if there is any virtue and if there is any praise, think about these things.",
+    "reference": "Philippians 4:8",
+    "message": "",
+    "tags": [
+      "think",
+      "good"
+    ],
+    "tier": "premium",
+    "weight": 9
+  },
+  {
+    "id": "good-031",
+    "emotionId": "good",
+    "body": "And whatsoever ye do in word or deed, do all in the name of the Lord Jesus, giving thanks to God and the Father by him.",
+    "modernText": "Whatever you do, in word or in deed, do all in the name of the Lord Jesus, giving thanks to God the Father, through him.",
+    "reference": "Colossians 3:17",
+    "message": "",
+    "tags": [
+      "thanksgiving",
+      "name"
+    ],
+    "tier": "premium",
+    "weight": 8
+  },
+  {
+    "id": "good-032",
+    "emotionId": "good",
+    "body": "I will praise thee, O LORD, with my whole heart; I will shew forth all thy marvellous works.",
+    "modernText": "I will give thanks to Yahweh with my whole heart. I will tell of all your marvelous works.",
+    "reference": "Psalm 9:1",
+    "message": "",
+    "tags": [
+      "praise",
+      "wonderful"
+    ],
+    "tier": "premium",
+    "weight": 8
+  },
+  {
+    "id": "good-033",
+    "emotionId": "good",
+    "body": "These things have I spoken unto you, that my joy might remain in you, and that your joy might be full.",
+    "modernText": "I have spoken these things to you, that my joy may remain in you, and that your joy may be made full.",
+    "reference": "John 15:11",
+    "message": "",
+    "tags": [
+      "joy",
+      "full"
+    ],
+    "tier": "premium",
+    "weight": 9
+  },
+  {
+    "id": "good-034",
+    "emotionId": "good",
+    "body": "O give thanks unto the LORD; for he is good; for his mercy endureth for ever.",
+    "modernText": "Oh give thanks to Yahweh, for he is good, for his loving kindness endures forever.",
+    "reference": "1 Chronicles 16:34",
+    "message": "",
+    "tags": [
+      "good",
+      "endures"
+    ],
+    "tier": "premium",
+    "weight": 8
+  },
+  {
+    "id": "good-035",
+    "emotionId": "good",
+    "body": "Thou crownest the year with thy goodness; and thy paths drop fatness.",
+    "modernText": "You crown the year with your bounty. Your carts overflow with abundance.",
+    "reference": "Psalm 65:11",
+    "message": "",
+    "tags": [
+      "goodness",
+      "crown"
+    ],
+    "tier": "premium",
+    "weight": 8
+  },
+  {
+    "id": "good-036",
+    "emotionId": "good",
+    "body": "Blessed be the Lord, who daily loadeth us with benefits, even the God of our salvation. Selah.",
+    "modernText": "Blessed be the Lord, who daily bears our burdens, even the God who is our salvation.",
+    "reference": "Psalm 68:19",
+    "message": "",
+    "tags": [
+      "blessed",
+      "bears"
+    ],
+    "tier": "premium",
+    "weight": 8
+  },
+  {
+    "id": "good-037",
+    "emotionId": "good",
+    "body": "For the LORD God is a sun and shield: the LORD will give grace and glory: no good thing will he withhold from them that walk uprightly.",
+    "modernText": "For Yahweh God is a sun and a shield. Yahweh will give grace and glory. He withholds no good thing from those who walk blamelessly.",
+    "reference": "Psalm 84:11",
+    "message": "",
+    "tags": [
+      "sun",
+      "good"
+    ],
+    "tier": "premium",
+    "weight": 8
+  },
+  {
+    "id": "good-038",
+    "emotionId": "good",
+    "body": "For since the beginning of the world men have not heard, nor perceived by the ear, neither hath the eye seen, O God, beside thee, what he hath prepared for him that waiteth for him.",
+    "modernText": "For from of old men have not heard, nor perceived by the ear, nor has the eye seen a God besides you, who works for him who waits for him.",
+    "reference": "Isaiah 64:4",
+    "message": "",
+    "tags": [
+      "seen",
+      "waits"
+    ],
+    "tier": "premium",
+    "weight": 8
+  },
+  {
+    "id": "good-039",
+    "emotionId": "good",
+    "body": "Know therefore that the LORD thy God, he is God, the faithful God, which keepeth covenant and mercy with them that love him and keep his commandments to a thousand generations;",
+    "modernText": "Know therefore that Yahweh your God himself is God, the faithful God, who keeps covenant and loving kindness with them who love him and keep his commandments to a thousand generations,",
+    "reference": "Deuteronomy 7:9",
+    "message": "",
+    "tags": [
+      "faithful",
+      "love"
+    ],
+    "tier": "premium",
+    "weight": 8
+  },
+  {
+    "id": "good-040",
+    "emotionId": "good",
+    "body": "The LORD is good unto them that wait for him, to the soul that seeketh him.",
+    "modernText": "Yahweh is good to those who wait for him, to the soul who seeks him.",
+    "reference": "Lamentations 3:25",
+    "message": "",
+    "tags": [
+      "good",
+      "waiting"
+    ],
+    "tier": "premium",
+    "weight": 8
+  },
+  {
+    "id": "good-041",
+    "emotionId": "good",
+    "body": "Thou hast made known to me the ways of life; thou shalt make me full of joy with thy countenance.",
+    "modernText": "You made known to me the ways of life. You will make me full of gladness with your presence.’",
+    "reference": "Acts 2:28",
+    "message": "",
+    "tags": [
+      "joy",
+      "presence"
+    ],
+    "tier": "premium",
+    "weight": 8
+  },
+  {
+    "id": "good-042",
+    "emotionId": "good",
+    "body": "And God saw every thing that he had made, and, behold, it was very good. And the evening and the morning were the sixth day.",
+    "modernText": "God saw everything that he had made, and, behold, it was very good. There was evening and there was morning, a sixth day.",
+    "reference": "Genesis 1:31",
+    "message": "",
+    "tags": [
+      "very good",
+      "creation"
+    ],
+    "tier": "premium",
+    "weight": 8
+  },
+  {
+    "id": "good-043",
+    "emotionId": "good",
+    "body": "Oh how great is thy goodness, which thou hast laid up for them that fear thee; which thou hast wrought for them that trust in thee before the sons of men!",
+    "modernText": "Oh how great is your goodness, which you have laid up for those who fear you, which you have worked for those who take refuge in you, before the sons of men!",
+    "reference": "Psalm 31:19",
+    "message": "",
+    "tags": [
+      "goodness",
+      "stored"
+    ],
+    "tier": "premium",
+    "weight": 8
+  },
+  {
+    "id": "good-044",
+    "emotionId": "good",
+    "body": "For of him, and through him, and to him, are all things: to whom be glory for ever. Amen.",
+    "modernText": "For of him, and through him, and to him are all things. To him be the glory for ever! Amen.",
+    "reference": "Romans 11:36",
+    "message": "",
+    "tags": [
+      "glory",
+      "all"
+    ],
+    "tier": "premium",
+    "weight": 8
+  },
+  {
+    "id": "good-045",
+    "emotionId": "good",
+    "body": "Surely goodness and mercy shall follow me all the days of my life: and I will dwell in the house of the LORD for ever.",
+    "modernText": "Surely goodness and loving kindness shall follow me all the days of my life, and I will dwell in Yahweh’s house forever.",
+    "reference": "Psalm 23:6",
+    "message": "",
+    "tags": [
+      "goodness",
+      "mercy"
+    ],
+    "tier": "premium",
+    "weight": 9
+  },
+  {
+    "id": "good-046",
+    "emotionId": "good",
+    "body": "The LORD is good to all: and his tender mercies are over all his works.",
+    "modernText": "Yahweh is good to all. His tender mercies are over all his works.",
+    "reference": "Psalm 145:9",
+    "message": "",
+    "tags": [
+      "good",
+      "mercies"
+    ],
+    "tier": "premium",
+    "weight": 8
+  },
+  {
+    "id": "good-047",
+    "emotionId": "good",
+    "body": "Bless the LORD, O my soul: and all that is within me, bless his holy name.",
+    "modernText": "Praise Yahweh, my soul! All that is within me, praise his holy name!",
+    "reference": "Psalm 103:1",
+    "message": "",
+    "tags": [
+      "praise",
+      "soul"
+    ],
+    "tier": "premium",
+    "weight": 9
+  },
+  {
+    "id": "good-048",
+    "emotionId": "good",
+    "body": "Bless the LORD, O my soul, and forget not all his benefits:",
+    "modernText": "Praise Yahweh, my soul, and don’t forget all his benefits,",
+    "reference": "Psalm 103:2",
+    "message": "",
+    "tags": [
+      "forget not",
+      "benefits"
+    ],
+    "tier": "premium",
+    "weight": 9
+  },
+  {
+    "id": "good-049",
+    "emotionId": "good",
+    "body": "Who forgiveth all thine iniquities; who healeth all thy diseases;",
+    "modernText": "who forgives all your sins, who heals all your diseases,",
+    "reference": "Psalm 103:3",
+    "message": "",
+    "tags": [
+      "forgiveness",
+      "healing"
+    ],
+    "tier": "premium",
+    "weight": 8
+  },
+  {
+    "id": "good-050",
+    "emotionId": "good",
+    "body": "Who redeemeth thy life from destruction; who crowneth thee with lovingkindness and tender mercies;",
+    "modernText": "who redeems your life from destruction, who crowns you with loving kindness and tender mercies,",
+    "reference": "Psalm 103:4",
+    "message": "",
+    "tags": [
+      "love",
+      "crown"
+    ],
+    "tier": "premium",
+    "weight": 8
+  },
+  {
+    "id": "neutral-001",
+    "emotionId": "neutral",
+    "body": "I will praise thee; for I am fearfully and wonderfully made: marvellous are thy works; and that my soul knoweth right well.",
+    "modernText": "I will give thanks to you, for I am fearfully and wonderfully made. Your works are wonderful. My soul knows that very well.",
+    "reference": "Psalm 139:14",
+    "message": "",
+    "tags": [
+      "fearfully",
+      "made"
+    ],
+    "tier": "free",
+    "weight": 10
+  },
+  {
+    "id": "neutral-002",
+    "emotionId": "neutral",
+    "body": "For I know the thoughts that I think toward you, saith the LORD, thoughts of peace, and not of evil, to give you an expected end.",
+    "modernText": "For I know the thoughts that I think toward you,” says Yahweh, “thoughts of peace, and not of evil, to give you hope and a future.",
+    "reference": "Jeremiah 29:11",
+    "message": "",
+    "tags": [
+      "hope",
+      "purpose"
+    ],
+    "tier": "free",
+    "weight": 10
+  },
+  {
+    "id": "neutral-003",
+    "emotionId": "neutral",
+    "body": "Trust in the LORD with all thine heart; and lean not unto thine own understanding.",
+    "modernText": "Trust in Yahweh with all your heart, and don’t lean on your own understanding.",
+    "reference": "Proverbs 3:5",
+    "message": "",
+    "tags": [
+      "trust",
+      "understanding"
+    ],
+    "tier": "free",
+    "weight": 9
+  },
+  {
+    "id": "neutral-004",
+    "emotionId": "neutral",
+    "body": "In all thy ways acknowledge him, and he shall direct thy paths.",
+    "modernText": "In all your ways acknowledge him, and he will make your paths straight.",
+    "reference": "Proverbs 3:6",
+    "message": "",
+    "tags": [
+      "direction",
+      "paths"
+    ],
+    "tier": "free",
+    "weight": 9
+  },
+  {
+    "id": "neutral-005",
+    "emotionId": "neutral",
+    "body": "Not that I speak in respect of want: for I have learned, in whatsoever state I am, therewith to be content.",
+    "modernText": "Not that I speak because of lack, for I have learned in whatever state I am, to be content in it.",
+    "reference": "Philippians 4:11",
+    "message": "",
+    "tags": [
+      "contentment",
+      "learned"
+    ],
+    "tier": "free",
+    "weight": 9
+  },
+  {
+    "id": "neutral-006",
+    "emotionId": "neutral",
+    "body": "I know both how to be abased, and I know how to abound: every where and in all things I am instructed both to be full and to be hungry, both to abound and to suffer need.",
+    "modernText": "I know how to be humbled, and I also know how to abound. In everything and in all things I have learned the secret both to be filled and to be hungry, both to abound and to be in need.",
+    "reference": "Philippians 4:12",
+    "message": "",
+    "tags": [
+      "contentment",
+      "secret"
+    ],
+    "tier": "free",
+    "weight": 9
+  },
+  {
+    "id": "neutral-007",
+    "emotionId": "neutral",
+    "body": "And be not conformed to this world: but be ye transformed by the renewing of your mind, that ye may prove what is that good, and acceptable, and perfect, will of God.",
+    "modernText": "Don’t be conformed to this world, but be transformed by the renewing of your mind, so that you may prove what is the good, well-pleasing, and perfect will of God.",
+    "reference": "Romans 12:2",
+    "message": "",
+    "tags": [
+      "transformed",
+      "renewal"
+    ],
+    "tier": "free",
+    "weight": 9
+  },
+  {
+    "id": "neutral-008",
+    "emotionId": "neutral",
+    "body": "Therefore if any man be in Christ, he is a new creature: old things are passed away; behold, all things are become new.",
+    "modernText": "Therefore if anyone is in Christ, he is a new creation. The old things have passed away. Behold, all things have become new.",
+    "reference": "2 Corinthians 5:17",
+    "message": "",
+    "tags": [
+      "new",
+      "creation"
+    ],
+    "tier": "free",
+    "weight": 9
+  },
+  {
+    "id": "neutral-009",
+    "emotionId": "neutral",
+    "body": "Thou wilt shew me the path of life: in thy presence is fulness of joy; at thy right hand there are pleasures for evermore.",
+    "modernText": "You will show me the path of life. In your presence is fullness of joy. In your right hand there are pleasures forever more.",
+    "reference": "Psalm 16:11",
+    "message": "",
+    "tags": [
+      "joy",
+      "presence"
+    ],
+    "tier": "free",
+    "weight": 9
+  },
+  {
+    "id": "neutral-010",
+    "emotionId": "neutral",
+    "body": "Set your affection on things above, not on things on the earth.",
+    "modernText": "Set your mind on the things that are above, not on the things that are on the earth.",
+    "reference": "Colossians 3:2",
+    "message": "",
+    "tags": [
+      "mind",
+      "above"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "neutral-011",
+    "emotionId": "neutral",
+    "body": "And we know that all things work together for good to them that love God, to them who are the called according to his purpose.",
+    "modernText": "We know that all things work together for good for those who love God, for those who are called according to his purpose.",
+    "reference": "Romans 8:28",
+    "message": "",
+    "tags": [
+      "purpose",
+      "good"
+    ],
+    "tier": "free",
+    "weight": 9
+  },
+  {
+    "id": "neutral-012",
+    "emotionId": "neutral",
+    "body": "Be still, and know that I am God: I will be exalted among the heathen, I will be exalted in the earth.",
+    "modernText": "“Be still, and know that I am God. I will be exalted among the nations. I will be exalted in the earth.”",
+    "reference": "Psalm 46:10",
+    "message": "",
+    "tags": [
+      "stillness",
+      "knowing"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "neutral-013",
+    "emotionId": "neutral",
+    "body": "For my thoughts are not your thoughts, neither are your ways my ways, saith the LORD.",
+    "modernText": "“For my thoughts are not your thoughts, and your ways are not my ways,” says Yahweh.",
+    "reference": "Isaiah 55:8",
+    "message": "",
+    "tags": [
+      "thoughts",
+      "ways"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "neutral-014",
+    "emotionId": "neutral",
+    "body": "For as the heavens are higher than the earth, so are my ways higher than your ways, and my thoughts than your thoughts.",
+    "modernText": "“For as the heavens are higher than the earth, so are my ways higher than your ways, and my thoughts than your thoughts.",
+    "reference": "Isaiah 55:9",
+    "message": "",
+    "tags": [
+      "higher",
+      "ways"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "neutral-015",
+    "emotionId": "neutral",
+    "body": "A man’s heart deviseth his way: but the LORD directeth his steps.",
+    "modernText": "A man’s heart plans his course, but Yahweh directs his steps.",
+    "reference": "Proverbs 16:9",
+    "message": "",
+    "tags": [
+      "steps",
+      "direction"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "neutral-016",
+    "emotionId": "neutral",
+    "body": "The steps of a good man are ordered by the LORD: and he delighteth in his way.",
+    "modernText": "A man’s steps are established by Yahweh. He delights in his way.",
+    "reference": "Psalm 37:23",
+    "message": "",
+    "tags": [
+      "steps",
+      "ordered"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "neutral-017",
+    "emotionId": "neutral",
+    "body": "To every thing there is a season, and a time to every purpose under the heaven:",
+    "modernText": "For everything there is a season, and a time for every purpose under heaven:",
+    "reference": "Ecclesiastes 3:1",
+    "message": "",
+    "tags": [
+      "season",
+      "time"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "neutral-018",
+    "emotionId": "neutral",
+    "body": "For we are his workmanship, created in Christ Jesus unto good works, which God hath before ordained that we should walk in them.",
+    "modernText": "For we are his workmanship, created in Christ Jesus for good works, which God prepared before that we would walk in them.",
+    "reference": "Ephesians 2:10",
+    "message": "",
+    "tags": [
+      "workmanship",
+      "purpose"
+    ],
+    "tier": "free",
+    "weight": 9
+  },
+  {
+    "id": "neutral-019",
+    "emotionId": "neutral",
+    "body": "Thy word is a lamp unto my feet, and a light unto my path.",
+    "modernText": "Your word is a lamp to my feet, and a light for my path.",
+    "reference": "Psalm 119:105",
+    "message": "",
+    "tags": [
+      "lamp",
+      "word"
+    ],
+    "tier": "free",
+    "weight": 9
+  },
+  {
+    "id": "neutral-020",
+    "emotionId": "neutral",
+    "body": "The thief cometh not, but for to steal, and to kill, and to destroy: I am come that they might have life, and that they might have it more abundantly.",
+    "modernText": "The thief only comes to steal, kill, and destroy. I came that they may have life, and may have it abundantly.",
+    "reference": "John 10:10",
+    "message": "",
+    "tags": [
+      "life",
+      "abundant"
+    ],
+    "tier": "free",
+    "weight": 9
+  },
+  {
+    "id": "neutral-021",
+    "emotionId": "neutral",
+    "body": "He hath shewed thee, O man, what is good; and what doth the LORD require of thee, but to do justly, and to love mercy, and to walk humbly with thy God?",
+    "modernText": "He has shown you, O man, what is good. What does Yahweh require of you, but to act justly, to love mercy, and to walk humbly with your God?",
+    "reference": "Micah 6:8",
+    "message": "",
+    "tags": [
+      "justice",
+      "humility"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "neutral-022",
+    "emotionId": "neutral",
+    "body": "And not only so, but we glory in tribulations also: knowing that tribulation worketh patience;",
+    "modernText": "Not only this, but we also rejoice in our sufferings, knowing that suffering produces perseverance;",
+    "reference": "Romans 5:3",
+    "message": "",
+    "tags": [
+      "suffering",
+      "perseverance"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "neutral-023",
+    "emotionId": "neutral",
+    "body": "And patience, experience; and experience, hope:",
+    "modernText": "and perseverance, proven character; and proven character, hope:",
+    "reference": "Romans 5:4",
+    "message": "",
+    "tags": [
+      "character",
+      "hope"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "neutral-024",
+    "emotionId": "neutral",
+    "body": "If any of you lack wisdom, let him ask of God, that giveth to all men liberally, and upbraideth not; and it shall be given him.",
+    "modernText": "But if any of you lacks wisdom, let him ask of God, who gives to all liberally and without reproach, and it will be given to him.",
+    "reference": "James 1:5",
+    "message": "",
+    "tags": [
+      "wisdom",
+      "ask"
+    ],
+    "tier": "free",
+    "weight": 9
+  },
+  {
+    "id": "neutral-025",
+    "emotionId": "neutral",
+    "body": "Now faith is the substance of things hoped for, the evidence of things not seen.",
+    "modernText": "Now faith is assurance of things hoped for, proof of things not seen.",
+    "reference": "Hebrews 11:1",
+    "message": "",
+    "tags": [
+      "faith",
+      "hope"
+    ],
+    "tier": "free",
+    "weight": 9
+  },
+  {
+    "id": "neutral-026",
+    "emotionId": "neutral",
+    "body": "But seek ye first the kingdom of God, and his righteousness; and all these things shall be added unto you.",
+    "modernText": "But seek first God’s Kingdom, and his righteousness; and all these things will be given to you as well.",
+    "reference": "Matthew 6:33",
+    "message": "",
+    "tags": [
+      "seeking",
+      "kingdom"
+    ],
+    "tier": "premium",
+    "weight": 9
+  },
+  {
+    "id": "neutral-027",
+    "emotionId": "neutral",
+    "body": "Delight thyself also in the LORD: and he shall give thee the desires of thine heart.",
+    "modernText": "Also delight yourself in Yahweh, and he will give you the desires of your heart.",
+    "reference": "Psalm 37:4",
+    "message": "",
+    "tags": [
+      "delight",
+      "desires"
+    ],
+    "tier": "premium",
+    "weight": 9
+  },
+  {
+    "id": "neutral-028",
+    "emotionId": "neutral",
+    "body": "Commit thy way unto the LORD; trust also in him; and he shall bring it to pass.",
+    "modernText": "Commit your way to Yahweh. Trust also in him, and he will do this:",
+    "reference": "Psalm 37:5",
+    "message": "",
+    "tags": [
+      "commit",
+      "trust"
+    ],
+    "tier": "premium",
+    "weight": 9
+  },
+  {
+    "id": "neutral-029",
+    "emotionId": "neutral",
+    "body": "Whether therefore ye eat, or drink, or whatsoever ye do, do all to the glory of God.",
+    "modernText": "Whether therefore you eat, or drink, or whatever you do, do all to the glory of God.",
+    "reference": "1 Corinthians 10:31",
+    "message": "",
+    "tags": [
+      "glory",
+      "purpose"
+    ],
+    "tier": "premium",
+    "weight": 8
+  },
+  {
+    "id": "neutral-030",
+    "emotionId": "neutral",
+    "body": "And whatsoever ye do in word or deed, do all in the name of the Lord Jesus, giving thanks to God and the Father by him.",
+    "modernText": "Whatever you do, in word or in deed, do all in the name of the Lord Jesus, giving thanks to God the Father, through him.",
+    "reference": "Colossians 3:17",
+    "message": "",
+    "tags": [
+      "thanksgiving",
+      "name"
+    ],
+    "tier": "premium",
+    "weight": 8
+  },
+  {
+    "id": "neutral-031",
+    "emotionId": "neutral",
+    "body": "Being confident of this very thing, that he which hath begun a good work in you will perform it until the day of Jesus Christ:",
+    "modernText": "being confident of this very thing, that he who began a good work in you will complete it until the day of Jesus Christ.",
+    "reference": "Philippians 1:6",
+    "message": "",
+    "tags": [
+      "completion",
+      "work"
+    ],
+    "tier": "premium",
+    "weight": 9
+  },
+  {
+    "id": "neutral-032",
+    "emotionId": "neutral",
+    "body": "But they that wait upon the LORD shall renew their strength; they shall mount up with wings as eagles; they shall run, and not be weary; and they shall walk, and not faint.",
+    "modernText": "but those who wait for Yahweh will renew their strength. They will mount up with wings like eagles. They will run, and not be weary. They will walk, and not faint.",
+    "reference": "Isaiah 40:31",
+    "message": "",
+    "tags": [
+      "renewing",
+      "wait"
+    ],
+    "tier": "premium",
+    "weight": 9
+  },
+  {
+    "id": "neutral-033",
+    "emotionId": "neutral",
+    "body": "The LORD is good unto them that wait for him, to the soul that seeketh him.",
+    "modernText": "Yahweh is good to those who wait for him, to the soul who seeks him.",
+    "reference": "Lamentations 3:25",
+    "message": "",
+    "tags": [
+      "waiting",
+      "seeking"
+    ],
+    "tier": "premium",
+    "weight": 8
+  },
+  {
+    "id": "neutral-034",
+    "emotionId": "neutral",
+    "body": "Surely goodness and mercy shall follow me all the days of my life: and I will dwell in the house of the LORD for ever.",
+    "modernText": "Surely goodness and loving kindness shall follow me all the days of my life, and I will dwell in Yahweh’s house forever.",
+    "reference": "Psalm 23:6",
+    "message": "",
+    "tags": [
+      "goodness",
+      "dwelling"
+    ],
+    "tier": "premium",
+    "weight": 9
+  },
+  {
+    "id": "neutral-035",
+    "emotionId": "neutral",
+    "body": "But the fruit of the Spirit is love, joy, peace, longsuffering, gentleness, goodness, faith,",
+    "modernText": "But the fruit of the Spirit is love, joy, peace, patience, kindness, goodness, faith,",
+    "reference": "Galatians 5:22",
+    "message": "",
+    "tags": [
+      "fruit",
+      "spirit"
+    ],
+    "tier": "premium",
+    "weight": 8
+  },
+  {
+    "id": "neutral-036",
+    "emotionId": "neutral",
+    "body": "Meekness, temperance: against such there is no law.",
+    "modernText": "gentleness, and self-control. Against such things there is no law.",
+    "reference": "Galatians 5:23",
+    "message": "",
+    "tags": [
+      "self-control",
+      "spirit"
+    ],
+    "tier": "premium",
+    "weight": 8
+  },
+  {
+    "id": "neutral-037",
+    "emotionId": "neutral",
+    "body": "The secret things belong unto the LORD our God: but those things which are revealed belong unto us and to our children for ever, that we may do all the words of this law.",
+    "modernText": "The secret things belong to Yahweh our God; but the things that are revealed belong to us and to our children forever, that we may do all the words of this law.",
+    "reference": "Deuteronomy 29:29",
+    "message": "",
+    "tags": [
+      "hidden",
+      "revealed"
+    ],
+    "tier": "premium",
+    "weight": 8
+  },
+  {
+    "id": "neutral-038",
+    "emotionId": "neutral",
+    "body": "So teach us to number our days, that we may apply our hearts unto wisdom.",
+    "modernText": "So teach us to count our days, that we may gain a heart of wisdom.",
+    "reference": "Psalm 90:12",
+    "message": "",
+    "tags": [
+      "days",
+      "wisdom"
+    ],
+    "tier": "premium",
+    "weight": 8
+  },
+  {
+    "id": "neutral-039",
+    "emotionId": "neutral",
+    "body": "Ye are the light of the world. A city that is set on an hill cannot be hid.",
+    "modernText": "You are the light of the world. A city located on a hill can’t be hidden.",
+    "reference": "Matthew 5:14",
+    "message": "",
+    "tags": [
+      "light",
+      "world"
+    ],
+    "tier": "premium",
+    "weight": 8
+  },
+  {
+    "id": "neutral-040",
+    "emotionId": "neutral",
+    "body": "Let your light so shine before men, that they may see your good works, and glorify your Father which is in heaven.",
+    "modernText": "Even so, let your light shine before men; that they may see your good works, and glorify your Father who is in heaven.",
+    "reference": "Matthew 5:16",
+    "message": "",
+    "tags": [
+      "shine",
+      "good"
+    ],
+    "tier": "premium",
+    "weight": 8
+  },
+  {
+    "id": "neutral-041",
+    "emotionId": "neutral",
+    "body": "Behold, I will do a new thing; now it shall spring forth; shall ye not know it? I will even make a way in the wilderness, and rivers in the desert.",
+    "modernText": "Behold, I will do a new thing. It springs out now. Don’t you know it? I will even make a way in the wilderness, and rivers in the desert.",
+    "reference": "Isaiah 43:19",
+    "message": "",
+    "tags": [
+      "new",
+      "way"
+    ],
+    "tier": "premium",
+    "weight": 9
+  },
+  {
+    "id": "neutral-042",
+    "emotionId": "neutral",
+    "body": "Shew me thy ways, O LORD; teach me thy paths.",
+    "modernText": "Show me your ways, Yahweh. Teach me your paths.",
+    "reference": "Psalm 25:4",
+    "message": "",
+    "tags": [
+      "ways",
+      "teach"
+    ],
+    "tier": "premium",
+    "weight": 8
+  },
+  {
+    "id": "neutral-043",
+    "emotionId": "neutral",
+    "body": "Lead me in thy truth, and teach me: for thou art the God of my salvation; on thee do I wait all the day.",
+    "modernText": "Guide me in your truth, and teach me, For you are the God of my salvation, I wait for you all day long.",
+    "reference": "Psalm 25:5",
+    "message": "",
+    "tags": [
+      "truth",
+      "lead"
+    ],
+    "tier": "premium",
+    "weight": 8
+  },
+  {
+    "id": "neutral-044",
+    "emotionId": "neutral",
+    "body": "Abide in me, and I in you. As the branch cannot bear fruit of itself, except it abide in the vine; no more can ye, except ye abide in me.",
+    "modernText": "Remain in me, and I in you. As the branch can’t bear fruit by itself unless it remains in the vine, so neither can you, unless you remain in me.",
+    "reference": "John 15:4",
+    "message": "",
+    "tags": [
+      "abide",
+      "fruit"
+    ],
+    "tier": "premium",
+    "weight": 8
+  },
+  {
+    "id": "neutral-045",
+    "emotionId": "neutral",
+    "body": "I am the vine, ye are the branches: He that abideth in me, and I in him, the same bringeth forth much fruit: for without me ye can do nothing.",
+    "modernText": "I am the vine. You are the branches. He who remains in me and I in him bears much fruit, for apart from me you can do nothing.",
+    "reference": "John 15:5",
+    "message": "",
+    "tags": [
+      "vine",
+      "fruit"
+    ],
+    "tier": "premium",
+    "weight": 8
+  },
+  {
+    "id": "neutral-046",
+    "emotionId": "neutral",
+    "body": "For a day in thy courts is better than a thousand. I had rather be a doorkeeper in the house of my God, than to dwell in the tents of wickedness.",
+    "modernText": "For a day in your courts is better than a thousand. I would rather be a doorkeeper in the house of my God, than to dwell in the tents of wickedness.",
+    "reference": "Psalm 84:10",
+    "message": "",
+    "tags": [
+      "courts",
+      "dwelling"
+    ],
+    "tier": "premium",
+    "weight": 8
+  },
+  {
+    "id": "neutral-047",
+    "emotionId": "neutral",
+    "body": "The LORD bless thee, and keep thee:",
+    "modernText": "‘Yahweh bless you, and keep you.",
+    "reference": "Numbers 6:24",
+    "message": "",
+    "tags": [
+      "blessing",
+      "keep"
+    ],
+    "tier": "premium",
+    "weight": 8
+  },
+  {
+    "id": "neutral-048",
+    "emotionId": "neutral",
+    "body": "The LORD make his face shine upon thee, and be gracious unto thee:",
+    "modernText": "Yahweh make his face to shine on you, and be gracious to you.",
+    "reference": "Numbers 6:25",
+    "message": "",
+    "tags": [
+      "face",
+      "gracious"
+    ],
+    "tier": "premium",
+    "weight": 8
+  },
+  {
+    "id": "neutral-049",
+    "emotionId": "neutral",
+    "body": "The LORD lift up his countenance upon thee, and give thee peace.",
+    "modernText": "Yahweh lift up his face toward you, and give you peace.’",
+    "reference": "Numbers 6:26",
+    "message": "",
+    "tags": [
+      "peace",
+      "countenance"
+    ],
+    "tier": "premium",
+    "weight": 8
+  },
+  {
+    "id": "neutral-050",
+    "emotionId": "neutral",
+    "body": "But godliness with contentment is great gain.",
+    "modernText": "But godliness with contentment is great gain.",
+    "reference": "1 Timothy 6:6",
+    "message": "",
+    "tags": [
+      "contentment",
+      "gain"
+    ],
+    "tier": "premium",
+    "weight": 8
+  },
+  {
+    "id": "tired-001",
+    "emotionId": "tired",
+    "body": "But they that wait upon the LORD shall renew their strength; they shall mount up with wings as eagles; they shall run, and not be weary; and they shall walk, and not faint.",
+    "modernText": "but those who wait for Yahweh will renew their strength. They will mount up with wings like eagles. They will run, and not be weary. They will walk, and not faint.",
+    "reference": "Isaiah 40:31",
+    "message": "",
+    "tags": [
+      "renewal",
+      "strength"
+    ],
+    "tier": "free",
+    "weight": 10
+  },
+  {
+    "id": "tired-002",
+    "emotionId": "tired",
+    "body": "Come unto me, all ye that labour and are heavy laden, and I will give you rest.",
+    "modernText": "“Come to me, all you who labor and are heavily burdened, and I will give you rest.",
+    "reference": "Matthew 11:28",
+    "message": "",
+    "tags": [
+      "rest",
+      "weary"
+    ],
+    "tier": "free",
+    "weight": 10
+  },
+  {
+    "id": "tired-003",
+    "emotionId": "tired",
+    "body": "Take my yoke upon you, and learn of me; for I am meek and lowly in heart: and ye shall find rest unto your souls.",
+    "modernText": "Take my yoke upon you, and learn from me, for I am gentle and humble in heart; and you will find rest for your souls.",
+    "reference": "Matthew 11:29",
+    "message": "",
+    "tags": [
+      "rest",
+      "soul"
+    ],
+    "tier": "free",
+    "weight": 10
+  },
+  {
+    "id": "tired-004",
+    "emotionId": "tired",
+    "body": "The LORD is my shepherd; I shall not want.",
+    "modernText": "Yahweh is my shepherd: I shall lack nothing.",
+    "reference": "Psalm 23:1",
+    "message": "",
+    "tags": [
+      "rest",
+      "shepherd"
+    ],
+    "tier": "free",
+    "weight": 9
+  },
+  {
+    "id": "tired-005",
+    "emotionId": "tired",
+    "body": "He maketh me to lie down in green pastures: he leadeth me beside the still waters.",
+    "modernText": "He makes me lie down in green pastures. He leads me beside still waters.",
+    "reference": "Psalm 23:2",
+    "message": "",
+    "tags": [
+      "rest",
+      "restoration"
+    ],
+    "tier": "free",
+    "weight": 9
+  },
+  {
+    "id": "tired-006",
+    "emotionId": "tired",
+    "body": "He restoreth my soul: he leadeth me in the paths of righteousness for his name’s sake.",
+    "modernText": "He restores my soul. He guides me in the paths of righteousness for his name’s sake.",
+    "reference": "Psalm 23:3",
+    "message": "",
+    "tags": [
+      "restoration",
+      "paths"
+    ],
+    "tier": "free",
+    "weight": 9
+  },
+  {
+    "id": "tired-007",
+    "emotionId": "tired",
+    "body": "I will lift up mine eyes unto the hills, from whence cometh my help.",
+    "modernText": "I will lift up my eyes to the hills. Where does my help come from?",
+    "reference": "Psalm 121:1",
+    "message": "",
+    "tags": [
+      "help",
+      "hills"
+    ],
+    "tier": "free",
+    "weight": 9
+  },
+  {
+    "id": "tired-008",
+    "emotionId": "tired",
+    "body": "My help cometh from the LORD, which made heaven and earth.",
+    "modernText": "My help comes from Yahweh, who made heaven and earth.",
+    "reference": "Psalm 121:2",
+    "message": "",
+    "tags": [
+      "help",
+      "maker"
+    ],
+    "tier": "free",
+    "weight": 9
+  },
+  {
+    "id": "tired-009",
+    "emotionId": "tired",
+    "body": "He will not suffer thy foot to be moved: he that keepeth thee will not slumber.",
+    "modernText": "He will not allow your foot to be moved. He who keeps you will not slumber.",
+    "reference": "Psalm 121:3",
+    "message": "",
+    "tags": [
+      "watchfulness",
+      "slumber"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "tired-010",
+    "emotionId": "tired",
+    "body": "And let us not be weary in well doing: for in due season we shall reap, if we faint not.",
+    "modernText": "Let’s not be weary in doing good, for we will reap in due season, if we don’t give up.",
+    "reference": "Galatians 6:9",
+    "message": "",
+    "tags": [
+      "perseverance",
+      "harvest"
+    ],
+    "tier": "free",
+    "weight": 9
+  },
+  {
+    "id": "tired-011",
+    "emotionId": "tired",
+    "body": "For which cause we faint not; but though our outward man perish, yet the inward man is renewed day by day.",
+    "modernText": "Therefore we don’t faint, but though our outward man is decaying, yet our inward man is renewed day by day.",
+    "reference": "2 Corinthians 4:16",
+    "message": "",
+    "tags": [
+      "renewal",
+      "inner"
+    ],
+    "tier": "free",
+    "weight": 9
+  },
+  {
+    "id": "tired-012",
+    "emotionId": "tired",
+    "body": "For our light affliction, which is but for a moment, worketh for us a far more exceeding and eternal weight of glory;",
+    "modernText": "For our light affliction, which is for the moment, works for us more and more exceedingly an eternal weight of glory,",
+    "reference": "2 Corinthians 4:17",
+    "message": "",
+    "tags": [
+      "glory",
+      "momentary"
+    ],
+    "tier": "free",
+    "weight": 9
+  },
+  {
+    "id": "tired-013",
+    "emotionId": "tired",
+    "body": "Hast thou not known? hast thou not heard, that the everlasting God, the LORD, the Creator of the ends of the earth, fainteth not, neither is weary? there is no searching of his understanding.",
+    "modernText": "Haven’t you known? Haven’t you heard? The everlasting God, Yahweh, the Creator of the ends of the earth, doesn’t faint. He isn’t weary. His understanding is unsearchable.",
+    "reference": "Isaiah 40:28",
+    "message": "",
+    "tags": [
+      "everlasting",
+      "strength"
+    ],
+    "tier": "free",
+    "weight": 9
+  },
+  {
+    "id": "tired-014",
+    "emotionId": "tired",
+    "body": "He giveth power to the faint; and to them that have no might he increaseth strength.",
+    "modernText": "He gives power to the weak. He increases the strength of him who has no might.",
+    "reference": "Isaiah 40:29",
+    "message": "",
+    "tags": [
+      "strength",
+      "weary"
+    ],
+    "tier": "free",
+    "weight": 9
+  },
+  {
+    "id": "tired-015",
+    "emotionId": "tired",
+    "body": "I will both lay me down in peace, and sleep: for thou, LORD, only makest me dwell in safety.",
+    "modernText": "In peace I will both lay myself down and sleep, for you, Yahweh alone, make me live in safety.",
+    "reference": "Psalm 4:8",
+    "message": "",
+    "tags": [
+      "sleep",
+      "safety"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "tired-016",
+    "emotionId": "tired",
+    "body": "When thou liest down, thou shalt not be afraid: yea, thou shalt lie down, and thy sleep shall be sweet.",
+    "modernText": "When you lie down, you will not be afraid. Yes, you will lie down, and your sleep will be sweet.",
+    "reference": "Proverbs 3:24",
+    "message": "",
+    "tags": [
+      "sleep",
+      "fear"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "tired-017",
+    "emotionId": "tired",
+    "body": "It is vain for you to rise up early, to sit up late, to eat the bread of sorrows: for so he giveth his beloved sleep.",
+    "modernText": "It is vain for you to rise up early, to stay up late, eating the bread of toil, for he gives sleep to his loved ones.",
+    "reference": "Psalm 127:2",
+    "message": "",
+    "tags": [
+      "sleep",
+      "beloved"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "tired-018",
+    "emotionId": "tired",
+    "body": "For consider him that endured such contradiction of sinners against himself, lest ye be wearied and faint in your minds.",
+    "modernText": "For consider him who has endured such contradiction of sinners against himself, that you don’t grow weary, fainting in your souls.",
+    "reference": "Hebrews 12:3",
+    "message": "",
+    "tags": [
+      "perseverance",
+      "weariness"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "tired-019",
+    "emotionId": "tired",
+    "body": "Likewise the Spirit also helpeth our infirmities: for we know not what we should pray for as we ought: but the Spirit itself maketh intercession for us with groanings which cannot be uttered.",
+    "modernText": "In the same way, the Spirit also helps our weaknesses, for we don’t know how to pray as we ought. But the Spirit himself makes intercession for us with groanings which can’t be uttered.",
+    "reference": "Romans 8:26",
+    "message": "",
+    "tags": [
+      "weakness",
+      "intercession"
+    ],
+    "tier": "free",
+    "weight": 9
+  },
+  {
+    "id": "tired-020",
+    "emotionId": "tired",
+    "body": "My flesh and my heart faileth: but God is the strength of my heart, and my portion for ever.",
+    "modernText": "My flesh and my heart fails, but God is the strength of my heart and my portion forever.",
+    "reference": "Psalm 73:26",
+    "message": "",
+    "tags": [
+      "strength",
+      "portion"
+    ],
+    "tier": "free",
+    "weight": 9
+  },
+  {
+    "id": "tired-021",
+    "emotionId": "tired",
+    "body": "And he said unto them, Come ye yourselves apart into a desert place, and rest a while: for there were many coming and going, and they had no leisure so much as to eat.",
+    "modernText": "He said to them, “You come apart into a deserted place, and rest awhile.” For there were many coming and going, and they had no leisure so much as to eat.",
+    "reference": "Mark 6:31",
+    "message": "",
+    "tags": [
+      "rest",
+      "quiet"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "tired-022",
+    "emotionId": "tired",
+    "body": "And he said, My presence shall go with thee, and I will give thee rest.",
+    "modernText": "He said, “My presence will go with you, and I will give you rest.”",
+    "reference": "Exodus 33:14",
+    "message": "",
+    "tags": [
+      "rest",
+      "presence"
+    ],
+    "tier": "free",
+    "weight": 9
+  },
+  {
+    "id": "tired-023",
+    "emotionId": "tired",
+    "body": "It is of the LORD’s mercies that we are not consumed, because his compassions fail not.",
+    "modernText": "It is because of Yahweh’s loving kindnesses that we are not consumed, because his compassion doesn’t fail.",
+    "reference": "Lamentations 3:22",
+    "message": "",
+    "tags": [
+      "mercy",
+      "renewal"
+    ],
+    "tier": "free",
+    "weight": 9
+  },
+  {
+    "id": "tired-024",
+    "emotionId": "tired",
+    "body": "They are new every morning: great is thy faithfulness.",
+    "modernText": "They are new every morning. Great is your faithfulness.",
+    "reference": "Lamentations 3:23",
+    "message": "",
+    "tags": [
+      "mercies",
+      "morning"
+    ],
+    "tier": "free",
+    "weight": 9
+  },
+  {
+    "id": "tired-025",
+    "emotionId": "tired",
+    "body": "And God shall wipe away all tears from their eyes; and there shall be no more death, neither sorrow, nor crying, neither shall there be any more pain: for the former things are passed away.",
+    "modernText": "He will wipe away every tear from their eyes. Death will be no more; neither will there be mourning, nor crying, nor pain, any more. The first things have passed away.”",
+    "reference": "Revelation 21:4",
+    "message": "",
+    "tags": [
+      "tears",
+      "comfort"
+    ],
+    "tier": "free",
+    "weight": 9
+  },
+  {
+    "id": "tired-026",
+    "emotionId": "tired",
+    "body": "The LORD thy God in the midst of thee is mighty; he will save, he will rejoice over thee with joy; he will rest in his love, he will joy over thee with singing.",
+    "modernText": "Yahweh, your God, is among you, a mighty one who will save. He will rejoice over you with joy. He will calm you in his love. He will rejoice over you with singing.",
+    "reference": "Zephaniah 3:17",
+    "message": "",
+    "tags": [
+      "delight",
+      "quiet"
+    ],
+    "tier": "premium",
+    "weight": 9
+  },
+  {
+    "id": "tired-027",
+    "emotionId": "tired",
+    "body": "Be still, and know that I am God: I will be exalted among the heathen, I will be exalted in the earth.",
+    "modernText": "“Be still, and know that I am God. I will be exalted among the nations. I will be exalted in the earth.”",
+    "reference": "Psalm 46:10",
+    "message": "",
+    "tags": [
+      "stillness",
+      "rest"
+    ],
+    "tier": "premium",
+    "weight": 9
+  },
+  {
+    "id": "tired-028",
+    "emotionId": "tired",
+    "body": "For thus saith the Lord GOD, the Holy One of Israel; In returning and rest shall ye be saved; in quietness and in confidence shall be your strength: and ye would not.",
+    "modernText": "For thus said the Lord Yahweh, the Holy One of Israel, “You will be saved in returning and rest. Your strength will be in quietness and in confidence.” You refused,",
+    "reference": "Isaiah 30:15",
+    "message": "",
+    "tags": [
+      "rest",
+      "quietness"
+    ],
+    "tier": "premium",
+    "weight": 8
+  },
+  {
+    "id": "tired-029",
+    "emotionId": "tired",
+    "body": "Let us choose to us judgment: let us know among ourselves what is good.",
+    "modernText": "Let us choose for us that which is right. Let us know among ourselves what is good.",
+    "reference": "Job 34:4",
+    "message": "",
+    "tags": [
+      "understanding",
+      "good"
+    ],
+    "tier": "premium",
+    "weight": 8
+  },
+  {
+    "id": "tired-030",
+    "emotionId": "tired",
+    "body": "For I have satiated the weary soul, and I have replenished every sorrowful soul.",
+    "modernText": "For I have satiated the weary soul, and I have replenished every sorrowful soul.”",
+    "reference": "Jeremiah 31:25",
+    "message": "",
+    "tags": [
+      "refreshment",
+      "weary"
+    ],
+    "tier": "premium",
+    "weight": 9
+  },
+  {
+    "id": "tired-031",
+    "emotionId": "tired",
+    "body": "Return unto thy rest, O my soul; for the LORD hath dealt bountifully with thee.",
+    "modernText": "Return to your rest, my soul, for Yahweh has dealt bountifully with you.",
+    "reference": "Psalm 116:7",
+    "message": "",
+    "tags": [
+      "rest",
+      "soul"
+    ],
+    "tier": "premium",
+    "weight": 8
+  },
+  {
+    "id": "tired-032",
+    "emotionId": "tired",
+    "body": "Truly my soul waiteth upon God: from him cometh my salvation.",
+    "modernText": "My soul rests in God alone. My salvation is from him.",
+    "reference": "Psalm 62:1",
+    "message": "",
+    "tags": [
+      "rest",
+      "soul"
+    ],
+    "tier": "premium",
+    "weight": 8
+  },
+  {
+    "id": "tired-033",
+    "emotionId": "tired",
+    "body": "My soul, wait thou only upon God; for my expectation is from him.",
+    "modernText": "My soul, wait in silence for God alone, for my expectation is from him.",
+    "reference": "Psalm 62:5",
+    "message": "",
+    "tags": [
+      "hope",
+      "rest"
+    ],
+    "tier": "premium",
+    "weight": 8
+  },
+  {
+    "id": "tired-034",
+    "emotionId": "tired",
+    "body": "Rest in the LORD, and wait patiently for him: fret not thyself because of him who prospereth in his way, because of the man who bringeth wicked devices to pass.",
+    "modernText": "Rest in Yahweh, and wait patiently for him. Don’t fret because of him who prospers in his way, because of the man who makes wicked plots happen.",
+    "reference": "Psalm 37:7",
+    "message": "",
+    "tags": [
+      "patience",
+      "stillness"
+    ],
+    "tier": "premium",
+    "weight": 8
+  },
+  {
+    "id": "tired-035",
+    "emotionId": "tired",
+    "body": "There remaineth therefore a rest to the people of God.",
+    "modernText": "There remains therefore a Sabbath rest for the people of God.",
+    "reference": "Hebrews 4:9",
+    "message": "",
+    "tags": [
+      "sabbath",
+      "rest"
+    ],
+    "tier": "premium",
+    "weight": 8
+  },
+  {
+    "id": "tired-036",
+    "emotionId": "tired",
+    "body": "For he that is entered into his rest, he also hath ceased from his own works, as God did from his.",
+    "modernText": "For he who has entered into his rest has himself also rested from his works, as God did from his.",
+    "reference": "Hebrews 4:10",
+    "message": "",
+    "tags": [
+      "rest",
+      "labor"
+    ],
+    "tier": "premium",
+    "weight": 8
+  },
+  {
+    "id": "tired-037",
+    "emotionId": "tired",
+    "body": "But whosoever drinketh of the water that I shall give him shall never thirst; but the water that I shall give him shall be in him a well of water springing up into everlasting life.",
+    "modernText": "but whoever drinks of the water that I will give him will never thirst again; but the water that I will give him will become in him a well of water springing up to eternal life.”",
+    "reference": "John 4:14",
+    "message": "",
+    "tags": [
+      "water",
+      "thirst"
+    ],
+    "tier": "premium",
+    "weight": 8
+  },
+  {
+    "id": "tired-038",
+    "emotionId": "tired",
+    "body": "For the LORD God is a sun and shield: the LORD will give grace and glory: no good thing will he withhold from them that walk uprightly.",
+    "modernText": "For Yahweh God is a sun and a shield. Yahweh will give grace and glory. He withholds no good thing from those who walk blamelessly.",
+    "reference": "Psalm 84:11",
+    "message": "",
+    "tags": [
+      "sun",
+      "shield"
+    ],
+    "tier": "premium",
+    "weight": 8
+  },
+  {
+    "id": "tired-039",
+    "emotionId": "tired",
+    "body": "And the LORD shall guide thee continually, and satisfy thy soul in drought, and make fat thy bones: and thou shalt be like a watered garden, and like a spring of water, whose waters fail not.",
+    "modernText": "and Yahweh will guide you continually, satisfy your soul in dry places, and make your bones strong. You will be like a watered garden, and like a spring of water whose waters don’t fail.",
+    "reference": "Isaiah 58:11",
+    "message": "",
+    "tags": [
+      "guidance",
+      "satisfaction"
+    ],
+    "tier": "premium",
+    "weight": 8
+  },
+  {
+    "id": "tired-040",
+    "emotionId": "tired",
+    "body": "The LORD upholdeth all that fall, and raiseth up all those that be bowed down.",
+    "modernText": "Yahweh upholds all who fall, and raises up all those who are bowed down.",
+    "reference": "Psalm 145:14",
+    "message": "",
+    "tags": [
+      "lifting",
+      "bowed"
+    ],
+    "tier": "premium",
+    "weight": 8
+  },
+  {
+    "id": "tired-041",
+    "emotionId": "tired",
+    "body": "I can do all things through Christ which strengtheneth me.",
+    "modernText": "I can do all things through Christ, who strengthens me.",
+    "reference": "Philippians 4:13",
+    "message": "",
+    "tags": [
+      "strength",
+      "christ"
+    ],
+    "tier": "premium",
+    "weight": 10
+  },
+  {
+    "id": "tired-042",
+    "emotionId": "tired",
+    "body": "But if the Spirit of him that raised up Jesus from the dead dwell in you, he that raised up Christ from the dead shall also quicken your mortal bodies by his Spirit that dwelleth in you.",
+    "modernText": "But if the Spirit of him who raised up Jesus from the dead dwells in you, he who raised up Christ Jesus from the dead will also give life to your mortal bodies through his Spirit who dwells in you.",
+    "reference": "Romans 8:11",
+    "message": "",
+    "tags": [
+      "life",
+      "spirit"
+    ],
+    "tier": "premium",
+    "weight": 9
+  },
+  {
+    "id": "tired-043",
+    "emotionId": "tired",
+    "body": "That he would grant you, according to the riches of his glory, to be strengthened with might by his Spirit in the inner man;",
+    "modernText": "that he would grant you, according to the riches of his glory, that you may be strengthened with power through his Spirit in the inner person,",
+    "reference": "Ephesians 3:16",
+    "message": "",
+    "tags": [
+      "strength",
+      "inner"
+    ],
+    "tier": "premium",
+    "weight": 9
+  },
+  {
+    "id": "tired-044",
+    "emotionId": "tired",
+    "body": "Therefore, my beloved brethren, be ye stedfast, unmoveable, always abounding in the work of the Lord, forasmuch as ye know that your labour is not in vain in the Lord.",
+    "modernText": "Therefore, my beloved brothers, be steadfast, immovable, always abounding in the Lord’s work, because you know that your labor is not in vain in the Lord.",
+    "reference": "1 Corinthians 15:58",
+    "message": "",
+    "tags": [
+      "labor",
+      "purpose"
+    ],
+    "tier": "premium",
+    "weight": 8
+  },
+  {
+    "id": "tired-045",
+    "emotionId": "tired",
+    "body": "And the LORD said unto Moses, Is the LORD’s hand waxed short? thou shalt see now whether my word shall come to pass unto thee or not.",
+    "modernText": "Yahweh said to Moses, “Has Yahweh’s hand grown short? Now you will see whether my word will happen to you or not.”",
+    "reference": "Numbers 11:23",
+    "message": "",
+    "tags": [
+      "power",
+      "limit"
+    ],
+    "tier": "premium",
+    "weight": 8
+  },
+  {
+    "id": "tired-046",
+    "emotionId": "tired",
+    "body": "Be of good courage, and he shall strengthen your heart, all ye that hope in the LORD.",
+    "modernText": "Be strong, and let your heart take courage, all you who hope in Yahweh.",
+    "reference": "Psalm 31:24",
+    "message": "",
+    "tags": [
+      "courage",
+      "hope"
+    ],
+    "tier": "premium",
+    "weight": 8
+  },
+  {
+    "id": "tired-047",
+    "emotionId": "tired",
+    "body": "Repent ye therefore, and be converted, that your sins may be blotted out, when the times of refreshing shall come from the presence of the Lord.",
+    "modernText": "“Repent therefore, and turn again, that your sins may be blotted out, so that there may come times of refreshing from the presence of the Lord,",
+    "reference": "Acts 3:19",
+    "message": "",
+    "tags": [
+      "refreshment",
+      "times"
+    ],
+    "tier": "premium",
+    "weight": 8
+  },
+  {
+    "id": "tired-048",
+    "emotionId": "tired",
+    "body": "Strengthen ye the weak hands, and confirm the feeble knees.",
+    "modernText": "Strengthen the weak hands, and make the feeble knees firm.",
+    "reference": "Isaiah 35:3",
+    "message": "",
+    "tags": [
+      "strengthening",
+      "feeble"
+    ],
+    "tier": "premium",
+    "weight": 8
+  },
+  {
+    "id": "tired-049",
+    "emotionId": "tired",
+    "body": "Say to them that are of a fearful heart, Be strong, fear not: behold, your God will come with vengeance, even God with a recompence; he will come and save you.",
+    "modernText": "Tell those who have a fearful heart, “Be strong! Don’t be afraid! Behold, your God will come with vengeance, God’s retribution. He will come and save you.",
+    "reference": "Isaiah 35:4",
+    "message": "",
+    "tags": [
+      "courage",
+      "fear"
+    ],
+    "tier": "premium",
+    "weight": 8
+  },
+  {
+    "id": "tired-050",
+    "emotionId": "tired",
+    "body": "And he said unto me, My grace is sufficient for thee: for my strength is made perfect in weakness. Most gladly therefore will I rather glory in my infirmities, that the power of Christ may rest upon me.",
+    "modernText": "He has said to me, “My grace is sufficient for you, for my power is made perfect in weakness.” Most gladly therefore I will rather glory in my weaknesses, that the power of Christ may rest on me.",
+    "reference": "2 Corinthians 12:9",
+    "message": "",
+    "tags": [
+      "grace",
+      "weakness"
+    ],
+    "tier": "premium",
+    "weight": 9
+  },
+  {
+    "id": "sad-001",
+    "emotionId": "sad",
+    "body": "The LORD is nigh unto them that are of a broken heart; and saveth such as be of a contrite spirit.",
+    "modernText": "Yahweh is near to those who have a broken heart, and saves those who have a crushed spirit.",
+    "reference": "Psalm 34:18",
+    "message": "",
+    "tags": [
+      "grief",
+      "presence"
+    ],
+    "tier": "free",
+    "weight": 10
+  },
+  {
+    "id": "sad-002",
+    "emotionId": "sad",
+    "body": "He healeth the broken in heart, and bindeth up their wounds.",
+    "modernText": "He heals the broken in heart, and binds up their wounds.",
+    "reference": "Psalm 147:3",
+    "message": "",
+    "tags": [
+      "healing",
+      "brokenhearted"
+    ],
+    "tier": "free",
+    "weight": 10
+  },
+  {
+    "id": "sad-003",
+    "emotionId": "sad",
+    "body": "Blessed are they that mourn: for they shall be comforted.",
+    "modernText": "Blessed are those who mourn, for they shall be comforted.",
+    "reference": "Matthew 5:4",
+    "message": "",
+    "tags": [
+      "mourning",
+      "comfort"
+    ],
+    "tier": "free",
+    "weight": 10
+  },
+  {
+    "id": "sad-004",
+    "emotionId": "sad",
+    "body": "And God shall wipe away all tears from their eyes; and there shall be no more death, neither sorrow, nor crying, neither shall there be any more pain: for the former things are passed away.",
+    "modernText": "He will wipe away every tear from their eyes. Death will be no more; neither will there be mourning, nor crying, nor pain, any more. The first things have passed away.”",
+    "reference": "Revelation 21:4",
+    "message": "",
+    "tags": [
+      "tears",
+      "comfort"
+    ],
+    "tier": "free",
+    "weight": 10
+  },
+  {
+    "id": "sad-005",
+    "emotionId": "sad",
+    "body": "Jesus wept.",
+    "modernText": "Jesus wept.",
+    "reference": "John 11:35",
+    "message": "",
+    "tags": [
+      "grief",
+      "tears"
+    ],
+    "tier": "free",
+    "weight": 9
+  },
+  {
+    "id": "sad-006",
+    "emotionId": "sad",
+    "body": "For his anger endureth but a moment; in his favour is life: weeping may endure for a night, but joy cometh in the morning.",
+    "modernText": "For his anger is but for a moment. His favor is for a lifetime. Weeping may stay for the night, but joy comes in the morning.",
+    "reference": "Psalm 30:5",
+    "message": "",
+    "tags": [
+      "weeping",
+      "joy"
+    ],
+    "tier": "free",
+    "weight": 9
+  },
+  {
+    "id": "sad-007",
+    "emotionId": "sad",
+    "body": "Thou tellest my wanderings: put thou my tears into thy bottle: are they not in thy book?",
+    "modernText": "You count my wanderings. You put my tears into your container. Aren’t they in your book?",
+    "reference": "Psalm 56:8",
+    "message": "",
+    "tags": [
+      "tears",
+      "seen"
+    ],
+    "tier": "free",
+    "weight": 9
+  },
+  {
+    "id": "sad-008",
+    "emotionId": "sad",
+    "body": "To appoint unto them that mourn in Zion, to give unto them beauty for ashes, the oil of joy for mourning, the garment of praise for the spirit of heaviness; that they might be called trees of righteousness, the planting of the LORD, that he might be glorified.",
+    "modernText": "to provide for those who mourn in Zion, to give to them a garland for ashes, the oil of joy for mourning, the garment of praise for the spirit of heaviness, that they may be called trees of righteousness, the planting of Yahweh, that he may be glorified.",
+    "reference": "Isaiah 61:3",
+    "message": "",
+    "tags": [
+      "beauty",
+      "mourning"
+    ],
+    "tier": "free",
+    "weight": 9
+  },
+  {
+    "id": "sad-009",
+    "emotionId": "sad",
+    "body": "Blessed be God, even the Father of our Lord Jesus Christ, the Father of mercies, and the God of all comfort;",
+    "modernText": "Blessed be the God and Father of our Lord Jesus Christ, the Father of mercies and God of all comfort;",
+    "reference": "2 Corinthians 1:3",
+    "message": "",
+    "tags": [
+      "comfort",
+      "affliction"
+    ],
+    "tier": "free",
+    "weight": 9
+  },
+  {
+    "id": "sad-010",
+    "emotionId": "sad",
+    "body": "Who comforteth us in all our tribulation, that we may be able to comfort them which are in any trouble, by the comfort wherewith we ourselves are comforted of God.",
+    "modernText": "who comforts us in all our affliction, that we may be able to comfort those who are in any affliction, through the comfort with which we ourselves are comforted by God.",
+    "reference": "2 Corinthians 1:4",
+    "message": "",
+    "tags": [
+      "comfort",
+      "compassion"
+    ],
+    "tier": "free",
+    "weight": 9
+  },
+  {
+    "id": "sad-011",
+    "emotionId": "sad",
+    "body": "The LORD also will be a refuge for the oppressed, a refuge in times of trouble.",
+    "modernText": "Yahweh will also be a high tower for the oppressed; a high tower in times of trouble.",
+    "reference": "Psalm 9:9",
+    "message": "",
+    "tags": [
+      "refuge",
+      "oppressed"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "sad-012",
+    "emotionId": "sad",
+    "body": "God is our refuge and strength, a very present help in trouble.",
+    "modernText": "God is our refuge and strength, a very present help in trouble.",
+    "reference": "Psalm 46:1",
+    "message": "",
+    "tags": [
+      "refuge",
+      "strength"
+    ],
+    "tier": "free",
+    "weight": 9
+  },
+  {
+    "id": "sad-013",
+    "emotionId": "sad",
+    "body": "He is despised and rejected of men; a man of sorrows, and acquainted with grief: and we hid as it were our faces from him; he was despised, and we esteemed him not.",
+    "modernText": "He was despised and rejected by men, a man of suffering and acquainted with disease. He was despised as one from whom men hide their face; and we didn’t respect him.",
+    "reference": "Isaiah 53:3",
+    "message": "",
+    "tags": [
+      "sorrow",
+      "known"
+    ],
+    "tier": "free",
+    "weight": 9
+  },
+  {
+    "id": "sad-014",
+    "emotionId": "sad",
+    "body": "Likewise the Spirit also helpeth our infirmities: for we know not what we should pray for as we ought: but the Spirit itself maketh intercession for us with groanings which cannot be uttered.",
+    "modernText": "In the same way, the Spirit also helps our weaknesses, for we don’t know how to pray as we ought. But the Spirit himself makes intercession for us with groanings which can’t be uttered.",
+    "reference": "Romans 8:26",
+    "message": "",
+    "tags": [
+      "weakness",
+      "intercession"
+    ],
+    "tier": "free",
+    "weight": 9
+  },
+  {
+    "id": "sad-015",
+    "emotionId": "sad",
+    "body": "And we know that all things work together for good to them that love God, to them who are the called according to his purpose.",
+    "modernText": "We know that all things work together for good for those who love God, for those who are called according to his purpose.",
+    "reference": "Romans 8:28",
+    "message": "",
+    "tags": [
+      "purpose",
+      "good"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "sad-016",
+    "emotionId": "sad",
+    "body": "For he hath not despised nor abhorred the affliction of the afflicted; neither hath he hid his face from him; but when he cried unto him, he heard.",
+    "modernText": "For he has not despised nor abhorred the affliction of the afflicted, Neither has he hidden his face from him; but when he cried to him, he heard.",
+    "reference": "Psalm 22:24",
+    "message": "",
+    "tags": [
+      "affliction",
+      "heard"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "sad-017",
+    "emotionId": "sad",
+    "body": "I waited patiently for the LORD; and he inclined unto me, and heard my cry.",
+    "modernText": "I waited patiently for Yahweh. He turned to me, and heard my cry.",
+    "reference": "Psalm 40:1",
+    "message": "",
+    "tags": [
+      "waiting",
+      "heard"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "sad-018",
+    "emotionId": "sad",
+    "body": "He brought me up also out of an horrible pit, out of the miry clay, and set my feet upon a rock, and established my goings.",
+    "modernText": "He brought me up also out of a horrible pit, out of the miry clay. He set my feet on a rock, and gave me a firm place to stand.",
+    "reference": "Psalm 40:2",
+    "message": "",
+    "tags": [
+      "pit",
+      "lifted"
+    ],
+    "tier": "free",
+    "weight": 9
+  },
+  {
+    "id": "sad-019",
+    "emotionId": "sad",
+    "body": "But now thus saith the LORD that created thee, O Jacob, and he that formed thee, O Israel, Fear not: for I have redeemed thee, I have called thee by thy name; thou art mine.",
+    "modernText": "But now Yahweh who created you, Jacob, and he who formed you, Israel, says: “Don’t be afraid, for I have redeemed you. I have called you by your name. You are mine.",
+    "reference": "Isaiah 43:1",
+    "message": "",
+    "tags": [
+      "name",
+      "called"
+    ],
+    "tier": "free",
+    "weight": 9
+  },
+  {
+    "id": "sad-020",
+    "emotionId": "sad",
+    "body": "When thou passest through the waters, I will be with thee; and through the rivers, they shall not overflow thee: when thou walkest through the fire, thou shalt not be burned; neither shall the flame kindle upon thee.",
+    "modernText": "When you pass through the waters, I will be with you, and through the rivers, they will not overflow you. When you walk through the fire, you will not be burned, and flame will not scorch you.",
+    "reference": "Isaiah 43:2",
+    "message": "",
+    "tags": [
+      "waters",
+      "fire"
+    ],
+    "tier": "free",
+    "weight": 9
+  },
+  {
+    "id": "sad-021",
+    "emotionId": "sad",
+    "body": "It is of the LORD’s mercies that we are not consumed, because his compassions fail not.",
+    "modernText": "It is because of Yahweh’s loving kindnesses that we are not consumed, because his compassion doesn’t fail.",
+    "reference": "Lamentations 3:22",
+    "message": "",
+    "tags": [
+      "mercy",
+      "love"
+    ],
+    "tier": "free",
+    "weight": 9
+  },
+  {
+    "id": "sad-022",
+    "emotionId": "sad",
+    "body": "They are new every morning: great is thy faithfulness.",
+    "modernText": "They are new every morning. Great is your faithfulness.",
+    "reference": "Lamentations 3:23",
+    "message": "",
+    "tags": [
+      "morning",
+      "mercies"
+    ],
+    "tier": "free",
+    "weight": 9
+  },
+  {
+    "id": "sad-023",
+    "emotionId": "sad",
+    "body": "Thou, which hast shewed me great and sore troubles, shalt quicken me again, and shalt bring me up again from the depths of the earth.",
+    "modernText": "You, who have shown us many and bitter troubles, you will let me live. You will bring us up again from the depths of the earth.",
+    "reference": "Psalm 71:20",
+    "message": "",
+    "tags": [
+      "restore",
+      "depths"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "sad-024",
+    "emotionId": "sad",
+    "body": "And I will restore to you the years that the locust hath eaten, the cankerworm, and the caterpiller, and the palmerworm, my great army which I sent among you.",
+    "modernText": "I will restore to you the years that the swarming locust has eaten, the great locust, the grasshopper, and the caterpillar, my great army, which I sent among you.",
+    "reference": "Joel 2:25",
+    "message": "",
+    "tags": [
+      "restore",
+      "years"
+    ],
+    "tier": "free",
+    "weight": 9
+  },
+  {
+    "id": "sad-025",
+    "emotionId": "sad",
+    "body": "I will be glad and rejoice in thy mercy: for thou hast considered my trouble; thou hast known my soul in adversities;",
+    "modernText": "I will be glad and rejoice in your loving kindness, for you have seen my affliction. You have known my soul in adversities.",
+    "reference": "Psalm 31:7",
+    "message": "",
+    "tags": [
+      "known",
+      "mercy"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "sad-026",
+    "emotionId": "sad",
+    "body": "For I know the thoughts that I think toward you, saith the LORD, thoughts of peace, and not of evil, to give you an expected end.",
+    "modernText": "For I know the thoughts that I think toward you,” says Yahweh, “thoughts of peace, and not of evil, to give you hope and a future.",
+    "reference": "Jeremiah 29:11",
+    "message": "",
+    "tags": [
+      "hope",
+      "future"
+    ],
+    "tier": "premium",
+    "weight": 10
+  },
+  {
+    "id": "sad-027",
+    "emotionId": "sad",
+    "body": "But they that wait upon the LORD shall renew their strength; they shall mount up with wings as eagles; they shall run, and not be weary; and they shall walk, and not faint.",
+    "modernText": "but those who wait for Yahweh will renew their strength. They will mount up with wings like eagles. They will run, and not be weary. They will walk, and not faint.",
+    "reference": "Isaiah 40:31",
+    "message": "",
+    "tags": [
+      "renewal",
+      "strength"
+    ],
+    "tier": "premium",
+    "weight": 9
+  },
+  {
+    "id": "sad-028",
+    "emotionId": "sad",
+    "body": "I sought the LORD, and he heard me, and delivered me from all my fears.",
+    "modernText": "I sought Yahweh, and he answered me, and delivered me from all my fears.",
+    "reference": "Psalm 34:4",
+    "message": "",
+    "tags": [
+      "fear",
+      "deliverance"
+    ],
+    "tier": "premium",
+    "weight": 8
+  },
+  {
+    "id": "sad-029",
+    "emotionId": "sad",
+    "body": "This poor man cried, and the LORD heard him, and saved him out of all his troubles.",
+    "modernText": "This poor man cried, and Yahweh heard him, and saved him out of all his troubles.",
+    "reference": "Psalm 34:6",
+    "message": "",
+    "tags": [
+      "poor",
+      "answered"
+    ],
+    "tier": "premium",
+    "weight": 8
+  },
+  {
+    "id": "sad-030",
+    "emotionId": "sad",
+    "body": "Now the God of hope fill you with all joy and peace in believing, that ye may abound in hope, through the power of the Holy Ghost.",
+    "modernText": "Now may the God of hope fill you with all joy and peace in believing, that you may abound in hope, in the power of the Holy Spirit.",
+    "reference": "Romans 15:13",
+    "message": "",
+    "tags": [
+      "hope",
+      "peace"
+    ],
+    "tier": "premium",
+    "weight": 9
+  },
+  {
+    "id": "sad-031",
+    "emotionId": "sad",
+    "body": "My flesh and my heart faileth: but God is the strength of my heart, and my portion for ever.",
+    "modernText": "My flesh and my heart fails, but God is the strength of my heart and my portion forever.",
+    "reference": "Psalm 73:26",
+    "message": "",
+    "tags": [
+      "strength",
+      "portion"
+    ],
+    "tier": "premium",
+    "weight": 9
+  },
+  {
+    "id": "sad-032",
+    "emotionId": "sad",
+    "body": "Let your conversation be without covetousness; and be content with such things as ye have: for he hath said, I will never leave thee, nor forsake thee.",
+    "modernText": "Be free from the love of money, content with such things as you have, for he has said, “I will in no way leave you, neither will I in any way forsake you.”",
+    "reference": "Hebrews 13:5",
+    "message": "",
+    "tags": [
+      "never",
+      "forsaken"
+    ],
+    "tier": "premium",
+    "weight": 9
+  },
+  {
+    "id": "sad-033",
+    "emotionId": "sad",
+    "body": "And the LORD, he it is that doth go before thee; he will be with thee, he will not fail thee, neither forsake thee: fear not, neither be dismayed.",
+    "modernText": "Yahweh himself is who goes before you. He will be with you. He will not fail you nor forsake you. Don’t be afraid. Don’t be discouraged.”",
+    "reference": "Deuteronomy 31:8",
+    "message": "",
+    "tags": [
+      "presence",
+      "forsaken"
+    ],
+    "tier": "premium",
+    "weight": 9
+  },
+  {
+    "id": "sad-034",
+    "emotionId": "sad",
+    "body": "Thou hast seen it; for thou beholdest mischief and spite, to requite it with thy hand: the poor committeth himself unto thee; thou art the helper of the fatherless.",
+    "modernText": "But you do see trouble and grief. You consider it to take it into your hand. You help the victim and the fatherless.",
+    "reference": "Psalm 10:14",
+    "message": "",
+    "tags": [
+      "seen",
+      "orphan"
+    ],
+    "tier": "premium",
+    "weight": 8
+  },
+  {
+    "id": "sad-035",
+    "emotionId": "sad",
+    "body": "Thine eyes did see my substance, yet being unperfect; and in thy book all my members were written, which in continuance were fashioned, when as yet there was none of them.",
+    "modernText": "Your eyes saw my body. In your book they were all written, the days that were ordained for me, when as yet there were none of them.",
+    "reference": "Psalm 139:16",
+    "message": "",
+    "tags": [
+      "days",
+      "written"
+    ],
+    "tier": "premium",
+    "weight": 8
+  },
+  {
+    "id": "sad-036",
+    "emotionId": "sad",
+    "body": "How precious also are thy thoughts unto me, O God! how great is the sum of them!",
+    "modernText": "How precious to me are your thoughts, God! How vast is their sum!",
+    "reference": "Psalm 139:17",
+    "message": "",
+    "tags": [
+      "thoughts",
+      "precious"
+    ],
+    "tier": "premium",
+    "weight": 8
+  },
+  {
+    "id": "sad-037",
+    "emotionId": "sad",
+    "body": "For I know that my redeemer liveth, and that he shall stand at the latter day upon the earth:",
+    "modernText": "But as for me, I know that my Redeemer lives. In the end, he will stand upon the earth.",
+    "reference": "Job 19:25",
+    "message": "",
+    "tags": [
+      "redeemer",
+      "lives"
+    ],
+    "tier": "premium",
+    "weight": 9
+  },
+  {
+    "id": "sad-038",
+    "emotionId": "sad",
+    "body": "Casting all your care upon him; for he careth for you.",
+    "modernText": "casting all your worries on him, because he cares for you.",
+    "reference": "1 Peter 5:7",
+    "message": "",
+    "tags": [
+      "care",
+      "casting"
+    ],
+    "tier": "premium",
+    "weight": 9
+  },
+  {
+    "id": "sad-039",
+    "emotionId": "sad",
+    "body": "Draw nigh to God, and he will draw nigh to you. Cleanse your hands, ye sinners; and purify your hearts, ye double minded.",
+    "modernText": "Draw near to God, and he will draw near to you. Cleanse your hands, you sinners. Purify your hearts, you double-minded.",
+    "reference": "James 4:8",
+    "message": "",
+    "tags": [
+      "nearness",
+      "drawing"
+    ],
+    "tier": "premium",
+    "weight": 8
+  },
+  {
+    "id": "sad-040",
+    "emotionId": "sad",
+    "body": "He shall cover thee with his feathers, and under his wings shalt thou trust: his truth shall be thy shield and buckler.",
+    "modernText": "He will cover you with his feathers. Under his wings you will take refuge. His faithfulness is your shield and rampart.",
+    "reference": "Psalm 91:4",
+    "message": "",
+    "tags": [
+      "refuge",
+      "wings"
+    ],
+    "tier": "premium",
+    "weight": 9
+  },
+  {
+    "id": "sad-041",
+    "emotionId": "sad",
+    "body": "Come, and let us return unto the LORD: for he hath torn, and he will heal us; he hath smitten, and he will bind us up.",
+    "modernText": "“Come! Let’s return to Yahweh; for he has torn us to pieces, and he will heal us; he has injured us, and he will bind up our wounds.",
+    "reference": "Hosea 6:1",
+    "message": "",
+    "tags": [
+      "healing",
+      "return"
+    ],
+    "tier": "premium",
+    "weight": 8
+  },
+  {
+    "id": "sad-042",
+    "emotionId": "sad",
+    "body": "They that sow in tears shall reap in joy.",
+    "modernText": "Those who sow in tears will reap in joy.",
+    "reference": "Psalm 126:5",
+    "message": "",
+    "tags": [
+      "tears",
+      "harvest"
+    ],
+    "tier": "premium",
+    "weight": 8
+  },
+  {
+    "id": "sad-043",
+    "emotionId": "sad",
+    "body": "Fear thou not; for I am with thee: be not dismayed; for I am thy God: I will strengthen thee; yea, I will help thee; yea, I will uphold thee with the right hand of my righteousness.",
+    "modernText": "Don’t you be afraid, for I am with you. Don’t be dismayed, for I am your God. I will strengthen you. Yes, I will help you. Yes, I will uphold you with the right hand of my righteousness.",
+    "reference": "Isaiah 41:10",
+    "message": "",
+    "tags": [
+      "strength",
+      "fear"
+    ],
+    "tier": "premium",
+    "weight": 9
+  },
+  {
+    "id": "sad-044",
+    "emotionId": "sad",
+    "body": "For I am persuaded, that neither death, nor life, nor angels, nor principalities, nor powers, nor things present, nor things to come,",
+    "modernText": "For I am persuaded that neither death, nor life, nor angels, nor principalities, nor things present, nor things to come, nor powers,",
+    "reference": "Romans 8:38",
+    "message": "",
+    "tags": [
+      "love",
+      "separation"
+    ],
+    "tier": "premium",
+    "weight": 9
+  },
+  {
+    "id": "sad-045",
+    "emotionId": "sad",
+    "body": "Nor height, nor depth, nor any other creature, shall be able to separate us from the love of God, which is in Christ Jesus our Lord.",
+    "modernText": "nor height, nor depth, nor any other created thing will be able to separate us from God’s love which is in Christ Jesus our Lord.",
+    "reference": "Romans 8:39",
+    "message": "",
+    "tags": [
+      "love",
+      "separation"
+    ],
+    "tier": "premium",
+    "weight": 9
+  },
+  {
+    "id": "sad-046",
+    "emotionId": "sad",
+    "body": "Precious in the sight of the LORD is the death of his saints.",
+    "modernText": "Precious in Yahweh’s sight is the death of his saints.",
+    "reference": "Psalm 116:15",
+    "message": "",
+    "tags": [
+      "death",
+      "precious"
+    ],
+    "tier": "premium",
+    "weight": 8
+  },
+  {
+    "id": "sad-047",
+    "emotionId": "sad",
+    "body": "A time to weep, and a time to laugh; a time to mourn, and a time to dance;",
+    "modernText": "a time to weep, and a time to laugh; a time to mourn, and a time to dance;",
+    "reference": "Ecclesiastes 3:4",
+    "message": "",
+    "tags": [
+      "mourning",
+      "time"
+    ],
+    "tier": "premium",
+    "weight": 8
+  },
+  {
+    "id": "sad-048",
+    "emotionId": "sad",
+    "body": "For the LORD heareth the poor, and despiseth not his prisoners.",
+    "modernText": "For Yahweh hears the needy, and doesn’t despise his captive people.",
+    "reference": "Psalm 69:33",
+    "message": "",
+    "tags": [
+      "poor",
+      "heard"
+    ],
+    "tier": "premium",
+    "weight": 8
+  },
+  {
+    "id": "sad-049",
+    "emotionId": "sad",
+    "body": "As one whom his mother comforteth, so will I comfort you; and ye shall be comforted in Jerusalem.",
+    "modernText": "As one whom his mother comforts, so I will comfort you. You will be comforted in Jerusalem.”",
+    "reference": "Isaiah 66:13",
+    "message": "",
+    "tags": [
+      "comfort",
+      "mother"
+    ],
+    "tier": "premium",
+    "weight": 8
+  },
+  {
+    "id": "sad-050",
+    "emotionId": "sad",
+    "body": "The LORD thy God in the midst of thee is mighty; he will save, he will rejoice over thee with joy; he will rest in his love, he will joy over thee with singing.",
+    "modernText": "Yahweh, your God, is among you, a mighty one who will save. He will rejoice over you with joy. He will calm you in his love. He will rejoice over you with singing.",
+    "reference": "Zephaniah 3:17",
+    "message": "",
+    "tags": [
+      "joy",
+      "singing"
+    ],
+    "tier": "premium",
+    "weight": 9
+  },
+  {
+    "id": "stressed-001",
+    "emotionId": "stressed",
+    "body": "Come unto me, all ye that labour and are heavy laden, and I will give you rest.",
+    "modernText": "“Come to me, all you who labor and are heavily burdened, and I will give you rest.",
+    "reference": "Matthew 11:28",
+    "message": "",
+    "tags": [
+      "rest",
+      "burden"
+    ],
+    "tier": "free",
+    "weight": 10
+  },
+  {
+    "id": "stressed-002",
+    "emotionId": "stressed",
+    "body": "Be careful for nothing; but in every thing by prayer and supplication with thanksgiving let your requests be made known unto God.",
+    "modernText": "In nothing be anxious, but in everything, by prayer and petition with thanksgiving, let your requests be made known to God.",
+    "reference": "Philippians 4:6",
+    "message": "",
+    "tags": [
+      "peace",
+      "anxiety"
+    ],
+    "tier": "free",
+    "weight": 10
+  },
+  {
+    "id": "stressed-003",
+    "emotionId": "stressed",
+    "body": "And the peace of God, which passeth all understanding, shall keep your hearts and minds through Christ Jesus.",
+    "modernText": "And the peace of God, which surpasses all understanding, will guard your hearts and your thoughts in Christ Jesus.",
+    "reference": "Philippians 4:7",
+    "message": "",
+    "tags": [
+      "peace",
+      "mind"
+    ],
+    "tier": "free",
+    "weight": 9
+  },
+  {
+    "id": "stressed-004",
+    "emotionId": "stressed",
+    "body": "Casting all your care upon him; for he careth for you.",
+    "modernText": "casting all your worries on him, because he cares for you.",
+    "reference": "1 Peter 5:7",
+    "message": "",
+    "tags": [
+      "worry",
+      "care"
+    ],
+    "tier": "free",
+    "weight": 10
+  },
+  {
+    "id": "stressed-005",
+    "emotionId": "stressed",
+    "body": "Thou wilt keep him in perfect peace, whose mind is stayed on thee: because he trusteth in thee.",
+    "modernText": "You will keep whoever’s mind is steadfast in perfect peace, because he trusts in you.",
+    "reference": "Isaiah 26:3",
+    "message": "",
+    "tags": [
+      "peace",
+      "trust"
+    ],
+    "tier": "free",
+    "weight": 9
+  },
+  {
+    "id": "stressed-006",
+    "emotionId": "stressed",
+    "body": "God is our refuge and strength, a very present help in trouble.",
+    "modernText": "God is our refuge and strength, a very present help in trouble.",
+    "reference": "Psalm 46:1",
+    "message": "",
+    "tags": [
+      "refuge",
+      "strength"
+    ],
+    "tier": "free",
+    "weight": 9
+  },
+  {
+    "id": "stressed-007",
+    "emotionId": "stressed",
+    "body": "Be still, and know that I am God: I will be exalted among the heathen, I will be exalted in the earth.",
+    "modernText": "“Be still, and know that I am God. I will be exalted among the nations. I will be exalted in the earth.”",
+    "reference": "Psalm 46:10",
+    "message": "",
+    "tags": [
+      "stillness",
+      "trust"
+    ],
+    "tier": "free",
+    "weight": 9
+  },
+  {
+    "id": "stressed-008",
+    "emotionId": "stressed",
+    "body": "Peace I leave with you, my peace I give unto you: not as the world giveth, give I unto you. Let not your heart be troubled, neither let it be afraid.",
+    "modernText": "Peace I leave with you. My peace I give to you; not as the world gives, I give to you. Don’t let your heart be troubled, neither let it be fearful.",
+    "reference": "John 14:27",
+    "message": "",
+    "tags": [
+      "peace",
+      "fear"
+    ],
+    "tier": "free",
+    "weight": 10
+  },
+  {
+    "id": "stressed-009",
+    "emotionId": "stressed",
+    "body": "And we know that all things work together for good to them that love God, to them who are the called according to his purpose.",
+    "modernText": "We know that all things work together for good for those who love God, for those who are called according to his purpose.",
+    "reference": "Romans 8:28",
+    "message": "",
+    "tags": [
+      "purpose",
+      "trust"
+    ],
+    "tier": "free",
+    "weight": 9
+  },
+  {
+    "id": "stressed-010",
+    "emotionId": "stressed",
+    "body": "For God hath not given us the spirit of fear; but of power, and of love, and of a sound mind.",
+    "modernText": "For God didn’t give us a spirit of fear, but of power, love, and self-control.",
+    "reference": "2 Timothy 1:7",
+    "message": "",
+    "tags": [
+      "courage",
+      "fear"
+    ],
+    "tier": "free",
+    "weight": 9
+  },
+  {
+    "id": "stressed-011",
+    "emotionId": "stressed",
+    "body": "Have not I commanded thee? Be strong and of a good courage; be not afraid, neither be thou dismayed: for the LORD thy God is with thee whithersoever thou goest.",
+    "modernText": "Haven’t I commanded you? Be strong and courageous. Don’t be afraid. Don’t be dismayed, for Yahweh your God is with you wherever you go.”",
+    "reference": "Joshua 1:9",
+    "message": "",
+    "tags": [
+      "courage",
+      "presence"
+    ],
+    "tier": "free",
+    "weight": 9
+  },
+  {
+    "id": "stressed-012",
+    "emotionId": "stressed",
+    "body": "Fear thou not; for I am with thee: be not dismayed; for I am thy God: I will strengthen thee; yea, I will help thee; yea, I will uphold thee with the right hand of my righteousness.",
+    "modernText": "Don’t you be afraid, for I am with you. Don’t be dismayed, for I am your God. I will strengthen you. Yes, I will help you. Yes, I will uphold you with the right hand of my righteousness.",
+    "reference": "Isaiah 41:10",
+    "message": "",
+    "tags": [
+      "strength",
+      "fear"
+    ],
+    "tier": "free",
+    "weight": 10
+  },
+  {
+    "id": "stressed-013",
+    "emotionId": "stressed",
+    "body": "Cast thy burden upon the LORD, and he shall sustain thee: he shall never suffer the righteous to be moved.",
+    "modernText": "Cast your burden on Yahweh and he will sustain you. He will never allow the righteous to be moved.",
+    "reference": "Psalm 55:22",
+    "message": "",
+    "tags": [
+      "burden",
+      "care"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "stressed-014",
+    "emotionId": "stressed",
+    "body": "Take therefore no thought for the morrow: for the morrow shall take thought for the things of itself. Sufficient unto the day is the evil thereof.",
+    "modernText": "Therefore don’t be anxious for tomorrow, for tomorrow will be anxious for itself. Each day’s own evil is sufficient.",
+    "reference": "Matthew 6:34",
+    "message": "",
+    "tags": [
+      "anxiety",
+      "present"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "stressed-015",
+    "emotionId": "stressed",
+    "body": "And which of you with taking thought can add to his stature one cubit?",
+    "modernText": "Which of you by being anxious can add a cubit to his height?",
+    "reference": "Luke 12:25",
+    "message": "",
+    "tags": [
+      "worry",
+      "futility"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "stressed-016",
+    "emotionId": "stressed",
+    "body": "Trust in the LORD with all thine heart; and lean not unto thine own understanding.",
+    "modernText": "Trust in Yahweh with all your heart, and don’t lean on your own understanding.",
+    "reference": "Proverbs 3:5",
+    "message": "",
+    "tags": [
+      "trust",
+      "understanding"
+    ],
+    "tier": "free",
+    "weight": 9
+  },
+  {
+    "id": "stressed-017",
+    "emotionId": "stressed",
+    "body": "In all thy ways acknowledge him, and he shall direct thy paths.",
+    "modernText": "In all your ways acknowledge him, and he will make your paths straight.",
+    "reference": "Proverbs 3:6",
+    "message": "",
+    "tags": [
+      "direction",
+      "trust"
+    ],
+    "tier": "free",
+    "weight": 9
+  },
+  {
+    "id": "stressed-018",
+    "emotionId": "stressed",
+    "body": "In the multitude of my thoughts within me thy comforts delight my soul.",
+    "modernText": "In the multitude of my thoughts within me, your comforts delight my soul.",
+    "reference": "Psalm 94:19",
+    "message": "",
+    "tags": [
+      "anxiety",
+      "comfort"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "stressed-019",
+    "emotionId": "stressed",
+    "body": "Now the God of hope fill you with all joy and peace in believing, that ye may abound in hope, through the power of the Holy Ghost.",
+    "modernText": "Now may the God of hope fill you with all joy and peace in believing, that you may abound in hope, in the power of the Holy Spirit.",
+    "reference": "Romans 15:13",
+    "message": "",
+    "tags": [
+      "hope",
+      "peace"
+    ],
+    "tier": "free",
+    "weight": 9
+  },
+  {
+    "id": "stressed-020",
+    "emotionId": "stressed",
+    "body": "Now the Lord of peace himself give you peace always by all means. The Lord be with you all.",
+    "modernText": "Now may the Lord of peace himself give you peace at all times in all ways. The Lord be with you all.",
+    "reference": "2 Thessalonians 3:16",
+    "message": "",
+    "tags": [
+      "peace",
+      "presence"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "stressed-021",
+    "emotionId": "stressed",
+    "body": "The LORD lift up his countenance upon thee, and give thee peace.",
+    "modernText": "Yahweh lift up his face toward you, and give you peace.’",
+    "reference": "Numbers 6:26",
+    "message": "",
+    "tags": [
+      "peace",
+      "grace"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "stressed-022",
+    "emotionId": "stressed",
+    "body": "The LORD will give strength unto his people; the LORD will bless his people with peace.",
+    "modernText": "Yahweh will give strength to his people. Yahweh will bless his people with peace.",
+    "reference": "Psalm 29:11",
+    "message": "",
+    "tags": [
+      "strength",
+      "peace"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "stressed-023",
+    "emotionId": "stressed",
+    "body": "For thus saith the Lord GOD, the Holy One of Israel; In returning and rest shall ye be saved; in quietness and in confidence shall be your strength: and ye would not.",
+    "modernText": "For thus said the Lord Yahweh, the Holy One of Israel, “You will be saved in returning and rest. Your strength will be in quietness and in confidence.” You refused,",
+    "reference": "Isaiah 30:15",
+    "message": "",
+    "tags": [
+      "rest",
+      "quietness"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "stressed-024",
+    "emotionId": "stressed",
+    "body": "Let us therefore come boldly unto the throne of grace, that we may obtain mercy, and find grace to help in time of need.",
+    "modernText": "Let’s therefore draw near with boldness to the throne of grace, that we may receive mercy and may find grace for help in time of need.",
+    "reference": "Hebrews 4:16",
+    "message": "",
+    "tags": [
+      "grace",
+      "help"
+    ],
+    "tier": "free",
+    "weight": 9
+  },
+  {
+    "id": "stressed-025",
+    "emotionId": "stressed",
+    "body": "The LORD shall fight for you, and ye shall hold your peace.",
+    "modernText": "Yahweh will fight for you, and you shall be still.”",
+    "reference": "Exodus 14:14",
+    "message": "",
+    "tags": [
+      "stillness",
+      "battle"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "stressed-026",
+    "emotionId": "stressed",
+    "body": "Which of you by taking thought can add one cubit unto his stature?",
+    "modernText": "“Which of you, by being anxious, can add one moment to his lifespan?",
+    "reference": "Matthew 6:27",
+    "message": "",
+    "tags": [
+      "worry",
+      "futility"
+    ],
+    "tier": "premium",
+    "weight": 8
+  },
+  {
+    "id": "stressed-027",
+    "emotionId": "stressed",
+    "body": "And take heed to yourselves, lest at any time your hearts be overcharged with surfeiting, and drunkenness, and cares of this life, and so that day come upon you unawares.",
+    "modernText": "“So be careful, or your hearts will be loaded down with carousing, drunkenness, and cares of this life, and that day will come on you suddenly.",
+    "reference": "Luke 21:34",
+    "message": "",
+    "tags": [
+      "anxiety",
+      "watchfulness"
+    ],
+    "tier": "premium",
+    "weight": 8
+  },
+  {
+    "id": "stressed-028",
+    "emotionId": "stressed",
+    "body": "And let the peace of God rule in your hearts, to the which also ye are called in one body; and be ye thankful.",
+    "modernText": "And let the peace of God rule in your hearts, to which also you were called in one body, and be thankful.",
+    "reference": "Colossians 3:15",
+    "message": "",
+    "tags": [
+      "peace",
+      "gratitude"
+    ],
+    "tier": "premium",
+    "weight": 9
+  },
+  {
+    "id": "stressed-029",
+    "emotionId": "stressed",
+    "body": "Commit thy way unto the LORD; trust also in him; and he shall bring it to pass.",
+    "modernText": "Commit your way to Yahweh. Trust also in him, and he will do this:",
+    "reference": "Psalm 37:5",
+    "message": "",
+    "tags": [
+      "trust",
+      "delight"
+    ],
+    "tier": "premium",
+    "weight": 9
+  },
+  {
+    "id": "stressed-030",
+    "emotionId": "stressed",
+    "body": "Rest in the LORD, and wait patiently for him: fret not thyself because of him who prospereth in his way, because of the man who bringeth wicked devices to pass.",
+    "modernText": "Rest in Yahweh, and wait patiently for him. Don’t fret because of him who prospers in his way, because of the man who makes wicked plots happen.",
+    "reference": "Psalm 37:7",
+    "message": "",
+    "tags": [
+      "patience",
+      "stillness"
+    ],
+    "tier": "premium",
+    "weight": 8
+  },
+  {
+    "id": "stressed-031",
+    "emotionId": "stressed",
+    "body": "When thou passest through the waters, I will be with thee; and through the rivers, they shall not overflow thee: when thou walkest through the fire, thou shalt not be burned; neither shall the flame kindle upon thee.",
+    "modernText": "When you pass through the waters, I will be with you, and through the rivers, they will not overflow you. When you walk through the fire, you will not be burned, and flame will not scorch you.",
+    "reference": "Isaiah 43:2",
+    "message": "",
+    "tags": [
+      "presence",
+      "protection"
+    ],
+    "tier": "premium",
+    "weight": 9
+  },
+  {
+    "id": "stressed-032",
+    "emotionId": "stressed",
+    "body": "The LORD is good, a strong hold in the day of trouble; and he knoweth them that trust in him.",
+    "modernText": "Yahweh is good, a stronghold in the day of trouble; and he knows those who take refuge in him.",
+    "reference": "Nahum 1:7",
+    "message": "",
+    "tags": [
+      "refuge",
+      "care"
+    ],
+    "tier": "premium",
+    "weight": 8
+  },
+  {
+    "id": "stressed-033",
+    "emotionId": "stressed",
+    "body": "The LORD thy God in the midst of thee is mighty; he will save, he will rejoice over thee with joy; he will rest in his love, he will joy over thee with singing.",
+    "modernText": "Yahweh, your God, is among you, a mighty one who will save. He will rejoice over you with joy. He will calm you in his love. He will rejoice over you with singing.",
+    "reference": "Zephaniah 3:17",
+    "message": "",
+    "tags": [
+      "delight",
+      "love"
+    ],
+    "tier": "premium",
+    "weight": 9
+  },
+  {
+    "id": "stressed-034",
+    "emotionId": "stressed",
+    "body": "He that dwelleth in the secret place of the most High shall abide under the shadow of the Almighty.",
+    "modernText": "He who dwells in the secret place of the Most High will rest in the shadow of the Almighty.",
+    "reference": "Psalm 91:1",
+    "message": "",
+    "tags": [
+      "refuge",
+      "shelter"
+    ],
+    "tier": "premium",
+    "weight": 9
+  },
+  {
+    "id": "stressed-035",
+    "emotionId": "stressed",
+    "body": "I will say of the LORD, He is my refuge and my fortress: my God; in him will I trust.",
+    "modernText": "I will say of Yahweh, “He is my refuge and my fortress; my God, in whom I trust.”",
+    "reference": "Psalm 91:2",
+    "message": "",
+    "tags": [
+      "refuge",
+      "trust"
+    ],
+    "tier": "premium",
+    "weight": 8
+  },
+  {
+    "id": "stressed-036",
+    "emotionId": "stressed",
+    "body": "Be strong and of a good courage, fear not, nor be afraid of them: for the LORD thy God, he it is that doth go with thee; he will not fail thee, nor forsake thee.",
+    "modernText": "Be strong and courageous. Don’t be afraid or scared of them; for Yahweh your God himself is who goes with you. He will not fail you nor forsake you.”",
+    "reference": "Deuteronomy 31:6",
+    "message": "",
+    "tags": [
+      "courage",
+      "presence"
+    ],
+    "tier": "premium",
+    "weight": 9
+  },
+  {
+    "id": "stressed-037",
+    "emotionId": "stressed",
+    "body": "And David said to Solomon his son, Be strong and of good courage, and do it: fear not, nor be dismayed: for the LORD God, even my God, will be with thee; he will not fail thee, nor forsake thee, until thou hast finished all the work for the service of the house of the LORD.",
+    "modernText": "David said to Solomon his son, “Be strong and courageous, and do it. Don’t be afraid, nor be dismayed; for Yahweh God, even my God, is with you. He will not fail you, nor forsake you, until all the work for the service of Yahweh’s house is finished.",
+    "reference": "1 Chronicles 28:20",
+    "message": "",
+    "tags": [
+      "courage",
+      "fear"
+    ],
+    "tier": "premium",
+    "weight": 8
+  },
+  {
+    "id": "stressed-038",
+    "emotionId": "stressed",
+    "body": "The LORD is my light and my salvation; whom shall I fear? the LORD is the strength of my life; of whom shall I be afraid?",
+    "modernText": "Yahweh is my light and my salvation. Whom shall I fear? Yahweh is the strength of my life. Of whom shall I be afraid?",
+    "reference": "Psalm 27:1",
+    "message": "",
+    "tags": [
+      "strength",
+      "fear"
+    ],
+    "tier": "premium",
+    "weight": 9
+  },
+  {
+    "id": "stressed-039",
+    "emotionId": "stressed",
+    "body": "Wait on the LORD: be of good courage, and he shall strengthen thine heart: wait, I say, on the LORD.",
+    "modernText": "Wait for Yahweh. Be strong, and let your heart take courage. Yes, wait for Yahweh.",
+    "reference": "Psalm 27:14",
+    "message": "",
+    "tags": [
+      "patience",
+      "strength"
+    ],
+    "tier": "premium",
+    "weight": 8
+  },
+  {
+    "id": "stressed-040",
+    "emotionId": "stressed",
+    "body": "Truly my soul waiteth upon God: from him cometh my salvation.",
+    "modernText": "My soul rests in God alone. My salvation is from him.",
+    "reference": "Psalm 62:1",
+    "message": "",
+    "tags": [
+      "rest",
+      "trust"
+    ],
+    "tier": "premium",
+    "weight": 8
+  },
+  {
+    "id": "stressed-041",
+    "emotionId": "stressed",
+    "body": "It is good that a man should both hope and quietly wait for the salvation of the LORD.",
+    "modernText": "It is good that a man should hope and quietly wait for the salvation of Yahweh.",
+    "reference": "Lamentations 3:26",
+    "message": "",
+    "tags": [
+      "patience",
+      "hope"
+    ],
+    "tier": "premium",
+    "weight": 8
+  },
+  {
+    "id": "stressed-042",
+    "emotionId": "stressed",
+    "body": "The LORD God is my strength, and he will make my feet like hinds’ feet, and he will make me to walk upon mine high places. To the chief singer on my stringed instruments.",
+    "modernText": "Yahweh, the Lord, is my strength. He makes my feet like deer’s feet, and enables me to go in high places. For the music director, on my stringed instruments.",
+    "reference": "Habakkuk 3:19",
+    "message": "",
+    "tags": [
+      "strength",
+      "heights"
+    ],
+    "tier": "premium",
+    "weight": 8
+  },
+  {
+    "id": "stressed-043",
+    "emotionId": "stressed",
+    "body": "Draw nigh to God, and he will draw nigh to you. Cleanse your hands, ye sinners; and purify your hearts, ye double minded.",
+    "modernText": "Draw near to God, and he will draw near to you. Cleanse your hands, you sinners. Purify your hearts, you double-minded.",
+    "reference": "James 4:8",
+    "message": "",
+    "tags": [
+      "nearness",
+      "drawing"
+    ],
+    "tier": "premium",
+    "weight": 8
+  },
+  {
+    "id": "stressed-044",
+    "emotionId": "stressed",
+    "body": "I have set the LORD always before me: because he is at my right hand, I shall not be moved.",
+    "modernText": "I have set Yahweh always before me. Because he is at my right hand, I shall not be moved.",
+    "reference": "Psalm 16:8",
+    "message": "",
+    "tags": [
+      "steadiness",
+      "presence"
+    ],
+    "tier": "premium",
+    "weight": 8
+  },
+  {
+    "id": "stressed-045",
+    "emotionId": "stressed",
+    "body": "Trust ye in the LORD for ever: for in the LORD JEHOVAH is everlasting strength:",
+    "modernText": "Trust in Yahweh forever; for in Yah, Yahweh, is an everlasting Rock.",
+    "reference": "Isaiah 26:4",
+    "message": "",
+    "tags": [
+      "trust",
+      "strength"
+    ],
+    "tier": "premium",
+    "weight": 8
+  },
+  {
+    "id": "stressed-046",
+    "emotionId": "stressed",
+    "body": "Therefore being justified by faith, we have peace with God through our Lord Jesus Christ:",
+    "modernText": "Being therefore justified by faith, we have peace with God through our Lord Jesus Christ;",
+    "reference": "Romans 5:1",
+    "message": "",
+    "tags": [
+      "peace",
+      "faith"
+    ],
+    "tier": "premium",
+    "weight": 8
+  },
+  {
+    "id": "stressed-047",
+    "emotionId": "stressed",
+    "body": "And let us not be weary in well doing: for in due season we shall reap, if we faint not.",
+    "modernText": "Let’s not be weary in doing good, for we will reap in due season, if we don’t give up.",
+    "reference": "Galatians 6:9",
+    "message": "",
+    "tags": [
+      "perseverance",
+      "harvest"
+    ],
+    "tier": "premium",
+    "weight": 8
+  },
+  {
+    "id": "stressed-048",
+    "emotionId": "stressed",
+    "body": "He giveth power to the faint; and to them that have no might he increaseth strength.",
+    "modernText": "He gives power to the weak. He increases the strength of him who has no might.",
+    "reference": "Isaiah 40:29",
+    "message": "",
+    "tags": [
+      "strength",
+      "weary"
+    ],
+    "tier": "premium",
+    "weight": 9
+  },
+  {
+    "id": "stressed-049",
+    "emotionId": "stressed",
+    "body": "But they that wait upon the LORD shall renew their strength; they shall mount up with wings as eagles; they shall run, and not be weary; and they shall walk, and not faint.",
+    "modernText": "but those who wait for Yahweh will renew their strength. They will mount up with wings like eagles. They will run, and not be weary. They will walk, and not faint.",
+    "reference": "Isaiah 40:31",
+    "message": "",
+    "tags": [
+      "strength",
+      "renewal"
+    ],
+    "tier": "premium",
+    "weight": 10
+  },
+  {
+    "id": "stressed-050",
+    "emotionId": "stressed",
+    "body": "Blessed be God, even the Father of our Lord Jesus Christ, the Father of mercies, and the God of all comfort;",
+    "modernText": "Blessed be the God and Father of our Lord Jesus Christ, the Father of mercies and God of all comfort;",
+    "reference": "2 Corinthians 1:3",
+    "message": "",
+    "tags": [
+      "comfort",
+      "mercy"
+    ],
+    "tier": "premium",
+    "weight": 9
+  }
+]

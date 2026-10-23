@@ -1,16 +1,10 @@
-import AsyncStorage from '@react-native-async-storage/async-storage'
-import { collection, getDocs, query, where } from 'firebase/firestore'
 import type { EmotionId, Message, Tier } from '../types'
-import { db } from '../services/firebase'
 import { getMessageMetadata, updateMessageMetadata } from '../storage/storage'
 import { V1_UNLOCK_ALL } from '../constants'
+import versesData from './verses.json'
 
 const RECENT_PENALTY_HOURS = 48
 const RECENT_PENALTY_FACTOR = 0.2
-const CACHE_TTL_MS = 24 * 60 * 60 * 1000
-
-/** Prefix for per-emotion verse pool cache keys. Namespaced under `@soft_landing/`. */
-const VERSE_POOL_KEY_PREFIX = '@soft_landing/verse_pool/' as const
 
 const INTENT_TAG_MAP: Record<string, string[]> = {
   peace:    ['comfort', 'rest', 'presence'],
@@ -19,30 +13,45 @@ const INTENT_TAG_MAP: Record<string, string[]> = {
   guidance: ['wisdom', 'direction', 'trust'],
 }
 
-/**
- * Shape of a single verse document in the Firestore `verses` collection.
- * Only the fields consumed by the selector are typed here.
- */
-interface VerseDoc {
+/** Shape of a verse entry in the bundled `verses.json` (built by scripts/build-verses.mjs). */
+interface RawVerse {
+  id: string
+  emotionId: EmotionId
+  body: string
+  modernText?: string
   reference: string
-  kjv: string
-  web: string | null
-  emotionTags: EmotionId[]
-  emotionMeta: Partial<Record<EmotionId, { tier: Tier; weight: number; tags: string[] }>>
+  message: string
+  tags: string[]
+  tier: Tier
+  weight: number
 }
 
-/** AsyncStorage payload for the per-emotion verse pool cache. */
-interface CachedPool {
-  fetchedAt: string
-  verses: Message[]
+const ALL_VERSES = versesData as unknown as RawVerse[]
+const BY_ID = new Map<string, RawVerse>(ALL_VERSES.map((v) => [v.id, v]))
+
+function toMessage(v: RawVerse): Message {
+  return {
+    id: v.id,
+    emotionId: v.emotionId,
+    body: v.body,
+    ...(v.modernText ? { modernText: v.modernText } : {}),
+    reference: v.reference,
+    message: v.message,
+    tags: v.tags,
+    tier: v.tier,
+    weight: v.weight,
+    usageCount: 0,
+    lastUsed: null,
+  }
 }
 
-/** Cache key for an emotion's verse pool. Namespaced under `@soft_landing/`. */
-function cacheKey(emotionId: EmotionId): string {
-  return `${VERSE_POOL_KEY_PREFIX}${emotionId}`
+/** Look up a verse by its stable id (e.g. "sad-012"). Offline, from verses.json. */
+export function getVerseById(id: string): Message | null {
+  const v = BY_ID.get(id)
+  return v ? toMessage(v) : null
 }
 
-/** Filter a fully-fetched pool down to the tier the user is allowed to see. */
+/** Filter a pool down to the tier the user is allowed to see. */
 function filterByTier(verses: Message[], tier: Tier): Message[] {
   // Free-first V1: everyone sees the full pool. V1.1 re-gates via RevenueCat.
   if (V1_UNLOCK_ALL) return verses
@@ -50,81 +59,28 @@ function filterByTier(verses: Message[], tier: Tier): Message[] {
 }
 
 /**
- * Map a raw Firestore verse document into the in-app `Message` shape.
- * Returns null if the doc is missing the requested emotion's metadata.
- */
-function mapVerseDoc(id: string, data: VerseDoc, emotionId: EmotionId): Message | null {
-  const meta = data.emotionMeta[emotionId]
-  if (!meta) return null
-  return {
-    id,
-    emotionId,
-    body: data.kjv,
-    modernText: data.web ?? undefined,
-    reference: data.reference,
-    tags: meta.tags,
-    tier: meta.tier,
-    weight: meta.weight,
-    usageCount: 0,
-    lastUsed: null,
-  }
-}
-
-/**
- * Fetch the full verse pool for an emotion, with a 24-hour AsyncStorage cache.
+ * The full verse pool for an emotion, read from the bundled `verses.json`.
+ * Fully offline — no network, no cache. Verse text + the per-verse message are
+ * baked in at build time from the curated refs (scripts/verse-refs.json) joined
+ * against the bundled KJV + WEB datasets.
  *
- * - On fresh cache (< 24h): returns cached verses, filtered by tier, no network.
- * - On stale or missing cache: queries Firestore, persists the full pool, then
- *   returns the tier-filtered slice.
- * - On Firestore error: falls back to stale cache (any age) if present;
- *   otherwise throws a user-friendly error.
- *
- * The cache stores the full free+premium pool so a tier upgrade does not
- * require an immediate refetch.
+ * Kept async so existing callers (selectMessage, performCheckIn) are unchanged.
  */
 async function fetchVersePool(emotionId: EmotionId, tier: Tier): Promise<Message[]> {
-  const key = cacheKey(emotionId)
+  const pool = ALL_VERSES.filter((v) => v.emotionId === emotionId).map(toMessage)
+  return filterByTier(pool, tier)
+}
 
-  let cached: CachedPool | null = null
-  try {
-    const raw = await AsyncStorage.getItem(key)
-    if (raw) cached = JSON.parse(raw) as CachedPool
-  } catch {
-    cached = null
-  }
-
-  if (cached) {
-    const age = Date.now() - new Date(cached.fetchedAt).getTime()
-    if (age < CACHE_TTL_MS) {
-      return filterByTier(cached.verses, tier)
-    }
-  }
-
-  try {
-    const q = query(collection(db, 'verses'), where('emotionTags', 'array-contains', emotionId))
-    const snap = await getDocs(q)
-
-    const pool: Message[] = []
-    snap.forEach((doc) => {
-      const mapped = mapVerseDoc(doc.id, doc.data() as VerseDoc, emotionId)
-      if (mapped) pool.push(mapped)
-    })
-
-    const payload: CachedPool = { fetchedAt: new Date().toISOString(), verses: pool }
-    try {
-      await AsyncStorage.setItem(key, JSON.stringify(payload))
-    } catch {
-      // cache write failure is non-fatal — we still return the fresh pool
-    }
-
-    return filterByTier(pool, tier)
-  } catch {
-    if (cached) {
-      // Stale cache fallback when the network is unavailable.
-      return filterByTier(cached.verses, tier)
-    }
-    throw new Error('Unable to load verses. Please check your connection and try again.')
-  }
+/** Overlay stored usage metadata (lastUsed/usageCount) onto a pool. */
+function applyMetadata(
+  pool: Message[],
+  meta: Record<string, { lastUsed: string; usageCount: number }>
+): Message[] {
+  return pool.map((m) => ({
+    ...m,
+    lastUsed: meta[m.id]?.lastUsed ?? m.lastUsed,
+    usageCount: meta[m.id]?.usageCount ?? m.usageCount,
+  }))
 }
 
 function effectiveWeight(message: Message, now: Date, intentTags: string[]): number {
@@ -139,32 +95,8 @@ function effectiveWeight(message: Message, now: Date, intentTags: string[]): num
   return message.weight * tagBoost
 }
 
-/**
- * Pick a single validating message for the given emotion + tier, applying
- * intent-tag boosting and a 48h anti-repetition penalty.
- *
- * Side effect: records the selection via `updateMessageMetadata` so the
- * anti-repetition window applies on subsequent calls.
- */
-export async function selectMessage(
-  emotionId: EmotionId,
-  tier: Tier,
-  primaryIntent?: string | null
-): Promise<Message> {
-  const now = new Date()
-  const meta = await getMessageMetadata()
-
-  const intentTags = primaryIntent ? (INTENT_TAG_MAP[primaryIntent] ?? []) : []
-
-  const fetched = await fetchVersePool(emotionId, tier)
-  const pool = fetched.map((m) => ({
-    ...m,
-    lastUsed: meta[m.id]?.lastUsed ?? m.lastUsed,
-    usageCount: meta[m.id]?.usageCount ?? m.usageCount,
-  }))
-
-  if (pool.length === 0) throw new Error(`No messages found for emotion: ${emotionId}`)
-
+/** Weighted random pick over a pool using effectiveWeight. */
+function weightedPick(pool: Message[], now: Date, intentTags: string[]): Message {
   const weights = pool.map((m) => effectiveWeight(m, now, intentTags))
   const total = weights.reduce((sum, w) => sum + w, 0)
 
@@ -177,7 +109,50 @@ export async function selectMessage(
       break
     }
   }
+  return selected
+}
 
+/**
+ * Pick a single verse for the given emotion + tier, applying intent-tag boosting
+ * and a 48h anti-repetition penalty. Records the selection via
+ * `updateMessageMetadata` so the anti-repetition window applies on later calls.
+ */
+export async function selectMessage(
+  emotionId: EmotionId,
+  tier: Tier,
+  primaryIntent?: string | null
+): Promise<Message> {
+  const now = new Date()
+  const meta = await getMessageMetadata()
+  const intentTags = primaryIntent ? (INTENT_TAG_MAP[primaryIntent] ?? []) : []
+
+  const pool = applyMetadata(await fetchVersePool(emotionId, tier), meta)
+  if (pool.length === 0) throw new Error(`No messages found for emotion: ${emotionId}`)
+
+  const selected = weightedPick(pool, now, intentTags)
   await updateMessageMetadata(selected.id)
   return selected
+}
+
+/**
+ * Pick a *different* verse for the "New verse" button: excludes `excludeId`,
+ * applies the same weighting, and does NOT write usage metadata (browsing
+ * alternatives has no side effects). Falls back to the full pool if excluding
+ * leaves nothing.
+ */
+export async function fetchFreshVerse(
+  emotionId: EmotionId,
+  tier: Tier,
+  excludeId: string,
+  primaryIntent?: string | null
+): Promise<Message> {
+  const now = new Date()
+  const meta = await getMessageMetadata()
+  const intentTags = primaryIntent ? (INTENT_TAG_MAP[primaryIntent] ?? []) : []
+
+  const full = applyMetadata(await fetchVersePool(emotionId, tier), meta)
+  if (full.length === 0) throw new Error(`No verses found for emotion: ${emotionId}`)
+
+  const pool = full.filter((m) => m.id !== excludeId)
+  return weightedPick(pool.length > 0 ? pool : full, now, intentTags)
 }

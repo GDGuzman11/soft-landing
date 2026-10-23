@@ -47,9 +47,7 @@ function ThemedStack() {
       <Stack.Screen name="splash" options={{ animation: 'none' }} />
       <Stack.Screen name="sign-in" options={{ animation: 'fade' }} />
       <Stack.Screen name="(tabs)" />
-      <Stack.Screen name="check-in/emotions" options={{ animation: 'fade' }} />
-      <Stack.Screen name="check-in/envelope" options={{ animation: 'fade' }} />
-      <Stack.Screen name="check-in/message" options={{ animation: 'none' }} />
+      <Stack.Screen name="check-in/index" options={{ animation: 'fade' }} />
       <Stack.Screen name="paywall" options={{ presentation: 'modal' }} />
       <Stack.Screen name="register" options={{ animation: 'fade' }} />
       <Stack.Screen name="verify-email" options={{ animation: 'fade' }} />
@@ -57,7 +55,6 @@ function ThemedStack() {
       <Stack.Screen name="onboarding-profile" options={{ animation: 'fade' }} />
       <Stack.Screen name="onboarding-disclaimer" options={{ animation: 'fade' }} />
       <Stack.Screen name="tour" options={{ animation: 'fade' }} />
-      <Stack.Screen name="check-in/session-summary" options={{ animation: 'fade' }} />
       <Stack.Screen name="check-in/letter-compose" options={{ animation: 'fade' }} />
       <Stack.Screen name="dashboard/index" />
       <Stack.Screen name="settings" />

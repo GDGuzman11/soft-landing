@@ -13,6 +13,7 @@ import { router, useLocalSearchParams } from 'expo-router'
 import { useEffect, useState } from 'react'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { getSavedMessages, getSettings, updateSavedMessage, setFirstLetterUsed } from '@/storage/storage'
+import { getVerseById } from '@/messages/selector'
 import { generateLetter } from '@/services/letterService'
 import { getCurrentUser } from '@/services/auth'
 import LetterCard from '@/components/LetterCard'
@@ -84,17 +85,19 @@ export default function LetterComposeScreen() {
 
       if (sm) {
         const emotionId = sm.emotionId ?? 'neutral'
-        const cached = await AsyncStorage.getItem(`@soft_landing/verse_pool/${emotionId}`)
-        if (cached) {
-          const pool: { fetchedAt: string; verses: Message[] } = JSON.parse(cached)
-          const msg = pool.verses.find((v) => v.id === sm.messageId)
-          setVerseData({
-            body: msg?.body ?? '…',
-            reference: msg?.reference ?? '',
-            modernText: msg?.modernText,
-          })
+        const v = getVerseById(sm.messageId)
+        if (v) {
+          setVerseData({ body: v.body, reference: v.reference ?? '', modernText: v.modernText })
         } else {
-          setVerseData({ body: '…', reference: '', modernText: undefined })
+          // Legacy saves (pre-bundled-verses migration): fall back to the old cache.
+          const cached = await AsyncStorage.getItem(`@soft_landing/verse_pool/${emotionId}`)
+          if (cached) {
+            const pool: { fetchedAt: string; verses: Message[] } = JSON.parse(cached)
+            const msg = pool.verses.find((v) => v.id === sm.messageId)
+            setVerseData({ body: msg?.body ?? '…', reference: msg?.reference ?? '', modernText: msg?.modernText })
+          } else {
+            setVerseData({ body: '…', reference: '', modernText: undefined })
+          }
         }
       }
     })
