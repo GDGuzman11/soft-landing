@@ -3498,5 +3498,705 @@
     ],
     "tier": "premium",
     "weight": 9
+  },
+  {
+    "id": "stressed-051",
+    "emotionId": "stressed",
+    "body": "I will both lay me down in peace, and sleep: for thou, LORD, only makest me dwell in safety.",
+    "modernText": "In peace I will both lay myself down and sleep, for you, Yahweh alone, make me live in safety.",
+    "reference": "Psalm 4:8",
+    "message": "The verse for when your body is in bed but your brain is still at the office. Rest offered not because everything's handled, but because you're held.",
+    "tags": [
+      "peace",
+      "rest"
+    ],
+    "tier": "free",
+    "weight": 9
+  },
+  {
+    "id": "stressed-052",
+    "emotionId": "stressed",
+    "body": "I laid me down and slept; I awaked; for the LORD sustained me.",
+    "modernText": "I laid myself down and slept. I awakened; for Yahweh sustains me.",
+    "reference": "Psalm 3:5",
+    "message": "You made it to morning. Not because you white-knuckled through the night, but because something steadier than you kept watch.",
+    "tags": [
+      "rest",
+      "sustained"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "stressed-053",
+    "emotionId": "stressed",
+    "body": "Yea, though I walk through the valley of the shadow of death, I will fear no evil: for thou art with me; thy rod and thy staff they comfort me.",
+    "modernText": "Even though I walk through the valley of the shadow of death, I will fear no evil, for you are with me. Your rod and your staff, they comfort me.",
+    "reference": "Psalm 23:4",
+    "message": "Even walking straight through the worst of it, the promise isn't 'no shadow.' It's 'not alone in the shadow.'",
+    "tags": [
+      "fear",
+      "presence"
+    ],
+    "tier": "free",
+    "weight": 9
+  },
+  {
+    "id": "stressed-054",
+    "emotionId": "stressed",
+    "body": "I sought the LORD, and he heard me, and delivered me from all my fears.",
+    "modernText": "I sought Yahweh, and he answered me, and delivered me from all my fears.",
+    "reference": "Psalm 34:4",
+    "message": "Not just the big fears, all of them. The low-grade background dread you forgot you were even carrying.",
+    "tags": [
+      "fear",
+      "deliverance"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "stressed-055",
+    "emotionId": "stressed",
+    "body": "What time I am afraid, I will trust in thee.",
+    "modernText": "When I am afraid, I will put my trust in you.",
+    "reference": "Psalm 56:3",
+    "message": "It doesn't pretend you won't be afraid. It just gives you somewhere to put the fear when you are.",
+    "tags": [
+      "fear",
+      "trust"
+    ],
+    "tier": "free",
+    "weight": 9
+  },
+  {
+    "id": "stressed-056",
+    "emotionId": "stressed",
+    "body": "In God I will praise his word, in God I have put my trust; I will not fear what flesh can do unto me.",
+    "modernText": "In God, I praise his word. In God, I put my trust. I will not be afraid. What can flesh do to me?",
+    "reference": "Psalm 56:4",
+    "message": "What can flesh really do next to the thing holding you. A quiet resizing of what felt enormous a second ago.",
+    "tags": [
+      "fear",
+      "trust"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "stressed-057",
+    "emotionId": "stressed",
+    "body": "I called upon the LORD in distress: the LORD answered me, and set me in a large place.",
+    "modernText": "Out of my distress, I called on Yah. Yah answered me with freedom.",
+    "reference": "Psalm 118:5",
+    "message": "Called out of the tight, pressed-in place and given room to breathe. Sometimes the answer to stress is just space.",
+    "tags": [
+      "distress",
+      "freedom"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "stressed-058",
+    "emotionId": "stressed",
+    "body": "The LORD is on my side; I will not fear: what can man do unto me?",
+    "modernText": "Yahweh is on my side. I will not be afraid. What can man do to me?",
+    "reference": "Psalm 118:6",
+    "message": "If help is actually on your side, the list of things to brace against gets a lot shorter.",
+    "tags": [
+      "fear",
+      "help"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "stressed-059",
+    "emotionId": "stressed",
+    "body": "From the end of the earth will I cry unto thee, when my heart is overwhelmed: lead me to the rock that is higher than I.",
+    "modernText": "From the end of the earth, I will call to you when my heart is overwhelmed. Lead me to the rock that is higher than I.",
+    "reference": "Psalm 61:2",
+    "message": "When your heart is overwhelmed is literally the condition this was written for. Led up to something higher and steadier than where you're standing.",
+    "tags": [
+      "refuge",
+      "overwhelm"
+    ],
+    "tier": "free",
+    "weight": 9
+  },
+  {
+    "id": "stressed-060",
+    "emotionId": "stressed",
+    "body": "Cause me to hear thy lovingkindness in the morning; for in thee do I trust: cause me to know the way wherein I should walk; for I lift up my soul unto thee.",
+    "modernText": "Cause me to hear your loving kindness in the morning, for I trust in you. Cause me to know the way in which I should walk, for I lift up my soul to you.",
+    "reference": "Psalm 143:8",
+    "message": "A morning ask: let me hear something kind before the day starts talking. Point me somewhere before the noise does.",
+    "tags": [
+      "morning",
+      "trust"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "stressed-061",
+    "emotionId": "stressed",
+    "body": "He shall not be afraid of evil tidings: his heart is fixed, trusting in the LORD.",
+    "modernText": "He will not be afraid of evil news. His heart is steadfast, trusting in Yahweh.",
+    "reference": "Psalm 112:7",
+    "message": "For the person bracing for the next notification. A steadiness that doesn't flinch every time the phone buzzes.",
+    "tags": [
+      "fear",
+      "steadiness"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "stressed-062",
+    "emotionId": "stressed",
+    "body": "Though I walk in the midst of trouble, thou wilt revive me: thou shalt stretch forth thine hand against the wrath of mine enemies, and thy right hand shall save me.",
+    "modernText": "Though I walk in the middle of trouble, you will revive me. You will stretch out your hand against the wrath of my enemies. Your right hand will save me.",
+    "reference": "Psalm 138:7",
+    "message": "Not lifted out of the trouble, revived in the middle of walking through it. Kept moving when you thought you were out of gas.",
+    "tags": [
+      "trouble",
+      "revival"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "stressed-063",
+    "emotionId": "stressed",
+    "body": "Therefore will not we fear, though the earth be removed, and though the mountains be carried into the midst of the sea;",
+    "modernText": "Therefore we won’t be afraid, though the earth changes, though the mountains are shaken into the heart of the seas;",
+    "reference": "Psalm 46:2",
+    "message": "Even if the ground itself moved, the verse says we won't fear. A stubborn calm that doesn't depend on things staying put.",
+    "tags": [
+      "fear",
+      "refuge"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "stressed-064",
+    "emotionId": "stressed",
+    "body": "Though the waters thereof roar and be troubled, though the mountains shake with the swelling thereof. Selah.",
+    "modernText": "though its waters roar and are troubled, though the mountains tremble with their swelling.",
+    "reference": "Psalm 46:3",
+    "message": "Let the waters roar. The point isn't that it gets quiet, it's that something stays unmoved while it's loud.",
+    "tags": [
+      "fear",
+      "refuge"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "stressed-065",
+    "emotionId": "stressed",
+    "body": "When I said, My foot slippeth; thy mercy, O LORD, held me up.",
+    "modernText": "When I said, “My foot is slipping!” Your loving kindness, Yahweh, held me up.",
+    "reference": "Psalm 94:18",
+    "message": "That moment you felt yourself going under, and something caught you. Mercy showing up right at the slip.",
+    "tags": [
+      "mercy",
+      "held"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "stressed-066",
+    "emotionId": "stressed",
+    "body": "The LORD shall preserve thee from all evil: he shall preserve thy soul.",
+    "modernText": "Yahweh will keep you from all evil. He will keep your soul.",
+    "reference": "Psalm 121:7",
+    "message": "Preserved, kept, watched. Steady words for a mind that's been running worst-case scenarios all day.",
+    "tags": [
+      "protection",
+      "preserve"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "stressed-067",
+    "emotionId": "stressed",
+    "body": "The LORD shall preserve thy going out and thy coming in from this time forth, and even for evermore.",
+    "modernText": "Yahweh will keep your going out and your coming in, from this time forward, and forever more.",
+    "reference": "Psalm 121:8",
+    "message": "The ordinary comings and goings, the commute, the errands, the whole anxious day, all of it watched over.",
+    "tags": [
+      "protection",
+      "preserve"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "stressed-068",
+    "emotionId": "stressed",
+    "body": "For I the LORD thy God will hold thy right hand, saying unto thee, Fear not; I will help thee.",
+    "modernText": "For I, Yahweh your God, will hold your right hand, saying to you, ‘Don’t be afraid. I will help you.’",
+    "reference": "Isaiah 41:13",
+    "message": "A hand actually taking yours. Not a pep talk from across the room, closer than that.",
+    "tags": [
+      "fear",
+      "help"
+    ],
+    "tier": "free",
+    "weight": 9
+  },
+  {
+    "id": "stressed-069",
+    "emotionId": "stressed",
+    "body": "But now thus saith the LORD that created thee, O Jacob, and he that formed thee, O Israel, Fear not: for I have redeemed thee, I have called thee by thy name; thou art mine.",
+    "modernText": "But now Yahweh who created you, Jacob, and he who formed you, Israel, says: “Don’t be afraid, for I have redeemed you. I have called you by your name. You are mine.",
+    "reference": "Isaiah 43:1",
+    "message": "Called by name, claimed. On a day you feel like a number on everyone's to-do list, you're known by yours.",
+    "tags": [
+      "fear",
+      "belonging"
+    ],
+    "tier": "free",
+    "weight": 9
+  },
+  {
+    "id": "stressed-070",
+    "emotionId": "stressed",
+    "body": "For the mountains shall depart, and the hills be removed; but my kindness shall not depart from thee, neither shall the covenant of my peace be removed, saith the LORD that hath mercy on thee.",
+    "modernText": "For the mountains may depart, and the hills be removed; but my loving kindness will not depart from you, and my covenant of peace will not be removed,” says Yahweh who has mercy on you.",
+    "reference": "Isaiah 54:10",
+    "message": "Even if the solid things shift, the kindness doesn't. Something that outlasts what you thought was permanent.",
+    "tags": [
+      "kindness",
+      "steadfast"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "stressed-071",
+    "emotionId": "stressed",
+    "body": "And the work of righteousness shall be peace; and the effect of righteousness quietness and assurance for ever.",
+    "modernText": "The work of righteousness will be peace, and the effect of righteousness, quietness and confidence forever.",
+    "reference": "Isaiah 32:17",
+    "message": "Real peace isn't the loud kind that performs calm. It's quiet, and it just stays.",
+    "tags": [
+      "peace",
+      "quietness"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "stressed-072",
+    "emotionId": "stressed",
+    "body": "Behold, God is my salvation; I will trust, and not be afraid: for the LORD JEHOVAH is my strength and my song; he also is become my salvation.",
+    "modernText": "Behold, God is my salvation. I will trust, and will not be afraid; for Yah, Yahweh, is my strength and song; and he has become my salvation.”",
+    "reference": "Isaiah 12:2",
+    "message": "Saying it out loud, I will trust and not be afraid, even before the feeling catches up. Sometimes steadiness starts as a sentence.",
+    "tags": [
+      "trust",
+      "fear"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "stressed-073",
+    "emotionId": "stressed",
+    "body": "For I know the thoughts that I think toward you, saith the LORD, thoughts of peace, and not of evil, to give you an expected end.",
+    "modernText": "For I know the thoughts that I think toward you,” says Yahweh, “thoughts of peace, and not of evil, to give you hope and a future.",
+    "reference": "Jeremiah 29:11",
+    "message": "When your own head runs nothing but worst cases, this says the thoughts toward you are peace. A kinder narrator than the one you've been listening to.",
+    "tags": [
+      "hope",
+      "future"
+    ],
+    "tier": "free",
+    "weight": 10
+  },
+  {
+    "id": "stressed-074",
+    "emotionId": "stressed",
+    "body": "Blessed is the man that trusteth in the LORD, and whose hope the LORD is.",
+    "modernText": "“Blessed is the man who trusts in Yahweh, and whose confidence is in Yahweh.",
+    "reference": "Jeremiah 17:7",
+    "message": "Blessed is the one who leans their weight somewhere steadier than their own planning. Permission to stop being your own foundation.",
+    "tags": [
+      "trust",
+      "hope"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "stressed-075",
+    "emotionId": "stressed",
+    "body": "For he shall be as a tree planted by the waters, and that spreadeth out her roots by the river, and shall not see when heat cometh, but her leaf shall be green; and shall not be careful in the year of drought, neither shall cease from yielding fruit.",
+    "modernText": "For he will be as a tree planted by the waters, who spreads out its roots by the river, and will not fear when heat comes, but its leaf will be green, and will not be concerned in the year of drought. It won’t cease from yielding fruit.",
+    "reference": "Jeremiah 17:8",
+    "message": "Roots down by the water, so the heat comes and the leaf stays green. Steadiness that doesn't depend on the conditions being good.",
+    "tags": [
+      "trust",
+      "rooted"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "stressed-076",
+    "emotionId": "stressed",
+    "body": "Therefore I say unto you, Take no thought for your life, what ye shall eat, or what ye shall drink; nor yet for your body, what ye shall put on. Is not the life more than meat, and the body than raiment?",
+    "modernText": "Therefore I tell you, don’t be anxious for your life: what you will eat, or what you will drink; nor yet for your body, what you will wear. Isn’t life more than food, and the body more than clothing?",
+    "reference": "Matthew 6:25",
+    "message": "An old way of saying stop borrowing tomorrow's panic. Your life is more than the list you're stressing over.",
+    "tags": [
+      "worry",
+      "provision"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "stressed-077",
+    "emotionId": "stressed",
+    "body": "Behold the fowls of the air: for they sow not, neither do they reap, nor gather into barns; yet your heavenly Father feedeth them. Are ye not much better than they?",
+    "modernText": "See the birds of the sky, that they don’t sow, neither do they reap, nor gather into barns. Your heavenly Father feeds them. Aren’t you of much more value than they?",
+    "reference": "Matthew 6:26",
+    "message": "The birds aren't out there spiraling about provision, and they're fine. A nudge that you might be more cared for than the anxiety suggests.",
+    "tags": [
+      "worry",
+      "provision"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "stressed-078",
+    "emotionId": "stressed",
+    "body": "But seek ye first the kingdom of God, and his righteousness; and all these things shall be added unto you.",
+    "modernText": "But seek first God’s Kingdom, and his righteousness; and all these things will be given to you as well.",
+    "reference": "Matthew 6:33",
+    "message": "One thing to orient around instead of twenty. When everything feels urgent, this quietly reorders the pile.",
+    "tags": [
+      "priority",
+      "trust"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "stressed-079",
+    "emotionId": "stressed",
+    "body": "And he saith unto them, Why are ye fearful, O ye of little faith? Then he arose, and rebuked the winds and the sea; and there was a great calm.",
+    "modernText": "He said to them, “Why are you fearful, O you of little faith?” Then he got up, rebuked the wind and the sea, and there was a great calm.",
+    "reference": "Matthew 8:26",
+    "message": "Said to people in an actual sinking boat. Not a dismissal of the storm, a question about who's in it with them.",
+    "tags": [
+      "fear",
+      "faith"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "stressed-080",
+    "emotionId": "stressed",
+    "body": "And he arose, and rebuked the wind, and said unto the sea, Peace, be still. And the wind ceased, and there was a great calm.",
+    "modernText": "He awoke, and rebuked the wind, and said to the sea, “Peace! Be still!” The wind ceased, and there was a great calm.",
+    "reference": "Mark 4:39",
+    "message": "Three words to a storm: peace, be still. For the internal weather too, not just the lake.",
+    "tags": [
+      "peace",
+      "storm"
+    ],
+    "tier": "free",
+    "weight": 9
+  },
+  {
+    "id": "stressed-081",
+    "emotionId": "stressed",
+    "body": "As soon as Jesus heard the word that was spoken, he saith unto the ruler of the synagogue, Be not afraid, only believe.",
+    "modernText": "But Jesus, when he heard the message spoken, immediately said to the ruler of the synagogue, “Don’t be afraid, only believe.”",
+    "reference": "Mark 5:36",
+    "message": "Right after the worst news, this. Not 'it's fine,' just 'don't do this part alone, and keep holding on.'",
+    "tags": [
+      "fear",
+      "faith"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "stressed-082",
+    "emotionId": "stressed",
+    "body": "These things I have spoken unto you, that in me ye might have peace. In the world ye shall have tribulation: but be of good cheer; I have overcome the world.",
+    "modernText": "I have told you these things, that in me you may have peace. In the world you have trouble; but cheer up! I have overcome the world.”",
+    "reference": "John 16:33",
+    "message": "It's honest: in the world you'll have trouble. The peace isn't instead of the trouble, it's underneath it.",
+    "tags": [
+      "peace",
+      "tribulation"
+    ],
+    "tier": "free",
+    "weight": 10
+  },
+  {
+    "id": "stressed-083",
+    "emotionId": "stressed",
+    "body": "For to be carnally minded is death; but to be spiritually minded is life and peace.",
+    "modernText": "For the mind of the flesh is death, but the mind of the Spirit is life and peace;",
+    "reference": "Romans 8:6",
+    "message": "Where your mind lives changes how the day feels. A quiet suggestion about where to let it rest.",
+    "tags": [
+      "peace",
+      "mind"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "stressed-084",
+    "emotionId": "stressed",
+    "body": "For I am persuaded, that neither death, nor life, nor angels, nor principalities, nor powers, nor things present, nor things to come,",
+    "modernText": "For I am persuaded that neither death, nor life, nor angels, nor principalities, nor things present, nor things to come, nor powers,",
+    "reference": "Romans 8:38",
+    "message": "Persuaded that not one thing on the whole list, not the future, not the 3am fear, can cut you off from the love holding you.",
+    "tags": [
+      "security",
+      "love"
+    ],
+    "tier": "premium",
+    "weight": 8
+  },
+  {
+    "id": "stressed-085",
+    "emotionId": "stressed",
+    "body": "Nor height, nor depth, nor any other creature, shall be able to separate us from the love of God, which is in Christ Jesus our Lord.",
+    "modernText": "nor height, nor depth, nor any other created thing will be able to separate us from God’s love which is in Christ Jesus our Lord.",
+    "reference": "Romans 8:39",
+    "message": "Nothing in all creation. The verse runs out of categories before it finds one that can separate you from it.",
+    "tags": [
+      "security",
+      "love"
+    ],
+    "tier": "premium",
+    "weight": 8
+  },
+  {
+    "id": "stressed-086",
+    "emotionId": "stressed",
+    "body": "There hath no temptation taken you but such as is common to man: but God is faithful, who will not suffer you to be tempted above that ye are able; but will with the temptation also make a way to escape, that ye may be able to bear it.",
+    "modernText": "No temptation has taken you except what is common to man. God is faithful, who will not allow you to be tempted above what you are able, but will with the temptation also make the way of escape, that you may be able to endure it.",
+    "reference": "1 Corinthians 10:13",
+    "message": "Whatever's pressing in isn't unprecedented, and it isn't a sealed room. There's always a door, even when you can't see it yet.",
+    "tags": [
+      "temptation",
+      "escape"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "stressed-087",
+    "emotionId": "stressed",
+    "body": "We are troubled on every side, yet not distressed; we are perplexed, but not in despair;",
+    "modernText": "We are pressed on every side, yet not crushed; perplexed, yet not to despair;",
+    "reference": "2 Corinthians 4:8",
+    "message": "Pressed on every side but not crushed. Honest about the pressure, stubborn about the not-crushed part.",
+    "tags": [
+      "pressure",
+      "endurance"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "stressed-088",
+    "emotionId": "stressed",
+    "body": "And he said unto me, My grace is sufficient for thee: for my strength is made perfect in weakness. Most gladly therefore will I rather glory in my infirmities, that the power of Christ may rest upon me.",
+    "modernText": "He has said to me, “My grace is sufficient for you, for my power is made perfect in weakness.” Most gladly therefore I will rather glory in my weaknesses, that the power of Christ may rest on me.",
+    "reference": "2 Corinthians 12:9",
+    "message": "The grace doesn't wait for you to get strong. It shows up in the depleted, running-on-fumes version of you.",
+    "tags": [
+      "grace",
+      "weakness"
+    ],
+    "tier": "free",
+    "weight": 9
+  },
+  {
+    "id": "stressed-089",
+    "emotionId": "stressed",
+    "body": "That he would grant you, according to the riches of his glory, to be strengthened with might by his Spirit in the inner man;",
+    "modernText": "that he would grant you, according to the riches of his glory, that you may be strengthened with power through his Spirit in the inner person,",
+    "reference": "Ephesians 3:16",
+    "message": "Strength on the inside, where the stress actually lives. Not just powering through, being reinforced underneath.",
+    "tags": [
+      "strength",
+      "spirit"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "stressed-090",
+    "emotionId": "stressed",
+    "body": "I can do all things through Christ which strengtheneth me.",
+    "modernText": "I can do all things through Christ, who strengthens me.",
+    "reference": "Philippians 4:13",
+    "message": "Not a hype slogan. A quiet 'you're not drawing on your own tank for this' on a day the tank is empty.",
+    "tags": [
+      "strength",
+      "endurance"
+    ],
+    "tier": "free",
+    "weight": 9
+  },
+  {
+    "id": "stressed-091",
+    "emotionId": "stressed",
+    "body": "But my God shall supply all your need according to his riches in glory by Christ Jesus.",
+    "modernText": "My God will supply every need of yours according to his riches in glory in Christ Jesus.",
+    "reference": "Philippians 4:19",
+    "message": "Need, not every want. A promise sized to what the day actually requires, which is usually less than the anxiety insists.",
+    "tags": [
+      "provision",
+      "need"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "stressed-092",
+    "emotionId": "stressed",
+    "body": "Set your affection on things above, not on things on the earth.",
+    "modernText": "Set your mind on the things that are above, not on the things that are on the earth.",
+    "reference": "Colossians 3:2",
+    "message": "When every small thing feels huge, this lifts your eyes for a second. Not to dismiss it, to resize it.",
+    "tags": [
+      "focus",
+      "perspective"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "stressed-093",
+    "emotionId": "stressed",
+    "body": "Now our Lord Jesus Christ himself, and God, even our Father, which hath loved us, and hath given us everlasting consolation and good hope through grace,",
+    "modernText": "Now our Lord Jesus Christ himself, and God our Father, who loved us and gave us eternal comfort and good hope through grace,",
+    "reference": "2 Thessalonians 2:16",
+    "message": "Everlasting comfort and good hope, already given. Not earned by holding it together, just given.",
+    "tags": [
+      "comfort",
+      "hope"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "stressed-094",
+    "emotionId": "stressed",
+    "body": "Comfort your hearts, and stablish you in every good word and work.",
+    "modernText": "comfort your hearts and establish you in every good work and word.",
+    "reference": "2 Thessalonians 2:17",
+    "message": "Comfort your heart and steady you. The two things the stress has been quietly chipping at, named and addressed.",
+    "tags": [
+      "comfort",
+      "establish"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "stressed-095",
+    "emotionId": "stressed",
+    "body": "Let your conversation be without covetousness; and be content with such things as ye have: for he hath said, I will never leave thee, nor forsake thee.",
+    "modernText": "Be free from the love of money, content with such things as you have, for he has said, “I will in no way leave you, neither will I in any way forsake you.”",
+    "reference": "Hebrews 13:5",
+    "message": "I will never leave thee. On a day everyone needs something and no one's got you, this says someone does, and isn't going anywhere.",
+    "tags": [
+      "presence",
+      "contentment"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "stressed-096",
+    "emotionId": "stressed",
+    "body": "So that we may boldly say, The Lord is my helper, and I will not fear what man shall do unto me.",
+    "modernText": "So that with good courage we say, “The Lord is my helper. I will not fear. What can man do to me?”",
+    "reference": "Hebrews 13:6",
+    "message": "A helper on your side changes the math on fear. You can say 'I will not fear' and actually mean it.",
+    "tags": [
+      "help",
+      "fear"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "stressed-097",
+    "emotionId": "stressed",
+    "body": "Wherefore seeing we also are compassed about with so great a cloud of witnesses, let us lay aside every weight, and the sin which doth so easily beset us, and let us run with patience the race that is set before us,",
+    "modernText": "Therefore let’s also, seeing we are surrounded by so great a cloud of witnesses, lay aside every weight and the sin which so easily entangles us, and let’s run with perseverance the race that is set before us,",
+    "reference": "Hebrews 12:1",
+    "message": "Lay aside the weight, the verse says, like it's a thing you're allowed to set down. Not every weight is yours to run with.",
+    "tags": [
+      "burden",
+      "endurance"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "stressed-098",
+    "emotionId": "stressed",
+    "body": "Looking unto Jesus the author and finisher of our faith; who for the joy that was set before him endured the cross, despising the shame, and is set down at the right hand of the throne of God.",
+    "modernText": "looking to Jesus, the author and perfecter of faith, who for the joy that was set before him endured the cross, despising its shame, and has sat down at the right hand of the throne of God.",
+    "reference": "Hebrews 12:2",
+    "message": "One steady thing to keep your eyes on while you run, so the chaos in your peripheral vision stops setting the pace.",
+    "tags": [
+      "focus",
+      "faith"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "stressed-099",
+    "emotionId": "stressed",
+    "body": "Humble yourselves therefore under the mighty hand of God, that he may exalt you in due time:",
+    "modernText": "Humble yourselves therefore under the mighty hand of God, that he may exalt you in due time,",
+    "reference": "1 Peter 5:6",
+    "message": "Letting go of needing to force the outcome. Trusting the timing to something that isn't panicking the way you are.",
+    "tags": [
+      "humility",
+      "trust"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "stressed-100",
+    "emotionId": "stressed",
+    "body": "But the God of all grace, who hath called us unto his eternal glory by Christ Jesus, after that ye have suffered a while, make you perfect, stablish, strengthen, settle you.",
+    "modernText": "But may the God of all grace, who called you to his eternal glory by Christ Jesus, after you have suffered a little while, perfect, establish, strengthen, and settle you.",
+    "reference": "1 Peter 5:10",
+    "message": "After the hard stretch, not a vague 'it gets better,' but settled, strengthened, steadied. The after is part of the promise.",
+    "tags": [
+      "restoration",
+      "strength"
+    ],
+    "tier": "premium",
+    "weight": 7
   }
 ]

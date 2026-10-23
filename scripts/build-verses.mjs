@@ -7,14 +7,23 @@
 // ref does not resolve against the KJV dataset.
 //
 // Run: node scripts/build-verses.mjs
-import { readFileSync, writeFileSync } from 'node:fs'
+import { readFileSync, writeFileSync, readdirSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
 import { dirname, join } from 'node:path'
 
 const here = dirname(fileURLToPath(import.meta.url))
 const BIBLE = join(here, '..', 'app-frontend', 'src', 'bible')
-const REFS = join(here, 'verse-refs.json')
 const MESSAGES = join(here, 'verse-messages.json')
+
+// Refs come from the stable base (verse-refs.json) plus any per-emotion
+// expansion files (verse-refs.<emotion>.json). The base is always processed
+// FIRST so the original 001..050 ids per emotion never shift; expansions append
+// after (getting the next sequential ids within each emotion).
+function refFilesInOrder() {
+  const all = readdirSync(here).filter((f) => /^verse-refs.*\.json$/.test(f))
+  const rest = all.filter((f) => f !== 'verse-refs.json').sort()
+  return ['verse-refs.json', ...rest].filter((f) => all.includes(f))
+}
 const OUT = join(here, '..', 'app-frontend', 'src', 'messages', 'verses.json')
 
 /** Key for the tie-in message map: emotion + colloquial reference. */
@@ -52,7 +61,8 @@ function cleanText(t) {
   return typeof t === 'string' ? t.replace(/\s+/g, ' ').trim() : undefined
 }
 
-const refs = JSON.parse(readFileSync(REFS, 'utf-8'))
+const refFiles = refFilesInOrder()
+const refs = refFiles.flatMap((f) => JSON.parse(readFileSync(join(here, f), 'utf-8')))
 const kjv = indexBible(JSON.parse(readFileSync(join(BIBLE, 'kjv.json'), 'utf-8')))
 const web = indexBible(JSON.parse(readFileSync(join(BIBLE, 'web_bible_nested.json'), 'utf-8')))
 
@@ -68,9 +78,18 @@ try {
 
 const errors = []
 const counters = Object.fromEntries(EMOTION_ORDER.map((e) => [e, 0]))
+const seen = new Set()
+let duplicates = 0
 const out = []
 
 for (const r of refs) {
+  const dedupKey = msgKey(r.emotionId, r.book, r.chapter, r.verse)
+  if (seen.has(dedupKey)) {
+    duplicates += 1
+    continue
+  }
+  seen.add(dedupKey)
+
   const book = normalizeBook(r.book)
   const body = cleanText(lookup(kjv, book, r.chapter, r.verse))
   const modernText = cleanText(lookup(web, book, r.chapter, r.verse))
@@ -122,6 +141,8 @@ writeFileSync(OUT, JSON.stringify(out, null, 2) + '\n', 'utf-8')
 const withMsg = out.filter((v) => v.message.trim()).length
 const withModern = out.filter((v) => v.modernText).length
 console.log(`✔ Wrote ${out.length} verses → ${OUT}`)
+console.log('  from ref files: ' + refFiles.join(', '))
 console.log('  per emotion: ' + EMOTION_ORDER.map((e) => `${e}=${counters[e]}`).join('  '))
+if (duplicates) console.log(`  skipped ${duplicates} duplicate ref(s)`)
 console.log(`  with WEB modernText: ${withModern}/${out.length}`)
 console.log(`  with authored message: ${withMsg}/${out.length}`)
