@@ -14,7 +14,13 @@ import { dirname, join } from 'node:path'
 const here = dirname(fileURLToPath(import.meta.url))
 const BIBLE = join(here, '..', 'app-frontend', 'src', 'bible')
 const REFS = join(here, 'verse-refs.json')
+const MESSAGES = join(here, 'verse-messages.json')
 const OUT = join(here, '..', 'app-frontend', 'src', 'messages', 'verses.json')
+
+/** Key for the tie-in message map: emotion + colloquial reference. */
+function msgKey(emotionId, book, chapter, verse) {
+  return `${emotionId}|${book} ${chapter}:${verse}`
+}
 
 const EMOTION_ORDER = ['good', 'neutral', 'tired', 'sad', 'stressed']
 
@@ -50,6 +56,16 @@ const refs = JSON.parse(readFileSync(REFS, 'utf-8'))
 const kjv = indexBible(JSON.parse(readFileSync(join(BIBLE, 'kjv.json'), 'utf-8')))
 const web = indexBible(JSON.parse(readFileSync(join(BIBLE, 'web_bible_nested.json'), 'utf-8')))
 
+// Tie-in messages are authored separately (keyed by emotion|reference) so the
+// ref list stays clean and messages can be added incrementally. An inline
+// `message` on a ref still wins if present.
+let messageMap = {}
+try {
+  messageMap = JSON.parse(readFileSync(MESSAGES, 'utf-8'))
+} catch {
+  messageMap = {}
+}
+
 const errors = []
 const counters = Object.fromEntries(EMOTION_ORDER.map((e) => [e, 0]))
 const out = []
@@ -70,13 +86,19 @@ for (const r of refs) {
 
   counters[r.emotionId] += 1
   const seq = String(counters[r.emotionId]).padStart(3, '0')
+  const mapped = messageMap[msgKey(r.emotionId, r.book, r.chapter, r.verse)]
+  const message = typeof r.message === 'string' && r.message.trim()
+    ? r.message
+    : typeof mapped === 'string'
+      ? mapped
+      : ''
   out.push({
     id: `${r.emotionId}-${seq}`,
     emotionId: r.emotionId,
     body,
     ...(modernText ? { modernText } : {}),
     reference: `${r.book} ${r.chapter}:${r.verse}`, // keep colloquial "Psalm" for display
-    message: typeof r.message === 'string' ? r.message : '',
+    message,
     tags: Array.isArray(r.tags) ? r.tags : [],
     tier: r.tier === 'premium' ? 'premium' : 'free',
     weight: typeof r.weight === 'number' ? r.weight : 5,
