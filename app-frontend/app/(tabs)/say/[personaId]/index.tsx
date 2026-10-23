@@ -142,8 +142,7 @@ function ChatRow({ chat, index, bg, border, inkPrimary, inkMuted, inkSubtle, onP
       accessibilityLabel="Delete chat"
       style={({ pressed }) => [styles.deleteAction, { opacity: pressed ? 0.8 : 1 }]}
     >
-      <Ionicons name="trash-outline" size={22} color="#FFFFFF" />
-      <Text style={styles.deleteActionText}>Delete</Text>
+      <Ionicons name="trash-outline" size={24} color="#FFFFFF" />
     </Pressable>
   )
 
@@ -492,16 +491,10 @@ const styles = StyleSheet.create({
     backgroundColor: '#C96A58',
     justifyContent: 'center',
     alignItems: 'center',
-    gap: 4,
     width: 84,
     alignSelf: 'stretch',
     borderRadius: 20,
     marginLeft: 8,
-  },
-  deleteActionText: {
-    fontFamily: 'DMSans_500Medium',
-    fontSize: 12,
-    color: '#FFFFFF',
   },
   // ---- States ----
   centerState: {
