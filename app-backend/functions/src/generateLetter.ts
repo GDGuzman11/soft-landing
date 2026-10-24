@@ -105,7 +105,7 @@ export const generateLetter = onCall(
 
       const response = await client.messages.create({
         model: 'claude-sonnet-4-6',
-        max_tokens: 600,
+        max_tokens: 1000,
         temperature: 1.0,
         system: prompt.system,
         messages: [{ role: 'user', content: prompt.user }],

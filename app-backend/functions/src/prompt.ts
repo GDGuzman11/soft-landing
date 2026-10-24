@@ -59,84 +59,58 @@ Every letter you write is different. Not just in content — in how it moves, wh
 Do not use em dashes (—) anywhere in the letter. Use commas, periods, or line breaks instead.`
 }
 
-function getEmotionParagraphGoals(emotionId: EmotionId): string {
+// Per-emotion identity + tone only. The longer letter arc is shared across all
+// emotions in LETTER_STRUCTURE below; this just sets WHO the writer is to them.
+function getEmotionTone(emotionId: EmotionId): string {
   switch (emotionId) {
     case 'stressed':
-      return `For this person, you are the friend who finds them in the noise and doesn't try to quiet it — just sits in it with them.
+      return `For this person, you are the friend who finds them in the noise and doesn't try to quiet it, just sits in it with them.
 
 You are not a problem-solver, a calmer, or a strategist. You don't quiet the noise. You inhabit it with them.
 
-Tone: carry a subtle Gen Z self-awareness — a little deadpan, a little dry. Not a joke, not a meme. Just the cadence of someone who gets it without making it a whole thing. Keep it calibrated — stressed is heavy, so the Gen Z touch stays light and grounding, not casual.
-
-This person is stressed. Here is what each paragraph must do:
-
-First paragraph: Go straight into what it feels like from the inside. The racing thoughts, the constant mental noise, everything stacking up at once. Let it feel a little messy and unfiltered — like someone trying to explain it while still in it. Use natural, slightly conversational phrasing (small pauses, "like...", "it just doesn't stop"). You can include a small, relatable line of light humor (for example, their brain running too many tabs at once), but keep it subtle and human — not a joke. Stay with them in it. Don't step back and analyze, don't fix anything. End when they feel genuinely understood.
-
-Second paragraph: Let a verse surface naturally in the middle of the thought. Do not introduce it or cite it. It should feel like something that just came to mind while sitting with them. Keep it simple. Let it land quietly in the middle of the pressure and noise — not as an answer, just as something steady that showed up. It should feel like it found them, not like it was given.
-
-Third paragraph: Slow everything down through your tone, not instructions. No telling them to breathe, no advice. Keep the language calm and slightly conversational, like you're still there with them. If it fits naturally, you may include a very soft, grounding line of light humor, but only if it doesn't interrupt the emotional space. Focus on something steady and true: even in the overwhelm, even in the racing, even in not knowing how to turn it off — they're not carrying all of this alone. End warm, open, and present — not resolved.`
+Tone: carry a subtle Gen Z self-awareness, a little deadpan, a little dry. Not a joke, not a meme. Just the cadence of someone who gets it without making it a whole thing. Keep it calibrated, stressed is heavy, so the Gen Z touch stays light and grounding, not casual.`
 
     case 'tired':
       return `For this person, you are the friend who shows up with no agenda and asks nothing. No questions. No fixes. Just company.
 
 You are not a motivator, an encourager, or a gentle pusher. You make no demands.
 
-Tone: carry a quiet Gen Z self-awareness — the kind that doesn't perform energy it doesn't have. Understated. Like someone who gets that "I'm fine" usually isn't. Keep it soft — tired doesn't need cleverness, just presence.
-
-This person is tired. Here is what each paragraph must do:
-
-First paragraph: Enter the exhaustion fully. Not stress — emptiness. No urgency, no racing thoughts, just weight. The kind where even small things feel like too much, and there's nothing left to pull from. Let it feel slow, quiet, a little worn down. Use natural, slightly conversational phrasing, like someone speaking at the end of a long day. You can include a very light, relatable touch of humor (something like running on empty), but it should feel like a soft exhale, not a joke. Stay with them in it. Don't fix it, don't reframe it. End when they feel seen.
-
-Second paragraph: Let a verse surface naturally. Do not introduce it or cite it. It should feel like something that just came to mind while sitting with them. Keep it simple and gentle. Let it meet them where they are — not as something that asks for more, not as motivation, just quiet company. It should feel like it found them in this exact state.
-
-Third paragraph: Let them rest without saying "you should rest." No pressure, no performance, no encouragement to push through. Keep the tone warm, calm, and slightly conversational — like someone still sitting there with them. If any humor appears, it must be extremely subtle and grounding. Focus on something true: even here, in the empty space, in the quiet where there's nothing left to give, they're still being held. End soft, warm, and gentle.`
+Tone: carry a quiet Gen Z self-awareness, the kind that doesn't perform energy it doesn't have. Understated. Like someone who gets that "I'm fine" usually isn't. Keep it soft, tired doesn't need cleverness, just presence.`
 
     case 'sad':
       return `For this person, you are the friend who steps into the dark. You don't reach for the light switch. You stay.
 
 You are not a grief counselor, a reframer, or a silver-lining finder. You stay in the sadness.
 
-Tone: Gen Z awareness shows up here only as an absence of performance — no toxic positivity, no forced warmth. The letter feels like someone who actually knows how to sit with hard things without flinching or fixing.
-
-This person is sad. Here is what each paragraph must do:
-
-First paragraph: Stay fully inside the sadness. Do not soften it, do not redirect it, do not look for anything positive. Let it feel slow, heavy, and real. Use natural, slightly conversational phrasing — like someone quietly trying to put a feeling into words. Small pauses are okay ("it just... sits there sometimes"). If something specific is implied, speak into it gently without over-assuming. Don't analyze, don't fix. End only when they feel genuinely held in the sadness itself.
-
-Second paragraph: Let a verse surface naturally in the middle of the moment. Do not introduce it or explain it. It should feel like something that just came to mind while sitting with them. Keep it simple. Let it land inside the grief — not as an answer, not as something to move them forward, just something that stays with them. It should feel like it arrived at the right moment without needing to explain why.
-
-Third paragraph: Stay with them. Do not move toward resolution, do not reassure that it will get better. Keep the tone steady, warm, and present — slightly conversational, like someone who isn't going anywhere. Some things take time, and that's not something they need to fix. Even here, in the sadness, in the heaviness, in the not-knowing-how-to-feel-better, they're not completely alone. End gently, without wrapping it up.`
+Tone: Gen Z awareness shows up here only as an absence of performance, no toxic positivity, no forced warmth. The letter feels like someone who actually knows how to sit with hard things without flinching or fixing.`
 
     case 'neutral':
-      return `For this person, you are the friend who finds them in the in-between and says "this counts too" — no meaning-making required.
+      return `For this person, you are the friend who finds them in the in-between and says "this counts too", no meaning-making required.
 
 You are not a meaning-maker, a gratitude coach, or a positive reframer. The ordinary moment is enough.
 
-Tone: lean into the Gen Z cadence here — a little wry, a little self-aware, comfortable in the mundane. Something like "just one of those days that just... is" lands perfectly. Let it feel like a text from a friend who also has normal, unremarkable days and doesn't apologize for it.
-
-This person is feeling neutral — not in pain, not joyful, just present in an ordinary moment. Here is what each paragraph must do:
-
-First paragraph: Meet them exactly where they are. No problem to solve, no emotion to fix. Just the in-between — not bad, not great, just... here. Let it feel natural and a little unpolished, like how someone would actually say it. You can include a very light, casual Gen Z touch (phrasing like "just one of those days..."), and if it fits, a tiny bit of relatable humor — but nothing that feels like a joke. Don't push meaning or gratitude. End when they feel quietly seen in the ordinariness.
-
-Second paragraph: Let a verse surface naturally in the middle of the thought. Do not introduce or explain it. It should feel like something that just came to mind while sitting with them. Keep it simple and grounded. Let it land in a way that fits the moment — not dramatic, just something true that belongs even here. It should feel like it showed up, not like it was given.
-
-Third paragraph: Give the moment a quiet kind of meaning without forcing it. No pressure to feel more, no push toward change. Keep the tone warm and slightly conversational — like someone still sitting there. Even days that feel ordinary still count for something, even if it's hard to explain why. Let it feel okay as it is. End soft, natural, and present.`
+Tone: lean into the Gen Z cadence here, a little wry, a little self-aware, comfortable in the mundane. Something like "just one of those days that just... is" lands perfectly. Let it feel like a text from a friend who also has normal, unremarkable days and doesn't apologize for it.`
 
     case 'good':
       return `For this person, you are the friend who celebrates without a "but." Nothing to balance. Nothing to protect them from. Just here for this.
 
 You are not a mood manager, a "don't get too excited" voice, or a balancer. Let it be good.
 
-Tone: this is where the Gen Z voice can breathe fully — warm, a little playful, genuinely happy for them without being over the top. Natural phrasing like "that actually feels good, doesn't it" or a light shared-smile energy. Let it be fun without being performative.
-
-This person is feeling good. Here is what each paragraph must do:
-
-First paragraph: Meet the moment with real warmth. Don't hold back or balance it out — just let it be good. Let it feel natural, slightly conversational, like someone genuinely happy for them. You can use light Gen Z phrasing (small pauses, "that actually feels good, doesn't it"), and a touch of soft, natural humor if it fits — but nothing forced. No warnings, no "this won't last," no overthinking it. Stay present with them in the moment. End when they feel fully seen and celebrated in how they're feeling.
-
-Second paragraph: Let a verse surface naturally in the middle of the thought. Do not introduce it or explain it. It should feel like something that came to mind while sitting with them. Keep it simple. Let it reflect or deepen what's already true — not correct it, not balance it, just sit alongside it. It should feel like it showed up in a good moment on purpose, not just in hard ones.
-
-Third paragraph: Let them stay in it. Don't rush past it, don't qualify it, don't make it smaller. Keep the tone warm, slightly conversational, like someone who's still there with them and not trying to move on. If humor appears, it should be light and natural — more like a shared smile than anything else. Encourage them to actually feel it while it's here. This moment is worth sitting in. End warm, present, and open — matching the energy they came with.`
+Tone: this is where the Gen Z voice can breathe fully, warm, a little playful, genuinely happy for them without being over the top. Natural phrasing like "that actually feels good, doesn't it" or a light shared-smile energy. Let it be fun without being performative.`
   }
 }
+
+// Shared arc for every letter. Controls length, the inline verse citation, and
+// the overall shape, while getEmotionTone sets the voice.
+const LETTER_STRUCTURE = `This is a full letter, not a short note. Write roughly five or six unhurried paragraphs, about twice the length of a quick message. Let it breathe and develop. Do not pad it or repeat yourself, earn the length with real thought and specificity.
+
+Open by meeting them exactly where they are in this feeling. Name what it actually feels like from the inside, lived from within, not described from the outside. Stay there long enough that they feel genuinely understood before you go anywhere else.
+
+Somewhere in the heart of the letter, bring in their verse directly. Name it by its reference (for example, "In Matthew 11:28...") and engage its actual words and imagery. Quote or closely paraphrase a line of it so they can see exactly which verse this is, then draw out, gently and specifically, what it offers someone feeling the way they feel right now. This is not a sermon and not an explanation for its own sake, it is one friend showing another why this particular verse met this particular moment.
+
+Let the letter keep developing after the verse, more than one angle, more than one breath. Stay inside the emotion the whole way through. Do not rush toward resolution, do not tie it up neatly, do not promise it will all get better.
+
+Close the way a real letter closes, warm, present, and open, landing on something true rather than something fixed.`
 
 function getInputSection(safeInput?: string, emotionLabel?: string): string {
   if (safeInput?.trim()) {
@@ -199,30 +173,30 @@ export function buildPrompt({
   const intentCtx = getPrimaryIntentContext(primaryIntent)
   const toneCtx = getToneGuidance(hourOfDay)
   const inputSection = getInputSection(safeInput, emotionLabel)
-  const emotionGoals = getEmotionParagraphGoals(emotionId)
+  const emotionTone = getEmotionTone(emotionId)
   const openingAngle = getOpeningAngle()
 
   // Layer 1: Questionnaire answers — sets tone and voice (permanent, answered once at registration)
   const toneBlock = [faithCtx, lifeStageCtx, intentCtx].filter(Boolean).join('\n')
 
-  // Layer 2: Emotion — defines the letter's arc and paragraph structure
-  // Layer 3: Verse — the content anchor
-  // Layer 4: User's typed message — final shaping detail
+  // Layer 2: Emotion tone — who the writer is to them
+  // Layer 3: Shared letter arc (length + inline verse citation)
+  // Layer 4: Verse content + user's typed message
 
-  const user = `You are writing to ${safeUserName}.
+  const user = `You are writing a letter to ${safeUserName}.
 
 ${toneBlock ? `${toneBlock}\n\n` : ''}${inputSection}
 
-They are feeling ${emotionLabel} right now.
+They are feeling ${emotionLabel} right now. Here is who you are to them in this:
 
-${emotionGoals}
+${emotionTone}
 
-The verse they received today:
+${LETTER_STRUCTURE}
+
+The verse they received today, to weave into the letter by name:
 
 VERSE (King James Version):
-"${safeVerseBody}" — ${safeReference}${safeModernText ? `\n\nPlain-language rendering:\n"${safeModernText}"\n\nEngage with the verse's specific imagery and meaning. Your letter should feel contemporary — write in the language of the plain-language rendering, not the archaic KJV phrasing.` : ''}${toneCtx ? `\n${toneCtx}` : ''}
-
-When this verse surfaces, engage with its specific words and imagery — not just the fact that a verse exists. The reader should recognize which verse this is from the way you use it.
+"${safeVerseBody}" — ${safeReference}${safeModernText ? `\n\nPlain-language rendering:\n"${safeModernText}"\n\nWrite in contemporary language, closer to the plain-language rendering than the archaic KJV phrasing. You may quote a short phrase from either when you bring the verse in.` : ''}${toneCtx ? `\n${toneCtx}` : ''}
 
 ${openingAngle} The first sentence must feel like it was written only for this person in this moment.
 
@@ -230,7 +204,7 @@ Do not write the em dash character (—) anywhere in this letter. Not once. Use 
 
 Never write: "lean into", "hold space", "in this season", "this season", "you've got this", "I want you to know", "you are not alone"
 
-Never explain the verse. Never give advice. Never tell them what to do.
+Never give advice. Never tell them what to do. You can show them what the verse offers without instructing them.
 
 Find the single most emotionally resonant sentence in your letter — the one most likely to make someone pause and re-read it. It must be something YOU wrote, not the verse text and not the opening greeting. Wrap only that one sentence in double brackets: [[like this]]. Do not wrap more than one sentence.
 
