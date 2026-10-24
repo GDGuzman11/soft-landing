@@ -11200,6 +11200,706 @@
     "weight": 7
   },
   {
+    "id": "tired-201",
+    "emotionId": "tired",
+    "body": "The LORD also will be a refuge for the oppressed, a refuge in times of trouble.",
+    "modernText": "Yahweh will also be a high tower for the oppressed; a high tower in times of trouble.",
+    "reference": "Psalm 9:9",
+    "message": "A refuge specifically for the worn-down and oppressed, in the hard times. Built for exactly the kind of tired you're in.",
+    "tags": [
+      "refuge",
+      "trouble"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "tired-202",
+    "emotionId": "tired",
+    "body": "For the needy shall not alway be forgotten: the expectation of the poor shall not perish for ever.",
+    "modernText": "For the needy shall not always be forgotten, nor the hope of the poor perish forever.",
+    "reference": "Psalm 9:18",
+    "message": "A promise to the overlooked and depleted: you won't be forgotten forever. On a tired day, the hope isn't lost, just delayed.",
+    "tags": [
+      "needy",
+      "not forgotten"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "tired-203",
+    "emotionId": "tired",
+    "body": "For he hath not despised nor abhorred the affliction of the afflicted; neither hath he hid his face from him; but when he cried unto him, he heard.",
+    "modernText": "For he has not despised nor abhorred the affliction of the afflicted, Neither has he hidden his face from him; but when he cried to him, he heard.",
+    "reference": "Psalm 22:24",
+    "message": "Your worn-out, afflicted state isn't held against you. The verse insists it's not despised, just seen, and heard when you cry.",
+    "tags": [
+      "affliction",
+      "heard"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "tired-204",
+    "emotionId": "tired",
+    "body": "The LORD is my light and my salvation; whom shall I fear? the LORD is the strength of my life; of whom shall I be afraid?",
+    "modernText": "Yahweh is my light and my salvation. Whom shall I fear? Yahweh is the strength of my life. Of whom shall I be afraid?",
+    "reference": "Psalm 27:1",
+    "message": "Light and salvation for a day you feel dim and spent. Something steady to lean the whole tired weight of your fear against.",
+    "tags": [
+      "light",
+      "strength"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "tired-205",
+    "emotionId": "tired",
+    "body": "O LORD my God, I cried unto thee, and thou hast healed me.",
+    "modernText": "Yahweh my God, I cried to you, and you have healed me.",
+    "reference": "Psalm 30:2",
+    "message": "A simple testimony for a worn-out day: I cried, and I was healed. The crying was enough to start the mending.",
+    "tags": [
+      "cried",
+      "healed"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "tired-206",
+    "emotionId": "tired",
+    "body": "Thou art my hiding place; thou shalt preserve me from trouble; thou shalt compass me about with songs of deliverance. Selah.",
+    "modernText": "You are my hiding place. You will preserve me from trouble. You will surround me with songs of deliverance.",
+    "reference": "Psalm 32:7",
+    "message": "A hiding place to disappear into for a minute. On a tired day, somewhere to be surrounded by something other than the trouble.",
+    "tags": [
+      "hiding",
+      "preserved"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "tired-207",
+    "emotionId": "tired",
+    "body": "The righteous cry, and the LORD heareth, and delivereth them out of all their troubles.",
+    "modernText": "The righteous cry, and Yahweh hears, and delivers them out of all their troubles.",
+    "reference": "Psalm 34:17",
+    "message": "The crying out gets heard, no composure required. Just the tired cry, and it reaches someone who answers.",
+    "tags": [
+      "cry",
+      "delivered"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "tired-208",
+    "emotionId": "tired",
+    "body": "Many are the afflictions of the righteous: but the LORD delivereth him out of them all.",
+    "modernText": "Many are the afflictions of the righteous, but Yahweh delivers him out of them all.",
+    "reference": "Psalm 34:19",
+    "message": "It doesn't lowball the many afflictions, the layered tiredness. And it doesn't lowball the other side: out of them all.",
+    "tags": [
+      "affliction",
+      "delivered"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "tired-209",
+    "emotionId": "tired",
+    "body": "The LORD will strengthen him upon the bed of languishing: thou wilt make all his bed in his sickness.",
+    "modernText": "Yahweh will sustain him on his sickbed, and restore him from his bed of illness.",
+    "reference": "Psalm 41:3",
+    "message": "For the days you can barely get out of bed, this meets you right there, in the languishing. Strength brought to where you lie.",
+    "tags": [
+      "bed",
+      "strengthened"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "tired-210",
+    "emotionId": "tired",
+    "body": "And call upon me in the day of trouble: I will deliver thee, and thou shalt glorify me.",
+    "modernText": "Call on me in the day of trouble. I will deliver you, and you will honor me.”",
+    "reference": "Psalm 50:15",
+    "message": "An open invitation with your name on it: call, even worn out, and be answered. You don't have to earn the right to.",
+    "tags": [
+      "trouble",
+      "deliverance"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "tired-211",
+    "emotionId": "tired",
+    "body": "And I said, Oh that I had wings like a dove! for then would I fly away, and be at rest.",
+    "modernText": "I said, “Oh that I had wings like a dove! Then I would fly away, and be at rest.",
+    "reference": "Psalm 55:6",
+    "message": "That exact fantasy of just flying away somewhere quiet to rest. The Bible has it too. You're not weak for wishing you could escape for a while.",
+    "tags": [
+      "escape",
+      "rest"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "tired-212",
+    "emotionId": "tired",
+    "body": "Trust in him at all times; ye people, pour out your heart before him: God is a refuge for us. Selah.",
+    "modernText": "Trust in him at all times, you people. Pour out your heart before him. God is a refuge for us.",
+    "reference": "Psalm 62:8",
+    "message": "Pour out your worn-out heart, it says, not tidy it up first. On a tired day, you can bring the unfiltered, depleted version here.",
+    "tags": [
+      "pour out",
+      "refuge"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "tired-213",
+    "emotionId": "tired",
+    "body": "A father of the fatherless, and a judge of the widows, is God in his holy habitation.",
+    "modernText": "A father of the fatherless, and a defender of the widows, is God in his holy habitation.",
+    "reference": "Psalm 68:5",
+    "message": "A tender image for a day you feel unparented and on your own: cared for like family by someone who takes that role seriously.",
+    "tags": [
+      "father",
+      "care"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "tired-214",
+    "emotionId": "tired",
+    "body": "God setteth the solitary in families: he bringeth out those which are bound with chains: but the rebellious dwell in a dry land.",
+    "modernText": "God sets the lonely in families. He brings out the prisoners with singing, but the rebellious dwell in a sun-scorched land.",
+    "reference": "Psalm 68:6",
+    "message": "For the lonely kind of tired, this says you're meant to be placed, belonging, not left solitary. You're not as alone as the exhaustion suggests.",
+    "tags": [
+      "solitary",
+      "belonging"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "tired-215",
+    "emotionId": "tired",
+    "body": "For the LORD heareth the poor, and despiseth not his prisoners.",
+    "modernText": "For Yahweh hears the needy, and doesn’t despise his captive people.",
+    "reference": "Psalm 69:33",
+    "message": "The poor, the stuck, the depleted, heard and not despised. On a tired day, being at a low point doesn't disqualify your cry.",
+    "tags": [
+      "poor",
+      "heard"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "tired-216",
+    "emotionId": "tired",
+    "body": "But I am poor and needy: make haste unto me, O God: thou art my help and my deliverer; O LORD, make no tarrying.",
+    "modernText": "But I am poor and needy. Come to me quickly, God. You are my help and my deliverer. Yahweh, don’t delay.",
+    "reference": "Psalm 70:5",
+    "message": "Permission to ask God to hurry. On a worn-out day, urgency isn't irreverent, it's just honest about how empty you feel.",
+    "tags": [
+      "needy",
+      "haste"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "tired-217",
+    "emotionId": "tired",
+    "body": "Shew me a token for good; that they which hate me may see it, and be ashamed: because thou, LORD, hast holpen me, and comforted me.",
+    "modernText": "Show me a sign of your goodness, that those who hate me may see it, and be shamed, because you, Yahweh, have helped me, and comforted me.",
+    "reference": "Psalm 86:17",
+    "message": "Helped and comforted, both, in the past tense. On a tired day, a reminder that it's been done for you before, and can be again.",
+    "tags": [
+      "helped",
+      "comforted"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "tired-218",
+    "emotionId": "tired",
+    "body": "Then they cried unto the LORD in their trouble, and he delivered them out of their distresses.",
+    "modernText": "Then they cried to Yahweh in their trouble, and he delivered them out of their distresses,",
+    "reference": "Psalm 107:6",
+    "message": "A refrain repeated all through this psalm: they cried, and were delivered. The pattern holds, even on a worn-out day.",
+    "tags": [
+      "cried",
+      "delivered"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "tired-219",
+    "emotionId": "tired",
+    "body": "Then they cried unto the LORD in their trouble, and he saved them out of their distresses.",
+    "modernText": "Then they cried to Yahweh in their trouble, and he saved them out of their distresses.",
+    "reference": "Psalm 107:13",
+    "message": "Again, the same quiet pattern: the cry, the saving. Said more than once because you probably need to hear it more than once.",
+    "tags": [
+      "cried",
+      "saved"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "tired-220",
+    "emotionId": "tired",
+    "body": "He brought them out of darkness and the shadow of death, and brake their bands in sunder.",
+    "modernText": "He brought them out of darkness and the shadow of death, and broke away their chains.",
+    "reference": "Psalm 107:14",
+    "message": "Brought out of the dark, the chains broken. For a stuck, exhausted stretch, a picture of being freed, not just comforted.",
+    "tags": [
+      "darkness",
+      "freedom"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "tired-221",
+    "emotionId": "tired",
+    "body": "Then they cry unto the LORD in their trouble, and he saveth them out of their distresses.",
+    "modernText": "Then they cry to Yahweh in their trouble, he saves them out of their distresses.",
+    "reference": "Psalm 107:19",
+    "message": "The crying and the saving, once more. The verse keeps circling back to it, like it wants the tired to really believe it.",
+    "tags": [
+      "distress",
+      "saved"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "tired-222",
+    "emotionId": "tired",
+    "body": "He sent his word, and healed them, and delivered them from their destructions.",
+    "modernText": "He sends his word, and heals them, and delivers them from their graves.",
+    "reference": "Psalm 107:20",
+    "message": "Healed by a word sent, gently. On a worn-out day, a picture of being mended from a distance, without having to do anything.",
+    "tags": [
+      "word",
+      "healed"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "tired-223",
+    "emotionId": "tired",
+    "body": "Unto the upright there ariseth light in the darkness: he is gracious, and full of compassion, and righteous.",
+    "modernText": "Light dawns in the darkness for the upright, gracious, merciful, and righteous.",
+    "reference": "Psalm 112:4",
+    "message": "Light rising in the dark, not blazing, just rising. For a tired, dim stretch, the quiet promise that it won't stay dark.",
+    "tags": [
+      "light",
+      "darkness"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "tired-224",
+    "emotionId": "tired",
+    "body": "He raiseth up the poor out of the dust, and lifteth the needy out of the dunghill;",
+    "modernText": "He raises up the poor out of the dust. Lifts up the needy from the ash heap,",
+    "reference": "Psalm 113:7",
+    "message": "Raised up out of the dust, the lowest, most depleted place. On a tired day, being at the bottom is exactly where the lifting starts.",
+    "tags": [
+      "raised",
+      "dust"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "tired-225",
+    "emotionId": "tired",
+    "body": "Unless thy law had been my delights, I should then have perished in mine affliction.",
+    "modernText": "Unless your law had been my delight, I would have perished in my affliction.",
+    "reference": "Psalm 119:92",
+    "message": "An honest admission: I'd have gone under in the affliction, if I hadn't had something to hold. On a tired day, the one thing you cling to matters.",
+    "tags": [
+      "affliction",
+      "delight"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "tired-226",
+    "emotionId": "tired",
+    "body": "I am afflicted very much: quicken me, O LORD, according unto thy word.",
+    "modernText": "I am afflicted very much. Revive me, Yahweh, according to your word.",
+    "reference": "Psalm 119:107",
+    "message": "A plain, worn-out prayer: I'm really afflicted, please revive me. No pretending it's a little, just asking for life back.",
+    "tags": [
+      "afflicted",
+      "revive"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "tired-227",
+    "emotionId": "tired",
+    "body": "The LORD shall preserve thy going out and thy coming in from this time forth, and even for evermore.",
+    "modernText": "Yahweh will keep your going out and your coming in, from this time forward, and forever more.",
+    "reference": "Psalm 121:8",
+    "message": "The ordinary, tiring comings and goings, the commute, the errands, all of it watched over. The worn-out routine isn't unguarded.",
+    "tags": [
+      "preserve",
+      "daily"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "tired-228",
+    "emotionId": "tired",
+    "body": "I wait for the LORD, my soul doth wait, and in his word do I hope.",
+    "modernText": "I wait for Yahweh. My soul waits. I hope in his word.",
+    "reference": "Psalm 130:5",
+    "message": "Waiting said twice, because waiting is the hard part when you're tired. The verse sits in it with you instead of rushing you.",
+    "tags": [
+      "wait",
+      "hope"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "tired-229",
+    "emotionId": "tired",
+    "body": "And in that day thou shalt say, O LORD, I will praise thee: though thou wast angry with me, thine anger is turned away, and thou comfortedst me.",
+    "modernText": "In that day you will say, “I will give thanks to you, Yahweh; for though you were angry with me, your anger has turned away and you comfort me.",
+    "reference": "Isaiah 12:1",
+    "message": "Comfort after a hard stretch, the storm passed. For a tired day, a picture of the turn from strain to being soothed.",
+    "tags": [
+      "comforted",
+      "turned"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "tired-230",
+    "emotionId": "tired",
+    "body": "For the people shall dwell in Zion at Jerusalem: thou shalt weep no more: he will be very gracious unto thee at the voice of thy cry; when he shall hear it, he will answer thee.",
+    "modernText": "For the people will dwell in Zion at Jerusalem. You will weep no more. He will surely be gracious to you at the voice of your cry. When he hears you, he will answer you.",
+    "reference": "Isaiah 30:19",
+    "message": "Grace that comes the moment you cry out, not after you've composed yourself. On a worn-out day, the cry is all it takes.",
+    "tags": [
+      "gracious",
+      "cry"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "tired-231",
+    "emotionId": "tired",
+    "body": "Like a crane or a swallow, so did I chatter: I did mourn as a dove: mine eyes fail with looking upward: O LORD, I am oppressed; undertake for me.",
+    "modernText": "I chattered like a swallow or a crane. I moaned like a dove. My eyes weaken looking upward. Lord, I am oppressed. Be my security.”",
+    "reference": "Isaiah 38:14",
+    "message": "A short, tired prayer: I'm weighed down, take this over for me. Permission to hand the whole thing off when you've got nothing left.",
+    "tags": [
+      "oppressed",
+      "undertake"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "tired-232",
+    "emotionId": "tired",
+    "body": "I will open rivers in high places, and fountains in the midst of the valleys: I will make the wilderness a pool of water, and the dry land springs of water.",
+    "modernText": "I will open rivers on the bare heights, and springs in the middle of the valleys. I will make the wilderness a pool of water, and the dry land springs of water.",
+    "reference": "Isaiah 41:18",
+    "message": "Water in the dry, barren places, rivers where there were none. A picture of being flooded and refreshed exactly where you'd gone empty.",
+    "tags": [
+      "rivers",
+      "refreshed"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "tired-233",
+    "emotionId": "tired",
+    "body": "I have blotted out, as a thick cloud, thy transgressions, and, as a cloud, thy sins: return unto me; for I have redeemed thee.",
+    "modernText": "I have blotted out, as a thick cloud, your transgressions, and, as a cloud, your sins. Return to me, for I have redeemed you.",
+    "reference": "Isaiah 44:22",
+    "message": "A clean slate and an open door. On a tired day carrying guilt too, this says just come back, you're already redeemed.",
+    "tags": [
+      "redeemed",
+      "return"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "tired-234",
+    "emotionId": "tired",
+    "body": "Can a woman forget her sucking child, that she should not have compassion on the son of her womb? yea, they may forget, yet will I not forget thee.",
+    "modernText": "“Can a woman forget her nursing child, that she should not have compassion on the son of her womb? Yes, these may forget, yet I will not forget you!",
+    "reference": "Isaiah 49:15",
+    "message": "A mother forgetting her baby is unthinkable, and the verse says being forgotten by God is even more so. On a worn-out day, you are not slipping anyone's mind.",
+    "tags": [
+      "remembered",
+      "tenderness"
+    ],
+    "tier": "free",
+    "weight": 9
+  },
+  {
+    "id": "tired-235",
+    "emotionId": "tired",
+    "body": "I, even I, am he that comforteth you: who art thou, that thou shouldest be afraid of a man that shall die, and of the son of man which shall be made as grass;",
+    "modernText": "“I, even I, am he who comforts you. Who are you, that you are afraid of man who shall die, and of the son of man who will be made as grass?",
+    "reference": "Isaiah 51:12",
+    "message": "The comfort is personal and repeated, I, even I. Not a system, someone, leaning in to steady your tired heart.",
+    "tags": [
+      "comfort",
+      "personal"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "tired-236",
+    "emotionId": "tired",
+    "body": "Thy sun shall no more go down; neither shall thy moon withdraw itself: for the LORD shall be thine everlasting light, and the days of thy mourning shall be ended.",
+    "modernText": "Your sun will not go down any more, nor will your moon withdraw itself; for Yahweh will be your everlasting light, and the days of your mourning will end.",
+    "reference": "Isaiah 60:20",
+    "message": "A promise that the long, draining stretch has an end date. For a tired day, a reminder that this isn't the permanent state of things.",
+    "tags": [
+      "mourning",
+      "ended"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "tired-237",
+    "emotionId": "tired",
+    "body": "For the LORD will not cast off for ever:",
+    "modernText": "For the Lord will not cast off forever.",
+    "reference": "Lamentations 3:31",
+    "message": "Not forever, the verse insists. However long the hard, tiring stretch feels, it's not the final word, and you're not cast off for good.",
+    "tags": [
+      "not forever",
+      "hope"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "tired-238",
+    "emotionId": "tired",
+    "body": "But though he cause grief, yet will he have compassion according to the multitude of his mercies.",
+    "modernText": "For though he causes grief, yet he will have compassion according to the multitude of his loving kindnesses.",
+    "reference": "Lamentations 3:32",
+    "message": "Even the hard stretches come with compassion on the other side. On a tired day, the mercies are described as a multitude, not a trickle.",
+    "tags": [
+      "compassion",
+      "grief"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "tired-239",
+    "emotionId": "tired",
+    "body": "But when he saw the multitudes, he was moved with compassion on them, because they fainted, and were scattered abroad, as sheep having no shepherd.",
+    "modernText": "But when he saw the multitudes, he was moved with compassion for them, because they were harassed and scattered, like sheep without a shepherd.",
+    "reference": "Matthew 9:36",
+    "message": "He looked at worn-out, fainting people and felt compassion, not frustration. On a tired day, the response to your exhaustion is tenderness.",
+    "tags": [
+      "compassion",
+      "fainted"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "tired-240",
+    "emotionId": "tired",
+    "body": "For as the sufferings of Christ abound in us, so our consolation also aboundeth by Christ.",
+    "modernText": "For as the sufferings of Christ abound to us, even so our comfort also abounds through Christ.",
+    "reference": "2 Corinthians 1:5",
+    "message": "The comfort keeps pace with the hardship, abounding to match it. On a tired day, the consolation is sized to the exhaustion.",
+    "tags": [
+      "consolation",
+      "abounds"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "tired-241",
+    "emotionId": "tired",
+    "body": "Now our Lord Jesus Christ himself, and God, even our Father, which hath loved us, and hath given us everlasting consolation and good hope through grace,",
+    "modernText": "Now our Lord Jesus Christ himself, and God our Father, who loved us and gave us eternal comfort and good hope through grace,",
+    "reference": "2 Thessalonians 2:16",
+    "message": "Everlasting comfort and good hope, already given through grace. Not earned by holding it together, just given, even to the worn-out.",
+    "tags": [
+      "consolation",
+      "hope"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "tired-242",
+    "emotionId": "tired",
+    "body": "Comfort your hearts, and stablish you in every good word and work.",
+    "modernText": "comfort your hearts and establish you in every good work and word.",
+    "reference": "2 Thessalonians 2:17",
+    "message": "Comfort your heart and steady you, the two things a tired day has been quietly chipping at, named and tended.",
+    "tags": [
+      "comfort",
+      "establish"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "tired-243",
+    "emotionId": "tired",
+    "body": "They shall hunger no more, neither thirst any more; neither shall the sun light on them, nor any heat.",
+    "modernText": "They will never be hungry or thirsty any more. The sun won’t beat on them, nor any heat;",
+    "reference": "Revelation 7:16",
+    "message": "A glimpse of a day with no more hunger, no more thirst, no more running on empty. For a tired day, a picture of the exhaustion finally ending.",
+    "tags": [
+      "no more",
+      "rest"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "tired-244",
+    "emotionId": "tired",
+    "body": "For the Lamb which is in the midst of the throne shall feed them, and shall lead them unto living fountains of waters: and God shall wipe away all tears from their eyes.",
+    "modernText": "for the Lamb who is in the middle of the throne shepherds them and leads them to springs of life-giving waters. And God will wipe away every tear from their eyes.”",
+    "reference": "Revelation 7:17",
+    "message": "A tender future image: every tear personally wiped away. For a worn-out, teary day, a reminder of where it's all ultimately heading.",
+    "tags": [
+      "tears",
+      "comfort"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "tired-245",
+    "emotionId": "tired",
+    "body": "I will be glad and rejoice in thy mercy: for thou hast considered my trouble; thou hast known my soul in adversities;",
+    "modernText": "I will be glad and rejoice in your loving kindness, for you have seen my affliction. You have known my soul in adversities.",
+    "reference": "Psalm 31:7",
+    "message": "Your trouble, considered, actually looked at and weighed. On a tired day, the comfort of knowing your struggle wasn't overlooked.",
+    "tags": [
+      "considered",
+      "trouble"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "tired-246",
+    "emotionId": "tired",
+    "body": "The LORD of hosts is with us; the God of Jacob is our refuge. Selah.",
+    "modernText": "Yahweh of Armies is with us. The God of Jacob is our refuge.",
+    "reference": "Psalm 46:7",
+    "message": "With us, and a refuge. A steady refrain to lean on when you're worn out, worth repeating until it lands.",
+    "tags": [
+      "presence",
+      "refuge"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "tired-247",
+    "emotionId": "tired",
+    "body": "The LORD is on my side; I will not fear: what can man do unto me?",
+    "modernText": "Yahweh is on my side. I will not be afraid. What can man do to me?",
+    "reference": "Psalm 118:6",
+    "message": "Someone on your side changes the math on a tired, fearful day. You can say 'I will not fear' and actually mean it.",
+    "tags": [
+      "side",
+      "fearless"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "tired-248",
+    "emotionId": "tired",
+    "body": "The LORD is nigh unto all them that call upon him, to all that call upon him in truth.",
+    "modernText": "Yahweh is near to all those who call on him, to all who call on him in truth.",
+    "reference": "Psalm 145:18",
+    "message": "Near, specifically, to everyone who calls, worn out or not. The calling is the only requirement, and nearness is the response.",
+    "tags": [
+      "near",
+      "call"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "tired-249",
+    "emotionId": "tired",
+    "body": "Because he hath inclined his ear unto me, therefore will I call upon him as long as I live.",
+    "modernText": "Because he has turned his ear to me, therefore I will call on him as long as I live.",
+    "reference": "Psalm 116:2",
+    "message": "Because he listened once, a decision to keep coming back. The relief of knowing the line stays open, even on the tired days.",
+    "tags": [
+      "heard",
+      "prayer"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "tired-250",
+    "emotionId": "tired",
+    "body": "But the salvation of the righteous is of the LORD: he is their strength in the time of trouble.",
+    "modernText": "But the salvation of the righteous is from Yahweh. He is their stronghold in the time of trouble.",
+    "reference": "Psalm 37:39",
+    "message": "Strength that shows up on schedule, in the time of trouble, not a general reserve but a specific delivery for the worn-out now.",
+    "tags": [
+      "strength",
+      "trouble"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
     "id": "sad-001",
     "emotionId": "sad",
     "body": "The LORD is nigh unto them that are of a broken heart; and saveth such as be of a contrite spirit.",
