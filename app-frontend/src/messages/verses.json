@@ -4900,6 +4900,706 @@
     "weight": 8
   },
   {
+    "id": "neutral-051",
+    "emotionId": "neutral",
+    "body": "Boast not thyself of to morrow; for thou knowest not what a day may bring forth.",
+    "modernText": "Don’t boast about tomorrow; for you don’t know what a day may bring.",
+    "reference": "Proverbs 27:1",
+    "message": "On a day you can't see much coming, this says don't bother pretending you can. You only actually have today, which is fine.",
+    "tags": [
+      "tomorrow",
+      "present"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "neutral-052",
+    "emotionId": "neutral",
+    "body": "He hath made every thing beautiful in his time: also he hath set the world in their heart, so that no man can find out the work that God maketh from the beginning to the end.",
+    "modernText": "He has made everything beautiful in its time. He has also set eternity in their hearts, yet so that man can’t find out the work that God has done from the beginning even to the end.",
+    "reference": "Ecclesiastes 3:11",
+    "message": "Even the in-between, unfinished-feeling day has its time. Beautiful isn't always now, and that's allowed.",
+    "tags": [
+      "beauty",
+      "timing"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "neutral-053",
+    "emotionId": "neutral",
+    "body": "Whatsoever thy hand findeth to do, do it with thy might; for there is no work, nor device, nor knowledge, nor wisdom, in the grave, whither thou goest.",
+    "modernText": "Whatever your hand finds to do, do it with your might; for there is no work, nor plan, nor knowledge, nor wisdom, in Sheol, where you are going.",
+    "reference": "Ecclesiastes 9:10",
+    "message": "Whatever the ordinary day hands you, just do that. No need for it to be meaningful, just done.",
+    "tags": [
+      "work",
+      "diligence"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "neutral-054",
+    "emotionId": "neutral",
+    "body": "In the morning sow thy seed, and in the evening withhold not thine hand: for thou knowest not whether shall prosper, either this or that, or whether they both shall be alike good.",
+    "modernText": "In the morning sow your seed, and in the evening don’t withhold your hand; for you don’t know which will prosper, whether this or that, or whether they both will be equally good.",
+    "reference": "Ecclesiastes 11:6",
+    "message": "Keep planting the small ordinary things, you don't know which will take. A low-stakes nudge to just keep showing up.",
+    "tags": [
+      "sow",
+      "steady"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "neutral-055",
+    "emotionId": "neutral",
+    "body": "And whatsoever ye do, do it heartily, as to the Lord, and not unto men;",
+    "modernText": "And whatever you do, work heartily, as for the Lord, and not for men,",
+    "reference": "Colossians 3:23",
+    "message": "Even the mundane task gets to be done with a little heart. Not because it's exciting, just because it's yours to do.",
+    "tags": [
+      "work",
+      "heartily"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "neutral-056",
+    "emotionId": "neutral",
+    "body": "And that ye study to be quiet, and to do your own business, and to work with your own hands, as we commanded you;",
+    "modernText": "and that you make it your ambition to lead a quiet life, and to do your own business, and to work with your own hands, even as we instructed you;",
+    "reference": "1 Thessalonians 4:11",
+    "message": "An underrated goal: a quiet, ordinary life, minding your own stuff. A plain day is basically this verse in action.",
+    "tags": [
+      "quiet",
+      "ordinary"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "neutral-057",
+    "emotionId": "neutral",
+    "body": "Let thine eyes look right on, and let thine eyelids look straight before thee.",
+    "modernText": "Let your eyes look straight ahead. Fix your gaze directly before you.",
+    "reference": "Proverbs 4:25",
+    "message": "On an aimless day, just look straight ahead at the next thing. You don't have to solve the whole horizon.",
+    "tags": [
+      "focus",
+      "forward"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "neutral-058",
+    "emotionId": "neutral",
+    "body": "Ponder the path of thy feet, and let all thy ways be established.",
+    "modernText": "Make the path of your feet level. Let all of your ways be established.",
+    "reference": "Proverbs 4:26",
+    "message": "Pay attention to where your actual feet are going today. The small, ordinary steps are worth a glance.",
+    "tags": [
+      "path",
+      "consider"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "neutral-059",
+    "emotionId": "neutral",
+    "body": "There are many devices in a man’s heart; nevertheless the counsel of the LORD, that shall stand.",
+    "modernText": "There are many plans in a man’s heart, but Yahweh’s counsel will prevail.",
+    "reference": "Proverbs 19:21",
+    "message": "You had plans, the day had other ideas. This says the underlying thread holds even when your version doesn't.",
+    "tags": [
+      "plans",
+      "counsel"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "neutral-060",
+    "emotionId": "neutral",
+    "body": "The thoughts of the diligent tend only to plenteousness; but of every one that is hasty only to want.",
+    "modernText": "The plans of the diligent surely lead to profit; and everyone who is hasty surely rushes to poverty.",
+    "reference": "Proverbs 21:5",
+    "message": "The slow, steady, unglamorous effort is quietly adding up. A plain day of just doing the work counts.",
+    "tags": [
+      "diligence",
+      "steady"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "neutral-061",
+    "emotionId": "neutral",
+    "body": "Order my steps in thy word: and let not any iniquity have dominion over me.",
+    "modernText": "Establish my footsteps in your word. Don’t let any iniquity have dominion over me.",
+    "reference": "Psalm 119:133",
+    "message": "A small ask for an ordinary day: just keep my steps straight. Not greatness, just not getting lost.",
+    "tags": [
+      "steps",
+      "order"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "neutral-062",
+    "emotionId": "neutral",
+    "body": "And thine ears shall hear a word behind thee, saying, This is the way, walk ye in it, when ye turn to the right hand, and when ye turn to the left.",
+    "modernText": "and when you turn to the right hand, and when you turn to the left, your ears will hear a voice behind you, saying, “This is the way. Walk in it.”",
+    "reference": "Isaiah 30:21",
+    "message": "On a day you're unsure which way to go, this promises a nudge when you need it. You'll hear it at the turn, not before.",
+    "tags": [
+      "direction",
+      "guidance"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "neutral-063",
+    "emotionId": "neutral",
+    "body": "Thus saith the LORD, Stand ye in the ways, and see, and ask for the old paths, where is the good way, and walk therein, and ye shall find rest for your souls. But they said, We will not walk therein.",
+    "modernText": "Yahweh says, “Stand in the ways and see, and ask for the old paths, ‘Where is the good way?’ and walk in it, and you will find rest for your souls. But they said, ‘We will not walk in it.’",
+    "reference": "Jeremiah 6:16",
+    "message": "When a day feels directionless, sometimes the move is the tried-and-true path, not a new one. Rest in the familiar.",
+    "tags": [
+      "old paths",
+      "rest"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "neutral-064",
+    "emotionId": "neutral",
+    "body": "This book of the law shall not depart out of thy mouth; but thou shalt meditate therein day and night, that thou mayest observe to do according to all that is written therein: for then thou shalt make thy way prosperous, and then thou shalt have good success.",
+    "modernText": "This book of the law shall not depart from your mouth, but you shall meditate on it day and night, that you may observe to do according to all that is written in it; for then you shall make your way prosperous, and then you shall have good success.",
+    "reference": "Joshua 1:8",
+    "message": "The ordinary, repeated, daily practice is the point. Not a dramatic breakthrough, just steady attention over time.",
+    "tags": [
+      "meditate",
+      "steady"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "neutral-065",
+    "emotionId": "neutral",
+    "body": "And he humbled thee, and suffered thee to hunger, and fed thee with manna, which thou knewest not, neither did thy fathers know; that he might make thee know that man doth not live by bread only, but by every word that proceedeth out of the mouth of the LORD doth man live.",
+    "modernText": "He humbled you, allowed you to be hungry, and fed you with manna, which you didn’t know, neither did your fathers know, that he might teach you that man does not live by bread only, but man lives by every word that proceeds out of Yahweh’s mouth.",
+    "reference": "Deuteronomy 8:3",
+    "message": "There's more to an ordinary day than its literal tasks. Something's feeding you underneath the to-do list.",
+    "tags": [
+      "bread",
+      "sustenance"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "neutral-066",
+    "emotionId": "neutral",
+    "body": "But grow in grace, and in the knowledge of our Lord and Saviour Jesus Christ. To him be glory both now and for ever. Amen.",
+    "modernText": "But grow in the grace and knowledge of our Lord and Savior Jesus Christ. To him be the glory both now and forever. Amen.",
+    "reference": "2 Peter 3:18",
+    "message": "Growth that happens slowly, on normal days, not just in big moments. A plain day is where most of it quietly occurs.",
+    "tags": [
+      "grow",
+      "grace"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "neutral-067",
+    "emotionId": "neutral",
+    "body": "And beside this, giving all diligence, add to your faith virtue; and to virtue knowledge;",
+    "modernText": "Yes, and for this very cause adding on your part all diligence, in your faith supply moral excellence; and in moral excellence, knowledge;",
+    "reference": "2 Peter 1:5",
+    "message": "Character built by adding, bit by bit, on ordinary days. Nobody becomes anything in one dramatic leap.",
+    "tags": [
+      "add",
+      "virtue"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "neutral-068",
+    "emotionId": "neutral",
+    "body": "And to knowledge temperance; and to temperance patience; and to patience godliness;",
+    "modernText": "and in knowledge, self-control; and in self-control perseverance; and in perseverance godliness;",
+    "reference": "2 Peter 1:6",
+    "message": "The unflashy virtues, patience, self-control, get built on unremarkable days. This is the gym where they're trained.",
+    "tags": [
+      "temperance",
+      "patience"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "neutral-069",
+    "emotionId": "neutral",
+    "body": "Do all things without murmurings and disputings:",
+    "modernText": "Do all things without complaining and arguing,",
+    "reference": "Philippians 2:14",
+    "message": "A quiet challenge for a meh day: just do the stuff without complaining about it. Harder and better than it sounds.",
+    "tags": [
+      "without complaint",
+      "steady"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "neutral-070",
+    "emotionId": "neutral",
+    "body": "Brethren, I count not myself to have apprehended: but this one thing I do, forgetting those things which are behind, and reaching forth unto those things which are before,",
+    "modernText": "Brothers, I don’t regard myself as yet having taken hold, but one thing I do: forgetting the things which are behind, and stretching forward to the things which are before,",
+    "reference": "Philippians 3:13",
+    "message": "On an in-between day, permission to stop replaying the past and just face forward. The old stuff doesn't have to come along.",
+    "tags": [
+      "forget",
+      "forward"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "neutral-071",
+    "emotionId": "neutral",
+    "body": "I press toward the mark for the prize of the high calling of God in Christ Jesus.",
+    "modernText": "I press on toward the goal for the prize of the high calling of God in Christ Jesus.",
+    "reference": "Philippians 3:14",
+    "message": "Even a slow day is still pressing forward, however slightly. Progress doesn't require drama, just direction.",
+    "tags": [
+      "press on",
+      "goal"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "neutral-072",
+    "emotionId": "neutral",
+    "body": "Therefore, my beloved brethren, be ye stedfast, unmoveable, always abounding in the work of the Lord, forasmuch as ye know that your labour is not in vain in the Lord.",
+    "modernText": "Therefore, my beloved brothers, be steadfast, immovable, always abounding in the Lord’s work, because you know that your labor is not in vain in the Lord.",
+    "reference": "1 Corinthians 15:58",
+    "message": "Steady, unmoved, keeping at it, the verse says. On an ordinary day, steadiness itself is the accomplishment.",
+    "tags": [
+      "steadfast",
+      "labor"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "neutral-073",
+    "emotionId": "neutral",
+    "body": "But let every man prove his own work, and then shall he have rejoicing in himself alone, and not in another.",
+    "modernText": "But let each man examine his own work, and then he will have reason to boast in himself, and not in someone else.",
+    "reference": "Galatians 6:4",
+    "message": "Just tend to your own stuff today, not the comparison game. A quiet day is a good day to stop measuring against everyone else.",
+    "tags": [
+      "own work",
+      "prove"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "neutral-074",
+    "emotionId": "neutral",
+    "body": "For every man shall bear his own burden.",
+    "modernText": "For each man will bear his own burden.",
+    "reference": "Galatians 6:5",
+    "message": "Carry your own ordinary load, no more and no less. A plain day where you just handle your part is enough.",
+    "tags": [
+      "own load",
+      "responsibility"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "neutral-075",
+    "emotionId": "neutral",
+    "body": "For ye have need of patience, that, after ye have done the will of God, ye might receive the promise.",
+    "modernText": "For you need endurance so that, having done the will of God, you may receive the promise.",
+    "reference": "Hebrews 10:36",
+    "message": "Sometimes an ordinary day is just a patience day. Nothing happens, and the holding-on is the whole task.",
+    "tags": [
+      "patience",
+      "endurance"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "neutral-076",
+    "emotionId": "neutral",
+    "body": "Jesus Christ the same yesterday, and to day, and for ever.",
+    "modernText": "Jesus Christ is the same yesterday, today, and forever.",
+    "reference": "Hebrews 13:8",
+    "message": "On a day where everything feels samey, there's something that's steadily, reliably the same, and that's actually a comfort.",
+    "tags": [
+      "unchanging",
+      "steady"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "neutral-077",
+    "emotionId": "neutral",
+    "body": "Go to now, ye that say, To day or to morrow we will go into such a city, and continue there a year, and buy and sell, and get gain:",
+    "modernText": "Come now, you who say, “Today or tomorrow let’s go into this city, and spend a year there, trade, and make a profit.”",
+    "reference": "James 4:13",
+    "message": "A gentle poke at over-planning. You can map the week, but today is the only part you're actually living.",
+    "tags": [
+      "plans",
+      "tomorrow"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "neutral-078",
+    "emotionId": "neutral",
+    "body": "Whereas ye know not what shall be on the morrow. For what is your life? It is even a vapour, that appeareth for a little time, and then vanisheth away.",
+    "modernText": "Whereas you don’t know what your life will be like tomorrow. For what is your life? For you are a vapor that appears for a little time, and then vanishes away.",
+    "reference": "James 4:14",
+    "message": "Life called a vapour, here and gone. Oddly freeing on a plain day, nothing's that heavy if it's all this brief.",
+    "tags": [
+      "uncertainty",
+      "brief"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "neutral-079",
+    "emotionId": "neutral",
+    "body": "For that ye ought to say, If the Lord will, we shall live, and do this, or that.",
+    "modernText": "For you ought to say, “If the Lord wills, we will both live, and do this or that.”",
+    "reference": "James 4:15",
+    "message": "A humble way to hold your plans loosely. On an ordinary day, 'we'll see' is a perfectly fine posture.",
+    "tags": [
+      "if the Lord will",
+      "humility"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "neutral-080",
+    "emotionId": "neutral",
+    "body": "Not slothful in business; fervent in spirit; serving the Lord;",
+    "modernText": "not lagging in diligence; fervent in spirit; serving the Lord;",
+    "reference": "Romans 12:11",
+    "message": "Keep a little fire going even in the routine. The ordinary work doesn't have to be done half-asleep.",
+    "tags": [
+      "diligent",
+      "fervent"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "neutral-081",
+    "emotionId": "neutral",
+    "body": "One man esteemeth one day above another: another esteemeth every day alike. Let every man be fully persuaded in his own mind.",
+    "modernText": "One man esteems one day as more important. Another esteems every day alike. Let each man be fully assured in his own mind.",
+    "reference": "Romans 14:5",
+    "message": "Permission to just be settled in your own take on an ordinary day. You don't owe anyone a performance of certainty.",
+    "tags": [
+      "persuaded",
+      "conviction"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "neutral-082",
+    "emotionId": "neutral",
+    "body": "Except the LORD build the house, they labour in vain that build it: except the LORD keep the city, the watchman waketh but in vain.",
+    "modernText": "Unless Yahweh builds the house, they who build it labor in vain. Unless Yahweh watches over the city, the watchman guards it in vain.",
+    "reference": "Psalm 127:1",
+    "message": "A reminder that the outcome was never fully on your shoulders. Takes some pressure off a normal working day.",
+    "tags": [
+      "build",
+      "dependence"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "neutral-083",
+    "emotionId": "neutral",
+    "body": "Prepare thy work without, and make it fit for thyself in the field; and afterwards build thine house.",
+    "modernText": "Prepare your work outside, and get your fields ready. Afterwards, build your house.",
+    "reference": "Proverbs 24:27",
+    "message": "Just get the ordinary groundwork done, in order. A plain day is often exactly the day for the unglamorous prep.",
+    "tags": [
+      "prepare",
+      "order"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "neutral-084",
+    "emotionId": "neutral",
+    "body": "Better is the end of a thing than the beginning thereof: and the patient in spirit is better than the proud in spirit.",
+    "modernText": "Better is the end of a thing than its beginning. The patient in spirit is better than the proud in spirit.",
+    "reference": "Ecclesiastes 7:8",
+    "message": "Middles are awkward, ends are better. If today feels like an unremarkable middle, this says keep going, it improves.",
+    "tags": [
+      "patience",
+      "endings"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "neutral-085",
+    "emotionId": "neutral",
+    "body": "Say not thou, What is the cause that the former days were better than these? for thou dost not enquire wisely concerning this.",
+    "modernText": "Don’t say, “Why were the former days better than these?” For you do not ask wisely about this.",
+    "reference": "Ecclesiastes 7:10",
+    "message": "A nudge against romanticizing the past on a flat day. Today isn't worse, it's just today, and it counts.",
+    "tags": [
+      "present",
+      "nostalgia"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "neutral-086",
+    "emotionId": "neutral",
+    "body": "They shall still bring forth fruit in old age; they shall be fat and flourishing;",
+    "modernText": "They will still produce fruit in old age. They will be full of sap and green,",
+    "reference": "Psalm 92:14",
+    "message": "Fruit still coming, even in the later, quieter seasons. An ordinary stretch isn't a dead one, things are still growing.",
+    "tags": [
+      "fruitful",
+      "endurance"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "neutral-087",
+    "emotionId": "neutral",
+    "body": "Better is little with the fear of the LORD than great treasure and trouble therewith.",
+    "modernText": "Better is little, with the fear of Yahweh, than great treasure with trouble.",
+    "reference": "Proverbs 15:16",
+    "message": "Small and peaceful beats big and stressful. A plain, quiet day might be the better deal you don't always notice.",
+    "tags": [
+      "contentment",
+      "little"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "neutral-088",
+    "emotionId": "neutral",
+    "body": "Better is a dry morsel, and quietness therewith, than an house full of sacrifices with strife.",
+    "modernText": "Better is a dry morsel with quietness, than a house full of feasting with strife.",
+    "reference": "Proverbs 17:1",
+    "message": "A dry crust in peace beats a feast in chaos. On an uneventful day, the quiet itself is the luxury.",
+    "tags": [
+      "quietness",
+      "peace"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "neutral-089",
+    "emotionId": "neutral",
+    "body": "Remove far from me vanity and lies: give me neither poverty nor riches; feed me with food convenient for me:",
+    "modernText": "Remove far from me falsehood and lies. Give me neither poverty nor riches. Feed me with the food that is needful for me,",
+    "reference": "Proverbs 30:8",
+    "message": "A prayer for just enough, nothing dramatic. The underrated goal of an ordinary, sufficient day.",
+    "tags": [
+      "enough",
+      "contentment"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "neutral-090",
+    "emotionId": "neutral",
+    "body": "For we brought nothing into this world, and it is certain we can carry nothing out.",
+    "modernText": "For we brought nothing into the world, and we certainly can’t carry anything out.",
+    "reference": "1 Timothy 6:7",
+    "message": "A little perspective for a plain day: you came with nothing, you'll leave with nothing. Lightens the grip on all of it.",
+    "tags": [
+      "perspective",
+      "simplicity"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "neutral-091",
+    "emotionId": "neutral",
+    "body": "And having food and raiment let us be therewith content.",
+    "modernText": "But having food and clothing, we will be content with that.",
+    "reference": "1 Timothy 6:8",
+    "message": "Food, clothes, enough. The verse sets a low, honest bar for contentment that an ordinary day usually clears.",
+    "tags": [
+      "content",
+      "enough"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "neutral-092",
+    "emotionId": "neutral",
+    "body": "Let your moderation be known unto all men. The Lord is at hand.",
+    "modernText": "Let your gentleness be known to all men. The Lord is at hand.",
+    "reference": "Philippians 4:5",
+    "message": "Moderation, evenness, not too high or low. A good description of a steady, unremarkable day, and that's a fine way to be.",
+    "tags": [
+      "moderation",
+      "steady"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "neutral-093",
+    "emotionId": "neutral",
+    "body": "Give us this day our daily bread.",
+    "modernText": "Give us today our daily bread.",
+    "reference": "Matthew 6:11",
+    "message": "Just today's bread, not the whole pantry. A small, grounding prayer for an ordinary day: enough for now is enough.",
+    "tags": [
+      "daily bread",
+      "today"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "neutral-094",
+    "emotionId": "neutral",
+    "body": "The LORD is my portion, saith my soul; therefore will I hope in him.",
+    "modernText": "“Yahweh is my portion,” says my soul. “Therefore I will hope in him.”",
+    "reference": "Lamentations 3:24",
+    "message": "On a day without much to show for it, this names a portion you still have. Your share isn't tied to how eventful today was.",
+    "tags": [
+      "portion",
+      "hope"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "neutral-095",
+    "emotionId": "neutral",
+    "body": "Lord, my heart is not haughty, nor mine eyes lofty: neither do I exercise myself in great matters, or in things too high for me.",
+    "modernText": "Yahweh, my heart isn’t arrogant, nor my eyes lofty; nor do I concern myself with great matters, or things too wonderful for me.",
+    "reference": "Psalm 131:1",
+    "message": "A refreshing verse for a small day: not everything has to be big. Permission to not engage with the great matters today.",
+    "tags": [
+      "humility",
+      "simple"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "neutral-096",
+    "emotionId": "neutral",
+    "body": "Let Israel hope in the LORD from henceforth and for ever.",
+    "modernText": "Israel, hope in Yahweh, from this time forward and forever more.",
+    "reference": "Psalm 131:3",
+    "message": "After all the calming down, just, keep hoping. On an ordinary day, quiet hope is enough to carry.",
+    "tags": [
+      "hope",
+      "steady"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "neutral-097",
+    "emotionId": "neutral",
+    "body": "Rejoice not against me, O mine enemy: when I fall, I shall arise; when I sit in darkness, the LORD shall be a light unto me.",
+    "modernText": "Don’t rejoice against me, my enemy. When I fall, I will arise. When I sit in darkness, Yahweh will be a light to me.",
+    "reference": "Micah 7:8",
+    "message": "Not a dramatic rescue, just, you'll get back up, the light will come. Steady reassurance for an unremarkable low.",
+    "tags": [
+      "rise",
+      "light"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "neutral-098",
+    "emotionId": "neutral",
+    "body": "The sleep of a labouring man is sweet, whether he eat little or much: but the abundance of the rich will not suffer him to sleep.",
+    "modernText": "The sleep of a laboring man is sweet, whether he eats little or much; but the abundance of the rich will not allow him to sleep.",
+    "reference": "Ecclesiastes 5:12",
+    "message": "An honest, earthy good: a solid day's work earns a good night's sleep. Simple, ordinary, and worth something.",
+    "tags": [
+      "rest",
+      "labor"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "neutral-099",
+    "emotionId": "neutral",
+    "body": "That ye might walk worthy of the Lord unto all pleasing, being fruitful in every good work, and increasing in the knowledge of God;",
+    "modernText": "that you may walk worthily of the Lord, to please him in all respects, bearing fruit in every good work and increasing in the knowledge of God,",
+    "reference": "Colossians 1:10",
+    "message": "Fruitful in the ordinary, everyday good work. A plain day of small right things is its own kind of fruitful.",
+    "tags": [
+      "walk worthy",
+      "fruitful"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "neutral-100",
+    "emotionId": "neutral",
+    "body": "But ye, brethren, be not weary in well doing.",
+    "modernText": "But you, brothers, don’t be weary in doing what is right.",
+    "reference": "2 Thessalonians 3:13",
+    "message": "A quiet encouragement for the long, unremarkable middle: don't get tired of doing the small good things. They count.",
+    "tags": [
+      "not weary",
+      "persevere"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
     "id": "tired-001",
     "emotionId": "tired",
     "body": "But they that wait upon the LORD shall renew their strength; they shall mount up with wings as eagles; they shall run, and not be weary; and they shall walk, and not faint.",
