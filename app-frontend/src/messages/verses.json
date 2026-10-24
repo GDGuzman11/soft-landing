@@ -16100,6 +16100,706 @@
     "weight": 7
   },
   {
+    "id": "sad-251",
+    "emotionId": "sad",
+    "body": "But thou, O LORD, art a shield for me; my glory, and the lifter up of mine head.",
+    "modernText": "But you, Yahweh, are a shield around me, my glory, and the one who lifts up my head.",
+    "reference": "Psalm 3:3",
+    "message": "A shield around you and a hand lifting your head when grief has it hung low. Both at once, on a day you can't look up on your own.",
+    "tags": [
+      "shield",
+      "lifted head"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "sad-252",
+    "emotionId": "sad",
+    "body": "For the needy shall not alway be forgotten: the expectation of the poor shall not perish for ever.",
+    "modernText": "For the needy shall not always be forgotten, nor the hope of the poor perish forever.",
+    "reference": "Psalm 9:18",
+    "message": "A promise to the grieving and overlooked: you won't be forgotten forever. On a sad day, the hope isn't lost, just waiting longer than you'd like.",
+    "tags": [
+      "needy",
+      "not forgotten"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "sad-253",
+    "emotionId": "sad",
+    "body": "Unto thee, O LORD, do I lift up my soul.",
+    "modernText": "To you, Yahweh, I lift up my soul.",
+    "reference": "Psalm 25:1",
+    "message": "Lifting up the grieving soul, handing it over. On a sad day, even that small act of reaching is enough of an offering.",
+    "tags": [
+      "lift soul",
+      "trust"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "sad-254",
+    "emotionId": "sad",
+    "body": "I had fainted, unless I had believed to see the goodness of the LORD in the land of the living.",
+    "modernText": "I am still confident of this: I will see the goodness of Yahweh in the land of the living.",
+    "reference": "Psalm 27:13",
+    "message": "An honest admission from grief: I'd have given out, if I hadn't held onto the hope of seeing good again. The believing kept you here.",
+    "tags": [
+      "faint",
+      "hope"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "sad-255",
+    "emotionId": "sad",
+    "body": "Into thine hand I commit my spirit: thou hast redeemed me, O LORD God of truth.",
+    "modernText": "Into your hand I commend my spirit. You redeem me, Yahweh, God of truth.",
+    "reference": "Psalm 31:5",
+    "message": "Handing over your whole spirit, trusting someone else to hold it. On a grieving day, permission to stop gripping and let yourself be carried.",
+    "tags": [
+      "commit",
+      "entrust"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "sad-256",
+    "emotionId": "sad",
+    "body": "For I will declare mine iniquity; I will be sorry for my sin.",
+    "modernText": "For I will declare my iniquity. I will be sorry for my sin.",
+    "reference": "Psalm 38:18",
+    "message": "Permission to just be sorry, to sit with the ache honestly, without defending yourself. Sometimes grief includes regret, and that gets to be named too.",
+    "tags": [
+      "sorrow",
+      "honesty"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "sad-257",
+    "emotionId": "sad",
+    "body": "And now, Lord, what wait I for? my hope is in thee.",
+    "modernText": "Now, Lord, what do I wait for? My hope is in you.",
+    "reference": "Psalm 39:7",
+    "message": "A quiet question from inside the sadness: what am I even waiting for? And a thin, stubborn answer: my hope is in thee. Held gently, not forced.",
+    "tags": [
+      "hope",
+      "waiting"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "sad-258",
+    "emotionId": "sad",
+    "body": "And he hath put a new song in my mouth, even praise unto our God: many shall see it, and fear, and shall trust in the LORD.",
+    "modernText": "He has put a new song in my mouth, even praise to our God. Many shall see it, and fear, and shall trust in Yahweh.",
+    "reference": "Psalm 40:3",
+    "message": "A new song, eventually, after the silence of grief. Held gently, not a demand to sing now, just a reminder that the voice comes back.",
+    "tags": [
+      "new song",
+      "lifted"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "sad-259",
+    "emotionId": "sad",
+    "body": "O my God, my soul is cast down within me: therefore will I remember thee from the land of Jordan, and of the Hermonites, from the hill Mizar.",
+    "modernText": "My God, my soul is in despair within me. Therefore I remember you from the land of the Jordan, the heights of Hermon, from the hill Mizar.",
+    "reference": "Psalm 42:6",
+    "message": "It names the soul cast down, plainly, and then just chooses to remember. Not a fix, a small act of turning the face, even while heavy.",
+    "tags": [
+      "cast down",
+      "remember"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "sad-260",
+    "emotionId": "sad",
+    "body": "Attend unto me, and hear me: I mourn in my complaint, and make a noise;",
+    "modernText": "Attend to me, and answer me. I am restless in my complaint, and moan",
+    "reference": "Psalm 55:2",
+    "message": "A plain admission: I mourn, I make noise, I'm not quiet about this. The verse lets grief be loud and messy, and still asks to be heard.",
+    "tags": [
+      "mourn",
+      "heard"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "sad-261",
+    "emotionId": "sad",
+    "body": "Hear my cry, O God; attend unto my prayer.",
+    "modernText": "Hear my cry, God. Listen to my prayer.",
+    "reference": "Psalm 61:1",
+    "message": "A short, grieving cry: just hear me. On a sad day, the prayer doesn't have to be polished, only heard.",
+    "tags": [
+      "cry",
+      "heard"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "sad-262",
+    "emotionId": "sad",
+    "body": "Deliver me out of the mire, and let me not sink: let me be delivered from them that hate me, and out of the deep waters.",
+    "modernText": "Deliver me out of the mire, and don’t let me sink. Let me be delivered from those who hate me, and out of the deep waters.",
+    "reference": "Psalm 69:14",
+    "message": "A plain plea from a sinking feeling: pull me out, don't let me go under. On a grieving day, you're allowed to say you're going down, and ask for a hand.",
+    "tags": [
+      "mire",
+      "sinking"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "sad-263",
+    "emotionId": "sad",
+    "body": "The humble shall see this, and be glad: and your heart shall live that seek God.",
+    "modernText": "The humble have seen it, and are glad. You who seek after God, let your heart live.",
+    "reference": "Psalm 69:32",
+    "message": "A promise that the grieving heart will live again, that gladness comes back to the humble. Held gently, for the far side of the sorrow.",
+    "tags": [
+      "humble",
+      "revived"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "sad-264",
+    "emotionId": "sad",
+    "body": "Rejoice the soul of thy servant: for unto thee, O Lord, do I lift up my soul.",
+    "modernText": "Bring joy to the soul of your servant, for to you, Lord, do I lift up my soul.",
+    "reference": "Psalm 86:4",
+    "message": "An honest ask: please, bring some gladness back to my soul. On a grieving day, reaching for joy you can't make yourself, and trusting it can be given.",
+    "tags": [
+      "rejoice",
+      "lift soul"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "sad-265",
+    "emotionId": "sad",
+    "body": "Let my prayer come before thee: incline thine ear unto my cry;",
+    "modernText": "Let my prayer enter into your presence. Turn your ear to my cry.",
+    "reference": "Psalm 88:2",
+    "message": "From the darkest psalm, just a plea to be listened to. On a grieving day, sometimes the whole prayer is a request to simply be heard.",
+    "tags": [
+      "prayer",
+      "cry"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "sad-266",
+    "emotionId": "sad",
+    "body": "Unless the LORD had been my help, my soul had almost dwelt in silence.",
+    "modernText": "Unless Yahweh had been my help, my soul would have soon lived in silence.",
+    "reference": "Psalm 94:17",
+    "message": "An honest admission: without that help, I'd have gone silent, gone under. On a sad day, naming how close the edge felt, and what kept you from it.",
+    "tags": [
+      "help",
+      "silence"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "sad-267",
+    "emotionId": "sad",
+    "body": "I love the LORD, because he hath heard my voice and my supplications.",
+    "modernText": "I love Yahweh, because he listens to my voice, and my cries for mercy.",
+    "reference": "Psalm 116:1",
+    "message": "Love that grew out of being heard. For a grieving day, the quiet gratitude that your cry actually landed somewhere.",
+    "tags": [
+      "heard",
+      "love"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "sad-268",
+    "emotionId": "sad",
+    "body": "Uphold me according unto thy word, that I may live: and let me not be ashamed of my hope.",
+    "modernText": "Uphold me according to your word, that I may live. Let me not be ashamed of my hope.",
+    "reference": "Psalm 119:116",
+    "message": "Just, hold me up enough to keep living. A small, grieving prayer for the days you only have strength to ask to be held.",
+    "tags": [
+      "uphold",
+      "live"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "sad-269",
+    "emotionId": "sad",
+    "body": "Cause me to hear thy lovingkindness in the morning; for in thee do I trust: cause me to know the way wherein I should walk; for I lift up my soul unto thee.",
+    "modernText": "Cause me to hear your loving kindness in the morning, for I trust in you. Cause me to know the way in which I should walk, for I lift up my soul to you.",
+    "reference": "Psalm 143:8",
+    "message": "A morning ask for a grieving heart: let me hear something kind before the day's weight settles in. Point me toward the lovingkindness first.",
+    "tags": [
+      "morning",
+      "lovingkindness"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "sad-270",
+    "emotionId": "sad",
+    "body": "For I the LORD thy God will hold thy right hand, saying unto thee, Fear not; I will help thee.",
+    "modernText": "For I, Yahweh your God, will hold your right hand, saying to you, ‘Don’t be afraid. I will help you.’",
+    "reference": "Isaiah 41:13",
+    "message": "A hand actually taking yours, and the gentlest words: fear not. On a grieving day, not a lecture from across the room, closer than that.",
+    "tags": [
+      "hand held",
+      "fear not"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "sad-271",
+    "emotionId": "sad",
+    "body": "Remember these, O Jacob and Israel; for thou art my servant: I have formed thee; thou art my servant: O Israel, thou shalt not be forgotten of me.",
+    "modernText": "Remember these things, Jacob and Israel; for you are my servant. I have formed you. You are my servant. Israel, you will not be forgotten by me.",
+    "reference": "Isaiah 44:21",
+    "message": "A direct promise against the exact fear grief brings: you will not be forgotten. On a sad day, held against the feeling of fading from everyone's mind.",
+    "tags": [
+      "not forgotten",
+      "remembered"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "sad-272",
+    "emotionId": "sad",
+    "body": "And even to your old age I am he; and even to hoar hairs will I carry you: I have made, and I will bear; even I will carry, and will deliver you.",
+    "modernText": "Even to old age I am he, and even to gray hairs I will carry you. I have made, and I will bear. Yes, I will carry, and will deliver.",
+    "reference": "Isaiah 46:4",
+    "message": "Carried the whole way, even to gray hair. On a grieving day, a picture of being lifted and carried through, not left to trudge the sorrow alone.",
+    "tags": [
+      "carried",
+      "faithfulness"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "sad-273",
+    "emotionId": "sad",
+    "body": "But Zion said, The LORD hath forsaken me, and my Lord hath forgotten me.",
+    "modernText": "But Zion said, “Yahweh has forsaken me, and the Lord has forgotten me.”",
+    "reference": "Isaiah 49:14",
+    "message": "It quotes the exact grieving thought out loud: I've been forsaken, forgotten. The verse doesn't scold it, it names it honestly, right before answering it with tenderness.",
+    "tags": [
+      "forsaken",
+      "lament"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "sad-274",
+    "emotionId": "sad",
+    "body": "Behold, I will do a new thing; now it shall spring forth; shall ye not know it? I will even make a way in the wilderness, and rivers in the desert.",
+    "modernText": "Behold, I will do a new thing. It springs out now. Don’t you know it? I will even make a way in the wilderness, and rivers in the desert.",
+    "reference": "Isaiah 43:19",
+    "message": "A new thing starting, even in the wilderness of grief. Held gently, not a demand to see it yet, just a quiet 'something is beginning, even here.'",
+    "tags": [
+      "new thing",
+      "way"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "sad-275",
+    "emotionId": "sad",
+    "body": "The LORD hath appeared of old unto me, saying, Yea, I have loved thee with an everlasting love: therefore with lovingkindness have I drawn thee.",
+    "modernText": "Yahweh appeared of old to me, saying, “Yes, I have loved you with an everlasting love. Therefore I have drawn you with loving kindness.",
+    "reference": "Jeremiah 31:3",
+    "message": "A steady, unchanging love under all the grief. Not dependent on how you feel or how long the sorrow lasts, just there, from before and after.",
+    "tags": [
+      "love",
+      "everlasting"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "sad-276",
+    "emotionId": "sad",
+    "body": "I called upon thy name, O LORD, out of the low dungeon.",
+    "modernText": "I called on your name, Yahweh, out of the lowest dungeon.",
+    "reference": "Lamentations 3:55",
+    "message": "Calling out from the low dungeon, the very bottom. The verse prays from the deepest, darkest place, and doesn't ask you to climb up first.",
+    "tags": [
+      "dungeon",
+      "called"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "sad-277",
+    "emotionId": "sad",
+    "body": "Thou hast heard my voice: hide not thine ear at my breathing, at my cry.",
+    "modernText": "You heard my voice: “Don’t hide your ear from my sighing, and my cry.”",
+    "reference": "Lamentations 3:56",
+    "message": "A plea that your breathing, your crying, your barely-there voice not be ignored. On a grieving day, even the smallest sound of you is worth being heard.",
+    "tags": [
+      "heard",
+      "cry"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "sad-278",
+    "emotionId": "sad",
+    "body": "And saith unto them, My soul is exceeding sorrowful unto death: tarry ye here, and watch.",
+    "modernText": "He said to them, “My soul is exceedingly sorrowful, even to death. Stay here, and watch.”",
+    "reference": "Mark 14:34",
+    "message": "His own words in the garden, grief so deep it felt like dying, and a plea for people to just stay near. Your sorrow is understood, and so is the need for company in it.",
+    "tags": [
+      "sorrowful",
+      "understood"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "sad-279",
+    "emotionId": "sad",
+    "body": "Peace I leave with you, my peace I give unto you: not as the world giveth, give I unto you. Let not your heart be troubled, neither let it be afraid.",
+    "modernText": "Peace I leave with you. My peace I give to you; not as the world gives, I give to you. Don’t let your heart be troubled, neither let it be fearful.",
+    "reference": "John 14:27",
+    "message": "A peace that isn't the world's kind, left with you like a gift. For a grieving heart, permission to stop being troubled and just receive it, slowly.",
+    "tags": [
+      "peace",
+      "untroubled"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "sad-280",
+    "emotionId": "sad",
+    "body": "And not only so, but we glory in tribulations also: knowing that tribulation worketh patience;",
+    "modernText": "Not only this, but we also rejoice in our sufferings, knowing that suffering produces perseverance;",
+    "reference": "Romans 5:3",
+    "message": "Held very gently. Not that the grief is good, but that even tribulation isn't empty, that it quietly works something in you over time.",
+    "tags": [
+      "tribulation",
+      "patience"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "sad-281",
+    "emotionId": "sad",
+    "body": "As sorrowful, yet alway rejoicing; as poor, yet making many rich; as having nothing, and yet possessing all things.",
+    "modernText": "as sorrowful, yet always rejoicing; as poor, yet making many rich; as having nothing, and yet possessing all things.",
+    "reference": "2 Corinthians 6:10",
+    "message": "Sorrowful and rejoicing at the same time, both true at once. The verse gives you permission to hold grief and a flicker of hope together, without choosing.",
+    "tags": [
+      "sorrowful",
+      "rejoicing"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "sad-282",
+    "emotionId": "sad",
+    "body": "Behold, we count them happy which endure. Ye have heard of the patience of Job, and have seen the end of the Lord; that the Lord is very pitiful, and of tender mercy.",
+    "modernText": "Behold, we call them blessed who endured. You have heard of the perseverance of Job, and have seen the Lord in the outcome, and how the Lord is full of compassion and mercy.",
+    "reference": "James 5:11",
+    "message": "The one you're grieving toward described as very pitiful, full of tender mercy. On a sad day, met with softness, not sternness.",
+    "tags": [
+      "pitiful",
+      "tender mercy"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "sad-283",
+    "emotionId": "sad",
+    "body": "Wait on the LORD: be of good courage, and he shall strengthen thine heart: wait, I say, on the LORD.",
+    "modernText": "Wait for Yahweh. Be strong, and let your heart take courage. Yes, wait for Yahweh.",
+    "reference": "Psalm 27:14",
+    "message": "Wait, the verse says, which is often all grief lets you do. And it promises the heart gets strengthened in the waiting, not just after it.",
+    "tags": [
+      "wait",
+      "strengthened heart"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "sad-284",
+    "emotionId": "sad",
+    "body": "The LORD is my strength and my shield; my heart trusted in him, and I am helped: therefore my heart greatly rejoiceth; and with my song will I praise him.",
+    "modernText": "Yahweh is my strength and my shield. My heart has trusted in him, and I am helped. Therefore my heart greatly rejoices. With my song I will thank him.",
+    "reference": "Psalm 28:7",
+    "message": "Strength and a shield, and then the relief: my heart trusted, and I was helped. On a grieving day, the trusting led somewhere, even if slowly.",
+    "tags": [
+      "strength",
+      "helped"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "sad-285",
+    "emotionId": "sad",
+    "body": "My voice shalt thou hear in the morning, O LORD; in the morning will I direct my prayer unto thee, and will look up.",
+    "modernText": "Yahweh, in the morning you will hear my voice. In the morning I will lay my requests before you, and will watch expectantly.",
+    "reference": "Psalm 5:3",
+    "message": "A morning habit for a grieving heart: bring the sorrow here first, before the day starts talking. Reach out before the weight fully lands.",
+    "tags": [
+      "morning",
+      "voice"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "sad-286",
+    "emotionId": "sad",
+    "body": "But be not thou far from me, O LORD: O my strength, haste thee to help me.",
+    "modernText": "But don’t be far off, Yahweh. You are my help. Hurry to help me!",
+    "reference": "Psalm 22:19",
+    "message": "A plain plea from grief: don't be far, hurry. On a sad day, you're allowed to ask for nearness, and to ask for it soon.",
+    "tags": [
+      "not far",
+      "haste help"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "sad-287",
+    "emotionId": "sad",
+    "body": "Commit thy way unto the LORD; trust also in him; and he shall bring it to pass.",
+    "modernText": "Commit your way to Yahweh. Trust also in him, and he will do this:",
+    "reference": "Psalm 37:5",
+    "message": "Hand over the way, even through the grief, and let it unfold. Held gently, loosening the grip on the parts of the sorrow you can't control.",
+    "tags": [
+      "commit",
+      "trust"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "sad-288",
+    "emotionId": "sad",
+    "body": "But I will hope continually, and will yet praise thee more and more.",
+    "modernText": "But I will always hope, and will add to all of your praise.",
+    "reference": "Psalm 71:14",
+    "message": "A stubborn 'but' and a quiet 'yet' from inside the sadness. Not a demand to feel hopeful, just a decision to keep hoping, even faintly, even now.",
+    "tags": [
+      "hope",
+      "praise"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "sad-289",
+    "emotionId": "sad",
+    "body": "I shall not die, but live, and declare the works of the LORD.",
+    "modernText": "I will not die, but live, and declare Yah’s works.",
+    "reference": "Psalm 118:17",
+    "message": "A defiant little line for a day grief feels like too much: not die, but live. You're going to get through this one, as hard as it is.",
+    "tags": [
+      "survival",
+      "live"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "sad-290",
+    "emotionId": "sad",
+    "body": "LORD, thou hast heard the desire of the humble: thou wilt prepare their heart, thou wilt cause thine ear to hear:",
+    "modernText": "Yahweh, you have heard the desire of the humble. You will prepare their heart. You will cause your ear to hear,",
+    "reference": "Psalm 10:17",
+    "message": "The quiet, unglamorous desire of someone who's low gets heard. On a grieving day, you don't have to make your sorrow loud to be noticed.",
+    "tags": [
+      "humble",
+      "heard"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "sad-291",
+    "emotionId": "sad",
+    "body": "Thou wilt keep him in perfect peace, whose mind is stayed on thee: because he trusteth in thee.",
+    "modernText": "You will keep whoever’s mind is steadfast in perfect peace, because he trusts in you.",
+    "reference": "Isaiah 26:3",
+    "message": "A peace held out even to the grieving, for whenever the mind can rest on something steady. Not instead of the sorrow, a quiet place within it.",
+    "tags": [
+      "peace",
+      "mind stayed"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "sad-292",
+    "emotionId": "sad",
+    "body": "Behold, the LORD’s hand is not shortened, that it cannot save; neither his ear heavy, that it cannot hear:",
+    "modernText": "Behold, Yahweh’s hand is not shortened, that it can’t save; nor his ear dull, that it can’t hear.",
+    "reference": "Isaiah 59:1",
+    "message": "If it feels like help isn't coming in the grief, this says it isn't a reach problem. The hand is long enough, the ear isn't dull. Nothing on that end has failed.",
+    "tags": [
+      "reach",
+      "able"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "sad-293",
+    "emotionId": "sad",
+    "body": "Rejoicing in hope; patient in tribulation; continuing instant in prayer;",
+    "modernText": "rejoicing in hope; enduring in troubles; continuing steadfastly in prayer;",
+    "reference": "Romans 12:12",
+    "message": "Three things held together: a flicker of hope, patience in the hard stretch, and staying in prayer through it. Grief and hope, side by side, neither cancelling the other.",
+    "tags": [
+      "patient",
+      "hope"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "sad-294",
+    "emotionId": "sad",
+    "body": "Now our Lord Jesus Christ himself, and God, even our Father, which hath loved us, and hath given us everlasting consolation and good hope through grace,",
+    "modernText": "Now our Lord Jesus Christ himself, and God our Father, who loved us and gave us eternal comfort and good hope through grace,",
+    "reference": "2 Thessalonians 2:16",
+    "message": "Everlasting comfort and good hope, already given through grace. Not earned by holding it together, just given, even to the grieving.",
+    "tags": [
+      "consolation",
+      "hope"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "sad-295",
+    "emotionId": "sad",
+    "body": "Comfort your hearts, and stablish you in every good word and work.",
+    "modernText": "comfort your hearts and establish you in every good work and word.",
+    "reference": "2 Thessalonians 2:17",
+    "message": "Comfort your heart and steady you, the two things grief has been wearing down, named and gently tended.",
+    "tags": [
+      "comfort",
+      "establish"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "sad-296",
+    "emotionId": "sad",
+    "body": "Be careful for nothing; but in every thing by prayer and supplication with thanksgiving let your requests be made known unto God.",
+    "modernText": "In nothing be anxious, but in everything, by prayer and petition with thanksgiving, let your requests be made known to God.",
+    "reference": "Philippians 4:6",
+    "message": "Permission to hand the grief over instead of carrying it silently. On a sad day, bringing it, unfiltered, to someone who wants to hear it.",
+    "tags": [
+      "prayer",
+      "carried"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "sad-297",
+    "emotionId": "sad",
+    "body": "And the peace of God, which passeth all understanding, shall keep your hearts and minds through Christ Jesus.",
+    "modernText": "And the peace of God, which surpasses all understanding, will guard your hearts and your thoughts in Christ Jesus.",
+    "reference": "Philippians 4:7",
+    "message": "A peace that stands guard over your grieving heart and mind. On a sad day, you don't have to defend yourself, the peace does it, quietly.",
+    "tags": [
+      "peace",
+      "guard"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "sad-298",
+    "emotionId": "sad",
+    "body": "The LORD is good unto them that wait for him, to the soul that seeketh him.",
+    "modernText": "Yahweh is good to those who wait for him, to the soul who seeks him.",
+    "reference": "Lamentations 3:25",
+    "message": "Good to the ones just waiting, just seeking, not achieving. On a grieving day of barely holding on, the waiting itself is enough to be met with goodness.",
+    "tags": [
+      "wait",
+      "good"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "sad-299",
+    "emotionId": "sad",
+    "body": "Therefore I will look unto the LORD; I will wait for the God of my salvation: my God will hear me.",
+    "modernText": "But as for me, I will look to Yahweh. I will wait for the God of my salvation. My God will hear me.",
+    "reference": "Micah 7:7",
+    "message": "Looking up and waiting, even when nothing's answered yet, even in grief, because the hearing is already a given. The reaching isn't into silence.",
+    "tags": [
+      "wait",
+      "heard"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "sad-300",
+    "emotionId": "sad",
+    "body": "Because thou shalt forget thy misery, and remember it as waters that pass away:",
+    "modernText": "for you will forget your misery. You will remember it like waters that have passed away.",
+    "reference": "Job 11:16",
+    "message": "A gentle, far-off promise: the misery won't always weigh like this, one day it'll feel more like water that already passed. Not now, but someday, held softly.",
+    "tags": [
+      "misery",
+      "passing"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
     "id": "stressed-001",
     "emotionId": "stressed",
     "body": "Come unto me, all ye that labour and are heavy laden, and I will give you rest.",
