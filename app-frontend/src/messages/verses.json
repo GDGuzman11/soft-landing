@@ -13300,6 +13300,706 @@
     "weight": 9
   },
   {
+    "id": "sad-051",
+    "emotionId": "sad",
+    "body": "I am weary with my groaning; all the night make I my bed to swim; I water my couch with my tears.",
+    "modernText": "I am weary with my groaning. Every night I flood my bed. I drench my couch with my tears.",
+    "reference": "Psalm 6:6",
+    "message": "It describes crying so hard the bed is soaked, and doesn't apologize for it. On a grieving night, the verse just keeps you company in it, no cleanup required.",
+    "tags": [
+      "weeping",
+      "grief"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "sad-052",
+    "emotionId": "sad",
+    "body": "Depart from me, all ye workers of iniquity; for the LORD hath heard the voice of my weeping.",
+    "modernText": "Depart from me, all you workers of iniquity, for Yahweh has heard the voice of my weeping.",
+    "reference": "Psalm 6:8",
+    "message": "Your weeping has a voice, and it was heard. Not the words, the weeping itself. Even the crying you can't explain reaches someone.",
+    "tags": [
+      "weeping",
+      "heard"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "sad-053",
+    "emotionId": "sad",
+    "body": "The LORD hath heard my supplication; the LORD will receive my prayer.",
+    "modernText": "Yahweh has heard my supplication. Yahweh accepts my prayer.",
+    "reference": "Psalm 6:9",
+    "message": "After all the tears, a quiet certainty: it was heard, it was received. The grieving prayer didn't fall into silence.",
+    "tags": [
+      "supplication",
+      "heard"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "sad-054",
+    "emotionId": "sad",
+    "body": "How long wilt thou forget me, O LORD? for ever? how long wilt thou hide thy face from me?",
+    "modernText": "How long, Yahweh? Will you forget me forever? How long will you hide your face from me?",
+    "reference": "Psalm 13:1",
+    "message": "A raw, unedited lament, right in the Bible. On a day you feel forgotten, this says you're allowed to ask that out loud, no faith-face required.",
+    "tags": [
+      "lament",
+      "how long"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "sad-055",
+    "emotionId": "sad",
+    "body": "How long shall I take counsel in my soul, having sorrow in my heart daily? how long shall mine enemy be exalted over me?",
+    "modernText": "How long shall I take counsel in my soul, having sorrow in my heart every day? How long shall my enemy triumph over me?",
+    "reference": "Psalm 13:2",
+    "message": "It names sorrow that shows up every single day, not an occasional dip. The verse honors the kind of grief that just keeps coming back.",
+    "tags": [
+      "sorrow",
+      "daily"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "sad-056",
+    "emotionId": "sad",
+    "body": "In my distress I called upon the LORD, and cried unto my God: he heard my voice out of his temple, and my cry came before him, even into his ears.",
+    "modernText": "In my distress I called on Yahweh, and cried to my God. He heard my voice out of his temple. My cry before him came into his ears.",
+    "reference": "Psalm 18:6",
+    "message": "From the distress, not after it, the call went up and was heard. On a grieving day, the crying out from the bottom still reaches.",
+    "tags": [
+      "distress",
+      "heard"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "sad-057",
+    "emotionId": "sad",
+    "body": "Yea, though I walk through the valley of the shadow of death, I will fear no evil: for thou art with me; thy rod and thy staff they comfort me.",
+    "modernText": "Even though I walk through the valley of the shadow of death, I will fear no evil, for you are with me. Your rod and your staff, they comfort me.",
+    "reference": "Psalm 23:4",
+    "message": "The valley of the shadow of death, named plainly. The verse doesn't rush you out of it, it just promises you're not walking it alone.",
+    "tags": [
+      "valley",
+      "presence"
+    ],
+    "tier": "free",
+    "weight": 9
+  },
+  {
+    "id": "sad-058",
+    "emotionId": "sad",
+    "body": "Turn thee unto me, and have mercy upon me; for I am desolate and afflicted.",
+    "modernText": "Turn to me, and have mercy on me, for I am desolate and afflicted.",
+    "reference": "Psalm 25:16",
+    "message": "It uses the word desolate and doesn't soften it. On a day grief leaves you empty, a verse that just names it and asks to be turned toward.",
+    "tags": [
+      "desolate",
+      "mercy"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "sad-059",
+    "emotionId": "sad",
+    "body": "The troubles of my heart are enlarged: O bring thou me out of my distresses.",
+    "modernText": "The troubles of my heart are enlarged. Oh bring me out of my distresses.",
+    "reference": "Psalm 25:17",
+    "message": "Honest that the heartache feels bigger than usual, swelling. It doesn't argue, it just asks to be brought through, trusting that it can be.",
+    "tags": [
+      "heart",
+      "distress"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "sad-060",
+    "emotionId": "sad",
+    "body": "Have mercy upon me, O LORD, for I am in trouble: mine eye is consumed with grief, yea, my soul and my belly.",
+    "modernText": "Have mercy on me, Yahweh, for I am in distress. My eye, my soul, and my body waste away with grief.",
+    "reference": "Psalm 31:9",
+    "message": "Grief that's reached the eyes, the soul, the gut, the whole body. The verse takes the full inventory of sadness without tidying any of it.",
+    "tags": [
+      "grief",
+      "consumed"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "sad-061",
+    "emotionId": "sad",
+    "body": "For my life is spent with grief, and my years with sighing: my strength faileth because of mine iniquity, and my bones are consumed.",
+    "modernText": "For my life is spent with sorrow, my years with sighing. My strength fails because of my iniquity. My bones are wasted away.",
+    "reference": "Psalm 31:10",
+    "message": "An unflinching line about grief that's gone on for years, sighing as a way of life. For a long sorrow, a verse that doesn't pretend it's brief.",
+    "tags": [
+      "grief",
+      "sighing"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "sad-062",
+    "emotionId": "sad",
+    "body": "Lord, all my desire is before thee; and my groaning is not hid from thee.",
+    "modernText": "Lord, all my desire is before you. My groaning is not hidden from you.",
+    "reference": "Psalm 38:9",
+    "message": "Even the wordless groaning of grief is seen, not hidden. You don't have to make your sadness presentable for it to be known.",
+    "tags": [
+      "groaning",
+      "known"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "sad-063",
+    "emotionId": "sad",
+    "body": "My tears have been my meat day and night, while they continually say unto me, Where is thy God?",
+    "modernText": "My tears have been my food day and night, while they continually ask me, “Where is your God?”",
+    "reference": "Psalm 42:3",
+    "message": "Tears described as your food, day and night, how all-consuming grief can be. The verse sits in that, doesn't rush you to a meal.",
+    "tags": [
+      "tears",
+      "day and night"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "sad-064",
+    "emotionId": "sad",
+    "body": "Why art thou cast down, O my soul? and why art thou disquieted in me? hope thou in God: for I shall yet praise him for the help of his countenance.",
+    "modernText": "Why are you in despair, my soul? Why are you disturbed within me? Hope in God! For I shall still praise him for the saving help of his presence.",
+    "reference": "Psalm 42:5",
+    "message": "Talking honestly to your own grieving soul: why so heavy, so restless? Not scolding, just asking, which is sometimes all you can do.",
+    "tags": [
+      "cast down",
+      "hope"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "sad-065",
+    "emotionId": "sad",
+    "body": "Deep calleth unto deep at the noise of thy waterspouts: all thy waves and thy billows are gone over me.",
+    "modernText": "Deep calls to deep at the noise of your waterfalls. All your waves and your billows have swept over me.",
+    "reference": "Psalm 42:7",
+    "message": "The feeling of being completely underwater in grief, wave after wave. The verse names the drowning sensation without pretending you're on dry land.",
+    "tags": [
+      "deep",
+      "waves"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "sad-066",
+    "emotionId": "sad",
+    "body": "Why art thou cast down, O my soul? and why art thou disquieted within me? hope thou in God: for I shall yet praise him, who is the health of my countenance, and my God.",
+    "modernText": "Why are you in despair, my soul? Why are you disturbed within me? Hope in God! For I shall still praise him, the saving help of my countenance, and my God.",
+    "reference": "Psalm 42:11",
+    "message": "The word 'yet' doing the quiet work. Not 'I'm fine now,' but 'someday, not yet.' Held loosely, offered without rushing the grief.",
+    "tags": [
+      "cast down",
+      "hope"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "sad-067",
+    "emotionId": "sad",
+    "body": "Why art thou cast down, O my soul? and why art thou disquieted within me? hope in God: for I shall yet praise him, who is the health of my countenance, and my God.",
+    "modernText": "Why are you in despair, my soul? Why are you disturbed within me? Hope in God! For I shall still praise him: my Savior, my helper, and my God.",
+    "reference": "Psalm 43:5",
+    "message": "The same honest question to a heavy soul, asked a third time across the psalms. Grief that circles back, and a hope held out gently each time.",
+    "tags": [
+      "cast down",
+      "hope"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "sad-068",
+    "emotionId": "sad",
+    "body": "The sacrifices of God are a broken spirit: a broken and a contrite heart, O God, thou wilt not despise.",
+    "modernText": "The sacrifices of God are a broken spirit. O God, you will not despise a broken and contrite heart.",
+    "reference": "Psalm 51:17",
+    "message": "Your broken heart isn't a problem to hide, it's described as something God won't turn away from. The brokenness itself is welcome here.",
+    "tags": [
+      "broken heart",
+      "not despised"
+    ],
+    "tier": "free",
+    "weight": 9
+  },
+  {
+    "id": "sad-069",
+    "emotionId": "sad",
+    "body": "My heart is sore pained within me: and the terrors of death are fallen upon me.",
+    "modernText": "My heart is severely pained within me. The terrors of death have fallen on me.",
+    "reference": "Psalm 55:4",
+    "message": "It names heart-pain so sharp it feels like dread. The verse doesn't minimize how physical and frightening grief can be.",
+    "tags": [
+      "pain",
+      "heart"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "sad-070",
+    "emotionId": "sad",
+    "body": "From the end of the earth will I cry unto thee, when my heart is overwhelmed: lead me to the rock that is higher than I.",
+    "modernText": "From the end of the earth, I will call to you when my heart is overwhelmed. Lead me to the rock that is higher than I.",
+    "reference": "Psalm 61:2",
+    "message": "When your heart is overwhelmed with sorrow, this just asks to be led somewhere steadier. You don't have to climb out of the grief alone.",
+    "tags": [
+      "overwhelmed",
+      "rock"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "sad-071",
+    "emotionId": "sad",
+    "body": "I sink in deep mire, where there is no standing: I am come into deep waters, where the floods overflow me.",
+    "modernText": "I sink in deep mire, where there is no foothold. I have come into deep waters, where the floods overflow me.",
+    "reference": "Psalm 69:2",
+    "message": "No footing, going under, in over your head, the verse describes grief exactly. It doesn't offer a ledge, it just names the sinking honestly.",
+    "tags": [
+      "sinking",
+      "mire"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "sad-072",
+    "emotionId": "sad",
+    "body": "Reproach hath broken my heart; and I am full of heaviness: and I looked for some to take pity, but there was none; and for comforters, but I found none.",
+    "modernText": "Reproach has broken my heart, and I am full of heaviness. I looked for some to take pity, but there was none; for comforters, but I found none.",
+    "reference": "Psalm 69:20",
+    "message": "A broken heart and a fullness of heaviness, named plainly. The verse lets grief be as heavy as it actually is, no lightening.",
+    "tags": [
+      "broken heart",
+      "heaviness"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "sad-073",
+    "emotionId": "sad",
+    "body": "In the day of my trouble I sought the Lord: my sore ran in the night, and ceased not: my soul refused to be comforted.",
+    "modernText": "In the day of my trouble I sought the Lord. My hand was stretched out in the night, and didn’t get tired. My soul refused to be comforted.",
+    "reference": "Psalm 77:2",
+    "message": "The most honest line for deep grief: my soul refused to be comforted. The verse doesn't force comfort on you, it sits with the ache that won't be soothed yet.",
+    "tags": [
+      "trouble",
+      "unconsoled"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "sad-074",
+    "emotionId": "sad",
+    "body": "But thou, O Lord, art a God full of compassion, and gracious, longsuffering, and plenteous in mercy and truth.",
+    "modernText": "But you, Lord, are a merciful and gracious God, slow to anger, and abundant in loving kindness and truth.",
+    "reference": "Psalm 86:15",
+    "message": "Patient with you, not rushing your grief. On a sad day, the one you're reaching for is longsuffering, in no hurry for you to be over it.",
+    "tags": [
+      "compassion",
+      "mercy"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "sad-075",
+    "emotionId": "sad",
+    "body": "O lord God of my salvation, I have cried day and night before thee:",
+    "modernText": "Yahweh, the God of my salvation, I have cried day and night before you.",
+    "reference": "Psalm 88:1",
+    "message": "From the darkest psalm in the Bible, one that never resolves. Even unanswered, crying day and night, the reaching is honored. Grief doesn't need a tidy ending to be heard.",
+    "tags": [
+      "cried",
+      "day and night"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "sad-076",
+    "emotionId": "sad",
+    "body": "In the multitude of my thoughts within me thy comforts delight my soul.",
+    "modernText": "In the multitude of my thoughts within me, your comforts delight my soul.",
+    "reference": "Psalm 94:19",
+    "message": "When grief multiplies the thoughts, this is the comfort that shows up in the middle of them. Not clearing the thoughts, just soothing the soul inside them.",
+    "tags": [
+      "comfort",
+      "soul"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "sad-077",
+    "emotionId": "sad",
+    "body": "My soul melteth for heaviness: strengthen thou me according unto thy word.",
+    "modernText": "My soul is weary with sorrow: strengthen me according to your word.",
+    "reference": "Psalm 119:28",
+    "message": "A soul melting under the weight of sadness, named exactly. The verse doesn't pretend you're strong, it just asks for strength while you're not.",
+    "tags": [
+      "heaviness",
+      "strength"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "sad-078",
+    "emotionId": "sad",
+    "body": "This is my comfort in my affliction: for thy word hath quickened me.",
+    "modernText": "This is my comfort in my affliction, for your word has revived me.",
+    "reference": "Psalm 119:50",
+    "message": "Comfort found inside the affliction, not after it lifts. Something to hold while the grief is still here, not just a promise for later.",
+    "tags": [
+      "comfort",
+      "affliction"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "sad-079",
+    "emotionId": "sad",
+    "body": "Let, I pray thee, thy merciful kindness be for my comfort, according to thy word unto thy servant.",
+    "modernText": "Please let your loving kindness be for my comfort, according to your word to your servant.",
+    "reference": "Psalm 119:76",
+    "message": "A simple, grieving ask: let the kindness be what comforts me. Permission to want comfort, and to ask for it plainly, in the middle of the sadness.",
+    "tags": [
+      "comfort",
+      "kindness"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "sad-080",
+    "emotionId": "sad",
+    "body": "When my spirit was overwhelmed within me, then thou knewest my path. In the way wherein I walked have they privily laid a snare for me.",
+    "modernText": "When my spirit was overwhelmed within me, you knew my route. On the path in which I walk, they have hidden a snare for me.",
+    "reference": "Psalm 142:3",
+    "message": "Right when your spirit is overwhelmed with grief, the path is still known, by someone who isn't overwhelmed with you. Seen even when you're lost in it.",
+    "tags": [
+      "overwhelmed",
+      "known"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "sad-081",
+    "emotionId": "sad",
+    "body": "Therefore is my spirit overwhelmed within me; my heart within me is desolate.",
+    "modernText": "Therefore my spirit is overwhelmed within me. My heart within me is desolate.",
+    "reference": "Psalm 143:4",
+    "message": "Overwhelmed, desolate, the verse uses the heaviest words and doesn't flinch. On a grieving day, a verse that matches the actual weight of it.",
+    "tags": [
+      "overwhelmed",
+      "desolate"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "sad-082",
+    "emotionId": "sad",
+    "body": "The LORD upholdeth all that fall, and raiseth up all those that be bowed down.",
+    "modernText": "Yahweh upholds all who fall, and raises up all those who are bowed down.",
+    "reference": "Psalm 145:14",
+    "message": "For everyone bent under the weight of grief. Upheld and raised, gently, specifically the ones who feel like they're going down.",
+    "tags": [
+      "bowed down",
+      "raised"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "sad-083",
+    "emotionId": "sad",
+    "body": "He will swallow up death in victory; and the Lord GOD will wipe away tears from off all faces; and the rebuke of his people shall he take away from off all the earth: for the LORD hath spoken it.",
+    "modernText": "He has swallowed up death forever! The Lord Yahweh will wipe away tears from off all faces. He will take the reproach of his people away from off all the earth, for Yahweh has spoken it.",
+    "reference": "Isaiah 25:8",
+    "message": "A far-off promise for the grief of loss: death itself undone, every tear wiped. Not yet, and it doesn't rush you, but it's held out as true.",
+    "tags": [
+      "tears",
+      "wiped"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "sad-084",
+    "emotionId": "sad",
+    "body": "Sing, O heavens; and be joyful, O earth; and break forth into singing, O mountains: for the LORD hath comforted his people, and will have mercy upon his afflicted.",
+    "modernText": "Sing, heavens, and be joyful, earth! Break out into singing, mountains, for Yahweh has comforted his people, and will have compassion on his afflicted.",
+    "reference": "Isaiah 49:13",
+    "message": "Comfort and mercy aimed at the afflicted, the grieving. On a sad day, you're not outside the care, you're exactly who it's for.",
+    "tags": [
+      "comfort",
+      "afflicted"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "sad-085",
+    "emotionId": "sad",
+    "body": "Therefore the redeemed of the LORD shall return, and come with singing unto Zion; and everlasting joy shall be upon their head: they shall obtain gladness and joy; and sorrow and mourning shall flee away.",
+    "modernText": "Those ransomed by Yahweh will return, and come with singing to Zion. Everlasting joy shall be on their heads. They will obtain gladness and joy. Sorrow and sighing shall flee away.",
+    "reference": "Isaiah 51:11",
+    "message": "A picture of a day the sorrow finally lifts and leaves. Held gently, not as a demand to feel it now, just a reminder of where it's heading.",
+    "tags": [
+      "sorrow",
+      "fleeing"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "sad-086",
+    "emotionId": "sad",
+    "body": "I, even I, am he that comforteth you: who art thou, that thou shouldest be afraid of a man that shall die, and of the son of man which shall be made as grass;",
+    "modernText": "“I, even I, am he who comforts you. Who are you, that you are afraid of man who shall die, and of the son of man who will be made as grass?",
+    "reference": "Isaiah 51:12",
+    "message": "The comfort is personal and repeated, I, even I. Not a system, someone, leaning in to sit with your grief.",
+    "tags": [
+      "comfort",
+      "personal"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "sad-087",
+    "emotionId": "sad",
+    "body": "For thus saith the high and lofty One that inhabiteth eternity, whose name is Holy; I dwell in the high and holy place, with him also that is of a contrite and humble spirit, to revive the spirit of the humble, and to revive the heart of the contrite ones.",
+    "modernText": "For the high and lofty One who inhabits eternity, whose name is Holy, says: “I dwell in the high and holy place, with him also who is of a contrite and humble spirit, to revive the spirit of the humble, and to revive the heart of the contrite.",
+    "reference": "Isaiah 57:15",
+    "message": "Reviving the crushed, the heartbroken. The verse goes looking specifically for the ones at the lowest, grieving place, to breathe life back in.",
+    "tags": [
+      "revive",
+      "contrite"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "sad-088",
+    "emotionId": "sad",
+    "body": "I have seen his ways, and will heal him: I will lead him also, and restore comforts unto him and to his mourners.",
+    "modernText": "I have seen his ways, and will heal him. I will lead him also, and restore comforts to him and to his mourners.",
+    "reference": "Isaiah 57:18",
+    "message": "Comforts restored, specifically to the mourners. Grief isn't overlooked here, it's the exact thing being tended to and gently made whole.",
+    "tags": [
+      "restore",
+      "mourners"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "sad-089",
+    "emotionId": "sad",
+    "body": "Thy sun shall no more go down; neither shall thy moon withdraw itself: for the LORD shall be thine everlasting light, and the days of thy mourning shall be ended.",
+    "modernText": "Your sun will not go down any more, nor will your moon withdraw itself; for Yahweh will be your everlasting light, and the days of your mourning will end.",
+    "reference": "Isaiah 60:20",
+    "message": "A promise that the long season of grief has an end, even if you can't see it. Held gently, no rushing, just a quiet 'this won't be forever.'",
+    "tags": [
+      "mourning",
+      "ended"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "sad-090",
+    "emotionId": "sad",
+    "body": "The Spirit of the Lord GOD is upon me; because the LORD hath anointed me to preach good tidings unto the meek; he hath sent me to bind up the brokenhearted, to proclaim liberty to the captives, and the opening of the prison to them that are bound;",
+    "modernText": "The Lord Yahweh’s Spirit is on me, because Yahweh has anointed me to preach good news to the humble. He has sent me to bind up the broken hearted, to proclaim liberty to the captives and release to those who are bound,",
+    "reference": "Isaiah 61:1",
+    "message": "The stated mission is to bind up broken hearts. On a grieving day, your heartbreak isn't incidental, it's exactly what this came to tend.",
+    "tags": [
+      "brokenhearted",
+      "bind up"
+    ],
+    "tier": "free",
+    "weight": 9
+  },
+  {
+    "id": "sad-091",
+    "emotionId": "sad",
+    "body": "To proclaim the acceptable year of the LORD, and the day of vengeance of our God; to comfort all that mourn;",
+    "modernText": "to proclaim the year of Yahweh’s favor and the day of vengeance of our God, to comfort all who mourn,",
+    "reference": "Isaiah 61:2",
+    "message": "To comfort all that mourn, no exceptions. Whatever your grief is, however private, it's included in the 'all' this came for.",
+    "tags": [
+      "comfort",
+      "mourn"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "sad-092",
+    "emotionId": "sad",
+    "body": "Then shall the virgin rejoice in the dance, both young men and old together: for I will turn their mourning into joy, and will comfort them, and make them rejoice from their sorrow.",
+    "modernText": "Then the virgin will rejoice in the dance; the young men and the old together; for I will turn their mourning into joy, and will comfort them, and make them rejoice from their sorrow.",
+    "reference": "Jeremiah 31:13",
+    "message": "Mourning turned to joy, someday, and comfort for now. The verse holds both, without using the future to dismiss the present grief.",
+    "tags": [
+      "mourning",
+      "joy"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "sad-093",
+    "emotionId": "sad",
+    "body": "But though he cause grief, yet will he have compassion according to the multitude of his mercies.",
+    "modernText": "For though he causes grief, yet he will have compassion according to the multitude of his loving kindnesses.",
+    "reference": "Lamentations 3:32",
+    "message": "It doesn't deny the grief, even names it honestly. And it holds, alongside it, compassion described as a multitude, not a trickle.",
+    "tags": [
+      "grief",
+      "compassion"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "sad-094",
+    "emotionId": "sad",
+    "body": "Come unto me, all ye that labour and are heavy laden, and I will give you rest.",
+    "modernText": "“Come to me, all you who labor and are heavily burdened, and I will give you rest.",
+    "reference": "Matthew 11:28",
+    "message": "Come heavy laden, grief and all, exactly as weighed down as you are. The invitation isn't to arrive okay, just to come, and set the weight down.",
+    "tags": [
+      "heavy laden",
+      "rest"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "sad-095",
+    "emotionId": "sad",
+    "body": "Let not your heart be troubled: ye believe in God, believe also in me.",
+    "modernText": "“Don’t let your heart be troubled. Believe in God. Believe also in me.",
+    "reference": "John 14:1",
+    "message": "Said the night before the worst day, to people about to grieve. Not 'don't be sad,' but 'don't let the trouble be the only thing holding your heart.'",
+    "tags": [
+      "troubled",
+      "comfort"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "sad-096",
+    "emotionId": "sad",
+    "body": "I will not leave you comfortless: I will come to you.",
+    "modernText": "I will not leave you orphans. I will come to you.",
+    "reference": "John 14:18",
+    "message": "A promise not to be left comfortless, alone in the grief. Comfort coming to you, personally, not something you have to go find.",
+    "tags": [
+      "comfortless",
+      "presence"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "sad-097",
+    "emotionId": "sad",
+    "body": "Verily, verily, I say unto you, That ye shall weep and lament, but the world shall rejoice: and ye shall be sorrowful, but your sorrow shall be turned into joy.",
+    "modernText": "Most certainly I tell you that you will weep and lament, but the world will rejoice. You will be sorrowful, but your sorrow will be turned into joy.",
+    "reference": "John 16:20",
+    "message": "It flatly acknowledges you'll weep and grieve, no sugarcoating. The turn to joy comes later, and it doesn't erase that the weeping was real.",
+    "tags": [
+      "weep",
+      "turned to joy"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "sad-098",
+    "emotionId": "sad",
+    "body": "And ye now therefore have sorrow: but I will see you again, and your heart shall rejoice, and your joy no man taketh from you.",
+    "modernText": "Therefore you now have sorrow, but I will see you again, and your heart will rejoice, and no one will take your joy away from you.",
+    "reference": "John 16:22",
+    "message": "It names the sorrow as real, present, now. The rejoicing is promised, but gently, on the far side of a grief that's honored first.",
+    "tags": [
+      "sorrow",
+      "lasting joy"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "sad-099",
+    "emotionId": "sad",
+    "body": "Nevertheless God, that comforteth those that are cast down, comforted us by the coming of Titus;",
+    "modernText": "Nevertheless, he who comforts the lowly, God, comforted us by the coming of Titus,",
+    "reference": "2 Corinthians 7:6",
+    "message": "Comfort aimed specifically at the cast-down, the grieving. Not the thriving, the ones at the bottom are exactly who it finds.",
+    "tags": [
+      "comfort",
+      "cast down"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "sad-100",
+    "emotionId": "sad",
+    "body": "O satisfy us early with thy mercy; that we may rejoice and be glad all our days.",
+    "modernText": "Satisfy us in the morning with your loving kindness, that we may rejoice and be glad all our days.",
+    "reference": "Psalm 90:14",
+    "message": "A prayer, from inside a hard season, for mercy to come and gladness to return. Not a denial of the grief, a gentle reaching toward the other side of it.",
+    "tags": [
+      "mercy",
+      "rejoice"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
     "id": "stressed-001",
     "emotionId": "stressed",
     "body": "Come unto me, all ye that labour and are heavy laden, and I will give you rest.",
