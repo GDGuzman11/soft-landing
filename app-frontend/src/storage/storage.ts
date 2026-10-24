@@ -82,6 +82,18 @@ export async function addCheckIn(event: CheckInEvent): Promise<void> {
   await set(KEYS.CHECK_INS, [event, ...events])
 }
 
+export async function updateCheckIn(
+  id: string,
+  updates: Partial<Omit<CheckInEvent, 'id'>>
+): Promise<void> {
+  try {
+    const events = await getCheckIns()
+    await set(KEYS.CHECK_INS, events.map((e) => (e.id === id ? { ...e, ...updates } : e)))
+  } catch {
+    // non-fatal
+  }
+}
+
 export async function getSavedMessages(): Promise<SavedMessage[]> {
   return get<SavedMessage[]>(KEYS.SAVED_MESSAGES, [])
 }

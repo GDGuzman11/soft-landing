@@ -18,7 +18,7 @@ import { canCheckIn, performCheckIn, bookmarkMessage } from '@/services/checkIn'
 import { fetchFreshVerse } from '@/messages/selector'
 import { getReflectionLine } from '@/messages/reflections'
 import { generateLetter } from '@/services/letterService'
-import { getSettings } from '@/storage/storage'
+import { getSettings, updateCheckIn } from '@/storage/storage'
 import { getCurrentUser } from '@/services/auth'
 import LetterCard from '@/components/LetterCard'
 import { useTheme } from '@/theme'
@@ -122,28 +122,55 @@ export default function CheckInScreen() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [verse?.id])
 
+  // Clears everything downstream of the emotion pick so changing your mind
+  // starts the verse/reflection/letter fresh.
+  function resetDownstream() {
+    setReflectOpen(false)
+    setLine('')
+    setLineIndex(undefined)
+    setUserInput('')
+    setLetter(null)
+    setLetterError(null)
+    setShowCrisis(false)
+  }
+
   async function handleSelectEmotion(id: EmotionId) {
-    if (emotion || verseBusy) return
+    if (verseBusy || id === emotion) return
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light).catch(() => {})
+
+    const isChange = emotion !== null && checkInId !== null
+    resetDownstream()
+
     if (isTour) {
       setEmotion(id)
       setVerse({ ...DEMO_VERSES[0], emotionId: id })
       scrollToEnd()
       return
     }
-    if (!(await canCheckIn())) {
-      router.push('/paywall')
-      return
-    }
+
     setEmotion(id)
     setVerseBusy(true)
     try {
-      const { event, message } = await performCheckIn(id)
-      setCheckInId(event.id)
-      setVerse(message)
+      if (isChange && checkInId) {
+        // Reuse the existing check-in slot — fetch a verse for the new emotion
+        // and update the stored event, so we don't pile up duplicate check-ins.
+        const next = await fetchFreshVerse(id, tier, verse?.id ?? '', settings?.primaryIntent ?? null)
+        await updateCheckIn(checkInId, { emotionId: id, messageId: next.id })
+        setVerse(next)
+      } else {
+        if (!(await canCheckIn())) {
+          router.push('/paywall')
+          setEmotion(null)
+          return
+        }
+        const { event, message } = await performCheckIn(id)
+        setCheckInId(event.id)
+        setVerse(message)
+      }
     } catch {
-      // leave verse null; user can re-pick
-      setEmotion(null)
+      // On a first pick, roll back so they can retry; on a change, keep the
+      // new emotion highlighted and let them tap again.
+      if (!isChange) setEmotion(null)
     } finally {
       setVerseBusy(false)
       scrollToEnd()
@@ -217,6 +244,8 @@ export default function CheckInScreen() {
         verseBody: verse.body,
         reference: verse.reference ?? '',
         modernText: verse.modernText || undefined,
+        verseMessage: verse.message?.trim() || undefined,
+        reflectionLine: line.trim() || undefined,
         userInput: userInput.trim() || undefined,
         userName,
         hourOfDay: new Date().getHours(),
@@ -453,15 +482,15 @@ export default function CheckInScreen() {
           {DISPLAY_ORDER.map((id) => {
             const e = EMO[id]
             const selected = emotion === id
-            const locked = emotion !== null && !selected
             return (
               <Pressable
                 key={id}
                 onPress={() => handleSelectEmotion(id)}
-                disabled={emotion !== null}
+                disabled={verseBusy}
                 accessibilityRole="button"
                 accessibilityLabel={e.label}
                 accessibilityState={{ selected }}
+                className="active:opacity-70"
                 style={{
                   paddingVertical: 11,
                   paddingHorizontal: 20,
@@ -469,7 +498,6 @@ export default function CheckInScreen() {
                   borderWidth: 1,
                   borderColor: selected ? e.color : colors.cardBorder,
                   backgroundColor: selected ? e.color : 'transparent',
-                  opacity: locked ? 0.4 : 1,
                 }}
               >
                 <Text
@@ -485,6 +513,19 @@ export default function CheckInScreen() {
             )
           })}
         </View>
+
+        {emotion !== null && (
+          <Text
+            style={{
+              fontFamily: 'DMSans_400Regular',
+              fontSize: 12,
+              color: colors.inkSubtle,
+              marginTop: 10,
+            }}
+          >
+            Changed your mind? Tap another.
+          </Text>
+        )}
 
         {/* Stage B — verse + tie-in message */}
         {verseBusy && !verse && (

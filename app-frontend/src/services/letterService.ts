@@ -7,6 +7,8 @@ type LetterPayload = {
   verseBody: string
   reference: string
   modernText?: string
+  verseMessage?: string
+  reflectionLine?: string
   userInput?: string
   userName: string
   hourOfDay?: number

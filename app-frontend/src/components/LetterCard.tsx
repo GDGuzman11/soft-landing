@@ -299,7 +299,7 @@ export default function LetterCard({
           <Text
             style={{ fontFamily: 'Lora_400Regular_Italic', fontSize: 15, color: colors.amber, marginBottom: 14 }}
           >
-            Dear {name},
+            Dear You,
           </Text>
 
           <BodySection
