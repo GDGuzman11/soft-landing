@@ -18,17 +18,6 @@ type Props = {
   isLoading: boolean
   error: 'network' | 'blocked' | 'rateLimited' | null
   onRetry?: () => void
-  verseBody?: string
-  verseReference?: string
-}
-
-function splitAtFirstParagraph(letter: string): { before: string; after: string } {
-  const idx = letter.indexOf('\n\n')
-  if (idx === -1) return { before: letter, after: '' }
-  return {
-    before: letter.slice(0, idx).trim(),
-    after: letter.slice(idx).trim(),
-  }
 }
 
 function parseHighlightSegments(text: string): { text: string; highlight: boolean }[] {
@@ -124,114 +113,6 @@ function BodySection({
   )
 }
 
-function PullQuote({
-  verseBody,
-  verseReference,
-  visible,
-}: {
-  verseBody: string
-  verseReference: string
-  visible: boolean
-}) {
-  const { colors } = useTheme()
-  const washOpacity = useSharedValue(0)
-  const topScale = useSharedValue(0.4)
-  const bottomScale = useSharedValue(0.4)
-  const verseOpacity = useSharedValue(0)
-  const verseTranslateY = useSharedValue(8)
-  const refOpacity = useSharedValue(0)
-
-  useEffect(() => {
-    if (!visible) return
-    washOpacity.value = withDelay(150, withTiming(1, { duration: 700 }))
-    topScale.value = withDelay(150, withTiming(1, { duration: 600 }))
-    bottomScale.value = withDelay(220, withTiming(1, { duration: 600 }))
-    verseOpacity.value = withDelay(350, withSpring(1, { damping: 18, stiffness: 120 }))
-    verseTranslateY.value = withDelay(350, withSpring(0, { damping: 18, stiffness: 120 }))
-    refOpacity.value = withDelay(650, withTiming(1, { duration: 400 }))
-  }, [visible])
-
-  const washStyle = useAnimatedStyle(() => ({ opacity: washOpacity.value }))
-  const topHairStyle = useAnimatedStyle(() => ({ transform: [{ scaleX: topScale.value }] }))
-  const bottomHairStyle = useAnimatedStyle(() => ({ transform: [{ scaleX: bottomScale.value }] }))
-  const verseStyle = useAnimatedStyle(() => ({
-    opacity: verseOpacity.value,
-    transform: [{ translateY: verseTranslateY.value }],
-  }))
-  const refStyle = useAnimatedStyle(() => ({ opacity: refOpacity.value }))
-
-  // Strip existing quote chars and wrap in curly quotes
-  const stripped = verseBody.replace(/^[“”‘’"']+|[“”‘’"']+$/g, '')
-  const formattedVerse = `“${stripped}”`
-
-  return (
-    <Animated.View
-      style={[
-        {
-          backgroundColor: colors.inputRow,
-          paddingHorizontal: 20,
-          paddingTop: 20,
-          paddingBottom: 16,
-          marginVertical: 20,
-        },
-        washStyle,
-      ]}
-      accessibilityRole="text"
-      accessibilityLabel={`Verse: ${verseBody}, ${verseReference}`}
-    >
-      {/* Top hairline */}
-      <Animated.View
-        style={[
-          { height: 1, backgroundColor: colors.amber, opacity: 0.6, marginHorizontal: 40, marginBottom: 20 },
-          topHairStyle,
-        ]}
-      />
-
-      {/* Verse text */}
-      <Animated.Text
-        style={[
-          {
-            fontFamily: 'Lora_400Regular_Italic',
-            fontSize: 19,
-            color: colors.inkPrimary,
-            lineHeight: 30,
-            textAlign: 'center',
-          },
-          verseStyle,
-        ]}
-      >
-        {formattedVerse}
-      </Animated.Text>
-
-      {/* Reference */}
-      <Animated.Text
-        style={[
-          {
-            fontFamily: 'DMSans_500Medium',
-            fontSize: 11,
-            color: colors.amber,
-            letterSpacing: 2,
-            textAlign: 'center',
-            textTransform: 'uppercase',
-            marginTop: 12,
-          },
-          refStyle,
-        ]}
-      >
-        {verseReference}
-      </Animated.Text>
-
-      {/* Bottom hairline */}
-      <Animated.View
-        style={[
-          { height: 1, backgroundColor: colors.amber, opacity: 0.6, marginHorizontal: 40, marginTop: 20 },
-          bottomHairStyle,
-        ]}
-      />
-    </Animated.View>
-  )
-}
-
 function LoadingDots() {
   const { colors } = useTheme()
   const dot1 = useSharedValue(0.3)
@@ -275,20 +156,14 @@ export default function LetterCard({
   name,
   isLoading,
   error,
-  verseBody,
-  verseReference,
 }: Props) {
   const { colors } = useTheme()
   const translateY = useSharedValue(30)
   const opacity = useSharedValue(0)
   const cursorOpacity = useSharedValue(1)
 
-  const [displayedBefore, setDisplayedBefore] = useState('')
-  const [displayedAfter, setDisplayedAfter] = useState('')
-  const [pullQuoteVisible, setPullQuoteVisible] = useState(false)
-  const [typingPhase, setTypingPhase] = useState<'before' | 'after' | 'done'>('before')
-
-  const hasPullQuote = !!verseBody && !!verseReference
+  const [displayed, setDisplayed] = useState('')
+  const [typingDone, setTypingDone] = useState(false)
 
   useEffect(() => {
     if (letter || error) {
@@ -299,81 +174,38 @@ export default function LetterCard({
 
   useEffect(() => {
     if (!letter || isLoading) {
-      setDisplayedBefore('')
-      setDisplayedAfter('')
-      setPullQuoteVisible(false)
-      setTypingPhase('before')
+      setDisplayed('')
+      setTypingDone(false)
       return
     }
 
-    setDisplayedBefore('')
-    setDisplayedAfter('')
-    setPullQuoteVisible(false)
-    setTypingPhase('before')
+    setDisplayed('')
+    setTypingDone(false)
 
     let activeInterval: ReturnType<typeof setInterval> | null = null
-    let activeTimeout: ReturnType<typeof setTimeout> | null = null
     let active = true
 
     // Strip [[...]] markers before typewriter so they never appear as characters
     const cleanLetter = letter.replace(/\[\[|\]\]/g, '')
 
-    if (!hasPullQuote) {
-      // Simple typewriter — full letter as one block
-      let i = 0
-      activeInterval = setInterval(() => {
-        if (!active) return
-        i++
-        setDisplayedBefore(cleanLetter.slice(0, i))
-        if (i >= cleanLetter.length) {
-          clearInterval(activeInterval!)
-          activeInterval = null
-          setTypingPhase('done')
-        }
-      }, 18)
-    } else {
-      const { before, after } = splitAtFirstParagraph(cleanLetter)
-
-      // Phase 1: type paragraph 1
-      let i = 0
-      activeInterval = setInterval(() => {
-        if (!active) return
-        i++
-        setDisplayedBefore(before.slice(0, i))
-        if (i >= before.length) {
-          clearInterval(activeInterval!)
-          activeInterval = null
-          // Narrative beat before pull-quote blooms in
-          activeTimeout = setTimeout(() => {
-            if (!active) return
-            setPullQuoteVisible(true)
-            // Wait for animation to settle (~1100ms) then type paragraph 2+3
-            activeTimeout = setTimeout(() => {
-              if (!active) return
-              setTypingPhase('after')
-              let j = 0
-              activeInterval = setInterval(() => {
-                if (!active) return
-                j++
-                setDisplayedAfter(after.slice(0, j))
-                if (j >= after.length) {
-                  clearInterval(activeInterval!)
-                  activeInterval = null
-                  setTypingPhase('done')
-                }
-              }, 18)
-            }, 1100)
-          }, 150)
-        }
-      }, 18)
-    }
+    // Single typewriter — the whole letter types out as one block
+    let i = 0
+    activeInterval = setInterval(() => {
+      if (!active) return
+      i++
+      setDisplayed(cleanLetter.slice(0, i))
+      if (i >= cleanLetter.length) {
+        clearInterval(activeInterval!)
+        activeInterval = null
+        setTypingDone(true)
+      }
+    }, 16)
 
     return () => {
       active = false
       if (activeInterval) clearInterval(activeInterval)
-      if (activeTimeout) clearTimeout(activeTimeout)
     }
-  }, [letter, isLoading, hasPullQuote])
+  }, [letter, isLoading])
 
   useEffect(() => {
     cursorOpacity.value = withRepeat(
@@ -391,8 +223,6 @@ export default function LetterCard({
     transform: [{ translateY: translateY.value }],
     opacity: opacity.value,
   }))
-
-  const typingDone = typingPhase === 'done'
 
   const cursorNode = (
     <Animated.Text
@@ -443,40 +273,42 @@ export default function LetterCard({
         </Text>
       ) : letter ? (
         <>
+          {/* Keepsake eyebrow + bookmark mark */}
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              marginBottom: 20,
+            }}
+          >
+            <Text
+              style={{
+                fontFamily: 'DMSans_500Medium',
+                fontSize: 11,
+                color: colors.inkMuted,
+                letterSpacing: 2.5,
+                textTransform: 'uppercase',
+              }}
+            >
+              Something to hold onto
+            </Text>
+            <Text style={{ fontSize: 15, color: colors.amber }}>❖</Text>
+          </View>
+
           <Text
             style={{ fontFamily: 'Lora_400Regular_Italic', fontSize: 15, color: colors.amber, marginBottom: 14 }}
           >
             Dear {name},
           </Text>
 
-          {/* Paragraph 1 */}
           <BodySection
-            originalText={hasPullQuote ? splitAtFirstParagraph(letter).before : letter}
-            displayedText={displayedBefore}
-            showCursor={!typingDone && typingPhase === 'before'}
+            originalText={letter}
+            displayedText={displayed}
+            showCursor={!typingDone}
             typingDone={typingDone}
             cursorNode={cursorNode}
           />
-
-          {/* Verse pull-quote */}
-          {hasPullQuote && pullQuoteVisible && (
-            <PullQuote
-              verseBody={verseBody!}
-              verseReference={verseReference!}
-              visible={pullQuoteVisible}
-            />
-          )}
-
-          {/* Paragraph 2 + 3 */}
-          {(displayedAfter.length > 0 || typingDone) && hasPullQuote && (
-            <BodySection
-              originalText={splitAtFirstParagraph(letter).after}
-              displayedText={displayedAfter}
-              showCursor={!typingDone && typingPhase === 'after'}
-              typingDone={typingDone}
-              cursorNode={cursorNode}
-            />
-          )}
 
           <Text
             style={{ fontFamily: 'Lora_400Regular_Italic', fontSize: 14, color: colors.inkMuted, marginTop: 14 }}

@@ -274,6 +274,143 @@ export default function CheckInScreen() {
 
   const hasLetter = letter !== null
 
+  function handleKeep() {
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light).catch(() => {})
+    router.replace('/(tabs)')
+  }
+
+  // Full-screen letter takeover — once we're generating or have a letter, the
+  // letter becomes the whole page (pills / verse / reflection slide away).
+  if (letterLoading || hasLetter || letterError) {
+    return (
+      <KeyboardAvoidingView
+        style={{ flex: 1, backgroundColor: colors.bg }}
+        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+      >
+        <ScrollView
+          style={{ flex: 1 }}
+          contentContainerStyle={{ paddingHorizontal: 24, paddingTop: 72, paddingBottom: 56, flexGrow: 1 }}
+          keyboardShouldPersistTaps="handled"
+          showsVerticalScrollIndicator={false}
+        >
+          <Animated.View entering={FadeInDown.duration(500)} style={{ flex: 1 }}>
+            <LetterCard
+              letter={letter}
+              name={userName}
+              isLoading={letterLoading}
+              error={letterError}
+              onRetry={handleWriteLetter}
+            />
+
+            {hasLetter && isTour && (
+              <Pressable
+                onPress={() => router.replace('/welcome')}
+                accessibilityRole="button"
+                accessibilityLabel="Create an account"
+                style={{ backgroundColor: colors.amber, borderRadius: 28, paddingVertical: 15, alignItems: 'center', marginTop: 28 }}
+              >
+                <Text style={{ fontFamily: 'DMSans_500Medium', fontSize: 15, color: '#FFFFFF' }}>
+                  Create an account →
+                </Text>
+              </Pressable>
+            )}
+
+            {hasLetter && !isTour && (
+              <>
+                <Pressable
+                  onPress={handleKeep}
+                  accessibilityRole="button"
+                  accessibilityLabel="Keep this letter"
+                  className="active:opacity-80"
+                  style={{
+                    backgroundColor: colors.amber,
+                    borderRadius: 28,
+                    paddingVertical: 15,
+                    alignItems: 'center',
+                    marginTop: 28,
+                  }}
+                >
+                  <Text style={{ fontFamily: 'DMSans_500Medium', fontSize: 15, color: '#FFFFFF' }}>
+                    ❖  Keep this letter
+                  </Text>
+                </Pressable>
+
+                <Pressable
+                  onPress={handleShare}
+                  accessibilityRole="button"
+                  accessibilityLabel="Share letter"
+                  className="active:opacity-60"
+                  style={{
+                    borderWidth: 1,
+                    borderColor: colors.amber,
+                    borderRadius: 28,
+                    paddingVertical: 14,
+                    alignItems: 'center',
+                    marginTop: 12,
+                  }}
+                >
+                  <Text style={{ fontFamily: 'DMSans_500Medium', fontSize: 14, color: colors.amber }}>
+                    Share ↑
+                  </Text>
+                </Pressable>
+
+                <Text
+                  style={{
+                    fontFamily: 'DMSans_400Regular',
+                    fontSize: 12,
+                    color: colors.inkSubtle,
+                    textAlign: 'center',
+                    marginTop: 14,
+                  }}
+                >
+                  {letterSaved ? 'Saved to your History' : 'Saved'}
+                </Text>
+
+                <Pressable
+                  onPress={() => router.replace('/(tabs)')}
+                  accessibilityRole="button"
+                  accessibilityLabel="Done, go home"
+                  className="active:opacity-50"
+                  style={{ alignItems: 'center', marginTop: 20 }}
+                >
+                  <Text style={{ fontFamily: 'DMSans_400Regular', fontSize: 14, color: colors.inkMuted }}>
+                    Done — go home
+                  </Text>
+                </Pressable>
+              </>
+            )}
+
+            {letterError && letterError !== 'rateLimited' && (
+              <Pressable
+                onPress={handleWriteLetter}
+                accessibilityRole="button"
+                accessibilityLabel="Retry"
+                className="active:opacity-50"
+                style={{ alignItems: 'center', marginTop: 16 }}
+              >
+                <Text style={{ fontFamily: 'DMSans_400Regular', fontSize: 14, color: colors.amber }}>Try again →</Text>
+              </Pressable>
+            )}
+
+            {(letterError === 'rateLimited' || letterError === 'blocked') && (
+              <Pressable
+                onPress={() => router.replace('/(tabs)')}
+                accessibilityRole="button"
+                accessibilityLabel="Go home"
+                className="active:opacity-50"
+                style={{ alignItems: 'center', marginTop: 16 }}
+              >
+                <Text style={{ fontFamily: 'DMSans_400Regular', fontSize: 14, color: colors.inkMuted }}>
+                  Go home
+                </Text>
+              </Pressable>
+            )}
+          </Animated.View>
+        </ScrollView>
+      </KeyboardAvoidingView>
+    )
+  }
+
   return (
     <KeyboardAvoidingView
       style={{ flex: 1, backgroundColor: colors.bg }}
@@ -607,85 +744,6 @@ export default function CheckInScreen() {
           </View>
         )}
 
-        {/* Stage D — letter */}
-        {(letterLoading || hasLetter || letterError) && (
-          <Animated.View entering={FadeInDown.duration(450)} style={{ marginTop: 28 }}>
-            <LetterCard
-              letter={letter}
-              name={userName}
-              isLoading={letterLoading}
-              error={letterError}
-              onRetry={handleWriteLetter}
-              verseBody={verse?.body ?? ''}
-              verseReference={verse?.reference ?? ''}
-            />
-
-            {hasLetter && isTour && (
-              <Pressable
-                onPress={() => router.replace('/welcome')}
-                accessibilityRole="button"
-                accessibilityLabel="Create an account"
-                style={{ backgroundColor: colors.amber, borderRadius: 28, paddingVertical: 15, alignItems: 'center', marginTop: 24 }}
-              >
-                <Text style={{ fontFamily: 'DMSans_500Medium', fontSize: 15, color: '#FFFFFF' }}>
-                  Create an account →
-                </Text>
-              </Pressable>
-            )}
-
-            {hasLetter && !isTour && (
-              <>
-                <View style={{ flexDirection: 'row', justifyContent: 'center', gap: 16, marginTop: 20 }}>
-                  <View
-                    style={{
-                      backgroundColor: '#9CB59A',
-                      borderRadius: 24,
-                      paddingHorizontal: 22,
-                      paddingVertical: 11,
-                    }}
-                  >
-                    <Text style={{ fontFamily: 'DMSans_500Medium', fontSize: 14, color: '#FFFFFF' }}>
-                      {letterSaved ? '★ Saved to History' : '★ Saved'}
-                    </Text>
-                  </View>
-                  <Pressable
-                    onPress={handleShare}
-                    accessibilityRole="button"
-                    accessibilityLabel="Share letter"
-                    className="active:opacity-60"
-                    style={{ borderWidth: 1, borderColor: colors.amber, borderRadius: 24, paddingHorizontal: 22, paddingVertical: 11 }}
-                  >
-                    <Text style={{ fontFamily: 'DMSans_500Medium', fontSize: 14, color: colors.amber }}>Share ↑</Text>
-                  </Pressable>
-                </View>
-
-                <Pressable
-                  onPress={() => router.replace('/(tabs)')}
-                  accessibilityRole="button"
-                  accessibilityLabel="Done, go home"
-                  className="active:opacity-50"
-                  style={{ alignItems: 'center', marginTop: 20 }}
-                >
-                  <Text style={{ fontFamily: 'DMSans_400Regular', fontSize: 14, color: colors.inkMuted }}>
-                    Done — go home
-                  </Text>
-                </Pressable>
-              </>
-            )}
-
-            {letterError && letterError !== 'rateLimited' && (
-              <Pressable
-                onPress={handleWriteLetter}
-                accessibilityRole="button"
-                accessibilityLabel="Retry"
-                className="active:opacity-50"
-                style={{ alignItems: 'center', marginTop: 12 }}
-              >
-                <Text style={{ fontFamily: 'DMSans_400Regular', fontSize: 14, color: colors.amber }}>Try again →</Text>
-              </Pressable>
-            )}
-          </Animated.View>
-        )}
       </ScrollView>
     </KeyboardAvoidingView>
   )
