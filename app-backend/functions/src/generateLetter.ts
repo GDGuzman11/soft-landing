@@ -22,6 +22,12 @@ function validateInputs(data: GenerateLetterData): void {
   if (data.modernText !== undefined && (typeof data.modernText !== 'string' || data.modernText.length > 1000)) {
     throw new HttpsError('invalid-argument', 'Invalid modernText')
   }
+  if (data.verseMessage !== undefined && (typeof data.verseMessage !== 'string' || data.verseMessage.length > 1000)) {
+    throw new HttpsError('invalid-argument', 'Invalid verseMessage')
+  }
+  if (data.reflectionLine !== undefined && (typeof data.reflectionLine !== 'string' || data.reflectionLine.length > 1000)) {
+    throw new HttpsError('invalid-argument', 'Invalid reflectionLine')
+  }
   if (!data.emotionId || !VALID_EMOTIONS.includes(data.emotionId)) {
     throw new HttpsError('invalid-argument', 'Valid emotionId is required')
   }
@@ -58,7 +64,7 @@ export const generateLetter = onCall(
     const data = request.data as GenerateLetterData
     validateInputs(data)
 
-    const { emotionId, verseBody, modernText, reference, userInput, userName, hourOfDay, faithBackground, primaryIntent, lifeStage } = data
+    const { emotionId, verseBody, modernText, reference, verseMessage, reflectionLine, userInput, userName, hourOfDay, faithBackground, primaryIntent, lifeStage } = data
 
     // Block malicious input before it reaches the AI
     if (userInput) {
@@ -95,6 +101,8 @@ export const generateLetter = onCall(
         verseBody,
         modernText: modernText?.trim() || undefined,
         reference,
+        verseMessage: verseMessage?.trim() || undefined,
+        reflectionLine: reflectionLine?.trim() || undefined,
         userInput: userInput?.trim() || undefined,
         userName: userName?.trim() || 'friend',
         hourOfDay,

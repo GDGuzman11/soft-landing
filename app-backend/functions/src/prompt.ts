@@ -14,6 +14,8 @@ interface PromptParams {
   verseBody: string
   modernText?: string
   reference: string
+  verseMessage?: string
+  reflectionLine?: string
   userInput?: string
   userName: string
   hourOfDay?: number
@@ -100,23 +102,21 @@ Tone: this is where the Gen Z voice can breathe fully, warm, a little playful, g
   }
 }
 
-// Shared arc for every letter. Controls length, the inline verse citation, and
-// the overall shape, while getEmotionTone sets the voice.
-const LETTER_STRUCTURE = `This is a full letter, not a short note. Write roughly five or six unhurried paragraphs, about twice the length of a quick message. Let it breathe and develop. Do not pad it or repeat yourself, earn the length with real thought and specificity.
+// Shared structure for every letter. Controls the fixed three-paragraph shape
+// and length, while getEmotionTone sets the voice.
+const LETTER_STRUCTURE = `Write the letter in exactly three short paragraphs. Keep the whole letter around 1,000 to 1,150 characters including spaces (roughly 180 to 200 words) every time, long enough to feel real, short enough to sit on one screen. Do not pad it or repeat yourself.
 
-Open by meeting them exactly where they are in this feeling. Name what it actually feels like from the inside, lived from within, not described from the outside. Stay there long enough that they feel genuinely understood before you go anywhere else.
+First paragraph: Acknowledge them and what they are feeling right now, whether that is heavy, light, or somewhere in between. Meet the emotion from the inside, lived from within, not described from the outside. Let them feel seen before you go anywhere else.
 
-Somewhere in the heart of the letter, bring in their verse directly. Name it by its reference (for example, "In Matthew 11:28...") and engage its actual words and imagery. Quote or closely paraphrase a line of it so they can see exactly which verse this is, then draw out, gently and specifically, what it offers someone feeling the way they feel right now. This is not a sermon and not an explanation for its own sake, it is one friend showing another why this particular verse met this particular moment.
+Second paragraph (the heart of the letter): Show them you have taken in everything they brought with them. The emotion they chose, the verse they picked and the thought that came with it, the one line they chose to start from, and most importantly the words they wrote themselves. Weave these together naturally into one honest reflection, do not list them or name them as items. Bring their verse in by name (for example, "In Matthew 11:28...") and engage its actual words. Let what they wrote lead, and let the verse meet it.
 
-Let the letter keep developing after the verse, more than one angle, more than one breath. Stay inside the emotion the whole way through. Do not rush toward resolution, do not tie it up neatly, do not promise it will all get better.
-
-Close the way a real letter closes, warm, present, and open, landing on something true rather than something fixed.`
+Third paragraph: Close the way a friend closes who is simply there for them. Warm, present, unhurried. Do not rush toward resolution, do not tie it up neatly, do not promise it will all get better.`
 
 function getInputSection(safeInput?: string, emotionLabel?: string): string {
   if (safeInput?.trim()) {
-    return `This is what they wrote:\n"${safeInput}"\n\nThe first paragraph must address this directly — not echoing their words back verbatim, but making it unmistakably clear you heard exactly what they said. Their specific situation shapes the entire letter.`
+    return `This is what they wrote, in their own words. It matters more than anything else here:\n"${safeInput}"\n\nThe second paragraph must make it unmistakably clear you read and understood exactly what they said, without echoing it back word for word.`
   }
-  return `They didn't write anything. Lead from their emotion: ${emotionLabel}. Name what it actually feels like from the inside. Don't describe it — inhabit it.`
+  return `They did not write anything this time. Lead from their emotion (${emotionLabel}), the verse they chose, and the thought they started from. Do not invent words or events for them, stay with what they actually gave you.`
 }
 
 function getLifeStageContext(lifeStage?: string | null): string {
@@ -154,6 +154,8 @@ export function buildPrompt({
   verseBody,
   modernText,
   reference,
+  verseMessage,
+  reflectionLine,
   userInput,
   userName,
   hourOfDay,
@@ -167,6 +169,15 @@ export function buildPrompt({
   const safeVerseBody = sanitizeVerseText(verseBody)
   const safeModernText = modernText ? sanitizeVerseText(modernText) : undefined
   const safeReference = sanitizeVerseText(reference)
+  const safeVerseMessage = verseMessage?.trim() ? sanitizeVerseText(verseMessage) : undefined
+  const safeReflectionLine = reflectionLine?.trim() ? sanitizeVerseText(reflectionLine) : undefined
+
+  // The verse's companion phrase and the one-liner they chose to start from —
+  // part of "everything they brought" that paragraph 2 should take in.
+  const companionSection = [
+    safeVerseMessage ? `The thought that came with this verse, the one they saw beneath it:\n"${safeVerseMessage}"` : '',
+    safeReflectionLine ? `The line they chose to start their own reflection from:\n"${safeReflectionLine}"` : '',
+  ].filter(Boolean).join('\n\n')
 
   const lifeStageCtx = getLifeStageContext(lifeStage)
   const faithCtx = getFaithContext(faithBackground)
@@ -183,7 +194,7 @@ export function buildPrompt({
   // Layer 3: Shared letter arc (length + inline verse citation)
   // Layer 4: Verse content + user's typed message
 
-  const user = `You are writing a letter to ${safeUserName}.
+  const user = `You are writing a letter to someone you know well. Their name is ${safeUserName}, but do not use their name anywhere in the letter. The greeting is handled for you below.
 
 ${toneBlock ? `${toneBlock}\n\n` : ''}${inputSection}
 
@@ -193,10 +204,10 @@ ${emotionTone}
 
 ${LETTER_STRUCTURE}
 
-The verse they received today, to weave into the letter by name:
+The verse they chose today, to weave into the letter by name:
 
 VERSE (King James Version):
-"${safeVerseBody}" — ${safeReference}${safeModernText ? `\n\nPlain-language rendering:\n"${safeModernText}"\n\nWrite in contemporary language, closer to the plain-language rendering than the archaic KJV phrasing. You may quote a short phrase from either when you bring the verse in.` : ''}${toneCtx ? `\n${toneCtx}` : ''}
+"${safeVerseBody}" — ${safeReference}${safeModernText ? `\n\nPlain-language rendering:\n"${safeModernText}"\n\nWrite in contemporary language, closer to the plain-language rendering than the archaic KJV phrasing. You may quote a short phrase from either when you bring the verse in.` : ''}${companionSection ? `\n\n${companionSection}` : ''}${toneCtx ? `\n${toneCtx}` : ''}
 
 ${openingAngle} The first sentence must feel like it was written only for this person in this moment.
 
@@ -208,7 +219,7 @@ Never give advice. Never tell them what to do. You can show them what the verse 
 
 Find the single most emotionally resonant sentence in your letter — the one most likely to make someone pause and re-read it. It must be something YOU wrote, not the verse text and not the opening greeting. Wrap only that one sentence in double brackets: [[like this]]. Do not wrap more than one sentence.
 
-The UI adds "Dear ${safeUserName}," at the start and "With you in this." at the end. Do not write either.`
+The UI adds "Dear You," at the start and "With you in this." at the end. Do not write either.`
 
   return { system: buildSystemPrompt(), user }
 }

@@ -9,6 +9,8 @@ export interface GenerateLetterData {
   verseBody: string
   modernText?: string
   reference: string
+  verseMessage?: string
+  reflectionLine?: string
   userInput?: string
   userName?: string
   hourOfDay?: number
