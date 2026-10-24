@@ -5600,6 +5600,706 @@
     "weight": 7
   },
   {
+    "id": "neutral-101",
+    "emotionId": "neutral",
+    "body": "For the LORD giveth wisdom: out of his mouth cometh knowledge and understanding.",
+    "modernText": "For Yahweh gives wisdom. Out of his mouth comes knowledge and understanding.",
+    "reference": "Proverbs 2:6",
+    "message": "On a day you're not sure how to handle something ordinary, this says wisdom is available for the asking. You don't have to already know.",
+    "tags": [
+      "wisdom",
+      "understanding"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "neutral-102",
+    "emotionId": "neutral",
+    "body": "Without counsel purposes are disappointed: but in the multitude of counsellors they are established.",
+    "modernText": "Where there is no counsel, plans fail; but in a multitude of counselors they are established.",
+    "reference": "Proverbs 15:22",
+    "message": "For a fuzzy decision on a plain day: you don't have to figure it out solo. Running it by a few people isn't weakness, it's wisdom.",
+    "tags": [
+      "counsel",
+      "wisdom"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "neutral-103",
+    "emotionId": "neutral",
+    "body": "Where no counsel is, the people fall: but in the multitude of counsellors there is safety.",
+    "modernText": "Where there is no wise guidance, the nation falls, but in the multitude of counselors there is victory.",
+    "reference": "Proverbs 11:14",
+    "message": "A quiet case for asking around before you decide. On an ordinary day, a second opinion can save a lot of trouble.",
+    "tags": [
+      "counsel",
+      "safety"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "neutral-104",
+    "emotionId": "neutral",
+    "body": "Commit thy works unto the LORD, and thy thoughts shall be established.",
+    "modernText": "Commit your deeds to Yahweh, and your plans shall succeed.",
+    "reference": "Proverbs 16:3",
+    "message": "Hand the ordinary work over and watch your scattered thoughts settle. A plain day runs smoother when you're not gripping the outcome.",
+    "tags": [
+      "commit",
+      "established"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "neutral-105",
+    "emotionId": "neutral",
+    "body": "Man’s goings are of the LORD; how can a man then understand his own way?",
+    "modernText": "A man’s steps are from Yahweh; how then can man understand his way?",
+    "reference": "Proverbs 20:24",
+    "message": "On a day you can't quite see where your life is going, this says that's normal. The path makes sense from somewhere you're not standing.",
+    "tags": [
+      "steps",
+      "mystery"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "neutral-106",
+    "emotionId": "neutral",
+    "body": "Be not wise in thine own eyes: fear the LORD, and depart from evil.",
+    "modernText": "Don’t be wise in your own eyes. Fear Yahweh, and depart from evil.",
+    "reference": "Proverbs 3:7",
+    "message": "A little humility for an ordinary day: you don't have to have the final take on everything. Permission to not know.",
+    "tags": [
+      "humility",
+      "wisdom"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "neutral-107",
+    "emotionId": "neutral",
+    "body": "He that tilleth his land shall be satisfied with bread: but he that followeth vain persons is void of understanding.",
+    "modernText": "He who tills his land shall have plenty of bread, but he who chases fantasies is void of understanding.",
+    "reference": "Proverbs 12:11",
+    "message": "Do the plain, unglamorous work of your own patch, and you'll be fed. An honest verse for the ordinary grind.",
+    "tags": [
+      "work",
+      "provision"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "neutral-108",
+    "emotionId": "neutral",
+    "body": "Wealth gotten by vanity shall be diminished: but he that gathereth by labour shall increase.",
+    "modernText": "Wealth gained dishonestly dwindles away, but he who gathers by hand makes it grow.",
+    "reference": "Proverbs 13:11",
+    "message": "The slow way, bit by bit, is the one that actually lasts. A plain day of small steady effort is quietly building something.",
+    "tags": [
+      "labor",
+      "steady"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "neutral-109",
+    "emotionId": "neutral",
+    "body": "In all labour there is profit: but the talk of the lips tendeth only to penury.",
+    "modernText": "In all hard work there is profit, but the talk of the lips leads only to poverty.",
+    "reference": "Proverbs 14:23",
+    "message": "Even the unexciting work has something to show for it. A reminder that the ordinary day's effort isn't wasted.",
+    "tags": [
+      "labor",
+      "profit"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "neutral-110",
+    "emotionId": "neutral",
+    "body": "Seest thou a man diligent in his business? he shall stand before kings; he shall not stand before mean men.",
+    "modernText": "Do you see a man skilled in his work? He will serve kings. He won’t serve obscure men.",
+    "reference": "Proverbs 22:29",
+    "message": "The ordinary skill you quietly keep sharpening takes you further than you'd think. Diligence on plain days adds up.",
+    "tags": [
+      "diligence",
+      "skill"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "neutral-111",
+    "emotionId": "neutral",
+    "body": "He that tilleth his land shall have plenty of bread: but he that followeth after vain persons shall have poverty enough.",
+    "modernText": "One who works his land will have an abundance of food; but one who chases fantasies will have his fill of poverty.",
+    "reference": "Proverbs 28:19",
+    "message": "Tend your actual, ordinary responsibilities and there's enough. Less chasing the shiny thing, more working the ground you've got.",
+    "tags": [
+      "work",
+      "plenty"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "neutral-112",
+    "emotionId": "neutral",
+    "body": "And also that every man should eat and drink, and enjoy the good of all his labour, it is the gift of God.",
+    "modernText": "Also that every man should eat and drink, and enjoy good in all his labor, is the gift of God.",
+    "reference": "Ecclesiastes 3:13",
+    "message": "Even on a plain day, you're allowed to enjoy the fruits of ordinary work. Taking a little pleasure in it is the gift.",
+    "tags": [
+      "enjoy",
+      "labor"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "neutral-113",
+    "emotionId": "neutral",
+    "body": "Wherefore I perceive that there is nothing better, than that a man should rejoice in his own works; for that is his portion: for who shall bring him to see what shall be after him?",
+    "modernText": "Therefore I saw that there is nothing better than that a man should rejoice in his works; for that is his portion: for who can bring him to see what will be after him?",
+    "reference": "Ecclesiastes 3:22",
+    "message": "The realist's conclusion: enjoy what you do. On an unremarkable day, taking some satisfaction in your own work is the win.",
+    "tags": [
+      "rejoice",
+      "work"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "neutral-114",
+    "emotionId": "neutral",
+    "body": "Two are better than one; because they have a good reward for their labour.",
+    "modernText": "Two are better than one, because they have a good reward for their labor.",
+    "reference": "Ecclesiastes 4:9",
+    "message": "A plain-day reminder that you don't have to do life solo. Ordinary days are better with someone in them.",
+    "tags": [
+      "together",
+      "companionship"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "neutral-115",
+    "emotionId": "neutral",
+    "body": "For if they fall, the one will lift up his fellow: but woe to him that is alone when he falleth; for he hath not another to help him up.",
+    "modernText": "For if they fall, the one will lift up his fellow; but woe to him who is alone when he falls, and doesn’t have another to lift him up.",
+    "reference": "Ecclesiastes 4:10",
+    "message": "The practical case for not isolating: someone to help you up when you stumble. Even a low-key day is steadier with company.",
+    "tags": [
+      "support",
+      "fall"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "neutral-116",
+    "emotionId": "neutral",
+    "body": "Then I commended mirth, because a man hath no better thing under the sun, than to eat, and to drink, and to be merry: for that shall abide with him of his labour the days of his life, which God giveth him under the sun.",
+    "modernText": "Then I commended mirth, because a man has no better thing under the sun, than to eat, and to drink, and to be joyful: for that will accompany him in his labor all the days of his life which God has given him under the sun.",
+    "reference": "Ecclesiastes 8:15",
+    "message": "Even the skeptic lands on: enjoy the ordinary pleasures. A plain day is a fine day to eat something good and not overthink it.",
+    "tags": [
+      "enjoy",
+      "mirth"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "neutral-117",
+    "emotionId": "neutral",
+    "body": "I returned, and saw under the sun, that the race is not to the swift, nor the battle to the strong, neither yet bread to the wise, nor yet riches to men of understanding, nor yet favour to men of skill; but time and chance happeneth to them all.",
+    "modernText": "I returned and saw under the sun that the race is not to the swift, nor the battle to the strong, neither yet bread to the wise, nor yet riches to men of understanding, nor yet favor to men of skill; but time and chance happen to them all.",
+    "reference": "Ecclesiastes 9:11",
+    "message": "A comforting leveler for an average day. It's not all about being the fastest or strongest; timing and chance play their part too.",
+    "tags": [
+      "timing",
+      "chance"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "neutral-118",
+    "emotionId": "neutral",
+    "body": "Let us hear the conclusion of the whole matter: Fear God, and keep his commandments: for this is the whole duty of man.",
+    "modernText": "This is the end of the matter. All has been heard. Fear God and keep his commandments; for this is the whole duty of man.",
+    "reference": "Ecclesiastes 12:13",
+    "message": "After all the searching, the conclusion is refreshingly simple. On an ordinary day, you don't need a grand philosophy, just the basics.",
+    "tags": [
+      "purpose",
+      "simple"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "neutral-119",
+    "emotionId": "neutral",
+    "body": "Blessed is the man that walketh not in the counsel of the ungodly, nor standeth in the way of sinners, nor sitteth in the seat of the scornful.",
+    "modernText": "Blessed is the man who doesn’t walk in the counsel of the wicked, nor stand on the path of sinners, nor sit in the seat of scoffers;",
+    "reference": "Psalm 1:1",
+    "message": "A plain day is a good day to notice whose advice you're taking. The quiet choices of who you listen to shape more than you'd think.",
+    "tags": [
+      "blessed",
+      "path"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "neutral-120",
+    "emotionId": "neutral",
+    "body": "And he shall be like a tree planted by the rivers of water, that bringeth forth his fruit in his season; his leaf also shall not wither; and whatsoever he doeth shall prosper.",
+    "modernText": "He will be like a tree planted by the streams of water, that produces its fruit in its season, whose leaf also does not wither. Whatever he does shall prosper.",
+    "reference": "Psalm 1:3",
+    "message": "Steady, rooted, fruitful in season, not every day. An ordinary day is just part of a slow, deep kind of growth.",
+    "tags": [
+      "rooted",
+      "fruitful"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "neutral-121",
+    "emotionId": "neutral",
+    "body": "He that walketh uprightly, and worketh righteousness, and speaketh the truth in his heart.",
+    "modernText": "He who walks blamelessly and does what is right, and speaks truth in his heart;",
+    "reference": "Psalm 15:2",
+    "message": "The unflashy virtues, honesty, integrity, doing right. A plain day is exactly where those get quietly practiced.",
+    "tags": [
+      "uprightness",
+      "integrity"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "neutral-122",
+    "emotionId": "neutral",
+    "body": "Let the words of my mouth, and the meditation of my heart, be acceptable in thy sight, O LORD, my strength, and my redeemer.",
+    "modernText": "Let the words of my mouth and the meditation of my heart be acceptable in your sight, Yahweh, my rock, and my redeemer.",
+    "reference": "Psalm 19:14",
+    "message": "A small, grounding prayer for an ordinary day: let what I say and think be decent. A low-key aim that quietly shapes everything.",
+    "tags": [
+      "words",
+      "meditation"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "neutral-123",
+    "emotionId": "neutral",
+    "body": "Examine me, O LORD, and prove me; try my reins and my heart.",
+    "modernText": "Examine me, Yahweh, and prove me. Try my heart and my mind.",
+    "reference": "Psalm 26:2",
+    "message": "An honest, unglamorous ask: take a look at me, I'm open. A plain day is a fine time for a little self-honesty.",
+    "tags": [
+      "examine",
+      "honesty"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "neutral-124",
+    "emotionId": "neutral",
+    "body": "Teach me thy way, O LORD, and lead me in a plain path, because of mine enemies.",
+    "modernText": "Teach me your way, Yahweh. Lead me in a straight path, because of my enemies.",
+    "reference": "Psalm 27:11",
+    "message": "Literally asking for a plain path. On an ordinary day, uneventful and straightforward is exactly what you want.",
+    "tags": [
+      "teach",
+      "plain path"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "neutral-125",
+    "emotionId": "neutral",
+    "body": "Thou shalt guide me with thy counsel, and afterward receive me to glory.",
+    "modernText": "You will guide me with your counsel, and afterward receive me to glory.",
+    "reference": "Psalm 73:24",
+    "message": "On a day you can't see far ahead, this promises guidance as you go. You don't need the whole plan, just the next bit of counsel.",
+    "tags": [
+      "guide",
+      "counsel"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "neutral-126",
+    "emotionId": "neutral",
+    "body": "Teach me thy way, O LORD; I will walk in thy truth: unite my heart to fear thy name.",
+    "modernText": "Teach me your way, Yahweh. I will walk in your truth. Make my heart undivided to fear your name.",
+    "reference": "Psalm 86:11",
+    "message": "A steady, ordinary request: just teach me, and I'll walk it. The quiet, daily kind of learning, not a dramatic revelation.",
+    "tags": [
+      "teach",
+      "walk"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "neutral-127",
+    "emotionId": "neutral",
+    "body": "Lord, thou hast been our dwelling place in all generations.",
+    "modernText": "Lord, you have been our dwelling place for all generations.",
+    "reference": "Psalm 90:1",
+    "message": "Something constant behind all the ordinary, forgettable days. A steady home that doesn't change with how eventful life is.",
+    "tags": [
+      "dwelling",
+      "steady"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "neutral-128",
+    "emotionId": "neutral",
+    "body": "Before the mountains were brought forth, or ever thou hadst formed the earth and the world, even from everlasting to everlasting, thou art God.",
+    "modernText": "Before the mountains were born, before you had formed the earth and the world, even from everlasting to everlasting, you are God.",
+    "reference": "Psalm 90:2",
+    "message": "On a day that feels small and passing, this points to something that doesn't. A little perspective, quietly steadying.",
+    "tags": [
+      "everlasting",
+      "constancy"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "neutral-129",
+    "emotionId": "neutral",
+    "body": "As for man, his days are as grass: as a flower of the field, so he flourisheth.",
+    "modernText": "As for man, his days are like grass. As a flower of the field, so he flourishes.",
+    "reference": "Psalm 103:15",
+    "message": "A gentle reminder that life's brief, which somehow makes the plain days feel less like something to rush through.",
+    "tags": [
+      "brief",
+      "perspective"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "neutral-130",
+    "emotionId": "neutral",
+    "body": "Man goeth forth unto his work and to his labour until the evening.",
+    "modernText": "Man goes out to his work, to his labor until the evening.",
+    "reference": "Psalm 104:23",
+    "message": "The whole ordinary rhythm of a day, out to work and back, in one line. Scripture noticing the plain daily grind, and giving it dignity.",
+    "tags": [
+      "work",
+      "daily"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "neutral-131",
+    "emotionId": "neutral",
+    "body": "A good man sheweth favour, and lendeth: he will guide his affairs with discretion.",
+    "modernText": "It is well with the man who deals graciously and lends. He will maintain his cause in judgment.",
+    "reference": "Psalm 112:5",
+    "message": "Just handling your ordinary business with good sense. A plain day well-managed is its own quiet accomplishment.",
+    "tags": [
+      "discretion",
+      "steady"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "neutral-132",
+    "emotionId": "neutral",
+    "body": "Unto thee lift I up mine eyes, O thou that dwellest in the heavens.",
+    "modernText": "I lift up my eyes to you, you who sit in the heavens.",
+    "reference": "Psalm 123:1",
+    "message": "On a day with your head down in the usual stuff, a small nudge to look up for a second. A quiet reset for an ordinary afternoon.",
+    "tags": [
+      "look up",
+      "trust"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "neutral-133",
+    "emotionId": "neutral",
+    "body": "The eyes of all wait upon thee; and thou givest them their meat in due season.",
+    "modernText": "The eyes of all wait for you. You give them their food in due season.",
+    "reference": "Psalm 145:15",
+    "message": "Provision that arrives on time, in due season, not early, not late. A plain day as part of a quietly reliable supply.",
+    "tags": [
+      "provision",
+      "due season"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "neutral-134",
+    "emotionId": "neutral",
+    "body": "The way of the just is uprightness: thou, most upright, dost weigh the path of the just.",
+    "modernText": "The way of the just is uprightness. You who are upright make the path of the righteous level.",
+    "reference": "Isaiah 26:7",
+    "message": "The straightforward, level path of just doing right. On an ordinary day, uprightness looks a lot like the unremarkable next right thing.",
+    "tags": [
+      "path",
+      "uprightness"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "neutral-135",
+    "emotionId": "neutral",
+    "body": "This also cometh forth from the LORD of hosts, which is wonderful in counsel, and excellent in working.",
+    "modernText": "This also comes out from Yahweh of Armies, who is wonderful in counsel, and excellent in wisdom.",
+    "reference": "Isaiah 28:29",
+    "message": "Good counsel behind even the ordinary workings of things. A plain day is quietly being guided, not just drifting.",
+    "tags": [
+      "counsel",
+      "wisdom"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "neutral-136",
+    "emotionId": "neutral",
+    "body": "Thus saith the LORD, thy Redeemer, the Holy One of Israel; I am the LORD thy God which teacheth thee to profit, which leadeth thee by the way that thou shouldest go.",
+    "modernText": "Yahweh, your Redeemer, the Holy One of Israel says: “I am Yahweh your God, who teaches you to profit, who leads you by the way that you should go.",
+    "reference": "Isaiah 48:17",
+    "message": "Led in the way you should go, even on an aimless day. The direction isn't all on you to figure out.",
+    "tags": [
+      "teach",
+      "lead"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "neutral-137",
+    "emotionId": "neutral",
+    "body": "O LORD, I know that the way of man is not in himself: it is not in man that walketh to direct his steps.",
+    "modernText": "Yahweh, I know that the way of man is not in himself. It is not in man who walks to direct his steps.",
+    "reference": "Jeremiah 10:23",
+    "message": "A relief on a day you feel directionless: steering your whole life was never fully your job. You can loosen the grip.",
+    "tags": [
+      "steps",
+      "dependence"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "neutral-138",
+    "emotionId": "neutral",
+    "body": "I the LORD search the heart, I try the reins, even to give every man according to his ways, and according to the fruit of his doings.",
+    "modernText": "“I, Yahweh, search the mind. I try the heart, even to give every man according to his ways, according to the fruit of his doings.”",
+    "reference": "Jeremiah 17:10",
+    "message": "On a day no one really sees what's going on with you, this says someone does, all the way down. Known, even on the invisible days.",
+    "tags": [
+      "known",
+      "heart"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "neutral-139",
+    "emotionId": "neutral",
+    "body": "The light of the body is the eye: if therefore thine eye be single, thy whole body shall be full of light.",
+    "modernText": "“The lamp of the body is the eye. If therefore your eye is sound, your whole body will be full of light.",
+    "reference": "Matthew 6:22",
+    "message": "What you fix your attention on shapes the whole ordinary day. A quiet suggestion to watch where your eyes keep landing.",
+    "tags": [
+      "focus",
+      "clarity"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "neutral-140",
+    "emotionId": "neutral",
+    "body": "Therefore whosoever heareth these sayings of mine, and doeth them, I will liken him unto a wise man, which built his house upon a rock:",
+    "modernText": "“Everyone therefore who hears these words of mine, and does them, I will liken him to a wise man, who built his house on a rock.",
+    "reference": "Matthew 7:24",
+    "message": "The wise life is built in ordinary, repeated actions, not dramatic ones. A plain day is where the foundation actually gets laid.",
+    "tags": [
+      "wise",
+      "foundation"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "neutral-141",
+    "emotionId": "neutral",
+    "body": "He that is faithful in that which is least is faithful also in much: and he that is unjust in the least is unjust also in much.",
+    "modernText": "He who is faithful in a very little is faithful also in much. He who is dishonest in a very little is also dishonest in much.",
+    "reference": "Luke 16:10",
+    "message": "The small, unremarkable faithfulness matters more than it looks. How you handle a plain day says a lot.",
+    "tags": [
+      "faithful",
+      "small"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "neutral-142",
+    "emotionId": "neutral",
+    "body": "If ye know these things, happy are ye if ye do them.",
+    "modernText": "If you know these things, blessed are you if you do them.",
+    "reference": "John 13:17",
+    "message": "Knowing the good thing isn't enough, the happiness is in actually doing it. A plain day is a fine day to just do the small right thing.",
+    "tags": [
+      "doing",
+      "happy"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "neutral-143",
+    "emotionId": "neutral",
+    "body": "For I say, through the grace given unto me, to every man that is among you, not to think of himself more highly than he ought to think; but to think soberly, according as God hath dealt to every man the measure of faith.",
+    "modernText": "For I say through the grace that was given me, to every man who is among you, not to think of himself more highly than he ought to think; but to think reasonably, as God has apportioned to each person a measure of faith.",
+    "reference": "Romans 12:3",
+    "message": "A grounding verse for an ordinary day: just have an honest, even read of yourself. No inflation, no deflation, just sober.",
+    "tags": [
+      "soberly",
+      "humility"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "neutral-144",
+    "emotionId": "neutral",
+    "body": "Moreover it is required in stewards, that a man be found faithful.",
+    "modernText": "Here, moreover, it is required of stewards that they be found faithful.",
+    "reference": "1 Corinthians 4:2",
+    "message": "The main ask isn't brilliance, it's faithfulness. On a plain day, just reliably handling what's yours is the whole assignment.",
+    "tags": [
+      "faithful",
+      "steward"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "neutral-145",
+    "emotionId": "neutral",
+    "body": "Let all things be done decently and in order.",
+    "modernText": "Let all things be done decently and in order.",
+    "reference": "1 Corinthians 14:40",
+    "message": "A quietly satisfying verse for an ordinary day: just do things decently, in order. Sometimes tidy and steady is the goal.",
+    "tags": [
+      "order",
+      "decently"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "neutral-146",
+    "emotionId": "neutral",
+    "body": "(For we walk by faith, not by sight:)",
+    "modernText": "for we walk by faith, not by sight.",
+    "reference": "2 Corinthians 5:7",
+    "message": "For a day you can't see where any of it's headed, this says that's the normal mode. Walking without the full view is just how it works.",
+    "tags": [
+      "faith",
+      "not sight"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "neutral-147",
+    "emotionId": "neutral",
+    "body": "See then that ye walk circumspectly, not as fools, but as wise,",
+    "modernText": "Therefore watch carefully how you walk, not as unwise, but as wise,",
+    "reference": "Ephesians 5:15",
+    "message": "Just move through the ordinary day with a little care and attention. Not dramatic wisdom, just not sleepwalking through it.",
+    "tags": [
+      "wise",
+      "careful"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "neutral-148",
+    "emotionId": "neutral",
+    "body": "Redeeming the time, because the days are evil.",
+    "modernText": "redeeming the time, because the days are evil.",
+    "reference": "Ephesians 5:16",
+    "message": "Making something of the ordinary hours, not wasting them. A gentle nudge that even a plain day has time worth using.",
+    "tags": [
+      "time",
+      "intentional"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "neutral-149",
+    "emotionId": "neutral",
+    "body": "Walk in wisdom toward them that are without, redeeming the time.",
+    "modernText": "Walk in wisdom toward those who are outside, redeeming the time.",
+    "reference": "Colossians 4:5",
+    "message": "Wisdom in how you spend an ordinary day, in how you treat people. The unremarkable hours are still worth tending well.",
+    "tags": [
+      "wisdom",
+      "time"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "neutral-150",
+    "emotionId": "neutral",
+    "body": "Teaching us that, denying ungodliness and worldly lusts, we should live soberly, righteously, and godly, in this present world;",
+    "modernText": "instructing us to the intent that, denying ungodliness and worldly lusts, we would live soberly, righteously, and godly in this present age;",
+    "reference": "Titus 2:12",
+    "message": "A plain, steady way to live, soberly, decently, in the here and now. An ordinary day is exactly where this gets lived out.",
+    "tags": [
+      "soberly",
+      "present"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
     "id": "tired-001",
     "emotionId": "tired",
     "body": "But they that wait upon the LORD shall renew their strength; they shall mount up with wings as eagles; they shall run, and not be weary; and they shall walk, and not faint.",
