@@ -3,6 +3,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useFocusEffect, router, useLocalSearchParams } from 'expo-router'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import * as Haptics from 'expo-haptics'
+import { Ionicons } from '@expo/vector-icons'
 import ReAnimated, {
   useSharedValue,
   useAnimatedStyle,
@@ -13,8 +14,6 @@ import ReAnimated, {
 import { captureRef } from 'react-native-view-shot'
 import { getSavedMessages, deleteSavedMessage, getSettings, getCheckIns } from '@/storage/storage'
 import { getVerseById } from '@/messages/selector'
-import { hasTodayCheckIn } from '@/utils/streak'
-import { V1_UNLOCK_ALL } from '@/constants'
 import {
   startOfWeek,
   addDays,
@@ -30,10 +29,7 @@ import ShareFormatSheet from '@/components/ShareFormatSheet'
 import ViewToggle from '@/components/history/ViewToggle'
 import MonthGrid from '@/components/history/MonthGrid'
 import WeekRow from '@/components/history/WeekRow'
-import EchoesPanel from '@/components/history/EchoesPanel'
 import { auth } from '@/services/firebase'
-import app from '@/services/firebase'
-import { getFunctions, httpsCallable } from 'firebase/functions'
 import { useTheme } from '@/theme'
 
 const EMOTION_COLORS: Record<EmotionId, string> = {
@@ -42,6 +38,23 @@ const EMOTION_COLORS: Record<EmotionId, string> = {
   sad:      '#7A95B0',
   neutral:  '#C4B59A',
   good:     '#9CB59A',
+}
+
+// Friendly, human-voiced labels for the journal card meta line.
+const EMOTION_LABELS: Record<EmotionId, string> = {
+  stressed: 'Feeling stressed',
+  tired:    'Running low',
+  sad:      'Feeling heavy',
+  neutral:  'In between',
+  good:     'Grateful',
+}
+
+const EMOTION_ICON: Record<EmotionId, keyof typeof Ionicons.glyphMap> = {
+  stressed: 'thunderstorm-outline',
+  tired:    'moon-outline',
+  sad:      'rainy-outline',
+  neutral:  'partly-sunny-outline',
+  good:     'sunny-outline',
 }
 
 // Tile palette — parallel to EMOTION_COLORS but neutral is a warm gray for calendar tiles.
@@ -83,8 +96,38 @@ function dominantTileColor(checkInsForDay: CheckInEvent[]): string {
   return TILE_COLORS.neutral // tied
 }
 
-const fmt = (ts: string) =>
-  new Date(ts).toLocaleDateString('en-US', { month: 'long', day: 'numeric' })
+// Long date for the journal card header, e.g. "FRIDAY, OCTOBER 23".
+const fmtLong = (ts: string) =>
+  new Date(ts)
+    .toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })
+    .toUpperCase()
+
+// The single [[highlighted line]] the letter marks — reused as the entry title.
+function extractHighlight(letter?: string): string | null {
+  if (!letter) return null
+  const m = letter.match(/\[\[([\s\S]*?)\]\]/)
+  return m?.[1]?.trim() || null
+}
+
+// Strip the [[ ]] markers so raw brackets never show in previews/expanded text.
+function stripMarkers(letter: string): string {
+  return letter.replace(/\[\[|\]\]/g, '')
+}
+
+function firstSentence(text: string): string {
+  const trimmed = text.trim()
+  const m = trimmed.match(/^[^.!?]*[.!?]/)
+  return (m ? m[0] : trimmed).trim()
+}
+
+// Title for a journal entry: the highlighted line, else the letter's first
+// sentence, else the verse reference.
+function entryTitle(item: SavedMessage, reference: string): string {
+  const highlight = extractHighlight(item.letter)
+  if (highlight) return highlight
+  if (item.letter) return firstSentence(stripMarkers(item.letter))
+  return reference || 'A moment, saved.'
+}
 
 interface ResolvedSavedMessage {
   saved: SavedMessage
@@ -135,8 +178,7 @@ export default function HistoryScreen() {
   const [checkIns, setCheckIns] = useState<CheckInEvent[]>([])
   const [expandedLetter, setExpandedLetter] = useState<string | null>(null)
   const [showTooltip, setShowTooltip] = useState(tourStep === '4')
-  const [settings, setSettings] = useState<AppSettings | null>(null)
-  const [todayDone, setTodayDone] = useState(false)
+  const [, setSettings] = useState<AppSettings | null>(null)
   const [writeLetterAnchorY, setWriteLetterAnchorY] = useState(0)
   const animRefs = useRef<Map<string, Animated.Value>>(new Map())
   const writeLetterRef = useRef<View>(null)
@@ -148,22 +190,8 @@ export default function HistoryScreen() {
   const [showShareSheet, setShowShareSheet] = useState(false)
   const [shareSheetVerse, setShareSheetVerse] = useState<ResolvedSavedMessage | null>(null)
 
-  const pulseOpacity = useSharedValue(0.25)
-  const pulseStyle = useAnimatedStyle(() => ({ opacity: pulseOpacity.value }))
-
   const letterGlow = useSharedValue(1)
   const letterGlowStyle = useAnimatedStyle(() => ({ opacity: letterGlow.value }))
-
-  useEffect(() => {
-    pulseOpacity.value = withRepeat(
-      withSequence(
-        withTiming(0.65, { duration: 1800 }),
-        withTiming(0.2,  { duration: 1800 }),
-      ),
-      -1,
-      true,
-    )
-  }, [pulseOpacity])
 
   useEffect(() => {
     if (!tourPathMode) return
@@ -203,7 +231,6 @@ export default function HistoryScreen() {
         if (cancelled) return
         setSettings(s)
         setCheckIns(ci)
-        setTodayDone(hasTodayCheckIn(ci))
         const withVerses = await Promise.all(
           all.map(async (saved) => {
             const emotionId = saved.emotionId ?? 'neutral'
@@ -220,19 +247,15 @@ export default function HistoryScreen() {
     }, [])
   )
 
-  const userName = settings?.name?.trim() || 'friend'
-
   // Calendar state
   const today = new Date().toISOString().slice(0, 10)
-  const [viewMode, setViewMode] = useState<'weekly' | 'monthly'>('monthly')
+  const [viewMode, setViewMode] = useState<'weekly' | 'monthly'>('weekly')
   const [viewMonth, setViewMonth] = useState<{ year: number; month: number }>(() => {
     const d = new Date()
     return { year: d.getFullYear(), month: d.getMonth() }
   })
   const [viewWeekStart, setViewWeekStart] = useState<string>(() => startOfWeek(today))
   const [selectedDay, setSelectedDay] = useState<string | null>(null)
-
-  const [throughLines, setThroughLines] = useState<Record<string, string>>({})
 
   // Signup date floor — clamp calendar to months on/after signup
   const signupDate = useMemo(() => {
@@ -262,51 +285,6 @@ export default function HistoryScreen() {
     const d = new Date(openDate + 'T00:00:00')
     setViewMonth({ year: d.getFullYear(), month: d.getMonth() })
   }, [openDate])
-
-  // Through-Line: fetch for past completed months
-  useEffect(() => {
-    if (viewMode !== 'monthly') return
-    const isPastMonth =
-      viewMonth.year < todayObj.getFullYear() ||
-      (viewMonth.year === todayObj.getFullYear() && viewMonth.month < todayObj.getMonth())
-    if (!isPastMonth) return
-
-    const monthKey = `${viewMonth.year}-${String(viewMonth.month + 1).padStart(2, '0')}`
-    if (throughLines[monthKey]) return  // already loaded
-
-    const monthCheckIns = checkIns.filter(c => c.timestamp.slice(0, 7) === monthKey)
-    if (monthCheckIns.length < 3) return
-
-    const monthVerses = resolved.filter(r => r.saved.savedAt.slice(0, 7) === monthKey)
-
-    ;(async () => {
-      const cacheKey = `@soft_landing/through_line/${monthKey}`
-      try {
-        const cached = await AsyncStorage.getItem(cacheKey)
-        if (cached) {
-          setThroughLines(prev => ({ ...prev, [monthKey]: cached }))
-          return
-        }
-      } catch {}
-
-      if (!auth.currentUser) return
-
-      try {
-        const fns = getFunctions(app, 'us-central1')
-        const fn = httpsCallable(fns, 'generateThroughLine')
-        const result = await fn({
-          month: monthKey,
-          checkIns: monthCheckIns.map(c => ({ date: c.timestamp.slice(0, 10), emotionId: c.emotionId })),
-          verses: monthVerses.slice(0, 10).map(r => ({ body: r.body, reference: r.reference })),
-        })
-        const line = (result.data as { line: string }).line
-        if (line) {
-          setThroughLines(prev => ({ ...prev, [monthKey]: line }))
-          await AsyncStorage.setItem(cacheKey, line).catch(() => {})
-        }
-      } catch {}
-    })()
-  }, [viewMode, viewMonth, checkIns, resolved])
 
   // Map dateStr → all check-ins that day
   const checkInsByDay = useMemo<Record<string, CheckInEvent[]>>(() => {
@@ -394,8 +372,8 @@ export default function HistoryScreen() {
 
   function confirmDelete(verse: ResolvedSavedMessage) {
     Alert.alert(
-      'Remove verse?',
-      'This will permanently remove it from your saved collection.',
+      'Remove this page?',
+      'This will permanently remove it from your journal.',
       [
         { text: 'Cancel', style: 'cancel' },
         { text: 'Remove', style: 'destructive', onPress: () => handleDelete(verse.saved.id) },
@@ -406,7 +384,7 @@ export default function HistoryScreen() {
   async function handleShareText(verse: ResolvedSavedMessage) {
     const ref = verse.reference ? ` — ${verse.reference}` : ''
     const letter = verse.saved.letter
-    const letterPart = letter ? `\n\n${letter}\n\nWith you in this.` : ''
+    const letterPart = letter ? `\n\n${stripMarkers(letter)}\n\nWith you in this.` : ''
     try {
       await Share.share({
         message: `"${verse.body}"${ref}${letterPart}\n\nvia Soft Landing`,
@@ -433,165 +411,189 @@ export default function HistoryScreen() {
     }
   }
 
-  function handleCardTap(verse: ResolvedSavedMessage) {
-    if (tourPathMode) return  // don't pop alerts in tour mode
+  // "⋯" overflow menu on a card.
+  function handleCardMenu(verse: ResolvedSavedMessage) {
+    if (tourPathMode) return
     const hasLetter = !!verse.saved.letter
+    const buttons: Array<{ text: string; onPress?: () => void; style?: 'default' | 'cancel' | 'destructive' }> = [
+      { text: 'Share ↑', onPress: () => handleShareCard(verse) },
+    ]
     if (hasLetter) {
-      Alert.alert('', 'What would you like to open?', [
-        {
-          text: 'Read letter ✦',
-          onPress: () => {
-            const next = expandedLetter === verse.saved.id ? null : verse.saved.id
-            setExpandedLetter(next)
-            const anim = getAnim(verse.saved.id)
-            Animated.timing(anim, {
-              toValue: next === verse.saved.id ? 1 : 0,
-              duration: 200,
-              useNativeDriver: true,
-            }).start()
-          },
-        },
-        { text: 'Open letter editor', onPress: () =>
-            router.push({ pathname: '/check-in/letter-compose', params: { savedMessageId: verse.saved.id } })
-        },
-        { text: 'Share card ↑', onPress: () => handleShareCard(verse) },
-        { text: 'Cancel', style: 'cancel' },
-      ])
-    } else {
-      handleShareCard(verse)
+      buttons.push({
+        text: 'Open in editor',
+        onPress: () =>
+          router.push({ pathname: '/check-in/letter-compose', params: { savedMessageId: verse.saved.id } }),
+      })
     }
+    buttons.push({ text: 'Remove', style: 'destructive', onPress: () => confirmDelete(verse) })
+    buttons.push({ text: 'Cancel', style: 'cancel' })
+    Alert.alert('', 'What would you like to do?', buttons)
+  }
+
+  // Expand / collapse the full letter inline ("Turn the page").
+  function toggleLetter(verse: ResolvedSavedMessage) {
+    if (tourPathMode) return
+    const next = expandedLetter === verse.saved.id ? null : verse.saved.id
+    setExpandedLetter(next)
+    Animated.timing(getAnim(verse.saved.id), {
+      toValue: next ? 1 : 0,
+      duration: 200,
+      useNativeDriver: true,
+    }).start()
   }
 
   // Global empty state: zero saved verses ever (tour mode always has the demo entry).
   if (!tourPathMode && resolved.length === 0) {
     return (
-      <View style={{ flex: 1, backgroundColor: colors.bg, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 32 }}>
-        <Text style={{ fontFamily: 'DMSans_400Regular', fontSize: 36, color: colors.amber, marginBottom: 16, opacity: 0.6 }}>✦</Text>
-        <Text style={{ fontFamily: 'DMSans_400Regular', fontSize: 16, color: colors.inkMuted, textAlign: 'center' }}>
-          Nothing yet — but every path has a first step.
-        </Text>
+      <View style={{ flex: 1, backgroundColor: colors.bg }}>
+        <Header colors={colors} />
+        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 32, paddingBottom: 80 }}>
+          <Text style={{ fontFamily: 'DMSans_400Regular', fontSize: 36, color: colors.amber, marginBottom: 16, opacity: 0.6 }}>✦</Text>
+          <Text style={{ fontFamily: 'Lora_400Regular_Italic', fontSize: 16, color: colors.inkMuted, textAlign: 'center', lineHeight: 24 }}>
+            Nothing yet, but every path has a first step.
+          </Text>
+        </View>
       </View>
     )
   }
 
   const ListHeader = (
     <View>
-      {/* Interactive Week/Month calendar (skip in tour mode — no real data) */}
+      {/* Calendar block (skip in tour mode — no real data) */}
       {!tourPathMode && (
-        <>
-          <View style={{ paddingTop: 8, paddingBottom: 4 }}>
-            <ViewToggle mode={viewMode} onChange={setViewMode} />
-            {viewMode === 'monthly' ? (
-              <MonthGrid
-                slots={monthSlots}
-                today={today}
-                colorByDay={colorByDay}
-                hasLetterByDay={hasLetterByDay}
-                selectedDay={selectedDay}
-                onSelectDay={handleSelectDay}
-                monthLabel={monthLabel}
-                onPrevMonth={handlePrevMonth}
-                onNextMonth={handleNextMonth}
-                prevDisabled={isPrevMonthDisabled}
-                nextDisabled={isNextMonthDisabled}
-              />
-            ) : null}
-
-            {/* Through-Line — past completed months only */}
-            {viewMode === 'monthly' && (() => {
-              const monthKey = `${viewMonth.year}-${String(viewMonth.month + 1).padStart(2, '0')}`
-              const line = throughLines[monthKey]
-              return line ? (
-                <Text
-                  style={{
-                    fontFamily: 'Lora_400Regular_Italic',
-                    fontSize: 15,
-                    color: '#C4956A',
-                    textAlign: 'center',
-                    marginTop: 14,
-                    marginHorizontal: 28,
-                    lineHeight: 24,
-                    opacity: 0.85,
-                  }}
-                >
-                  {line}
-                </Text>
-              ) : null
-            })()}
-
-            {viewMode === 'weekly' ? (
-              <WeekRow
-                slots={weekSlots}
-                today={today}
-                colorByDay={colorByDay}
-                hasLetterByDay={hasLetterByDay}
-                selectedDay={selectedDay}
-                onSelectDay={handleSelectDay}
-                onPrevWeek={handlePrevWeek}
-                onNextWeek={handleNextWeek}
-                prevDisabled={isPrevWeekDisabled}
-                nextDisabled={isNextWeekDisabled}
-              />
-            ) : null}
-
-            {selectedDay && (
-              <Text style={{
-                fontFamily: 'Lora_400Regular_Italic',
-                fontSize: 13,
-                color: '#9A8880',
-                textAlign: 'center',
-                marginTop: 12,
-                marginBottom: 4,
-              }}>
-                {new Date(selectedDay + 'T00:00:00').toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })}
-              </Text>
-            )}
+        <View style={{ paddingTop: 4, paddingBottom: 4 }}>
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              paddingHorizontal: 24,
+              marginBottom: 12,
+            }}
+          >
+            <Text
+              style={{
+                fontFamily: 'DMSans_500Medium',
+                fontSize: 11,
+                letterSpacing: 2,
+                color: colors.inkMuted,
+                textTransform: 'uppercase',
+              }}
+            >
+              Your journal · {monthLabel}
+            </Text>
+            <Ionicons name="calendar-outline" size={16} color={colors.inkMuted} />
           </View>
 
-          {/* Hairline divider */}
-          <View style={{ height: 1, backgroundColor: 'rgba(196,149,106,0.2)', marginHorizontal: 24, marginVertical: 20 }} />
+          <ViewToggle mode={viewMode} onChange={setViewMode} />
 
-          {/* Per-day empty state: a real day was selected but has no saved verses. */}
-          {selectedDay && filteredResolved.length === 0 && (
-            <Text style={{
-              fontFamily: 'Lora_400Regular_Italic',
-              fontSize: 14,
-              color: '#9A8880',
+          {viewMode === 'monthly' ? (
+            <MonthGrid
+              slots={monthSlots}
+              today={today}
+              colorByDay={colorByDay}
+              hasLetterByDay={hasLetterByDay}
+              selectedDay={selectedDay}
+              onSelectDay={handleSelectDay}
+              monthLabel={monthLabel}
+              onPrevMonth={handlePrevMonth}
+              onNextMonth={handleNextMonth}
+              prevDisabled={isPrevMonthDisabled}
+              nextDisabled={isNextMonthDisabled}
+            />
+          ) : (
+            <WeekRow
+              slots={weekSlots}
+              today={today}
+              colorByDay={colorByDay}
+              hasLetterByDay={hasLetterByDay}
+              selectedDay={selectedDay}
+              onSelectDay={handleSelectDay}
+              onPrevWeek={handlePrevWeek}
+              onNextWeek={handleNextWeek}
+              prevDisabled={isPrevWeekDisabled}
+              nextDisabled={isNextWeekDisabled}
+            />
+          )}
+
+          <Text
+            style={{
+              fontFamily: 'DMSans_400Regular',
+              fontSize: 12,
+              color: colors.inkMuted,
               textAlign: 'center',
-              paddingHorizontal: 32,
-              paddingBottom: 16,
-            }}>
-              This day waited quietly.
+              marginTop: 12,
+            }}
+          >
+            Your moments, at your own pace.
+          </Text>
+
+          {selectedDay && (
+            <Text
+              style={{
+                fontFamily: 'Lora_400Regular_Italic',
+                fontSize: 13,
+                color: colors.inkMuted,
+                textAlign: 'center',
+                marginTop: 8,
+              }}
+            >
+              {new Date(selectedDay + 'T00:00:00').toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })}
             </Text>
           )}
-        </>
+        </View>
       )}
 
-      {/* Unlit ◇ — next milestone header */}
-      <View style={{ flexDirection: 'row', paddingHorizontal: 24, marginBottom: 8, alignItems: 'center' }}>
-        <Text style={{ fontFamily: 'Lora_400Regular_Italic', fontSize: 10, color: colors.amber, opacity: 0.5, marginRight: 6 }}>
-          {todayDone ? 'tomorrow' : 'today'}
+      {/* Section header */}
+      <View
+        style={{
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          alignItems: 'baseline',
+          paddingHorizontal: 24,
+          marginTop: tourPathMode ? 8 : 24,
+          marginBottom: 14,
+        }}
+      >
+        <Text style={{ fontFamily: 'Lora_400Regular_Italic', fontSize: 19, color: colors.inkPrimary }}>
+          Pages from your journey
         </Text>
-        <ReAnimated.Text style={[{ fontFamily: 'DMSans_400Regular', fontSize: 14, color: colors.amber }, pulseStyle]}>
-          ◇
-        </ReAnimated.Text>
+        {selectedDay && (
+          <Pressable onPress={() => setSelectedDay(null)} hitSlop={10} className="active:opacity-60">
+            <Text style={{ fontFamily: 'DMSans_500Medium', fontSize: 13, color: colors.amber }}>
+              View all →
+            </Text>
+          </Pressable>
+        )}
       </View>
+
+      {/* Per-day empty state: a real day was selected but has no saved verses. */}
+      {!tourPathMode && selectedDay && filteredResolved.length === 0 && (
+        <Text
+          style={{
+            fontFamily: 'Lora_400Regular_Italic',
+            fontSize: 14,
+            color: colors.inkMuted,
+            textAlign: 'center',
+            paddingHorizontal: 32,
+            paddingBottom: 16,
+          }}
+        >
+          This day waited quietly.
+        </Text>
+      )}
     </View>
   )
 
   return (
     <View style={{ flex: 1, backgroundColor: colors.bg }}>
-      <View style={{ paddingHorizontal: 24, paddingTop: 56, paddingBottom: 8 }}>
-        <Text style={{ fontFamily: 'DMSans_500Medium', fontSize: 24, color: colors.inkPrimary }}>
-          The Path
-        </Text>
-      </View>
+      <Header colors={colors} />
 
       <FlatList
         data={filteredResolved}
         keyExtractor={(r) => r.saved.id}
         ListHeaderComponent={ListHeader}
-        contentContainerStyle={{ paddingBottom: 32 }}
+        contentContainerStyle={{ paddingBottom: 40 }}
         renderItem={({ item: r, index }) => {
           const item = r.saved
           const { body, reference } = r
@@ -599,157 +601,173 @@ export default function HistoryScreen() {
           const emotionColor = EMOTION_COLORS[emotionId] ?? '#C4B59A'
           const isLetterExpanded = expandedLetter === item.id
           const isFirstTourItem = tourPathMode && index === 0
+          const title = entryTitle(item, reference)
+          const letterPreview = item.letter ? stripMarkers(item.letter).trim() : ''
 
           return (
-            <View>
-              <Pressable
-                onLongPress={() => confirmDelete(r)}
-                onPress={() => handleCardTap(r)}
-                style={{
-                  flexDirection: 'row',
-                  marginHorizontal: 16,
-                  marginBottom: 12,
-                  borderRadius: 16,
-                  borderWidth: 1,
-                  borderColor: colors.cardBorder,
-                  backgroundColor: '#FAF8F5',
-                  overflow: 'hidden',
-                }}
-              >
-                {/* Left color strip */}
-                <View style={{
-                  width: 3,
-                  backgroundColor: emotionColor,
-                  alignSelf: 'stretch',
-                }} />
+            <Pressable
+              onLongPress={() => confirmDelete(r)}
+              style={{
+                marginHorizontal: 16,
+                marginBottom: 14,
+                borderRadius: 16,
+                borderWidth: 1,
+                borderColor: colors.cardBorder,
+                backgroundColor: colors.surface,
+                padding: 18,
+              }}
+            >
+              {/* Row: bookmark + date  ·  ⋯ */}
+              <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
+                <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+                  <Ionicons name="bookmark-outline" size={13} color={colors.amber} />
+                  <Text style={{ fontFamily: 'DMSans_500Medium', fontSize: 11, letterSpacing: 1, color: colors.inkMuted }}>
+                    {fmtLong(item.savedAt)}
+                  </Text>
+                </View>
+                {!tourPathMode && (
+                  <Pressable onPress={() => handleCardMenu(r)} hitSlop={12} className="active:opacity-50">
+                    <Text style={{ fontFamily: 'DMSans_500Medium', fontSize: 18, color: colors.inkMuted, marginTop: -8 }}>⋯</Text>
+                  </Pressable>
+                )}
+              </View>
 
-                {/* Content */}
-                <View style={{ flex: 1, padding: 16 }}>
-                  {/* Row 1: emotion + date */}
-                  <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 12 }}>
-                    <Text style={{
-                      fontFamily: 'DMSans_400Regular', fontSize: 11,
-                      color: emotionColor,
-                    }}>
-                      {emotionId}
-                    </Text>
-                    <Text style={{ fontFamily: 'DMSans_400Regular', fontSize: 11, color: '#9A8880' }}>
-                      {fmt(item.savedAt)}
-                    </Text>
-                  </View>
+              {/* Title */}
+              <Text style={{ fontFamily: 'Lora_400Regular_Italic', fontSize: 19, lineHeight: 27, color: colors.inkPrimary }}>
+                {title}
+              </Text>
 
-                  {/* Verse text — 2 line truncation */}
-                  {body ? (
+              {/* Meta: emotion + reference */}
+              <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6, marginTop: 10 }}>
+                <Ionicons name={EMOTION_ICON[emotionId]} size={14} color={emotionColor} />
+                <Text style={{ fontFamily: 'DMSans_400Regular', fontSize: 13, color: colors.inkMuted }}>
+                  {EMOTION_LABELS[emotionId]}{reference ? ` · ${reference}` : ''}
+                </Text>
+              </View>
+
+              {/* The user's reflection, in their words */}
+              {item.note?.trim() ? (
+                <Text
+                  numberOfLines={3}
+                  style={{
+                    fontFamily: 'Lora_400Regular_Italic',
+                    fontSize: 15,
+                    lineHeight: 24,
+                    color: colors.inkPrimary,
+                    marginTop: 14,
+                  }}
+                >
+                  “{item.note.trim()}”
+                </Text>
+              ) : null}
+
+              {/* Letter preview */}
+              {item.letter ? (
+                <View
+                  style={{
+                    backgroundColor: colors.inputRow,
+                    borderRadius: 12,
+                    padding: 14,
+                    marginTop: 14,
+                  }}
+                >
+                  <Text
+                    style={{
+                      fontFamily: 'DMSans_500Medium',
+                      fontSize: 10,
+                      letterSpacing: 1.5,
+                      color: colors.inkMuted,
+                      textTransform: 'uppercase',
+                      marginBottom: 6,
+                    }}
+                  >
+                    Something to hold onto
+                  </Text>
+                  {isLetterExpanded ? (
+                    <Animated.View style={{ opacity: getAnim(item.id) }}>
+                      <Text style={{ fontFamily: 'Lora_400Regular_Italic', fontSize: 13, color: colors.amber, marginBottom: 8 }}>
+                        Dear You,
+                      </Text>
+                      <Text style={{ fontFamily: 'Lora_400Regular', fontSize: 14, color: colors.inkPrimary, lineHeight: 23 }}>
+                        {letterPreview}
+                      </Text>
+                      <Text style={{ fontFamily: 'Lora_400Regular_Italic', fontSize: 13, color: colors.inkMuted, marginTop: 10 }}>
+                        With you in this.
+                      </Text>
+                    </Animated.View>
+                  ) : (
                     <Text
                       numberOfLines={2}
-                      style={{
-                        fontFamily: 'Lora_400Regular_Italic', fontSize: 16, lineHeight: 26,
-                        color: '#3D2F2A', marginBottom: 12,
-                      }}
+                      style={{ fontFamily: 'Lora_400Regular', fontSize: 14, color: colors.inkPrimary, lineHeight: 23 }}
                     >
-                      {body}
+                      {letterPreview}
                     </Text>
-                  ) : null}
-
-                  {/* Row 2: reference + letter tag */}
-                  <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <Text style={{ fontFamily: 'DMSans_400Regular', fontSize: 12, color: '#9A8880' }}>
-                      {reference}
-                    </Text>
-                    {!!item.letter && (
-                      <Text style={{ fontFamily: 'DMSans_500Medium', fontSize: 12, color: '#C4956A' }}>
-                        ✦ Letter
-                      </Text>
-                    )}
-                  </View>
-
-                  {/* Expanded letter preview (inline, controlled by handleCardTap) */}
-                  {isLetterExpanded && !!item.letter && (
-                    <Animated.View style={{ opacity: getAnim(item.id), marginTop: 12 }}>
-                      <View style={{ backgroundColor: colors.inputRow, borderRadius: 10, padding: 16 }}>
-                        <Text style={{ fontFamily: 'Lora_400Regular_Italic', fontSize: 13, color: colors.amber, marginBottom: 8 }}>
-                          Dear {userName},
-                        </Text>
-                        <Text style={{ fontFamily: 'Lora_400Regular', fontSize: 14, color: colors.inkPrimary, lineHeight: 22 }}>
-                          {item.letter}
-                        </Text>
-                        <Text style={{ fontFamily: 'Lora_400Regular_Italic', fontSize: 13, color: colors.inkMuted, marginTop: 10 }}>
-                          With you in this.
-                        </Text>
-                        <Text style={{ fontFamily: 'DMSans_400Regular', fontSize: 12, color: colors.inkSubtle, marginTop: 8 }}>
-                          Written by AI for spiritual encouragement only.
-                        </Text>
-                      </View>
-                    </Animated.View>
-                  )}
-
-                  {/* "Write a letter →" — only if NO letter */}
-                  {!item.letter && (
-                    <View
-                      ref={isFirstTourItem ? writeLetterRef : undefined}
-                      style={{ marginTop: 12, alignSelf: 'flex-start' }}
-                    >
-                      {isFirstTourItem ? (
-                        <ReAnimated.View style={letterGlowStyle}>
-                          <Pressable
-                            onPress={() =>
-                              router.push({
-                                pathname: '/check-in/letter-compose',
-                                params: { savedMessageId: item.id, tourMode: 'true' },
-                              })
-                            }
-                            accessibilityRole="button"
-                            accessibilityLabel="Write a letter for this verse"
-                            style={({ pressed }) => ({
-                              backgroundColor: colors.amber,
-                              borderRadius: 20,
-                              paddingHorizontal: 16,
-                              paddingVertical: 8,
-                              opacity: pressed ? 0.7 : 1,
-                            })}
-                          >
-                            <Text style={{ fontFamily: 'DMSans_500Medium', fontSize: 13, color: '#FFFFFF' }}>
-                              Write a letter →
-                            </Text>
-                          </Pressable>
-                        </ReAnimated.View>
-                      ) : (
-                        <Pressable
-                          onPress={() =>
-                            router.push({
-                              pathname: '/check-in/letter-compose',
-                              params: { savedMessageId: item.id },
-                            })
-                          }
-                          accessibilityRole="button"
-                          accessibilityLabel="Write a letter for this verse"
-                          hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
-                          style={({ pressed }) => ({ opacity: pressed ? 0.6 : 1 })}
-                        >
-                          <Text style={{ fontFamily: 'DMSans_400Regular', fontSize: 13, color: '#9A8880' }}>
-                            Write a letter →
-                          </Text>
-                        </Pressable>
-                      )}
-                    </View>
-                  )}
-
-                  {/* Echoes — show when this day is selected */}
-                  {selectedDay !== null && (
-                    <EchoesPanel
-                      messageId={item.messageId}
-                      currentSavedAt={item.savedAt}
-                      allEntries={resolved.map(r => ({
-                        messageId: r.saved.messageId,
-                        savedAt: r.saved.savedAt,
-                        emotionId: r.saved.emotionId,
-                      }))}
-                      isPremium={V1_UNLOCK_ALL || settings?.subscription?.tier === 'premium'}
-                    />
                   )}
                 </View>
-              </Pressable>
-            </View>
+              ) : null}
+
+              {/* Footer action */}
+              {item.letter ? (
+                <Pressable
+                  onPress={() => toggleLetter(r)}
+                  hitSlop={10}
+                  className="active:opacity-60"
+                  style={{ alignSelf: 'flex-end', marginTop: 14 }}
+                >
+                  <Text style={{ fontFamily: 'DMSans_500Medium', fontSize: 13, color: colors.amber }}>
+                    {isLetterExpanded ? 'Close the page ↑' : 'Turn the page →'}
+                  </Text>
+                </Pressable>
+              ) : (
+                <View
+                  ref={isFirstTourItem ? writeLetterRef : undefined}
+                  style={{ alignSelf: 'flex-start', marginTop: 14 }}
+                >
+                  {isFirstTourItem ? (
+                    <ReAnimated.View style={letterGlowStyle}>
+                      <Pressable
+                        onPress={() =>
+                          router.push({
+                            pathname: '/check-in/letter-compose',
+                            params: { savedMessageId: item.id, tourMode: 'true' },
+                          })
+                        }
+                        accessibilityRole="button"
+                        accessibilityLabel="Write a letter for this verse"
+                        style={({ pressed }) => ({
+                          backgroundColor: colors.amber,
+                          borderRadius: 20,
+                          paddingHorizontal: 16,
+                          paddingVertical: 8,
+                          opacity: pressed ? 0.7 : 1,
+                        })}
+                      >
+                        <Text style={{ fontFamily: 'DMSans_500Medium', fontSize: 13, color: '#FFFFFF' }}>
+                          Write a letter →
+                        </Text>
+                      </Pressable>
+                    </ReAnimated.View>
+                  ) : (
+                    <Pressable
+                      onPress={() =>
+                        router.push({
+                          pathname: '/check-in/letter-compose',
+                          params: { savedMessageId: item.id },
+                        })
+                      }
+                      accessibilityRole="button"
+                      accessibilityLabel="Write a letter for this verse"
+                      hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
+                      style={({ pressed }) => ({ opacity: pressed ? 0.6 : 1 })}
+                    >
+                      <Text style={{ fontFamily: 'DMSans_500Medium', fontSize: 13, color: colors.amber }}>
+                        Write a letter →
+                      </Text>
+                    </Pressable>
+                  )}
+                </View>
+              )}
+            </Pressable>
           )
         }}
       />
@@ -796,6 +814,42 @@ export default function HistoryScreen() {
         onShareText={() => { setShowShareSheet(false); if (shareSheetVerse) handleShareText(shareSheetVerse) }}
         onShareCard={async (format) => { if (shareSheetVerse) await doShare(shareSheetVerse, format); setShowShareSheet(false) }}
       />
+    </View>
+  )
+}
+
+function Header({ colors }: { colors: ReturnType<typeof useTheme>['colors'] }) {
+  return (
+    <View
+      style={{
+        paddingHorizontal: 24,
+        paddingTop: 56,
+        paddingBottom: 12,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'flex-start',
+      }}
+    >
+      <View style={{ flex: 1 }}>
+        <Text style={{ fontFamily: 'Lora_400Regular_Italic', fontSize: 28, color: colors.inkPrimary }}>
+          The Path
+        </Text>
+        <Text style={{ fontFamily: 'DMSans_400Regular', fontSize: 13, color: colors.inkMuted, marginTop: 3 }}>
+          A journal of your becoming.
+        </Text>
+      </View>
+      <View
+        style={{
+          width: 40,
+          height: 40,
+          borderRadius: 20,
+          backgroundColor: colors.headerBg,
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
+        <Ionicons name="book-outline" size={18} color={colors.amber} />
+      </View>
     </View>
   )
 }
