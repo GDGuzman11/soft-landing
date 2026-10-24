@@ -6300,6 +6300,706 @@
     "weight": 7
   },
   {
+    "id": "neutral-151",
+    "emotionId": "neutral",
+    "body": "The meek will he guide in judgment: and the meek will he teach his way.",
+    "modernText": "He will guide the humble in justice. He will teach the humble his way.",
+    "reference": "Psalm 25:9",
+    "message": "Guidance offered to the humble, the ones not insisting they know. On a plain day, not having it figured out is actually the opening for direction.",
+    "tags": [
+      "meek",
+      "guide"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "neutral-152",
+    "emotionId": "neutral",
+    "body": "All the paths of the LORD are mercy and truth unto such as keep his covenant and his testimonies.",
+    "modernText": "All the paths of Yahweh are loving kindness and truth to such as keep his covenant and his testimonies.",
+    "reference": "Psalm 25:10",
+    "message": "Even the unremarkable path you're on is paved with mercy and truth. The ordinary road isn't a random one.",
+    "tags": [
+      "paths",
+      "mercy"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "neutral-153",
+    "emotionId": "neutral",
+    "body": "What man is he that feareth the LORD? him shall he teach in the way that he shall choose.",
+    "modernText": "What man is he who fears Yahweh? He shall instruct him in the way that he shall choose.",
+    "reference": "Psalm 25:12",
+    "message": "On a day you're unsure of your next move, this says there's teaching available. You don't have to self-navigate every ordinary choice.",
+    "tags": [
+      "taught",
+      "way"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "neutral-154",
+    "emotionId": "neutral",
+    "body": "The secret of the LORD is with them that fear him; and he will shew them his covenant.",
+    "modernText": "The friendship of Yahweh is with those who fear him. He will show them his covenant.",
+    "reference": "Psalm 25:14",
+    "message": "A quiet closeness offered on an ordinary day. Not fireworks, just the steady intimacy of being let in on something.",
+    "tags": [
+      "secret",
+      "nearness"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "neutral-155",
+    "emotionId": "neutral",
+    "body": "The counsel of the LORD standeth for ever, the thoughts of his heart to all generations.",
+    "modernText": "The counsel of Yahweh stands fast forever, the thoughts of his heart to all generations.",
+    "reference": "Psalm 33:11",
+    "message": "Plans shift, days blur, but something underneath stays fixed. A steadying thought for a day that feels aimless.",
+    "tags": [
+      "counsel",
+      "forever"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "neutral-156",
+    "emotionId": "neutral",
+    "body": "Depart from evil, and do good; seek peace, and pursue it.",
+    "modernText": "Depart from evil, and do good. Seek peace, and pursue it.",
+    "reference": "Psalm 34:14",
+    "message": "A simple, ordinary-day assignment: avoid the bad, do a little good, chase some peace. No heroics required.",
+    "tags": [
+      "do good",
+      "peace"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "neutral-157",
+    "emotionId": "neutral",
+    "body": "I delight to do thy will, O my God: yea, thy law is within my heart.",
+    "modernText": "I delight to do your will, my God. Yes, your law is within my heart.”",
+    "reference": "Psalm 40:8",
+    "message": "Even the ordinary doing of the right thing can carry a quiet delight. A plain day where the small good feels less like a chore.",
+    "tags": [
+      "delight",
+      "will"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "neutral-158",
+    "emotionId": "neutral",
+    "body": "I will behave myself wisely in a perfect way. O when wilt thou come unto me? I will walk within my house with a perfect heart.",
+    "modernText": "I will be careful to live a blameless life. When will you come to me? I will walk within my house with a blameless heart.",
+    "reference": "Psalm 101:2",
+    "message": "Just conducting yourself decently in the ordinary stuff, even when no one's watching. A plain day well-lived at home counts.",
+    "tags": [
+      "wisely",
+      "integrity"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "neutral-159",
+    "emotionId": "neutral",
+    "body": "The fear of the LORD is the beginning of wisdom: a good understanding have all they that do his commandments: his praise endureth for ever.",
+    "modernText": "The fear of Yahweh is the beginning of wisdom. All those who do his work have a good understanding. His praise endures forever!",
+    "reference": "Psalm 111:10",
+    "message": "Wisdom starts somewhere humble, not with having all the answers. An ordinary day is a fine place to begin again.",
+    "tags": [
+      "wisdom",
+      "beginning"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "neutral-160",
+    "emotionId": "neutral",
+    "body": "I have chosen the way of truth: thy judgments have I laid before me.",
+    "modernText": "I have chosen the way of truth. I have set your ordinances before me.",
+    "reference": "Psalm 119:30",
+    "message": "A quiet, repeated choice, not a dramatic one. On a plain day, just picking the honest path again is the whole move.",
+    "tags": [
+      "choose",
+      "truth"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "neutral-161",
+    "emotionId": "neutral",
+    "body": "Make me to go in the path of thy commandments; for therein do I delight.",
+    "modernText": "Direct me in the path of your commandments, for I delight in them.",
+    "reference": "Psalm 119:35",
+    "message": "An ask to be kept on a good, ordinary path. Not asking for excitement, just for the steady right direction.",
+    "tags": [
+      "path",
+      "guidance"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "neutral-162",
+    "emotionId": "neutral",
+    "body": "I thought on my ways, and turned my feet unto thy testimonies.",
+    "modernText": "I considered my ways, and turned my steps to your statutes.",
+    "reference": "Psalm 119:59",
+    "message": "A plain day is a good day to pause and consider where you're actually headed, then adjust. Small course corrections count.",
+    "tags": [
+      "reflect",
+      "turn"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "neutral-163",
+    "emotionId": "neutral",
+    "body": "Teach me good judgment and knowledge: for I have believed thy commandments.",
+    "modernText": "Teach me good judgment and knowledge, for I believe in your commandments.",
+    "reference": "Psalm 119:66",
+    "message": "A humble ask for an ordinary day: just a little better judgment. You don't have to be wise, just teachable.",
+    "tags": [
+      "judgment",
+      "knowledge"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "neutral-164",
+    "emotionId": "neutral",
+    "body": "I remember the days of old; I meditate on all thy works; I muse on the work of thy hands.",
+    "modernText": "I remember the days of old. I meditate on all your doings. I contemplate the work of your hands.",
+    "reference": "Psalm 143:5",
+    "message": "On a slow day, a gentle practice: look back and notice what's already been done. The quiet review is its own kind of steadying.",
+    "tags": [
+      "remember",
+      "meditate"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "neutral-165",
+    "emotionId": "neutral",
+    "body": "A wise man will hear, and will increase learning; and a man of understanding shall attain unto wise counsels:",
+    "modernText": "that the wise man may hear, and increase in learning; that the man of understanding may attain to sound counsel:",
+    "reference": "Proverbs 1:5",
+    "message": "The wise keep learning, even on ordinary days, even past the point they could coast. A plain day is a fine day to stay curious.",
+    "tags": [
+      "learning",
+      "wisdom"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "neutral-166",
+    "emotionId": "neutral",
+    "body": "Happy is the man that findeth wisdom, and the man that getteth understanding.",
+    "modernText": "Happy is the man who finds wisdom, the man who gets understanding.",
+    "reference": "Proverbs 3:13",
+    "message": "Happiness tied not to excitement but to wisdom. A quiet, ordinary day is often where the steady kind of contentment lives.",
+    "tags": [
+      "wisdom",
+      "happy"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "neutral-167",
+    "emotionId": "neutral",
+    "body": "Wisdom is the principal thing; therefore get wisdom: and with all thy getting get understanding.",
+    "modernText": "Wisdom is supreme. Get wisdom. Yes, though it costs all your possessions, get understanding.",
+    "reference": "Proverbs 4:7",
+    "message": "The main thing to get, over all the flashier pursuits. A plain day is a reminder that the steady, wise stuff matters most.",
+    "tags": [
+      "wisdom",
+      "priority"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "neutral-168",
+    "emotionId": "neutral",
+    "body": "Keep thy heart with all diligence; for out of it are the issues of life.",
+    "modernText": "Keep your heart with all diligence, for out of it is the wellspring of life.",
+    "reference": "Proverbs 4:23",
+    "message": "Even on an uneventful day, your inner life is worth tending. Quietly guarding your heart is ordinary, important work.",
+    "tags": [
+      "heart",
+      "diligence"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "neutral-169",
+    "emotionId": "neutral",
+    "body": "Blessed is the man that heareth me, watching daily at my gates, waiting at the posts of my doors.",
+    "modernText": "Blessed is the man who hears me, watching daily at my gates, waiting at my door posts.",
+    "reference": "Proverbs 8:34",
+    "message": "Blessing tied to a daily, ordinary showing-up. Not a big moment, just the steady habit of paying attention.",
+    "tags": [
+      "daily",
+      "watching"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "neutral-170",
+    "emotionId": "neutral",
+    "body": "The fear of the LORD is the beginning of wisdom: and the knowledge of the holy is understanding.",
+    "modernText": "The fear of Yahweh is the beginning of wisdom. The knowledge of the Holy One is understanding.",
+    "reference": "Proverbs 9:10",
+    "message": "Wisdom begins with a little humility, available any ordinary day. You don't need a crisis to start getting wiser.",
+    "tags": [
+      "wisdom",
+      "beginning"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "neutral-171",
+    "emotionId": "neutral",
+    "body": "He that walketh uprightly walketh surely: but he that perverteth his ways shall be known.",
+    "modernText": "He who walks blamelessly walks surely, but he who perverts his ways will be found out.",
+    "reference": "Proverbs 10:9",
+    "message": "The plain, honest path is also the steady one. On an ordinary day, just doing right keeps your footing sure.",
+    "tags": [
+      "uprightly",
+      "surely"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "neutral-172",
+    "emotionId": "neutral",
+    "body": "When pride cometh, then cometh shame: but with the lowly is wisdom.",
+    "modernText": "When pride comes, then comes shame, but with humility comes wisdom.",
+    "reference": "Proverbs 11:2",
+    "message": "Wisdom keeps company with the humble, not the loud. A quiet, unremarkable day is where it tends to show up.",
+    "tags": [
+      "lowly",
+      "wisdom"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "neutral-173",
+    "emotionId": "neutral",
+    "body": "He that walketh with wise men shall be wise: but a companion of fools shall be destroyed.",
+    "modernText": "One who walks with wise men grows wise, but a companion of fools suffers harm.",
+    "reference": "Proverbs 13:20",
+    "message": "Who you spend ordinary days around rubs off on you. A quiet reminder that the steady company you keep shapes you.",
+    "tags": [
+      "company",
+      "wisdom"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "neutral-174",
+    "emotionId": "neutral",
+    "body": "The simple believeth every word: but the prudent man looketh well to his going.",
+    "modernText": "A simple man believes everything, but the prudent man carefully considers his ways.",
+    "reference": "Proverbs 14:15",
+    "message": "Just paying a little attention to where you're headed. A plain day is a good day to look before you step.",
+    "tags": [
+      "prudent",
+      "careful"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "neutral-175",
+    "emotionId": "neutral",
+    "body": "The fear of the LORD is the instruction of wisdom; and before honour is humility.",
+    "modernText": "The fear of Yahweh teaches wisdom. Before honor is humility.",
+    "reference": "Proverbs 15:33",
+    "message": "Wisdom learned the humble way, in ordinary lessons. The quiet, un-glamorous order of growth: humility first.",
+    "tags": [
+      "wisdom",
+      "humility"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "neutral-176",
+    "emotionId": "neutral",
+    "body": "He that is slow to anger is better than the mighty; and he that ruleth his spirit than he that taketh a city.",
+    "modernText": "One who is slow to anger is better than the mighty; one who rules his spirit, than he who takes a city.",
+    "reference": "Proverbs 16:32",
+    "message": "Self-control quietly outranks raw strength. On an ordinary day, keeping your cool is a bigger win than it looks.",
+    "tags": [
+      "patience",
+      "self-control"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "neutral-177",
+    "emotionId": "neutral",
+    "body": "The heart of the prudent getteth knowledge; and the ear of the wise seeketh knowledge.",
+    "modernText": "The heart of the discerning gets knowledge. The ear of the wise seeks knowledge.",
+    "reference": "Proverbs 18:15",
+    "message": "The wise keep quietly collecting knowledge, even on plain days. Learning as an ordinary, ongoing habit.",
+    "tags": [
+      "knowledge",
+      "learning"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "neutral-178",
+    "emotionId": "neutral",
+    "body": "Hear counsel, and receive instruction, that thou mayest be wise in thy latter end.",
+    "modernText": "Listen to counsel and receive instruction, that you may be wise in your latter end.",
+    "reference": "Proverbs 19:20",
+    "message": "Just stay teachable, the verse says. On an ordinary day, being willing to take advice is the quiet path to wiser.",
+    "tags": [
+      "counsel",
+      "instruction"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "neutral-179",
+    "emotionId": "neutral",
+    "body": "Apply thine heart unto instruction, and thine ears to the words of knowledge.",
+    "modernText": "Apply your heart to instruction, and your ears to the words of knowledge.",
+    "reference": "Proverbs 23:12",
+    "message": "Lean in and learn, even on an unremarkable day. The steady application, not the dramatic breakthrough, is what builds you.",
+    "tags": [
+      "instruction",
+      "learning"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "neutral-180",
+    "emotionId": "neutral",
+    "body": "Through wisdom is an house builded; and by understanding it is established:",
+    "modernText": "Through wisdom a house is built; by understanding it is established;",
+    "reference": "Proverbs 24:3",
+    "message": "Good things get built slowly, with wisdom, on ordinary days. A plain day is one more brick in something solid.",
+    "tags": [
+      "wisdom",
+      "build"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "neutral-181",
+    "emotionId": "neutral",
+    "body": "So shall the knowledge of wisdom be unto thy soul: when thou hast found it, then there shall be a reward, and thy expectation shall not be cut off.",
+    "modernText": "so you shall know wisdom to be to your soul. If you have found it, then there will be a reward: Your hope will not be cut off.",
+    "reference": "Proverbs 24:14",
+    "message": "Wisdom described as sweet to the soul, like honey. An ordinary day of quiet learning is nourishing in a way you don't always notice.",
+    "tags": [
+      "wisdom",
+      "hope"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "neutral-182",
+    "emotionId": "neutral",
+    "body": "He that hath no rule over his own spirit is like a city that is broken down, and without walls.",
+    "modernText": "Like a city that is broken down and without walls is a man whose spirit is without restraint.",
+    "reference": "Proverbs 25:28",
+    "message": "Self-control as the walls that keep you steady. On a plain day, just keeping your own spirit in check is quiet strength.",
+    "tags": [
+      "self-control",
+      "steady"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "neutral-183",
+    "emotionId": "neutral",
+    "body": "Iron sharpeneth iron; so a man sharpeneth the countenance of his friend.",
+    "modernText": "Iron sharpens iron; so a man sharpens his friend’s countenance.",
+    "reference": "Proverbs 27:17",
+    "message": "A good conversation on an ordinary day can sharpen you. The quiet value of just talking things through with someone.",
+    "tags": [
+      "friendship",
+      "sharpen"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "neutral-184",
+    "emotionId": "neutral",
+    "body": "Where there is no vision, the people perish: but he that keepeth the law, happy is he.",
+    "modernText": "Where there is no revelation, the people cast off restraint; but one who keeps the law is blessed.",
+    "reference": "Proverbs 29:18",
+    "message": "Even a plain day benefits from a little sense of direction. A quiet nudge to keep some north star in view.",
+    "tags": [
+      "vision",
+      "direction"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "neutral-185",
+    "emotionId": "neutral",
+    "body": "For God giveth to a man that is good in his sight wisdom, and knowledge, and joy: but to the sinner he giveth travail, to gather and to heap up, that he may give to him that is good before God. This also is vanity and vexation of spirit.",
+    "modernText": "For to the man who pleases him, God gives wisdom, knowledge, and joy; but to the sinner he gives travail, to gather and to heap up, that he may give to him who pleases God. This also is vanity and a chasing after wind.",
+    "reference": "Ecclesiastes 2:26",
+    "message": "Wisdom, knowledge, and joy bundled together as gifts. A plain day is a fine time to receive the quieter ones.",
+    "tags": [
+      "wisdom",
+      "joy"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "neutral-186",
+    "emotionId": "neutral",
+    "body": "For wisdom is a defence, and money is a defence: but the excellency of knowledge is, that wisdom giveth life to them that have it.",
+    "modernText": "For wisdom is a defense, even as money is a defense; but the excellency of knowledge is that wisdom preserves the life of him who has it.",
+    "reference": "Ecclesiastes 7:12",
+    "message": "Wisdom as a kind of shelter, quietly protecting you. On an ordinary day, the steady, wise choices are guarding more than you see.",
+    "tags": [
+      "wisdom",
+      "defence"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "neutral-187",
+    "emotionId": "neutral",
+    "body": "If the iron be blunt, and he do not whet the edge, then must he put to more strength: but wisdom is profitable to direct.",
+    "modernText": "If the ax is blunt, and one doesn’t sharpen the edge, then he must use more strength; but skill brings success.",
+    "reference": "Ecclesiastes 10:10",
+    "message": "A practical note: a little wisdom makes the ordinary work go easier. Sharpening your approach beats just grinding harder.",
+    "tags": [
+      "wisdom",
+      "direct"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "neutral-188",
+    "emotionId": "neutral",
+    "body": "The Lord GOD hath given me the tongue of the learned, that I should know how to speak a word in season to him that is weary: he wakeneth morning by morning, he wakeneth mine ear to hear as the learned.",
+    "modernText": "The Lord Yahweh has given me the tongue of those who are taught, that I may know how to sustain with words him who is weary. He awakens morning by morning, he awakens my ear to hear as those who are taught.",
+    "reference": "Isaiah 50:4",
+    "message": "Learning that happens morning by morning, ordinary and repeated. A plain day is just one more in a quiet, steady education.",
+    "tags": [
+      "morning",
+      "learning"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "neutral-189",
+    "emotionId": "neutral",
+    "body": "For the vision is yet for an appointed time, but at the end it shall speak, and not lie: though it tarry, wait for it; because it will surely come, it will not tarry.",
+    "modernText": "For the vision is yet for the appointed time, and it hurries toward the end, and won’t prove false. Though it takes time, wait for it; because it will surely come. It won’t delay.",
+    "reference": "Habakkuk 2:3",
+    "message": "If nothing seems to be happening, this says the timing isn't yours to rush. The ordinary waiting is part of the plan, not a delay in it.",
+    "tags": [
+      "wait",
+      "appointed"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "neutral-190",
+    "emotionId": "neutral",
+    "body": "For who hath despised the day of small things? for they shall rejoice, and shall see the plummet in the hand of Zerubbabel with those seven; they are the eyes of the LORD, which run to and fro through the whole earth.",
+    "modernText": "Indeed, who despises the day of small things? For these seven shall rejoice, and shall see the plumb line in the hand of Zerubbabel. These are Yahweh’s eyes, which run back and forth through the whole earth.”",
+    "reference": "Zechariah 4:10",
+    "message": "A verse that honors the unremarkable. Don't write off a plain day, the small-things days are where most of life actually happens.",
+    "tags": [
+      "small things",
+      "beginnings"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "neutral-191",
+    "emotionId": "neutral",
+    "body": "It is good for a man that he bear the yoke of his youth.",
+    "modernText": "It is good for a man that he bear the yoke in his youth.",
+    "reference": "Lamentations 3:27",
+    "message": "The ordinary discipline of steady responsibility shapes you well. A plain day of just carrying your part is quietly forming something.",
+    "tags": [
+      "patience",
+      "formation"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "neutral-192",
+    "emotionId": "neutral",
+    "body": "And Jesus increased in wisdom and stature, and in favour with God and man.",
+    "modernText": "And Jesus increased in wisdom and stature, and in favor with God and men.",
+    "reference": "Luke 2:52",
+    "message": "Even he grew up slowly, ordinary day by ordinary day. Steady, unremarkable growth is the normal, good way it happens.",
+    "tags": [
+      "growth",
+      "steady"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "neutral-193",
+    "emotionId": "neutral",
+    "body": "Then spake Jesus again unto them, saying, I am the light of the world: he that followeth me shall not walk in darkness, but shall have the light of life.",
+    "modernText": "Again, therefore, Jesus spoke to them, saying, “I am the light of the world. He who follows me will not walk in the darkness, but will have the light of life.”",
+    "reference": "John 8:12",
+    "message": "Enough light to see by, even on an aimless day. You don't get floodlights, just enough to take the next ordinary step.",
+    "tags": [
+      "light",
+      "guidance"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "neutral-194",
+    "emotionId": "neutral",
+    "body": "For as many as are led by the Spirit of God, they are the sons of God.",
+    "modernText": "For as many as are led by the Spirit of God, these are children of God.",
+    "reference": "Romans 8:14",
+    "message": "Led, quietly, even on a day you feel like you're just wandering. The guidance is often too subtle to notice until later.",
+    "tags": [
+      "led",
+      "guidance"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "neutral-195",
+    "emotionId": "neutral",
+    "body": "Watch ye, stand fast in the faith, quit you like men, be strong.",
+    "modernText": "Watch! Stand firm in the faith! Be courageous! Be strong!",
+    "reference": "1 Corinthians 16:13",
+    "message": "A short, steadying charge for an ordinary day: stay alert, stand firm, keep your feet. No drama, just hold steady.",
+    "tags": [
+      "steadfast",
+      "strong"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "neutral-196",
+    "emotionId": "neutral",
+    "body": "Study to shew thyself approved unto God, a workman that needeth not to be ashamed, rightly dividing the word of truth.",
+    "modernText": "Give diligence to present yourself approved by God, a workman who doesn’t need to be ashamed, properly handling the Word of Truth.",
+    "reference": "2 Timothy 2:15",
+    "message": "Just do your ordinary work well enough to stand behind it. A plain day of honest, careful effort is the whole aim.",
+    "tags": [
+      "diligence",
+      "approved"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "neutral-197",
+    "emotionId": "neutral",
+    "body": "Wherefore, my beloved brethren, let every man be swift to hear, slow to speak, slow to wrath:",
+    "modernText": "So, then, my beloved brothers, let every man be swift to hear, slow to speak, and slow to anger;",
+    "reference": "James 1:19",
+    "message": "Three ordinary-day habits worth more than they look: listen more, talk less, cool down slower. Quietly life-improving.",
+    "tags": [
+      "listen",
+      "slow"
+    ],
+    "tier": "free",
+    "weight": 8
+  },
+  {
+    "id": "neutral-198",
+    "emotionId": "neutral",
+    "body": "But the wisdom that is from above is first pure, then peaceable, gentle, and easy to be intreated, full of mercy and good fruits, without partiality, and without hypocrisy.",
+    "modernText": "But the wisdom that is from above is first pure, then peaceful, gentle, reasonable, full of mercy and good fruits, without partiality, and without hypocrisy.",
+    "reference": "James 3:17",
+    "message": "A description of the good, quiet kind of wisdom: peaceable, gentle, reasonable. A steadying aim for an ordinary day's interactions.",
+    "tags": [
+      "wisdom",
+      "peaceable"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "neutral-199",
+    "emotionId": "neutral",
+    "body": "As ye have therefore received Christ Jesus the Lord, so walk ye in him:",
+    "modernText": "As therefore you received Christ Jesus, the Lord, walk in him,",
+    "reference": "Colossians 2:6",
+    "message": "Just keep walking the same steady way you started. On a plain day, consistency is the whole instruction.",
+    "tags": [
+      "walk",
+      "steady"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
+    "id": "neutral-200",
+    "emotionId": "neutral",
+    "body": "Wait on the LORD, and keep his way, and he shall exalt thee to inherit the land: when the wicked are cut off, thou shalt see it.",
+    "modernText": "Wait for Yahweh, and keep his way, and he will exalt you to inherit the land. When the wicked are cut off, you shall see it.",
+    "reference": "Psalm 37:34",
+    "message": "Wait, and keep walking the ordinary path, the verse says. On a slow day, steady patience is its own quiet accomplishment.",
+    "tags": [
+      "wait",
+      "keep"
+    ],
+    "tier": "premium",
+    "weight": 7
+  },
+  {
     "id": "tired-001",
     "emotionId": "tired",
     "body": "But they that wait upon the LORD shall renew their strength; they shall mount up with wings as eagles; they shall run, and not be weary; and they shall walk, and not faint.",
