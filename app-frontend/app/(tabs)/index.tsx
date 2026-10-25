@@ -1,6 +1,9 @@
-import { View, Text, Pressable, Image, Dimensions } from 'react-native'
+import { View, Text, Pressable, Image, Dimensions, StyleSheet } from 'react-native'
 import { router, useLocalSearchParams, useFocusEffect } from 'expo-router'
 import { useCallback, useEffect, useRef, useState } from 'react'
+import { Ionicons } from '@expo/vector-icons'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
+import { StatusBar } from 'expo-status-bar'
 import {
   getSettings,
   saveSettings,
@@ -37,7 +40,8 @@ function getGreetingBase(): string {
 }
 
 export default function HomeScreen() {
-  const { colors } = useTheme()
+  const { colors, isDark, toggle } = useTheme()
+  const insets = useSafeAreaInsets()
   const { tourStep } = useLocalSearchParams<{ tourStep?: string }>()
   const [settings, setSettings] = useState<AppSettings | null>(null)
   const [savedCount, setSavedCount] = useState(0)
@@ -51,7 +55,6 @@ export default function HomeScreen() {
   const greetingY = useSharedValue(12)
   const buttonOpacity = useSharedValue(0)
   const buttonY = useSharedValue(16)
-  const peopleOpacity = useSharedValue(0)
   const pathPulse = useSharedValue(1)
   const showPathTip = tourStep === 'path'
 
@@ -121,8 +124,6 @@ export default function HomeScreen() {
     transform: [{ translateY: buttonY.value }],
   }))
 
-  const peopleStyle = useAnimatedStyle(() => ({ opacity: peopleOpacity.value }))
-
   const pathPulseStyle = useAnimatedStyle(() => ({
     transform: [{ scale: pathPulse.value }],
     opacity: 2 - pathPulse.value,
@@ -130,9 +131,6 @@ export default function HomeScreen() {
 
   useFocusEffect(
     useCallback(() => {
-      peopleOpacity.value = 0
-      peopleOpacity.value = withDelay(300, withTiming(0.35, { duration: 2000 }))
-
       // Reload streak + saved count on every focus so the home screen reflects
       // the user's most recent activity after returning from a check-in flow.
       void (async () => {
@@ -158,7 +156,7 @@ export default function HomeScreen() {
           // non-fatal — leave defaults in place
         }
       })()
-    }, [peopleOpacity])
+    }, [])
   )
 
   function handleCheckIn() {
@@ -169,33 +167,51 @@ export default function HomeScreen() {
 
   return (
     <View
-      style={{ flex: 1, backgroundColor: colors.bg, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 32 }}
+      style={{ flex: 1, backgroundColor: colors.bg }}
       accessibilityLabel="Home screen"
     >
-      <Animated.Image
-        source={require('../../assets/images/boy.png')}
-        style={[{
-          position: 'absolute',
-          top: 0,
-          left: -SCREEN_WIDTH * 0.1,
-          width: SCREEN_WIDTH * 1.0,
-          height: SCREEN_WIDTH * 1.0,
-          zIndex: 0,
-        }, peopleStyle]}
-        resizeMode="contain"
+      <StatusBar style={isDark ? 'light' : 'dark'} />
+
+      {/* Full-bleed scenic background — swaps with the theme */}
+      <Image
+        source={
+          isDark
+            ? require('../../assets/images/home-moonlit.png')
+            : require('../../assets/images/home-sunrise.png')
+        }
+        style={StyleSheet.absoluteFill}
+        resizeMode="cover"
+        accessibilityIgnoresInvertColors
       />
-      <Animated.Image
-        source={require('../../assets/images/girl.png')}
-        style={[{
+      {/* Subtle mode-aware scrim for text legibility */}
+      <View style={[StyleSheet.absoluteFill, { backgroundColor: colors.bg, opacity: 0.16 }]} pointerEvents="none" />
+
+      {/* Light / dark toggle — visible over both images */}
+      <Pressable
+        onPress={toggle}
+        accessibilityRole="button"
+        accessibilityLabel={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
+        hitSlop={10}
+        style={{
           position: 'absolute',
-          bottom: 0,
-          right: -SCREEN_WIDTH * 0.08,
-          width: SCREEN_WIDTH * 0.82,
-          height: SCREEN_WIDTH * 0.82,
-          zIndex: 0,
-        }, peopleStyle]}
-        resizeMode="contain"
-      />
+          top: insets.top + 8,
+          right: 20,
+          zIndex: 2,
+          width: 40,
+          height: 40,
+          borderRadius: 20,
+          backgroundColor: 'rgba(0,0,0,0.22)',
+          borderWidth: 1,
+          borderColor: 'rgba(255,255,255,0.3)',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
+        <Ionicons name={isDark ? 'sunny-outline' : 'moon-outline'} size={20} color="#FFFFFF" />
+      </Pressable>
+
+      {/* Centered content over the photo */}
+      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 32 }}>
       <Animated.View
         style={[{ alignItems: 'center', marginBottom: savedCount > 0 ? 16 : 64, zIndex: 1 }, greetingStyle]}
         accessibilityRole="header"
@@ -219,6 +235,9 @@ export default function HomeScreen() {
             letterSpacing: 3,
             textTransform: 'uppercase',
             marginBottom: 10,
+            textShadowColor: colors.bg,
+            textShadowOffset: { width: 0, height: 1 },
+            textShadowRadius: 10,
           }}
         >
           {getGreetingBase()}
@@ -231,6 +250,9 @@ export default function HomeScreen() {
               color: colors.inkPrimary,
               textAlign: 'center',
               letterSpacing: 1.5,
+              textShadowColor: colors.bg,
+              textShadowOffset: { width: 0, height: 1 },
+              textShadowRadius: 12,
             }}
           >
             {settings.name}
@@ -246,6 +268,9 @@ export default function HomeScreen() {
             color: colors.inkMuted,
             textAlign: 'center',
             marginBottom: 24,
+            textShadowColor: colors.bg,
+            textShadowOffset: { width: 0, height: 1 },
+            textShadowRadius: 10,
           }}
         >
           ✦  {savedCount} moment{savedCount === 1 ? '' : 's'} of grace  ✦
@@ -273,7 +298,7 @@ export default function HomeScreen() {
             className="text-white text-base"
             style={{ fontFamily: 'DMSans_500Medium', letterSpacing: 0.5 }}
           >
-            Check In
+            Check In  →
           </Text>
         </Pressable>
       </Animated.View>
@@ -323,6 +348,7 @@ export default function HomeScreen() {
           </View>
         </View>
       )}
+      </View>
 
       {showTourTooltip && buttonAnchorY > 0 && (
         <PositionedTooltip

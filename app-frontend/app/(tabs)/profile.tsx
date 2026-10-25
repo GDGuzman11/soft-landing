@@ -1,4 +1,4 @@
-import { View, Text, ScrollView, Pressable, Alert, ActivityIndicator, Image, Switch } from 'react-native'
+import { View, Text, ScrollView, Pressable, Alert, ActivityIndicator, Image } from 'react-native'
 import { router, useFocusEffect } from 'expo-router'
 import { useCallback, useState } from 'react'
 import * as ImagePicker from 'expo-image-picker'
@@ -107,7 +107,7 @@ function InfoRow({ label, value, isFirst = false, labelColor, valueColor, border
 }
 
 export default function ProfileScreen() {
-  const { isDark, colors, toggle: toggleTheme } = useTheme()
+  const { colors } = useTheme()
   const [settings, setSettings] = useState<AppSettings | null>(null)
   const [checkIns, setCheckIns] = useState<CheckInEvent[]>([])
   const [savedMessages, setSavedMessages] = useState<SavedMessage[]>([])
@@ -361,25 +361,6 @@ export default function ProfileScreen() {
         </View>
       </View>
       )}
-
-      {/* Appearance Section */}
-      <View className="mx-6 mt-5">
-        <SectionLabel color={colors.sectionLabel}>APPEARANCE</SectionLabel>
-        <View style={{ backgroundColor: colors.profileCard, borderRadius: 16, borderWidth: 1, borderColor: colors.cardBorder }}>
-          <View style={{ paddingHorizontal: 20, paddingVertical: 14, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-            <Text style={{ fontFamily: 'DMSans_400Regular', fontSize: 14, color: colors.inkMuted }}>
-              Dark mode
-            </Text>
-            <Switch
-              value={isDark}
-              onValueChange={toggleTheme}
-              trackColor={{ false: colors.cardBorder, true: colors.amber }}
-              thumbColor={isDark ? '#FFFFFF' : '#FFFFFF'}
-              accessibilityLabel="Toggle dark mode"
-            />
-          </View>
-        </View>
-      </View>
 
       {/* Settings Row */}
       <View className="mx-6 mt-5">
