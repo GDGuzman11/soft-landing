@@ -1,8 +1,11 @@
 import React, { createContext, useCallback, useContext, useEffect, useRef, useState } from 'react'
-import { Animated } from 'react-native'
-import AsyncStorage from '@react-native-async-storage/async-storage'
+import { Animated, AppState } from 'react-native'
 
-const THEME_KEY = '@soft_landing/theme'
+// Theme follows the user's local time of day: light 6am–4pm, dark 4pm–6am.
+function themeForNow(): boolean {
+  const h = new Date().getHours()
+  return h >= 16 || h < 6
+}
 
 export const LIGHT = {
   bg: '#FAF8F5',
@@ -57,13 +60,16 @@ type ThemeCtx = { isDark: boolean; colors: AppColors; toggle: () => void }
 const ThemeContext = createContext<ThemeCtx>({ isDark: false, colors: LIGHT, toggle: () => {} })
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [isDark, setIsDark] = useState(false)
+  const [isDark, setIsDark] = useState<boolean>(themeForNow())
   const fadeAnim = useRef(new Animated.Value(1)).current
 
+  // Re-sync to the time-based theme whenever the app returns to the foreground.
+  // The manual toggle below is a momentary override that resets on the next open.
   useEffect(() => {
-    AsyncStorage.getItem(THEME_KEY)
-      .then((v) => { if (v === 'dark') setIsDark(true) })
-      .catch(() => {})
+    const sub = AppState.addEventListener('change', (state) => {
+      if (state === 'active') setIsDark(themeForNow())
+    })
+    return () => sub.remove()
   }, [])
 
   const toggle = useCallback(() => {
@@ -72,11 +78,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
       duration: 130,
       useNativeDriver: true,
     }).start(() => {
-      setIsDark((prev) => {
-        const next = !prev
-        AsyncStorage.setItem(THEME_KEY, next ? 'dark' : 'light').catch(() => {})
-        return next
-      })
+      setIsDark((prev) => !prev)
       Animated.timing(fadeAnim, {
         toValue: 1,
         duration: 220,

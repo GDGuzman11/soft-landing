@@ -32,13 +32,6 @@ const SCREEN_WIDTH = Dimensions.get('window').width
 // Path tab is the 2nd of 4 tabs; its horizontal centre sits at 37.5% of screen width
 const PATH_TAB_CENTER_X = SCREEN_WIDTH * 0.375
 
-function getGreetingBase(): string {
-  const hour = new Date().getHours()
-  if (hour < 12) return 'Good morning,'
-  if (hour < 17) return 'Good afternoon,'
-  return 'Good evening,'
-}
-
 export default function HomeScreen() {
   const { colors, isDark, toggle } = useTheme()
   const insets = useSafeAreaInsets()
@@ -230,7 +223,7 @@ export default function HomeScreen() {
           style={{
             fontFamily: 'DMSans_400Regular',
             fontSize: 13,
-            color: colors.inkMuted,
+            color: colors.inkPrimary,
             textAlign: 'center',
             letterSpacing: 3,
             textTransform: 'uppercase',
@@ -240,7 +233,7 @@ export default function HomeScreen() {
             textShadowRadius: 10,
           }}
         >
-          {getGreetingBase()}
+          {isDark ? 'Good Evening,' : 'Good Day,'}
         </Text>
         {settings?.name ? (
           <Text
