@@ -716,7 +716,7 @@ export default function CheckInScreen() {
               <TextInput
                 multiline
                 value={userInput}
-                onChangeText={(t) => setUserInput(t.slice(0, 500))}
+                onChangeText={(t) => setUserInput(t.slice(0, 2000))}
                 placeholder="Dear God, today has been…"
                 placeholderTextColor={colors.inkSubtle}
                 style={{
@@ -729,6 +729,17 @@ export default function CheckInScreen() {
                 }}
                 accessibilityLabel="Your reflection"
               />
+              <Text
+                style={{
+                  fontFamily: 'DMSans_400Regular',
+                  fontSize: 11,
+                  color: colors.inkSubtle,
+                  textAlign: 'right',
+                  marginTop: 8,
+                }}
+              >
+                {2000 - userInput.length} left
+              </Text>
             </View>
             <Text
               style={{

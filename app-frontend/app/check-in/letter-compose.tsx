@@ -366,7 +366,7 @@ export default function LetterComposeScreen() {
               <TextInput
                 multiline
                 value={userInput}
-                onChangeText={(t) => !isTour && setUserInput(t.slice(0, 500))}
+                onChangeText={(t) => !isTour && setUserInput(t.slice(0, 2000))}
                 placeholder="No filter. Just say what's actually going on…"
                 placeholderTextColor={colors.inkSubtle}
                 style={{
@@ -388,7 +388,7 @@ export default function LetterComposeScreen() {
                   marginTop: 8,
                 }}
               >
-                {userInput.length}/500
+                {2000 - userInput.length} left
               </Text>
             </View>
 

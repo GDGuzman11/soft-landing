@@ -12,7 +12,7 @@ import ReAnimated, {
   withTiming,
 } from 'react-native-reanimated'
 import { captureRef } from 'react-native-view-shot'
-import { getSavedMessages, deleteSavedMessage, getSettings, getCheckIns } from '@/storage/storage'
+import { getSavedMessages, deleteSavedMessage, getSettings, getCheckIns, localDayKey } from '@/storage/storage'
 import { getVerseById } from '@/messages/selector'
 import {
   startOfWeek,
@@ -248,7 +248,7 @@ export default function HistoryScreen() {
   )
 
   // Calendar state
-  const today = new Date().toISOString().slice(0, 10)
+  const today = localDayKey()
   const [viewMode, setViewMode] = useState<'weekly' | 'monthly'>('weekly')
   const [viewMonth, setViewMonth] = useState<{ year: number; month: number }>(() => {
     const d = new Date()
@@ -290,7 +290,7 @@ export default function HistoryScreen() {
   const checkInsByDay = useMemo<Record<string, CheckInEvent[]>>(() => {
     const map: Record<string, CheckInEvent[]> = {}
     checkIns.forEach(c => {
-      const d = c.timestamp.slice(0, 10)
+      const d = localDayKey(new Date(c.timestamp))
       if (!map[d]) map[d] = []
       map[d]!.push(c)
     })
@@ -312,7 +312,7 @@ export default function HistoryScreen() {
     const map: Record<string, boolean> = {}
     resolved.forEach(r => {
       if (r.saved.letter) {
-        const d = r.saved.savedAt.slice(0, 10)
+        const d = localDayKey(new Date(r.saved.savedAt))
         map[d] = true
       }
     })
@@ -333,7 +333,7 @@ export default function HistoryScreen() {
   const filteredResolved = useMemo<ResolvedSavedMessage[]>(() => {
     if (tourPathMode) return [TOUR_DEMO_ENTRY]
     if (!selectedDay) return resolved
-    return resolved.filter(r => r.saved.savedAt.slice(0, 10) === selectedDay)
+    return resolved.filter(r => localDayKey(new Date(r.saved.savedAt)) === selectedDay)
   }, [selectedDay, resolved, tourPathMode])
 
   function handleSelectDay(date: string) {
