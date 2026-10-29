@@ -31,8 +31,8 @@ function validateInputs(data: GenerateLetterData): void {
   if (!data.emotionId || !VALID_EMOTIONS.includes(data.emotionId)) {
     throw new HttpsError('invalid-argument', 'Valid emotionId is required')
   }
-  if (data.userInput !== undefined && data.userInput.length > 1000) {
-    throw new HttpsError('invalid-argument', 'Message too long — keep it under 1000 characters')
+  if (data.userInput !== undefined && data.userInput.length > 2000) {
+    throw new HttpsError('invalid-argument', 'Message too long — keep it under 2000 characters')
   }
   if (data.reference !== undefined && (typeof data.reference !== 'string' || data.reference.length > 100)) {
     throw new HttpsError('invalid-argument', 'Invalid reference')
