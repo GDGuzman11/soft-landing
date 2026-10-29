@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react'
-import { ActivityIndicator, Pressable, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native'
+import { ActivityIndicator, Image, Pressable, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native'
 import { router, useFocusEffect } from 'expo-router'
 import {
   collection,
@@ -8,7 +8,6 @@ import {
   onSnapshot,
   orderBy,
   query,
-  Timestamp,
 } from 'firebase/firestore'
 import { getFunctions, httpsCallable } from 'firebase/functions'
 import { getAuth } from 'firebase/auth'
@@ -20,7 +19,7 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated'
 import app, { db } from '@/services/firebase'
-import { useTheme, VOICE_DARK } from '@/theme'
+import { useTheme } from '@/theme'
 import { startSayChat } from '@/components/say/startSayChat'
 import { V1_UNLOCK_ALL } from '@/constants'
 
@@ -30,65 +29,56 @@ type VoiceId = 'kind' | 'still' | 'steady' | 'wise'
 type Voice = {
   id: VoiceId
   name: string
-  descriptor: string
   glyph: string
-  glyphColor: string
-  bg: string
-  border: string
+  headline: string
+  description: string
   premium: boolean
-  offer: string
 }
 
 const VOICES: readonly Voice[] = [
   {
     id: 'kind',
     name: 'Kind',
-    descriptor: 'warm, close, unhurried',
     glyph: '◐',
-    glyphColor: '#C4956A',
-    bg: '#FAF6F0',
-    border: 'rgba(196,149,106,0.22)',
+    headline: 'Warm, close, unhurried.',
+    description: 'Come sit. Tell me about your day.',
     premium: false,
-    offer: 'come sit. tell me about your day.',
   },
   {
     id: 'still',
     name: 'Still',
-    descriptor: 'quiet presence, no need to fill the room',
     glyph: '◯',
-    glyphColor: '#9A8F82',
-    bg: '#F6F4F0',
-    border: 'rgba(154,143,130,0.22)',
+    headline: 'Quiet presence, no need to fill the room.',
+    description: "I'm here. No need to fill the room.",
     premium: true,
-    offer: "i'm here. no need to fill the room.",
   },
   {
     id: 'steady',
     name: 'Steady',
-    descriptor: 'grounded, unwavering — here for the heavy days',
     glyph: '◑',
-    glyphColor: '#7D5D4B',
-    bg: '#F4F0EA',
-    border: 'rgba(125,93,75,0.22)',
+    headline: 'Grounded, unwavering.',
+    description: "Whatever it is, we'll hold it together.",
     premium: true,
-    offer: "whatever it is, we'll hold it together.",
   },
   {
     id: 'wise',
     name: 'Wise',
-    descriptor: 'older voice, longer view, longer patience',
     glyph: '◕',
-    glyphColor: '#6C5944',
-    bg: '#F2EEE6',
-    border: 'rgba(108,89,68,0.22)',
+    headline: 'Older voice, longer view.',
+    description: "Start anywhere. I've got time.",
     premium: true,
-    offer: "start anywhere. i've got time.",
   },
 ] as const
 
+// Scenic backgrounds per voice — day image in light mode, night in dark mode.
+const SAY_IMG: Record<VoiceId, { day: number; night: number }> = {
+  kind:   { day: require('../../../assets/images/say-kind-day.jpg'),   night: require('../../../assets/images/say-kind-night.jpg') },
+  still:  { day: require('../../../assets/images/say-still-day.jpg'),  night: require('../../../assets/images/say-still-night.jpg') },
+  steady: { day: require('../../../assets/images/say-steady-day.jpg'), night: require('../../../assets/images/say-steady-night.jpg') },
+  wise:   { day: require('../../../assets/images/say-wise-day.jpg'),   night: require('../../../assets/images/say-wise-night.jpg') },
+}
+
 // ---- Types ----------------------------------------------------------------
-// Preview sourced from the persona's most recent chat (latest lastMessageAt).
-type LastMessage = { content: string; createdAt: Timestamp }
 type SayStateData = Partial<Record<VoiceId, { hasUnread?: boolean }>>
 type ChatCounts = Partial<Record<VoiceId, number>>
 
@@ -112,18 +102,14 @@ const CARD_DELAYS = [120, 220, 320, 420] as const
 type VoiceCardProps = {
   voice: Voice
   index: number
-  lastMessage: LastMessage | null
+  imageSource: number
   hasUnread: boolean
-  isDark: boolean
-  inkPrimary: string
-  inkMuted: string
-  inkSubtle: string
   amber: string
   starting: boolean
   onPress: () => void
 }
 
-function VoiceCard({ voice, index, lastMessage, hasUnread, isDark, inkPrimary, inkMuted, inkSubtle, amber, starting, onPress }: VoiceCardProps) {
+function VoiceCard({ voice, index, imageSource, hasUnread, amber, starting, onPress }: VoiceCardProps) {
   const opacity = useSharedValue(0)
   const translateY = useSharedValue(12)
   const scale = useSharedValue(1)
@@ -148,11 +134,6 @@ function VoiceCard({ voice, index, lastMessage, hasUnread, isDark, inkPrimary, i
     scale.value = withTiming(1, { duration: 180 })
   }, [scale])
 
-  const isOffer = !lastMessage
-  const previewText = lastMessage?.content ?? voice.offer
-  const cardBg = isDark ? (VOICE_DARK[voice.id]?.bg ?? voice.bg) : voice.bg
-  const cardBorder = isDark ? (VOICE_DARK[voice.id]?.border ?? voice.border) : voice.border
-
   return (
     <Animated.View style={[styles.cardWrapper, animStyle]}>
       <Pressable
@@ -162,28 +143,39 @@ function VoiceCard({ voice, index, lastMessage, hasUnread, isDark, inkPrimary, i
         disabled={starting}
         accessibilityRole="button"
         accessibilityState={{ busy: starting }}
-        accessibilityLabel={`${voice.name}. ${voice.descriptor}${hasUnread ? '. new message' : ''}`}
+        accessibilityLabel={`${voice.name}. ${voice.headline}${hasUnread ? '. new message' : ''}`}
       >
-        <View style={[styles.card, { backgroundColor: cardBg, borderColor: cardBorder }]}>
-          <View style={styles.topRow}>
-            <View style={styles.nameRow}>
-              <Text style={[styles.glyph, { color: voice.glyphColor }]}>{voice.glyph}</Text>
-              <Text style={[styles.name, { color: inkPrimary }]}>{voice.name}</Text>
+        <View style={styles.card}>
+          <Image source={imageSource} style={StyleSheet.absoluteFill} resizeMode="cover" />
+          <View style={[StyleSheet.absoluteFill, styles.scrim]} />
+
+          <View style={styles.cardContent}>
+            <View style={styles.topRow}>
+              <View style={styles.nameRow}>
+                <View style={styles.glyphCircle}>
+                  <Text style={styles.glyph}>{voice.glyph}</Text>
+                </View>
+                <Text style={styles.name}>{voice.name.toUpperCase()}</Text>
+              </View>
+              <View style={styles.topRowRight}>
+                {starting ? <ActivityIndicator size="small" color="#FFFFFF" /> : null}
+                {!V1_UNLOCK_ALL && !starting && voice.premium ? <Text style={[styles.premiumMark, { color: amber }]}>{'✦'}</Text> : null}
+                {!starting && hasUnread ? <View style={[styles.unreadDot, { backgroundColor: amber }]} /> : null}
+              </View>
             </View>
-            <View style={styles.topRowRight}>
-              {starting ? <ActivityIndicator size="small" color={amber} /> : null}
-              {!V1_UNLOCK_ALL && !starting && voice.premium ? <Text style={[styles.premiumMark, { color: amber }]}>{'✦'}</Text> : null}
-              {!starting && hasUnread ? <View style={[styles.unreadDot, { backgroundColor: amber }]} /> : null}
+
+            <View style={styles.cardBottom}>
+              <View style={styles.cardCopy}>
+                <Text style={styles.headline}>{voice.headline}</Text>
+                <Text style={styles.description} numberOfLines={2} ellipsizeMode="tail">
+                  {voice.description}
+                </Text>
+              </View>
+              <View style={styles.arrowBtn}>
+                <Text style={styles.arrow}>→</Text>
+              </View>
             </View>
           </View>
-          <Text style={[styles.descriptor, { color: inkMuted }]}>{voice.descriptor}</Text>
-          <Text
-            style={[styles.preview, { color: inkMuted }, isOffer && { color: inkSubtle }]}
-            numberOfLines={2}
-            ellipsizeMode="tail"
-          >
-            {previewText}
-          </Text>
         </View>
       </Pressable>
     </Animated.View>
@@ -194,10 +186,8 @@ function VoiceCard({ voice, index, lastMessage, hasUnread, isDark, inkPrimary, i
 export default function SayLobbyScreen() {
   const { isDark, colors } = useTheme()
   const [authReady, setAuthReady] = useState(false)
-  const [lastMessages, setLastMessages] = useState<Partial<Record<VoiceId, LastMessage>>>({})
   const [chatCounts, setChatCounts] = useState<ChatCounts>({})
   const [unreadState, setUnreadState] = useState<SayStateData>({})
-  const [loading, setLoading] = useState(true)
   const [startingId, setStartingId] = useState<VoiceId | null>(null)
 
   const headerOpacity = useSharedValue(0)
@@ -219,7 +209,7 @@ export default function SayLobbyScreen() {
     setAuthReady(true)
   }, [])
 
-  // Load last messages on every focus (so cleared chats reflect immediately on return)
+  // Load chat counts on every focus (decides new-chat-vs-list on tap).
   useFocusEffect(
     useCallback(() => {
       if (!authReady) return
@@ -233,38 +223,21 @@ export default function SayLobbyScreen() {
           const results = await Promise.all(
             VOICES.map(async (v) => {
               try {
-                // Read this persona's chats, most-recent first. Chat docs live
-                // DIRECTLY in the persona collection (no literal 'chats'
-                // segment). The latest chat provides the lobby preview; the
-                // snapshot size is the count used to decide list-vs-new-chat
-                // on tap. orderBy('lastMessageAt') excludes legacy/reach-out
-                // docs lacking the field.
                 const snap = await getDocs(
                   query(collection(db, 'say', uid, v.id), orderBy('lastMessageAt', 'desc')),
                 )
-                const count = snap.size
-                if (snap.empty) return { id: v.id, last: null, count } as const
-                const d = snap.docs[0].data() as { preview?: unknown; lastMessageAt?: unknown }
-                const content = typeof d.preview === 'string' ? d.preview : ''
-                const createdAt = d.lastMessageAt instanceof Timestamp ? d.lastMessageAt : null
-                const last = createdAt ? { content, createdAt } : null
-                return { id: v.id, last, count } as const
+                return { id: v.id, count: snap.size } as const
               } catch {
-                return { id: v.id, last: null, count: 0 } as const
+                return { id: v.id, count: 0 } as const
               }
             }),
           )
           if (cancelled) return
-          const nextLast: Partial<Record<VoiceId, LastMessage>> = {}
           const nextCounts: ChatCounts = {}
-          for (const { id, last, count } of results) {
-            if (last) nextLast[id] = last
-            nextCounts[id] = count
-          }
-          setLastMessages(nextLast)
+          for (const { id, count } of results) nextCounts[id] = count
           setChatCounts(nextCounts)
-        } finally {
-          if (!cancelled) setLoading(false)
+        } catch {
+          // non-fatal
         }
       }
 
@@ -324,9 +297,15 @@ export default function SayLobbyScreen() {
         showsVerticalScrollIndicator={false}
       >
         <Animated.View style={[styles.header, headerStyle]}>
+          <View style={styles.headerTopRow}>
+            <Text style={[styles.eyebrow, { color: colors.inkMuted }]}>SAY</Text>
+            <Text style={[styles.cornerLabel, { color: colors.inkSubtle }]}>
+              SAME SPACE{'\n'}DIFFERENT CONVERSATIONS
+            </Text>
+          </View>
           <Text style={[styles.greeting, { color: colors.inkPrimary }]}>{greeting}</Text>
-          <Text style={[styles.aiNote, { color: colors.inkSubtle }]}>
-            The voices here are AI — not real people, and not a substitute for professional help.
+          <Text style={[styles.subtitle, { color: colors.inkMuted }]}>
+            Different moments call for different voices. Choose the one you need right now.
           </Text>
         </Animated.View>
 
@@ -336,12 +315,8 @@ export default function SayLobbyScreen() {
               key={voice.id}
               voice={voice}
               index={i}
-              lastMessage={loading ? null : (lastMessages[voice.id] ?? null)}
+              imageSource={isDark ? SAY_IMG[voice.id].night : SAY_IMG[voice.id].day}
               hasUnread={unreadState[voice.id]?.hasUnread ?? false}
-              isDark={isDark}
-              inkPrimary={colors.inkPrimary}
-              inkMuted={colors.inkMuted}
-              inkSubtle={colors.inkSubtle}
               amber={colors.amber}
               starting={startingId === voice.id}
               onPress={() => { void handlePress(voice) }}
@@ -354,6 +329,12 @@ export default function SayLobbyScreen() {
 }
 
 // ---- Styles ---------------------------------------------------------------
+const TEXT_SHADOW = {
+  textShadowColor: 'rgba(0,0,0,0.55)',
+  textShadowOffset: { width: 0, height: 1 },
+  textShadowRadius: 8,
+} as const
+
 const styles = StyleSheet.create({
   safe: {
     flex: 1,
@@ -364,17 +345,35 @@ const styles = StyleSheet.create({
     paddingBottom: 64,
   },
   header: {
-    marginBottom: 40,
+    marginBottom: 28,
+  },
+  headerTopRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'flex-start',
+    marginBottom: 12,
+  },
+  eyebrow: {
+    fontFamily: 'DMSans_500Medium',
+    fontSize: 12,
+    letterSpacing: 3,
+  },
+  cornerLabel: {
+    fontFamily: 'DMSans_500Medium',
+    fontSize: 9,
+    letterSpacing: 1.5,
+    lineHeight: 13,
+    textAlign: 'right',
   },
   greeting: {
     fontFamily: 'Lora_400Regular_Italic',
-    fontSize: 24,
-    lineHeight: 34,
+    fontSize: 26,
+    lineHeight: 36,
   },
-  aiNote: {
+  subtitle: {
     fontFamily: 'DMSans_400Regular',
-    fontSize: 12.5,
-    lineHeight: 18,
+    fontSize: 13.5,
+    lineHeight: 20,
     marginTop: 10,
   },
   stack: {
@@ -385,30 +384,48 @@ const styles = StyleSheet.create({
   },
   card: {
     borderRadius: 20,
-    borderWidth: 1,
-    padding: 22,
-    minHeight: 132,
+    overflow: 'hidden',
+    height: 168,
     width: '100%',
+  },
+  scrim: {
+    backgroundColor: 'rgba(0,0,0,0.34)',
+  },
+  cardContent: {
+    flex: 1,
+    padding: 18,
+    justifyContent: 'space-between',
   },
   topRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 8,
   },
   nameRow: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 10,
   },
+  glyphCircle: {
+    width: 30,
+    height: 30,
+    borderRadius: 15,
+    backgroundColor: 'rgba(255,255,255,0.18)',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   glyph: {
     fontFamily: 'DMSans_400Regular',
-    fontSize: 22,
-    lineHeight: 26,
+    fontSize: 16,
+    lineHeight: 20,
+    color: '#FFFFFF',
   },
   name: {
     fontFamily: 'DMSans_500Medium',
-    fontSize: 17,
+    fontSize: 13,
+    letterSpacing: 2,
+    color: '#FFFFFF',
+    ...TEXT_SHADOW,
   },
   topRowRight: {
     flexDirection: 'row',
@@ -420,18 +437,46 @@ const styles = StyleSheet.create({
     fontSize: 13,
   },
   unreadDot: {
-    width: 6,
-    height: 6,
-    borderRadius: 3,
+    width: 7,
+    height: 7,
+    borderRadius: 3.5,
   },
-  descriptor: {
+  cardBottom: {
+    flexDirection: 'row',
+    alignItems: 'flex-end',
+    gap: 12,
+  },
+  cardCopy: {
+    flex: 1,
+  },
+  headline: {
+    fontFamily: 'Lora_400Regular_Italic',
+    fontSize: 20,
+    lineHeight: 26,
+    color: '#FFFFFF',
+    ...TEXT_SHADOW,
+  },
+  description: {
     fontFamily: 'DMSans_400Regular',
     fontSize: 13,
-    marginBottom: 10,
+    lineHeight: 19,
+    color: 'rgba(255,255,255,0.88)',
+    marginTop: 5,
+    ...TEXT_SHADOW,
   },
-  preview: {
-    fontFamily: 'Lora_400Regular_Italic',
-    fontSize: 15,
-    lineHeight: 22,
+  arrowBtn: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.45)',
+    backgroundColor: 'rgba(0,0,0,0.22)',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  arrow: {
+    fontFamily: 'DMSans_500Medium',
+    fontSize: 18,
+    color: '#FFFFFF',
   },
 })
