@@ -25,7 +25,7 @@ A premium emotional check-in mobile app. On a single progressive screen the user
 - **NativeWind v4** (Tailwind for React Native)
 - **React Native Reanimated** (UI-thread animations, no Lottie)
 - **AsyncStorage** for local persistence (local-first, no backend in V1)
-- **RevenueCat** for subscriptions ($4.99/month or $34.99/year, 10 free check-ins per day)
+- **RevenueCat** for subscriptions ($5.99/month or $47.99/year; free tier: 1 AI letter/day)
 - **Vitest** for unit tests, **Maestro** for end-to-end flows
 - **pnpm@10.7.0** (pinned) + local **Node 20**; Cloud Functions run on **Node 22** (2nd gen)
 - **Firebase Cloud Functions** (letters via Claude Sonnet 4.6; Say chat) — not purely local-first

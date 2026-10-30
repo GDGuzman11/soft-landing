@@ -56,7 +56,7 @@ A running log of load-bearing technical decisions, with rationale and what we ga
 **Date:** 2026-04-17
 **Status:** Accepted
 
-**Decision.** Use RevenueCat as the subscription layer. Both monthly ($4.99) and annual ($34.99) products flow through RevenueCat entitlements.
+**Decision.** Use RevenueCat as the subscription layer. Both monthly ($5.99) and annual ($47.99) products flow through RevenueCat entitlements.
 
 **Rationale.** Cross-platform (one API for App Store and Play Store), server-side receipt validation (we do not have a server), built-in handling for refunds, grace periods, billing retries, and family sharing. Building any one of those correctly takes weeks; getting all of them right is a full subteam.
 

@@ -107,7 +107,7 @@ Cross-references to `docs/SECURITY.md` and open bugs where relevant.
 
 ### G. Subscriptions / auto-renewal / EULA / refunds — *Priority: Med (mostly covered)*
 - **Risk:** Auto-renewing subscriptions have strict disclosure laws (CA ARL, Apple/Google rules); billing that doesn't match entitlement is a consumer-protection risk.
-- **Current state:** `Terms §3` has compliant Apple + Google auto-renewal text, refund delegation, 30-day price-change notice, and free-tier limits. Pricing $4.99/mo, $34.99/yr.
+- **Current state:** `Terms §3` has compliant Apple + Google auto-renewal text, refund delegation, 30-day price-change notice, and free-tier limits. Pricing $5.99/mo, $47.99/yr.
 - **Gap:** (1) No standalone EULA — Apple's standard **Licensed Application End User License Agreement (LEULA)** likely suffices; confirm you're not required to provide a custom one. (2) **Entitlement sync is not wired and server-side premium is hardcoded `false`** (`purchases.ts`, `say/generateSayResponse.ts`; BUG-010/026, see `docs/SECURITY.md`) — a paying user can be shown "free," which is a billing-fairness/chargeback risk. (3) Free-tier "10 check-ins/day" is in Terms but the limiter is currently disabled (BUG-014).
 - **Document/clause:** Confirm reliance on Apple/Google standard EULA (or add one); fix BUG-026/010 before charging real money; keep Terms §3 in sync with actual limits.
 

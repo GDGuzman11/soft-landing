@@ -185,7 +185,7 @@ RevenueCat is the source of truth for entitlements. The app never calls App Stor
 - **Entitlement name:** `premium`
 - **Free tier:** 10 check-ins/day (daily counter resets at device midnight); 1 free AI letter (tracked via `firstLetterUsed`)
 - **Premium tier:** Unlimited check-ins, all 150 verses, unlimited AI letters
-- **Products:** `softlanding_monthly` ($4.99/month), `softlanding_annual` ($34.99/year)
+- **Products:** `com.appsoftlanding.premium.monthly` ($5.99/month), `com.appsoftlanding.premium.annual` ($47.99/year)
 - **Client-side state is cache only** — `canUseLetter` gate (currently bypassed for testing) must be re-enabled before launch; purchase validation is server-side via RevenueCat
 
 ## Rate limiting

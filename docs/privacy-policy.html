@@ -162,7 +162,7 @@
 <header>
   <div class="app-name">Soft Landing</div>
   <h1>Privacy Policy</h1>
-  <p class="meta">Effective: October 21, 2026 &nbsp;·&nbsp; Last updated: October 21, 2026 &nbsp;·&nbsp; Developers: Gabe &amp; Jackie De Guzman</p>
+  <p class="meta">Effective: October 30, 2026 &nbsp;·&nbsp; Last updated: October 30, 2026 &nbsp;·&nbsp; Developers: Gabe &amp; Jackie De Guzman</p>
 </header>
 
 <main>
@@ -188,7 +188,7 @@
       <li><a href="#s12">Data Retention &amp; Deletion</a></li>
       <li><a href="#s13">International Data Transfers</a></li>
       <li><a href="#s14">Your Rights — California (CCPA/CPRA)</a></li>
-      <li><a href="#s15">Your Rights — Europe/UK (GDPR)</a></li>
+      <li><a href="#s15">Your Rights — Europe/UK (GDPR) &amp; Canada (PIPEDA)</a></li>
       <li><a href="#s16">Security</a></li>
       <li><a href="#s17">Data Breach Notification</a></li>
       <li><a href="#s18">Changes to This Policy</a></li>
@@ -228,7 +228,7 @@
     <div class="section-header"><div class="section-number">2</div><div class="section-title">How Your Data Flows</div></div>
     <h3>Generating a letter</h3>
     <ol>
-      <li>Your reflection text, first name, selected emotion, and the Bible verse are sent over HTTPS to our Firebase Cloud Function (Google, United States).</li>
+      <li>Your reflection text, first name, selected emotion, the Bible verse, and — if you completed them — your optional onboarding profile answers (faith background, intent, life stage) are sent over HTTPS to our Firebase Cloud Function (Google, United States) to personalize the letter.</li>
       <li>The server runs a one-time <strong>crisis keyword check</strong>. If crisis language is detected, it stops and shows crisis resources — your text is not sent to Anthropic.</li>
       <li>Otherwise the data is forwarded to <strong>Anthropic's Claude API</strong> to generate the letter.</li>
       <li>Anthropic returns the letter to our server, which returns it to your device. <strong>We do not store your reflection text or the generated letter in our database.</strong></li>
@@ -250,7 +250,7 @@
     <table class="data-table">
       <tr><th>Provider</th><th>What it receives</th><th>Purpose</th><th>Location</th></tr>
       <tr><td>Google Firebase (Auth, Firestore, Cloud Functions)</td><td>Account info; Say messages; push tokens &amp; preferences; usage counters</td><td>Accounts, database, server processing</td><td>United States</td></tr>
-      <tr><td>Anthropic (Claude AI)</td><td>First name, emotion, verse, your reflection text and Say messages</td><td>Generate letters and chat replies</td><td>United States</td></tr>
+      <tr><td>Anthropic (Claude AI)</td><td>First name, emotion, verse, your reflection text, your optional onboarding profile (faith background, intent, life stage), and Say messages</td><td>Generate letters and chat replies</td><td>United States</td></tr>
       <tr><td>RevenueCat</td><td>Pseudonymous user ID, purchase/subscription data</td><td>Subscription management</td><td>United States</td></tr>
       <tr><td>Sentry (if enabled — §7)</td><td>Crash/error diagnostics; see §7</td><td>Diagnose crashes</td><td>United States</td></tr>
       <tr><td>Apple App Store / Google Play</td><td>Purchase &amp; platform data</td><td>Billing, distribution</td><td>United States</td></tr>
@@ -287,7 +287,7 @@
   <!-- 6 -->
   <div class="section" id="s6">
     <div class="section-header"><div class="section-number">6</div><div class="section-title">Push Notifications</div></div>
-    <p>If you enable reminders, your device OS (Apple APNs or Google FCM) generates a push token. We store that token together with your timezone offset and reminder/mute preferences in our database (Firestore) so we can deliver reminders and reach-outs at an appropriate local time. You can disable notifications at any time in Settings or your device settings; disabling them stops delivery, and account deletion removes the stored token.</p>
+    <p>If you enable reminders, your device OS (Apple APNs or Google FCM) generates a push token. We store that token together with your timezone offset and reminder/mute preferences in our database (Firestore) so we can deliver reminders and reach-outs at an appropriate local time. You can disable notifications at any time in Settings or your device settings; disabling them stops delivery, and account deletion removes the stored token. Where anti-spam laws such as Canada's CASL apply, we send these optional reminder and reach-out messages only with your consent (given by enabling notifications), and you can withdraw that consent at any time.</p>
   </div>
 
   <!-- 7 -->
@@ -313,7 +313,11 @@
   <!-- 10 -->
   <div class="section" id="s10">
     <div class="section-header"><div class="section-number">10</div><div class="section-title">Sensitive Data</div></div>
-    <p>Some information you provide may reveal sensitive details — for example, your emotional state, or your faith background and spiritual intent. We treat this information with care, use it only to operate the app's features (selecting verses, generating letters and replies, and personalizing tone), and do not sell it. Where required by law, we rely on your consent to process this information. You can skip the optional faith/profile questions, and you can delete your data at any time (§12).</p>
+    <p>Some information you provide is <strong>sensitive</strong> — for example, your emotional state (which can reveal information about your mental health) and your faith background and spiritual intent (which reveal religious beliefs). We treat this information with particular care, use it only to operate the app's features (selecting verses, generating letters and replies, personalizing tone, and continuing Say conversations), and never sell it or use it for advertising.</p>
+    <h3>Your explicit consent</h3>
+    <p>Where the law treats this as a special category of personal data (for example, under the EU/UK GDPR, Quebec's Law 25, and similar laws), we process it only on the basis of your <strong>explicit consent</strong>, which you provide by choosing to enter this information and use these features. The faith/profile questions are optional and may be skipped. You can withdraw consent at any time by deleting the relevant data, deleting a chat, or deleting your account (§12); withdrawal does not affect processing already carried out.</p>
+    <h3>Consumer health data (U.S. — Washington, Nevada &amp; similar)</h3>
+    <p>Some information in the app may qualify as "consumer health data" under laws such as the Washington My Health My Data Act and Nevada SB 370. We collect it only to provide the features you request, do not sell it, and do not share it for purposes unrelated to operating the app. You may access or delete this data, and withdraw consent, by emailing <a href="mailto:gabedeguzman99@gmail.com">gabedeguzman99@gmail.com</a> or by using in-app deletion.</p>
   </div>
 
   <!-- 11 -->
@@ -355,17 +359,23 @@
       <li><strong>Non-discrimination:</strong> we will not discriminate for exercising your rights.</li>
     </ul>
     <p>Email <a href="mailto:gabedeguzman99@gmail.com">gabedeguzman99@gmail.com</a> with "CCPA Request." We respond within 45 days.</p>
+    <h3>Other U.S. states</h3>
+    <p>Residents of other U.S. states with comprehensive privacy laws (including Virginia, Colorado, Connecticut, Utah, Texas, Oregon, Montana, and others) have similar rights to access, correct, delete, and obtain a copy of their personal data, and to opt out of any sale or targeted advertising. We do not sell personal data or use it for targeted advertising. To exercise these rights, email us at the address above.</p>
   </div>
 
   <!-- 15 -->
   <div class="section" id="s15">
-    <div class="section-header"><div class="section-number">15</div><div class="section-title">Your Rights — Europe/UK Residents (GDPR/UK GDPR)</div></div>
+    <div class="section-header"><div class="section-number">15</div><div class="section-title">Your Rights — Europe/UK (GDPR/UK GDPR) &amp; Canada (PIPEDA)</div></div>
     <ul>
       <li><strong>Access, Rectification, Erasure, Restriction, Objection, Portability</strong> of your personal data.</li>
       <li><strong>Withdraw consent</strong> at any time where processing is based on consent.</li>
       <li><strong>Lodge a complaint</strong> with your local data protection authority.</li>
     </ul>
-    <p><strong>Lawful bases:</strong> performance of our contract with you (providing the service); your consent (AI processing of your text, optional faith/profile data, crash reporting); and our legitimate interests in security and abuse prevention. <strong>Data controller:</strong> Gabe &amp; Jackie De Guzman, <a href="mailto:gabedeguzman99@gmail.com">gabedeguzman99@gmail.com</a>. Firebase/Google, Anthropic, RevenueCat, and Sentry act as processors. To exercise your rights, email us; we respond within 30 days.</p>
+    <p><strong>Lawful bases:</strong> performance of our contract with you (providing the service); your consent (AI processing of your text, optional faith/profile data, crash reporting); and our legitimate interests in security and abuse prevention. <strong>Data controller:</strong> Gabriel De Guzman, <a href="mailto:gabedeguzman99@gmail.com">gabedeguzman99@gmail.com</a>. Firebase/Google, Anthropic, RevenueCat, and Sentry act as processors. To exercise your rights, email us; we respond within 30 days.</p>
+    <h3>Canada (PIPEDA)</h3>
+    <p>We are based in Alberta, Canada and handle personal information in accordance with the Personal Information Protection and Electronic Documents Act (PIPEDA) and applicable provincial privacy laws. You may request access to, or correction of, the personal information we hold about you, and you may withdraw consent (subject to legal or contractual limits) by emailing <a href="mailto:gabedeguzman99@gmail.com">gabedeguzman99@gmail.com</a>. Because our service providers are located in the United States, your information is processed there (see §13). If you are not satisfied with our response, you may contact the Office of the Privacy Commissioner of Canada at <a href="https://www.priv.gc.ca" target="_blank">priv.gc.ca</a>.</p>
+    <h3>Quebec (Law 25)</h3>
+    <p>If you reside in Quebec, you also have rights of access, correction, and data portability, the right to withdraw consent, and the right to be informed about automated processing of your personal information. Our <strong>Privacy Officer</strong> is Gabriel De Guzman, reachable at <a href="mailto:gabedeguzman99@gmail.com">gabedeguzman99@gmail.com</a>, who is responsible for our handling of personal information and for responding to your requests and complaints.</p>
   </div>
 
   <!-- 16 -->

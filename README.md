@@ -19,7 +19,7 @@ Built with React Native + **Expo SDK 57** (RN 0.86, TypeScript strict), NativeWi
 11. **History** — All saved verses with scripture reference, AI letter, Share, and delete (with confirmation)
 12. **Say** — AI chat tab with 4 voice personas (Kind, Still, Steady, Wise). Each persona holds **multiple discrete chats** (chat-list → thread); starting a new chat opens with a **gentle check-up that references your previous day**. Knows your first name, per-chat memory (most-recent 50 messages), crisis routing + crisis-safe openers built in.
 13. **Settings** — Dark mode toggle, notifications toggle, voice mute, subscription status, Start over
-14. **Paywall** — Shown when free tier (10/day) is reached; Monthly $4.99 / Annual $34.99
+14. **Paywall** — Shown when free tier (1 AI letter/day) is reached; Monthly $5.99 / Annual $47.99
 
 ## Prerequisites
 

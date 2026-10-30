@@ -7,7 +7,7 @@ are required, where to get them, and exactly where they go in the codebase.
 
 ## 1. RevenueCat (Subscriptions)
 
-**What it does:** Manages $4.99/month and $34.99/year subscriptions. Validates
+**What it does:** Manages $5.99/month and $47.99/year subscriptions. Validates
 receipts server-side so the app never trusts the client alone.
 
 **Status:** SDK installed. NOT initialized — app always runs as free tier until keys are added.
@@ -18,8 +18,8 @@ receipts server-side so the app never trusts the client alone.
 3. Add iOS app → copy the **iOS API key** (starts with `appl_`)
 4. Add Android app → copy the **Android API key** (starts with `goog_`)
 5. In RevenueCat dashboard → Products → add:
-   - `softlanding_monthly` ($4.99 Auto-Renewable)
-   - `softlanding_annual` ($34.99 Auto-Renewable)
+   - `com.appsoftlanding.premium.monthly` ($5.99 Auto-Renewable)
+   - `com.appsoftlanding.premium.annual` ($47.99 Auto-Renewable)
 6. In RevenueCat → Entitlements → create `premium` → attach both products
 
 **Where they go:**

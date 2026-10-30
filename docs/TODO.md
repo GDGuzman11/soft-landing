@@ -242,8 +242,8 @@ already built.
 - [ ] **Create RevenueCat project** linked to App Store Connect and Play Console.
 
 - [ ] **Create subscription products in App Store Connect**:
-  - Monthly: `soft_landing_monthly` at $4.99/month
-  - Annual: `soft_landing_annual` at $34.99/year
+  - Monthly: `com.appsoftlanding.premium.monthly` at $5.99/month
+  - Annual: `com.appsoftlanding.premium.annual` at $47.99/year
   Import both into RevenueCat → Entitlement `premium`.
 
 - [ ] **Set RevenueCat API keys in `.env`**:
