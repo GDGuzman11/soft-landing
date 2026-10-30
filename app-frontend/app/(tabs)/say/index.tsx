@@ -145,9 +145,6 @@ function VoiceCard({ voice, index, imageSource, hasUnread, amber, starting, onPr
           <View style={styles.cardContent}>
             <View style={styles.topRow}>
               <View style={styles.nameRow}>
-                <View style={styles.glyphCircle}>
-                  <Text style={styles.glyph}>{voice.glyph}</Text>
-                </View>
                 <Text style={styles.name}>{voice.name.toUpperCase()}</Text>
               </View>
               <View style={styles.topRowRight}>

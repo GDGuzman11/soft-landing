@@ -170,7 +170,7 @@ export default function LetterComposeScreen() {
         emotionId,
         verseReference: reference || undefined,
       })
-      router.push({ pathname: '/say/[personaId]/[chatId]', params: { personaId, chatId } })
+      router.navigate({ pathname: '/say/[personaId]', params: { personaId, openChatId: chatId } })
     } catch {
       // leave the chips tappable so the user can retry
     }

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import {
   ActivityIndicator,
   Alert,
@@ -184,9 +184,10 @@ function ChatRow({
 export default function SayChatListScreen() {
   const { isDark, colors } = useTheme()
   const reduced = useReducedMotion()
-  const params = useLocalSearchParams<{ personaId?: string | string[] }>()
+  const params = useLocalSearchParams<{ personaId?: string | string[]; openChatId?: string | string[] }>()
   const rawPersona = Array.isArray(params.personaId) ? params.personaId[0] : params.personaId
   const personaId: VoiceId = isVoiceId(rawPersona) ? rawPersona : 'kind'
+  const openChatId = Array.isArray(params.openChatId) ? params.openChatId[0] : params.openChatId
   const name = VOICE_NAME[personaId]
 
   const [authReady, setAuthReady] = useState(false)
@@ -210,6 +211,16 @@ export default function SayChatListScreen() {
     }
     setAuthReady(true)
   }, [])
+
+  // Arriving from a letter's "Talk to a voice": open that journal chat once,
+  // on top of this list, so Back lands here (Journal) then the lobby.
+  const openedRef = useRef(false)
+  useEffect(() => {
+    if (openedRef.current || !openChatId) return
+    openedRef.current = true
+    setTab('journal')
+    router.push({ pathname: '/say/[personaId]/[chatId]', params: { personaId, chatId: openChatId } })
+  }, [openChatId, personaId])
 
   // Subscribe to this persona's chats, most-recent first.
   useEffect(() => {

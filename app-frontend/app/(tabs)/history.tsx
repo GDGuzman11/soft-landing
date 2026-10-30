@@ -453,7 +453,7 @@ export default function HistoryScreen() {
         emotionId: entry.emotionId ?? undefined,
         verseReference: verseReference || undefined,
       })
-      router.push({ pathname: '/say/[personaId]/[chatId]', params: { personaId, chatId } })
+      router.navigate({ pathname: '/say/[personaId]', params: { personaId, openChatId: chatId } })
     } catch {
       // leave the chips tappable so the user can retry
     }
