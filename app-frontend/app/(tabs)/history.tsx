@@ -14,6 +14,8 @@ import ReAnimated, {
 import { captureRef } from 'react-native-view-shot'
 import { getSavedMessages, deleteSavedMessage, getSettings, getCheckIns, localDayKey } from '@/storage/storage'
 import { getVerseById } from '@/messages/selector'
+import LetterVoiceChips, { type LetterVoiceId } from '@/components/LetterVoiceChips'
+import { startSayLetterChat } from '@/components/say/startSayChat'
 import {
   startOfWeek,
   addDays,
@@ -442,6 +444,21 @@ export default function HistoryScreen() {
     }).start()
   }
 
+  async function handlePickVoice(entry: SavedMessage, verseReference: string, personaId: LetterVoiceId) {
+    if (!entry.letter) return
+    try {
+      const chatId = await startSayLetterChat(personaId, {
+        letter: stripMarkers(entry.letter),
+        reflection: entry.note?.trim() || undefined,
+        emotionId: entry.emotionId ?? undefined,
+        verseReference: verseReference || undefined,
+      })
+      router.push({ pathname: '/say/[personaId]/[chatId]', params: { personaId, chatId } })
+    } catch {
+      // leave the chips tappable so the user can retry
+    }
+  }
+
   // Global empty state: zero saved verses ever (tour mode always has the demo entry).
   if (!tourPathMode && resolved.length === 0) {
     return (
@@ -694,6 +711,7 @@ export default function HistoryScreen() {
                       <Text style={{ fontFamily: 'Lora_400Regular_Italic', fontSize: 13, color: colors.inkMuted, marginTop: 10 }}>
                         With you in this.
                       </Text>
+                      <LetterVoiceChips onPick={(pid) => handlePickVoice(item, reference, pid)} />
                     </Animated.View>
                   ) : (
                     <Text

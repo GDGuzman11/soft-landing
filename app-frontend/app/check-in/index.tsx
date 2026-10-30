@@ -21,6 +21,8 @@ import { generateLetter } from '@/services/letterService'
 import { getSettings, updateCheckIn } from '@/storage/storage'
 import { getCurrentUser } from '@/services/auth'
 import LetterCard from '@/components/LetterCard'
+import type { LetterVoiceId } from '@/components/LetterVoiceChips'
+import { startSayLetterChat } from '@/components/say/startSayChat'
 import { useTheme } from '@/theme'
 import { logAnalyticsEvent } from '@/services/firebase'
 import type { AppSettings, EmotionId, Message } from '@/types'
@@ -301,6 +303,22 @@ export default function CheckInScreen() {
     }
   }
 
+  async function handlePickVoice(personaId: LetterVoiceId) {
+    if (!letter) return
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light).catch(() => {})
+    try {
+      const chatId = await startSayLetterChat(personaId, {
+        letter,
+        reflection: userInput.trim() || undefined,
+        emotionId: emotion ?? undefined,
+        verseReference: verse?.reference ?? undefined,
+      })
+      router.push({ pathname: '/say/[personaId]/[chatId]', params: { personaId, chatId } })
+    } catch {
+      // leave the chips tappable so the user can retry
+    }
+  }
+
   const hasLetter = letter !== null
 
   function handleKeep() {
@@ -329,6 +347,7 @@ export default function CheckInScreen() {
               isLoading={letterLoading}
               error={letterError}
               onRetry={handleWriteLetter}
+              onPickVoice={isTour || !letter ? undefined : handlePickVoice}
             />
 
             {hasLetter && isTour && (

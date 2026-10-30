@@ -91,3 +91,36 @@ export async function startSayChat(personaId: SayPersonaId): Promise<string> {
   const { data } = await fn(input)
   return data.chatId
 }
+
+type StartSayLetterChatInput = {
+  personaId: SayPersonaId
+  userName?: string
+  letter: string
+  reflection?: string
+  emotionId?: string
+  verseReference?: string
+}
+
+// Starts a "journal" chat seeded from a generated letter + the user's
+// reflection. The chosen voice opens by engaging with it; the chat lands under
+// that voice's Journal Entries tab. Returns the new chatId.
+export async function startSayLetterChat(
+  personaId: SayPersonaId,
+  opts: { letter: string; reflection?: string; emotionId?: string; verseReference?: string },
+): Promise<string> {
+  const firstName = await deriveFirstName()
+  const input: StartSayLetterChatInput = {
+    personaId,
+    letter: opts.letter,
+    ...(opts.reflection ? { reflection: opts.reflection } : {}),
+    ...(opts.emotionId ? { emotionId: opts.emotionId } : {}),
+    ...(opts.verseReference ? { verseReference: opts.verseReference } : {}),
+    ...(firstName ? { userName: firstName } : {}),
+  }
+  const fn = httpsCallable<StartSayLetterChatInput, StartSayChatResult>(
+    getFunctions(app, 'us-central1'),
+    'startSayLetterChat',
+  )
+  const { data } = await fn(input)
+  return data.chatId
+}

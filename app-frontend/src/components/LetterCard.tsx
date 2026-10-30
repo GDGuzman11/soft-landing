@@ -13,6 +13,7 @@ import Animated, {
 import { Ionicons } from '@expo/vector-icons'
 import React, { useEffect, useState } from 'react'
 import { useTheme } from '@/theme'
+import LetterVoiceChips, { type LetterVoiceId } from './LetterVoiceChips'
 
 type Props = {
   letter: string | null
@@ -20,6 +21,7 @@ type Props = {
   isLoading: boolean
   error: 'network' | 'blocked' | 'rateLimited' | null
   onRetry?: () => void
+  onPickVoice?: (personaId: LetterVoiceId) => void
 }
 
 function parseHighlightSegments(text: string): { text: string; highlight: boolean }[] {
@@ -248,6 +250,7 @@ export default function LetterCard({
   name,
   isLoading,
   error,
+  onPickVoice,
 }: Props) {
   const { colors } = useTheme()
   const translateY = useSharedValue(30)
@@ -407,6 +410,8 @@ export default function LetterCard({
           >
             With you in this.
           </Text>
+
+          {onPickVoice && typingDone ? <LetterVoiceChips onPick={onPickVoice} /> : null}
         </>
       ) : null}
     </Animated.View>

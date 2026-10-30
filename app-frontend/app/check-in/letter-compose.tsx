@@ -17,6 +17,8 @@ import { getVerseById } from '@/messages/selector'
 import { generateLetter } from '@/services/letterService'
 import { getCurrentUser } from '@/services/auth'
 import LetterCard from '@/components/LetterCard'
+import type { LetterVoiceId } from '@/components/LetterVoiceChips'
+import { startSayLetterChat } from '@/components/say/startSayChat'
 import { useTheme } from '@/theme'
 import { logAnalyticsEvent } from '@/services/firebase'
 import type { SavedMessage, Message, AppSettings, EmotionId } from '@/types'
@@ -158,6 +160,21 @@ export default function LetterComposeScreen() {
   const emotionId = (savedMessage.emotionId ?? 'neutral') as EmotionId
   const userName = settings.name?.trim() || 'friend'
   const isPremium = settings.subscription?.tier === 'premium'
+
+  async function handlePickVoice(personaId: LetterVoiceId) {
+    if (!letter) return
+    try {
+      const chatId = await startSayLetterChat(personaId, {
+        letter,
+        reflection: userInput.trim() || undefined,
+        emotionId,
+        verseReference: reference || undefined,
+      })
+      router.push({ pathname: '/say/[personaId]/[chatId]', params: { personaId, chatId } })
+    } catch {
+      // leave the chips tappable so the user can retry
+    }
+  }
 
   async function handleSend() {
     if (isTour) {
@@ -464,6 +481,7 @@ export default function LetterComposeScreen() {
               isLoading={letterLoading}
               error={letterError}
               onRetry={handleSend}
+              onPickVoice={isTour || !letter ? undefined : handlePickVoice}
             />
 
             {hasLetter && (
