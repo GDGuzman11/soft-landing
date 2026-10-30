@@ -246,6 +246,7 @@ export const startSayChat = onCall(
         createdAt: FieldValue.serverTimestamp(),
         lastMessageAt: FieldValue.serverTimestamp(),
         preview: '',
+        kind: 'everyday',
       })
       chatId = chatRef.id
     } catch (err) {

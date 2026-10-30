@@ -7,6 +7,7 @@ import { containsCrisisContent } from '../crisisKeywords'
 import { checkSayRateLimit } from './sayRateLimit'
 import { getSaySystemPrompt, isValidPersonaId, SAY_CANARY, type SayPersonaId } from './sayPrompt'
 import { chatDocRef, chatsCollectionRef, messagesCollectionRef } from './sayPaths'
+import { generateTitleAndSummary, sanitizeForTitle } from './sayTitle'
 
 if (getApps().length === 0) {
   initializeApp()
@@ -370,6 +371,31 @@ export const generateSayResponse = onCall(
     } catch (err) {
       console.error('say.update_chat_meta_failed', { uid, code: (err as Error).message })
       // Non-fatal — the message was already persisted.
+    }
+
+    // STEP 11c: Backfill a short title + summary for the chat-list row, once,
+    // early in the chat's life. Everyday chats have none until the first
+    // exchange; journal chats already carry one from startSayLetterChat (the
+    // existing-title check skips them). Gated to the first few turns to bound cost.
+    if (history.length <= 6) {
+      try {
+        const existing = await chatRef.get()
+        const existingTitle = existing.get('title')
+        if (typeof existingTitle !== 'string' || existingTitle.length === 0) {
+          const recent = [
+            ...history.slice(-6),
+            { role: 'user' as const, content: trimmedMessage },
+            { role: 'assistant' as const, content: responseText },
+          ]
+          const transcript = recent
+            .map((m) => `${m.role === 'user' ? 'Them' : 'You'}: ${sanitizeForTitle(m.content)}`)
+            .join('\n')
+          const ts = await generateTitleAndSummary(new Anthropic({ apiKey }), transcript)
+          if (ts) await chatRef.set({ title: ts.title, summary: ts.summary }, { merge: true })
+        }
+      } catch (err) {
+        console.error('say.title_backfill_failed', { uid, code: (err as Error).message })
+      }
     }
 
     // STEP 12
