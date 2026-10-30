@@ -22,6 +22,7 @@ type LetterResult = {
   showCrisisPrompt: boolean
   blocked?: boolean
   rateLimited?: boolean
+  upgradeRequired?: boolean
 }
 
 /**

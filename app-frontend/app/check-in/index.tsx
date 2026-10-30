@@ -270,6 +270,10 @@ export default function CheckInScreen() {
         setLetterError('rateLimited')
         return
       }
+      if (result.upgradeRequired) {
+        router.push('/paywall')
+        return
+      }
       if (!result.letter) {
         setLetterError('network')
         return

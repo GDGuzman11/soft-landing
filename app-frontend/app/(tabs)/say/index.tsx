@@ -14,6 +14,7 @@ import Animated, {
 import app, { db } from '@/services/firebase'
 import { useTheme } from '@/theme'
 import { SAY_IMAGES } from '@/components/say/sayImages'
+import { getSettings } from '@/storage/storage'
 import { V1_UNLOCK_ALL } from '@/constants'
 
 // ---- Voice data -----------------------------------------------------------
@@ -203,9 +204,16 @@ export default function SayLobbyScreen() {
   }, [authReady])
 
   // Every voice opens its list screen (Journal / Everyday) — same layout for all.
-  // New everyday chats are started from the list's "New Chat" FAB.
-  // TODO: re-enable premium gate before launch.
-  const handlePress = useCallback((voice: Voice) => {
+  // New everyday chats are started from the list's "New Chat" FAB. Premium voices
+  // are gated only when V1_UNLOCK_ALL is off (inert during TestFlight).
+  const handlePress = useCallback(async (voice: Voice) => {
+    if (!V1_UNLOCK_ALL && voice.premium) {
+      const s = await getSettings().catch(() => null)
+      if ((s?.subscription?.tier ?? 'free') !== 'premium') {
+        router.push('/paywall')
+        return
+      }
+    }
     router.push({ pathname: '/say/[personaId]', params: { personaId: voice.id } })
   }, [])
 
@@ -237,7 +245,7 @@ export default function SayLobbyScreen() {
               imageSource={isDark ? SAY_IMAGES[voice.id].night : SAY_IMAGES[voice.id].day}
               hasUnread={unreadState[voice.id]?.hasUnread ?? false}
               amber={colors.amber}
-              onPress={() => handlePress(voice)}
+              onPress={() => { void handlePress(voice) }}
             />
           ))}
         </View>

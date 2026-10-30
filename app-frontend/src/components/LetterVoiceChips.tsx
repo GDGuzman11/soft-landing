@@ -1,6 +1,8 @@
 import { View, Text, Pressable, ActivityIndicator } from 'react-native'
 import { useState } from 'react'
+import { router } from 'expo-router'
 import { useTheme } from '@/theme'
+import { getSettings } from '@/storage/storage'
 import { V1_UNLOCK_ALL } from '@/constants'
 
 export type LetterVoiceId = 'kind' | 'still' | 'steady' | 'wise'
@@ -26,6 +28,19 @@ export default function LetterVoiceChips({ onPick }: { onPick: (id: LetterVoiceI
   const { colors } = useTheme()
   const [picking, setPicking] = useState<LetterVoiceId | null>(null)
 
+  // Premium voices are gated only when V1_UNLOCK_ALL is off (inert during TestFlight).
+  async function handlePick(v: (typeof VOICES)[number]) {
+    if (!V1_UNLOCK_ALL && v.premium) {
+      const s = await getSettings().catch(() => null)
+      if ((s?.subscription?.tier ?? 'free') !== 'premium') {
+        router.push('/paywall')
+        return
+      }
+    }
+    setPicking(v.id)
+    onPick(v.id)
+  }
+
   return (
     <View style={{ marginTop: 24 }}>
       <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8, marginBottom: 4 }}>
@@ -45,10 +60,7 @@ export default function LetterVoiceChips({ onPick }: { onPick: (id: LetterVoiceI
             <Pressable
               key={v.id}
               disabled={picking !== null}
-              onPress={() => {
-                setPicking(v.id)
-                onPick(v.id)
-              }}
+              onPress={() => { void handlePick(v) }}
               accessibilityRole="button"
               accessibilityLabel={`Talk to ${v.name}: ${v.descriptor}`}
               style={{

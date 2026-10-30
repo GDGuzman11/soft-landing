@@ -1,4 +1,4 @@
-import { View, Text, ScrollView, Pressable, Alert, ActivityIndicator, Image } from 'react-native'
+import { View, Text, ScrollView, Pressable, Alert, ActivityIndicator, Image, Linking } from 'react-native'
 import { router, useFocusEffect } from 'expo-router'
 import { useCallback, useState } from 'react'
 import * as ImagePicker from 'expo-image-picker'
@@ -10,6 +10,9 @@ import type { AppSettings, AuthUser, CheckInEvent, SavedMessage } from '@/types'
 import { useTheme } from '@/theme'
 import { calcStreak } from '@/utils/streak'
 import { V1_UNLOCK_ALL } from '@/constants'
+import { restorePurchases } from '@/services/purchases'
+
+const MANAGE_SUBSCRIPTION_URL = 'https://apps.apple.com/account/subscriptions'
 
 const PHOTO_KEY = '@soft_landing/profile_photo_uri'
 
@@ -114,6 +117,24 @@ export default function ProfileScreen() {
   const [user, setUser] = useState<AuthUser | null>(null)
   const [photoUri, setPhotoUri] = useState<string | null>(null)
   const [loadState, setLoadState] = useState<LoadState>('loading')
+  const [restoring, setRestoring] = useState(false)
+
+  async function handleRestore() {
+    if (restoring) return
+    setRestoring(true)
+    const ok = await restorePurchases()
+    setRestoring(false)
+    Alert.alert(
+      ok ? 'Purchases restored' : 'Nothing to restore',
+      ok ? 'Your Premium is active.' : 'No active subscription was found for this account.',
+    )
+  }
+
+  function handleManageSubscription() {
+    Linking.openURL(MANAGE_SUBSCRIPTION_URL).catch(() => {
+      Alert.alert('Could not open settings', 'Manage your subscription from the App Store app.')
+    })
+  }
 
   useFocusEffect(
     useCallback(() => {
@@ -347,7 +368,7 @@ export default function ProfileScreen() {
         <View style={{ backgroundColor: colors.profileCard, borderRadius: 16, borderWidth: 1, borderColor: colors.cardBorder }}>
           <InfoRow label="Plan" value={isPremium ? 'Premium' : 'Free'} isFirst labelColor={colors.inkMuted} valueColor={colors.inkPrimary} borderColor={colors.cardBorder} />
           {!isPremium && (
-            <View style={{ paddingHorizontal: 20, paddingBottom: 16 }}>
+            <View style={{ paddingHorizontal: 20, paddingTop: 4, paddingBottom: 14 }}>
               <Pressable
                 onPress={() => router.push('/paywall')}
                 style={{ backgroundColor: colors.amber, borderRadius: 999, paddingVertical: 12, alignItems: 'center' }}
@@ -357,6 +378,30 @@ export default function ProfileScreen() {
                 <Text style={PRIMARY_BUTTON_TEXT_STYLE}>Upgrade →</Text>
               </Pressable>
             </View>
+          )}
+          <View style={{ height: 1, backgroundColor: colors.cardBorder, marginHorizontal: 20 }} />
+          <Pressable
+            onPress={handleRestore}
+            disabled={restoring}
+            style={{ paddingHorizontal: 20, paddingVertical: 15, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}
+            accessibilityRole="button"
+            accessibilityLabel="Restore purchases"
+          >
+            <Text style={{ fontFamily: 'DMSans_400Regular', fontSize: 15, color: colors.inkPrimary }}>Restore purchases</Text>
+            {restoring ? <ActivityIndicator size="small" color={colors.amber} /> : null}
+          </Pressable>
+          {isPremium && (
+            <>
+              <View style={{ height: 1, backgroundColor: colors.cardBorder, marginHorizontal: 20 }} />
+              <Pressable
+                onPress={handleManageSubscription}
+                style={{ paddingHorizontal: 20, paddingVertical: 15 }}
+                accessibilityRole="button"
+                accessibilityLabel="Manage subscription"
+              >
+                <Text style={{ fontFamily: 'DMSans_400Regular', fontSize: 15, color: colors.inkPrimary }}>Manage subscription</Text>
+              </Pressable>
+            </>
           )}
         </View>
       </View>

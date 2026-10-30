@@ -2,7 +2,7 @@
   "expo": {
     "name": "Soft Landing",
     "slug": "soft-landing",
-    "version": "1.10.3",
+    "version": "1.10.4",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "soft-landing",
@@ -20,6 +20,7 @@
       "usesAppleSignIn": true,
       "infoPlist": {
         "NSUserNotificationUsageDescription": "Soft Landing uses notifications to send you gentle daily check-in reminders.",
+        "NSPhotoLibraryUsageDescription": "Soft Landing uses your photo library so you can set a profile picture.",
         "UIBackgroundModes": [
           "fetch"
         ],

@@ -239,6 +239,11 @@ export default function LetterComposeScreen() {
         return
       }
 
+      if (result.upgradeRequired) {
+        router.push('/paywall')
+        return
+      }
+
       if (!result.letter) {
         setLetterError('network')
         return
