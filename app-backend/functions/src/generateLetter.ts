@@ -5,6 +5,7 @@ import { containsCrisisContent } from './crisisKeywords'
 import { filterUserInput } from './inputFilter'
 import { getRandomMockLetter } from './mockLetters'
 import { checkRateLimit } from './rateLimit'
+import { ENFORCE_PREMIUM, isUserPremium, checkLetterDailyLimit } from './premium'
 import type { GenerateLetterData, GenerateLetterResult } from './types'
 
 const VALID_EMOTIONS = ['stressed', 'tired', 'sad', 'neutral', 'good']
@@ -86,6 +87,22 @@ export const generateLetter = onCall(
       }
       // Rate limit storage failure is non-fatal — continue, mirroring generateSayResponse.
       console.error('letter.rate_limit_storage_failed', { uid: request.auth.uid, code: (err as Error).message })
+    }
+
+    // Free-tier daily letter cap — INERT until ENFORCE_PREMIUM is flipped on at
+    // launch. Free users get FREE_LETTERS_PER_DAY letters/day; premium unlimited.
+    if (ENFORCE_PREMIUM) {
+      const premium = await isUserPremium(request.auth.uid)
+      if (!premium) {
+        try {
+          await checkLetterDailyLimit(request.auth.uid)
+        } catch (err: unknown) {
+          if (err instanceof Error && err.message === 'LETTER_DAILY_LIMIT') {
+            return { letter: null, showCrisisPrompt: false, upgradeRequired: true }
+          }
+          console.error('letter.daily_limit_storage_failed', { uid: request.auth.uid, code: (err as Error).message })
+        }
+      }
     }
 
     const apiKey = process.env.ANTHROPIC_API_KEY

@@ -29,6 +29,13 @@ service cloud.firestore {
       }
     }
 
+    // Premium entitlement — server-trusted source of premium state, written only
+    // by the RevenueCat webhook (Admin SDK). Owner may read their own tier.
+    match /users/{uid} {
+      allow read: if request.auth != null && request.auth.uid == uid;
+      allow write: if false;
+    }
+
     // Say usage / rate-limit doc — read-only for the owner, written by the function.
     match /sayUsage/{uid} {
       allow read: if request.auth != null && request.auth.uid == uid;

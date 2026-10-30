@@ -8,6 +8,7 @@ import { checkSayRateLimit } from './sayRateLimit'
 import { getSaySystemPrompt, isValidPersonaId, SAY_CANARY, type SayPersonaId } from './sayPrompt'
 import { chatDocRef, chatsCollectionRef, messagesCollectionRef } from './sayPaths'
 import { generateTitleAndSummary, sanitizeForTitle } from './sayTitle'
+import { ENFORCE_PREMIUM, isUserPremium, isPremiumVoice } from '../premium'
 
 if (getApps().length === 0) {
   initializeApp()
@@ -215,8 +216,15 @@ export const generateSayResponse = onCall(
       console.error('say.jailbreak_window_scan_failed', { uid, code: (err as Error).message })
     }
 
-    // STEP 6: Rate limit check — RevenueCat server-side check is Phase 2.
-    const isPremium = false
+    // STEP 6: Premium tier (server-trusted) + rate limit. INERT until
+    // ENFORCE_PREMIUM is flipped on: with it false, isPremium=false so everyone
+    // gets the free caps exactly as before.
+    const isPremium = ENFORCE_PREMIUM ? await isUserPremium(uid) : false
+    // Defense in depth: premium-only voices are blocked server-side for free
+    // users (the client gate normally prevents ever reaching here).
+    if (ENFORCE_PREMIUM && !isPremium && isPremiumVoice(personaId)) {
+      throw new HttpsError('permission-denied', 'This voice is part of Soft Landing Premium.')
+    }
     try {
       await checkSayRateLimit(uid, isPremium)
     } catch (err: unknown) {

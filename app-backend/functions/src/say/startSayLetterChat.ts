@@ -12,6 +12,7 @@ import { chatsCollectionRef, messagesCollectionRef } from './sayPaths'
 import { checkSayChatCreationLimit } from './sayChatCreationLimit'
 import { containsCrisisContent } from '../crisisKeywords'
 import { generateTitleAndSummary, sanitizeForTitle } from './sayTitle'
+import { ENFORCE_PREMIUM, isUserPremium, isPremiumVoice } from '../premium'
 
 if (getApps().length === 0) {
   initializeApp()
@@ -93,6 +94,11 @@ export const startSayLetterChat = onCall(
       typeof raw.verseReference === 'string' ? sanitizeForTitle(raw.verseReference).slice(0, MAX_REF_CHARS) : ''
     const emotionId = typeof raw.emotionId === 'string' ? sanitizeForTitle(raw.emotionId).slice(0, 20) : ''
     const safeFirstName = sanitizeFirstName(raw.userName)
+
+    // Premium-only voices gated server-side (INERT until ENFORCE_PREMIUM).
+    if (ENFORCE_PREMIUM && isPremiumVoice(personaId) && !(await isUserPremium(uid))) {
+      throw new HttpsError('permission-denied', 'This voice is part of Soft Landing Premium.')
+    }
 
     const db = getFirestore()
 

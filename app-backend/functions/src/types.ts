@@ -24,4 +24,5 @@ export interface GenerateLetterResult {
   showCrisisPrompt: boolean
   blocked?: boolean
   rateLimited?: boolean
+  upgradeRequired?: boolean
 }

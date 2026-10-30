@@ -6,6 +6,7 @@ import { getSaySystemPrompt, isValidPersonaId, SAY_CANARY, type SayPersonaId } f
 import { chatsCollectionRef, messagesCollectionRef } from './sayPaths'
 import { checkSayChatCreationLimit } from './sayChatCreationLimit'
 import { containsCrisisContent } from '../crisisKeywords'
+import { ENFORCE_PREMIUM, isUserPremium, isPremiumVoice } from '../premium'
 
 if (getApps().length === 0) {
   initializeApp()
@@ -218,6 +219,11 @@ export const startSayChat = onCall(
     const prevDayStartMs = raw.prevDayStartMs
     const prevDayEndMs = raw.prevDayEndMs
     const safeFirstName = sanitizeFirstName(raw.userName)
+
+    // Premium-only voices gated server-side (INERT until ENFORCE_PREMIUM).
+    if (ENFORCE_PREMIUM && isPremiumVoice(personaId) && !(await isUserPremium(uid))) {
+      throw new HttpsError('permission-denied', 'This voice is part of Soft Landing Premium.')
+    }
 
     const db = getFirestore()
 
