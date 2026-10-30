@@ -21,6 +21,7 @@ import Animated, {
 import app, { db } from '@/services/firebase'
 import { useTheme } from '@/theme'
 import { startSayChat } from '@/components/say/startSayChat'
+import { SAY_IMAGES } from '@/components/say/sayImages'
 import { V1_UNLOCK_ALL } from '@/constants'
 
 // ---- Voice data -----------------------------------------------------------
@@ -69,14 +70,6 @@ const VOICES: readonly Voice[] = [
     premium: true,
   },
 ] as const
-
-// Scenic backgrounds per voice — day image in light mode, night in dark mode.
-const SAY_IMG: Record<VoiceId, { day: number; night: number }> = {
-  kind:   { day: require('../../../assets/images/say-kind-day.jpg'),   night: require('../../../assets/images/say-kind-night.jpg') },
-  still:  { day: require('../../../assets/images/say-still-day.jpg'),  night: require('../../../assets/images/say-still-night.jpg') },
-  steady: { day: require('../../../assets/images/say-steady-day.jpg'), night: require('../../../assets/images/say-steady-night.jpg') },
-  wise:   { day: require('../../../assets/images/say-wise-day.jpg'),   night: require('../../../assets/images/say-wise-night.jpg') },
-}
 
 // ---- Types ----------------------------------------------------------------
 type SayStateData = Partial<Record<VoiceId, { hasUnread?: boolean }>>
@@ -315,7 +308,7 @@ export default function SayLobbyScreen() {
               key={voice.id}
               voice={voice}
               index={i}
-              imageSource={isDark ? SAY_IMG[voice.id].night : SAY_IMG[voice.id].day}
+              imageSource={isDark ? SAY_IMAGES[voice.id].night : SAY_IMAGES[voice.id].day}
               hasUnread={unreadState[voice.id]?.hasUnread ?? false}
               amber={colors.amber}
               starting={startingId === voice.id}
