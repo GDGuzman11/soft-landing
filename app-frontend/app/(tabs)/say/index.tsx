@@ -1,14 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react'
-import { ActivityIndicator, Image, Pressable, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native'
-import { router, useFocusEffect } from 'expo-router'
-import {
-  collection,
-  doc,
-  getDocs,
-  onSnapshot,
-  orderBy,
-  query,
-} from 'firebase/firestore'
+import { Image, Pressable, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native'
+import { router } from 'expo-router'
+import { doc, onSnapshot } from 'firebase/firestore'
 import { getFunctions, httpsCallable } from 'firebase/functions'
 import { getAuth } from 'firebase/auth'
 import Animated, {
@@ -20,7 +13,6 @@ import Animated, {
 } from 'react-native-reanimated'
 import app, { db } from '@/services/firebase'
 import { useTheme } from '@/theme'
-import { startSayChat } from '@/components/say/startSayChat'
 import { SAY_IMAGES } from '@/components/say/sayImages'
 import { V1_UNLOCK_ALL } from '@/constants'
 
@@ -73,7 +65,6 @@ const VOICES: readonly Voice[] = [
 
 // ---- Types ----------------------------------------------------------------
 type SayStateData = Partial<Record<VoiceId, { hasUnread?: boolean }>>
-type ChatCounts = Partial<Record<VoiceId, number>>
 
 // ---- Helpers --------------------------------------------------------------
 function getGreeting(): string {
@@ -98,11 +89,10 @@ type VoiceCardProps = {
   imageSource: number
   hasUnread: boolean
   amber: string
-  starting: boolean
   onPress: () => void
 }
 
-function VoiceCard({ voice, index, imageSource, hasUnread, amber, starting, onPress }: VoiceCardProps) {
+function VoiceCard({ voice, index, imageSource, hasUnread, amber, onPress }: VoiceCardProps) {
   const opacity = useSharedValue(0)
   const translateY = useSharedValue(12)
   const scale = useSharedValue(1)
@@ -133,9 +123,7 @@ function VoiceCard({ voice, index, imageSource, hasUnread, amber, starting, onPr
         onPress={onPress}
         onPressIn={onPressIn}
         onPressOut={onPressOut}
-        disabled={starting}
         accessibilityRole="button"
-        accessibilityState={{ busy: starting }}
         accessibilityLabel={`${voice.name}. ${voice.headline}${hasUnread ? '. new message' : ''}`}
       >
         <View style={styles.card}>
@@ -148,9 +136,8 @@ function VoiceCard({ voice, index, imageSource, hasUnread, amber, starting, onPr
                 <Text style={styles.name}>{voice.name.toUpperCase()}</Text>
               </View>
               <View style={styles.topRowRight}>
-                {starting ? <ActivityIndicator size="small" color="#FFFFFF" /> : null}
-                {!V1_UNLOCK_ALL && !starting && voice.premium ? <Text style={[styles.premiumMark, { color: amber }]}>{'✦'}</Text> : null}
-                {!starting && hasUnread ? <View style={[styles.unreadDot, { backgroundColor: amber }]} /> : null}
+                {!V1_UNLOCK_ALL && voice.premium ? <Text style={[styles.premiumMark, { color: amber }]}>{'✦'}</Text> : null}
+                {hasUnread ? <View style={[styles.unreadDot, { backgroundColor: amber }]} /> : null}
               </View>
             </View>
 
@@ -176,9 +163,7 @@ function VoiceCard({ voice, index, imageSource, hasUnread, amber, starting, onPr
 export default function SayLobbyScreen() {
   const { isDark, colors } = useTheme()
   const [authReady, setAuthReady] = useState(false)
-  const [chatCounts, setChatCounts] = useState<ChatCounts>({})
   const [unreadState, setUnreadState] = useState<SayStateData>({})
-  const [startingId, setStartingId] = useState<VoiceId | null>(null)
 
   const headerOpacity = useSharedValue(0)
   const greeting = useRef(getGreeting()).current
@@ -199,45 +184,6 @@ export default function SayLobbyScreen() {
     setAuthReady(true)
   }, [])
 
-  // Load chat counts on every focus (decides new-chat-vs-list on tap).
-  useFocusEffect(
-    useCallback(() => {
-      if (!authReady) return
-      const user = getAuth().currentUser
-      if (!user) return
-      let cancelled = false
-
-      async function load() {
-        const uid = user!.uid
-        try {
-          const results = await Promise.all(
-            VOICES.map(async (v) => {
-              try {
-                const snap = await getDocs(
-                  query(collection(db, 'say', uid, v.id), orderBy('lastMessageAt', 'desc')),
-                )
-                return { id: v.id, count: snap.size } as const
-              } catch {
-                return { id: v.id, count: 0 } as const
-              }
-            }),
-          )
-          if (cancelled) return
-          const nextCounts: ChatCounts = {}
-          for (const { id, count } of results) nextCounts[id] = count
-          setChatCounts(nextCounts)
-        } catch {
-          // non-fatal
-        }
-      }
-
-      void load()
-      return () => {
-        cancelled = true
-      }
-    }, [authReady])
-  )
-
   // Fire reach-out once on mount (not on every focus)
   useEffect(() => {
     if (!authReady) return
@@ -256,29 +202,12 @@ export default function SayLobbyScreen() {
     )
   }, [authReady])
 
-  const handlePress = useCallback(
-    async (voice: Voice) => {
-      // TODO: re-enable premium gate before launch
-      if (startingId) return
-      const count = chatCounts[voice.id] ?? 0
-      if (count === 0) {
-        // No chats yet → create one and go straight to the thread.
-        setStartingId(voice.id)
-        try {
-          const chatId = await startSayChat(voice.id)
-          router.push({ pathname: '/say/[personaId]/[chatId]', params: { personaId: voice.id, chatId } })
-        } catch {
-          // Surface nothing destructive — just release the spinner so the user can retry.
-        } finally {
-          setStartingId(null)
-        }
-        return
-      }
-      // 1+ chats → show the persona's chat list.
-      router.push({ pathname: '/say/[personaId]', params: { personaId: voice.id } })
-    },
-    [chatCounts, startingId],
-  )
+  // Every voice opens its list screen (Journal / Everyday) — same layout for all.
+  // New everyday chats are started from the list's "New Chat" FAB.
+  // TODO: re-enable premium gate before launch.
+  const handlePress = useCallback((voice: Voice) => {
+    router.push({ pathname: '/say/[personaId]', params: { personaId: voice.id } })
+  }, [])
 
   return (
     <SafeAreaView style={[styles.safe, { backgroundColor: colors.bg }]}>
@@ -308,8 +237,7 @@ export default function SayLobbyScreen() {
               imageSource={isDark ? SAY_IMAGES[voice.id].night : SAY_IMAGES[voice.id].day}
               hasUnread={unreadState[voice.id]?.hasUnread ?? false}
               amber={colors.amber}
-              starting={startingId === voice.id}
-              onPress={() => { void handlePress(voice) }}
+              onPress={() => handlePress(voice)}
             />
           ))}
         </View>
