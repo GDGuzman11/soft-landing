@@ -86,11 +86,12 @@ export const startSayLetterChat = onCall(
       throw new HttpsError('invalid-argument', 'letter is required')
     }
 
-    const letter = sanitizeForTitle(raw.letter).slice(0, MAX_LETTER_CHARS)
+    const letter = sanitizeForTitle(raw.letter).replace(/\[\[|\]\]/g, '').slice(0, MAX_LETTER_CHARS)
     const reflection =
       typeof raw.reflection === 'string' ? sanitizeForTitle(raw.reflection).slice(0, MAX_REFLECTION_CHARS) : ''
     const verseReference =
       typeof raw.verseReference === 'string' ? sanitizeForTitle(raw.verseReference).slice(0, MAX_REF_CHARS) : ''
+    const emotionId = typeof raw.emotionId === 'string' ? sanitizeForTitle(raw.emotionId).slice(0, 20) : ''
     const safeFirstName = sanitizeFirstName(raw.userName)
 
     const db = getFirestore()
@@ -117,8 +118,12 @@ export const startSayLetterChat = onCall(
         lastMessageAt: FieldValue.serverTimestamp(),
         preview: '',
         kind: 'journal',
-        letterExcerpt: letter.slice(0, 600),
-        ...(reflection ? { reflectionExcerpt: reflection.slice(0, 600) } : {}),
+        // Stored so the voice can remember the moment across the whole chat
+        // (injected into the system prompt by generateSayResponse).
+        letterText: letter.slice(0, 1600),
+        ...(reflection ? { reflectionText: reflection.slice(0, 2000) } : {}),
+        ...(emotionId ? { emotionId } : {}),
+        ...(verseReference ? { verseReference } : {}),
       })
       chatId = chatRef.id
     } catch (err) {

@@ -242,12 +242,41 @@ export const generateSayResponse = onCall(
         .slice()
         .reverse()
         .map((d) => d.data() as StoredMessage)
-        .filter((m): m is StoredMessage & { role: 'user' | 'assistant'; content: string } =>
-          (m.role === 'user' || m.role === 'assistant') && typeof m.content === 'string',
+        // Include reachOut openers (voiced by the assistant) so the model has the
+        // opening message in context — important for letter-seeded journal chats.
+        .filter((m): m is StoredMessage & { content: string } =>
+          typeof m.content === 'string' && (m.role === 'user' || m.role === 'assistant' || m.role === 'reachOut'),
         )
-        .map((m) => ({ role: m.role, content: m.content }))
+        .map((m): ClaudeMessage => ({ role: m.role === 'user' ? 'user' : 'assistant', content: m.content }))
     } catch (err) {
       console.error('say.history_load_failed', { uid, code: (err as Error).message })
+    }
+
+    // STEP 7b: Journal-chat memory. Read the chat doc once and, for letter-seeded
+    // chats, build a memory addendum (the user's reflection + the letter they
+    // received) so the chosen voice remembers the moment across the whole chat.
+    // The same snapshot's `title` is reused for the title backfill below.
+    let journalMemory = ''
+    let existingTitle: unknown
+    try {
+      const chatSnap = await chatRef.get()
+      existingTitle = chatSnap.get('title')
+      if (chatSnap.get('kind') === 'journal') {
+        const letterText = typeof chatSnap.get('letterText') === 'string' ? (chatSnap.get('letterText') as string) : ''
+        const reflectionText = typeof chatSnap.get('reflectionText') === 'string' ? (chatSnap.get('reflectionText') as string) : ''
+        const emo = typeof chatSnap.get('emotionId') === 'string' ? (chatSnap.get('emotionId') as string) : ''
+        const ref = typeof chatSnap.get('verseReference') === 'string' ? (chatSnap.get('verseReference') as string) : ''
+        if (letterText || reflectionText) {
+          journalMemory =
+            '\n\nThis conversation began right after a check-in. ' +
+            (emo ? `They were feeling ${emo}. ` : '') +
+            (reflectionText ? `In their own words, they wrote: "${reflectionText}". ` : '') +
+            (letterText ? `The letter they received${ref ? ` (around ${ref})` : ''} said: "${letterText}". ` : '') +
+            'You remember this. Bring it in naturally when it helps them, and never recite it back verbatim.'
+        }
+      }
+    } catch (err) {
+      console.error('say.journal_memory_load_failed', { uid, code: (err as Error).message })
     }
 
     // STEP 8: Persist user message via Admin SDK before calling Claude.
@@ -264,7 +293,7 @@ export const generateSayResponse = onCall(
 
     // STEP 9: Call Claude — or write a mock response when no API key is set.
     const apiKey = process.env.ANTHROPIC_API_KEY
-    const systemPrompt = getSaySystemPrompt(personaId, safeFirstName)
+    const systemPrompt = getSaySystemPrompt(personaId, safeFirstName) + journalMemory
 
     if (!apiKey) {
       const mock = "Just here with you. Say more when you're ready."
@@ -377,22 +406,18 @@ export const generateSayResponse = onCall(
     // early in the chat's life. Everyday chats have none until the first
     // exchange; journal chats already carry one from startSayLetterChat (the
     // existing-title check skips them). Gated to the first few turns to bound cost.
-    if (history.length <= 6) {
+    if (history.length <= 6 && (typeof existingTitle !== 'string' || existingTitle.length === 0)) {
       try {
-        const existing = await chatRef.get()
-        const existingTitle = existing.get('title')
-        if (typeof existingTitle !== 'string' || existingTitle.length === 0) {
-          const recent = [
-            ...history.slice(-6),
-            { role: 'user' as const, content: trimmedMessage },
-            { role: 'assistant' as const, content: responseText },
-          ]
-          const transcript = recent
-            .map((m) => `${m.role === 'user' ? 'Them' : 'You'}: ${sanitizeForTitle(m.content)}`)
-            .join('\n')
-          const ts = await generateTitleAndSummary(new Anthropic({ apiKey }), transcript)
-          if (ts) await chatRef.set({ title: ts.title, summary: ts.summary }, { merge: true })
-        }
+        const recent = [
+          ...history.slice(-6),
+          { role: 'user' as const, content: trimmedMessage },
+          { role: 'assistant' as const, content: responseText },
+        ]
+        const transcript = recent
+          .map((m) => `${m.role === 'user' ? 'Them' : 'You'}: ${sanitizeForTitle(m.content)}`)
+          .join('\n')
+        const ts = await generateTitleAndSummary(new Anthropic({ apiKey }), transcript)
+        if (ts) await chatRef.set({ title: ts.title, summary: ts.summary }, { merge: true })
       } catch (err) {
         console.error('say.title_backfill_failed', { uid, code: (err as Error).message })
       }
