@@ -1,13 +1,19 @@
 import { getFirestore, Timestamp } from 'firebase-admin/firestore'
 import { initializeApp, getApps } from 'firebase-admin/app'
+import { ENFORCE_PREMIUM } from '../premium'
 
 if (getApps().length === 0) {
   initializeApp()
 }
 
 // Limits — separate from letterUsage so frontend can show distinct copy.
-const FREE_DAILY_LIMIT = 400
-const PREMIUM_DAILY_LIMIT = 500
+// FREE/PREMIUM are the live monetization caps, applied ONLY when
+// ENFORCE_PREMIUM is true. While it's false (TestFlight beta), every user
+// gets BETA_DAILY_LIMIT so testers aren't throttled — the whole premium
+// layer stays dormant. See premium.ts.
+const FREE_DAILY_LIMIT = 20
+const PREMIUM_DAILY_LIMIT = 100
+const BETA_DAILY_LIMIT = 500
 const BURST_LIMIT = 20
 const BURST_WINDOW_MS = 60 * 1000 // 60 seconds
 
@@ -45,7 +51,11 @@ function nextUtcMidnight(now: Date): Date {
 export async function checkSayRateLimit(uid: string, isPremium: boolean): Promise<void> {
   const db = getFirestore()
   const ref = db.collection('sayUsage').doc(uid)
-  const dailyLimit = isPremium ? PREMIUM_DAILY_LIMIT : FREE_DAILY_LIMIT
+  const dailyLimit = !ENFORCE_PREMIUM
+    ? BETA_DAILY_LIMIT
+    : isPremium
+      ? PREMIUM_DAILY_LIMIT
+      : FREE_DAILY_LIMIT
 
   await db.runTransaction(async (tx) => {
     const snap = await tx.get(ref)
@@ -103,6 +113,7 @@ export async function checkSayRateLimit(uid: string, isPremium: boolean): Promis
 export const SAY_LIMITS = {
   FREE_DAILY_LIMIT,
   PREMIUM_DAILY_LIMIT,
+  BETA_DAILY_LIMIT,
   BURST_LIMIT,
   BURST_WINDOW_MS,
 } as const
